@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>RVA Screener</title>
+  </head>
+  <body>
+    <h1>RVA Screener</h1>
+    <a href="/add">Add new patient</a>
+    {% for patient in patients %}
+      <h3>{{ patient.firstname }} {{ patient.middlename }} {{ patient.lastname }}</h3>
+      <p>DOB: {{ patient.dob }}</p>
+      <p>Primary phone: {{ patient.phonenumber1 }}</p>
+      <p>Secondary phone: {{ patient.phonenumber2 }}</p>
+    {% endfor %}
+  </body>
+</html>    
