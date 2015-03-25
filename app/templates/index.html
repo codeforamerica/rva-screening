@@ -11,6 +11,8 @@
       <p>DOB: {{ patient.dob }}</p>
       <p>Primary phone: {{ patient.phonenumber1 }}</p>
       <p>Secondary phone: {{ patient.phonenumber2 }}</p>
+      <a href="{{ url_for('update', id=patient.id) }}">Edit patient</a>
+      <a href="{{ url_for('delete', id=patient.id) }}">Delete patient</a>
     {% endfor %}
   </body>
 </html>    
