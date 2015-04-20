@@ -1,8 +1,5 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <title>RVA Screener</title>
-  </head>
+{% extends "base.html" %}
+{% block content %}
   <body>
     <h1>RVA Screener</h1>
     <a href="/add">Add new patient</a>
@@ -15,4 +12,4 @@
       <a href="{{ url_for('delete', id=patient.id) }}">Delete patient</a>
     {% endfor %}
   </body>
-</html>    
+{% endblock %}    
