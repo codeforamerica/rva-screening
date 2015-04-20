@@ -15,4 +15,24 @@ class Patient(db.Model):
     self.lastname = lastname
     self.dob = dob
     self.phonenumber1 = phonenumber1
-    self.phonenumber2 = phonenumber2 
+    self.phonenumber2 = phonenumber2
+
+class User(db.Model):
+  id = db.Column(db.Integer, primary_key=True)
+  email = db.Column(db.String(64))
+  password = db.Column(db.String(128))
+  authenticated = db.Column(db.Boolean, default=False)
+
+  def is_authenticated(self):
+    return True
+
+  def is_active(self):
+    return True
+
+  def is_anonymous(self):
+    return False
+
+  def get_id(self):
+    return self.email
+
+
