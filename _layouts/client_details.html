@@ -1,0 +1,16 @@
+---
+layout: default
+login: true
+---
+
+{% if new_client %}
+<h3>Add a new client</h3>
+{% else %}
+<h3>Client Details</h3>
+{% endif %}
+
+{% include client_nav.html %}
+
+<form>
+  {{content}}
+</form>
