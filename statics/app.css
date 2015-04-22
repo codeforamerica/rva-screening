@@ -4,11 +4,19 @@ body {
   background:#f6f6f6;
 }
 
+/* HELPERS
+ *
+ *
+ */
+.push-right { /* used mostly with icons */
+  margin-right:.5em;
+}
+
 /* MENU
  *
  *
  */
-.nav a .glyphicon:before { margin-right:8px; }
+.nav a .glyphicon:before { margin-right:.5em; }
 
 
 /* PRE-SCREENING
