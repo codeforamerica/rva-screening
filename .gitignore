@@ -2,4 +2,5 @@
 *.pyc
 venv
 activate
-migrations/
+migrations
+_site
