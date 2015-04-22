@@ -3,4 +3,39 @@ layout: default
 login: true
 ---
 
-<h3>Successfully logged in!</h3>
+<p class="text-muted">Logged in as <strong>user</strong></p>
+
+<!-- search -->
+<form>
+  <div class="form-group">
+    <label for="household-income">Search for patients</label>
+    <div class="input-group">
+      <div class="input-group-addon"><span class="glyphicon glyphicon-search"></span></div>
+      <input type="text" class="form-control" id="household-income" placeholder="Name, DOB, or SSN">
+    </div>
+  </div>
+</form>
+
+<p>Recently added patients</p>
+
+<div class="patient-list">
+  <a href="patient_overview.html"><div class="patient-list-item col-sm-4">
+    <p><strong>Bob Loblaw</strong></p>
+    <p class="small patient-list-item-id">Birthday: <strong>02/09/1976</strong>, SSN: <strong>123-45-6789</strong></p>
+  </div></a>
+
+  <a href="patient_overview.html"><div class="patient-list-item col-sm-4">
+    <p><strong>Patient Zero</strong></p>
+    <p class="small patient-list-item-id">Birthday: <strong>04/02/1983</strong>, SSN: <strong>123-45-6789</strong></p>
+  </div></a>
+
+  <a href="patient_overview.html"><div class="patient-list-item col-sm-4">
+    <p><strong>Patient Three</strong></p>
+    <p class="small patient-list-item-id">Birthday: <strong>11/21/1988</strong>, SSN: <strong>123-45-6789</strong></p>
+  </div></a>
+
+  <a href="patient_overview.html"><div class="patient-list-item col-sm-4">
+    <p><strong>Firstname Lastname</strong></p>
+    <p class="small patient-list-item-id">Birthday: <strong>01/13/1957</strong>, SSN: <strong>123-45-6789</strong></p>
+  </div></a>
+</div>

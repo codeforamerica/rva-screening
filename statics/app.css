@@ -10,6 +10,22 @@ body {
  */
 .nav a .glyphicon:before { margin-right:8px; }
 
+/* LOGIN LANDING
+ *
+ *
+ */
+.patient-list-item { 
+  color:white;
+  background:#333;
+  padding:.8em 1em .1em;
+  margin-bottom:.1em;
+}
+.patient-list-item-id {
+  font-weight:100;
+  letter-spacing: .05em;
+  color:#c0c0c0;
+}
+
 
 /* PRE-SCREENING
  *
