@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-  <form action="/update/{{patient.id}}" method="post">
+  <form enctype="multipart/form-data" action="/update/{{patient.id}}" method="post">
     First name
     <input type="text" name="firstname" value="{{patient.firstname}}"/>
     Middle name

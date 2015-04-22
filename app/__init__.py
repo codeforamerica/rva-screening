@@ -2,11 +2,17 @@ from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.login import LoginManager
 from flask.ext.bcrypt import Bcrypt
+from werkzeug import secure_filename
 
-app = Flask(__name__)
+UPLOAD_FOLDER = 'var/uploads/documentimages'
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
+
+app = Flask(__name__, static_url_path='')
 
 app.config.from_object('config')
 app.secret_key = 'some_secret'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)

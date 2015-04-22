@@ -8,6 +8,7 @@ class Patient(db.Model):
   dob = db.Column(db.Date())
   phonenumber1 = db.Column(db.String(32))
   phonenumber2 = db.Column(db.String(32))
+  documentimages = db.relationship('DocumentImage', backref='patient', lazy='dynamic')
    
   def __init__(self, firstname, middlename, lastname, dob, phonenumber1, phonenumber2):
     self.firstname = firstname
@@ -16,6 +17,15 @@ class Patient(db.Model):
     self.dob = dob
     self.phonenumber1 = phonenumber1
     self.phonenumber2 = phonenumber2
+
+class DocumentImage(db.Model):
+  id = db.Column(db.Integer, primary_key=True)
+  patientid = db.Column(db.Integer, db.ForeignKey("patient.id"))
+  filename = db.Column(db.String(64))
+
+  def __init__(self, patientId, filename):
+    self.patientid = patientId
+    self.filename = filename
 
 class User(db.Model):
   id = db.Column(db.Integer, primary_key=True)

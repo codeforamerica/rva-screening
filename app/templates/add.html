@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-  <form method="post">
+  <form enctype="multipart/form-data" method="post">
     First name
     <input type="text" name="firstname"/> 
     Middle name
@@ -12,7 +12,10 @@
     Primary phone number
     <input type="text" name="phonenumber1"/> 
     Secondary phone number
-    <input type="text" name="phonenumber2"/> 
+    <input type="text" name="phonenumber2"/>
+    Upload images of documents:
+    <input type="file" name="image1"/> 
+    <input type="file" name="image2"/>
     <button type="submit">Add</button>       
   </form>
 {% endblock %}
