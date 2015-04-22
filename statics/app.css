@@ -9,3 +9,29 @@ body {
  *
  */
 .nav a .glyphicon:before { margin-right:8px; }
+
+
+/* PRE-SCREENING
+ *
+ *
+ */
+.pre-screeners {}
+.pre-screener-option {
+  padding:1.2em;
+  color:#fff;
+  background:#333;
+  margin-bottom:1em;
+  text-transform: uppercase;
+  font-weight:300;
+  letter-spacing: .1em;
+}
+.pre-screener-option .glyphicon {
+  float:right;
+}
+.pre-screener-option:nth-child(2n) {
+  background-color:#e5e5e5;
+}
+
+.prescreen-form .form-group {
+  margin-bottom:3em;
+}
