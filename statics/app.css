@@ -4,6 +4,7 @@ body {
   background:#f6f6f6;
 }
 
+
 /* HELPERS
  *
  *
@@ -12,11 +13,13 @@ body {
   margin-right:.5em;
 }
 
+
 /* MENU
  *
  *
  */
 .nav a .glyphicon:before { margin-right:.5em; }
+
 
 /* LOGIN LANDING
  *
@@ -84,3 +87,13 @@ body {
 .prescreen-form .form-group {
   margin-bottom:3em;
 }
+
+
+/* PATIENT PAGE
+ *
+ *
+ */
+ul.documents { list-style-type: none; padding-left: 0; }
+
+
+
