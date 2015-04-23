@@ -6,7 +6,7 @@ A repository of early prototyping and design ideas for an application that would
 
 ### Status
 
-This project is in an early design stage. This repository contains no code. Instead, it only contains issues that are used to discuss potential features in the application, as well as links to documentation of the design process.
+This project is in an early design stage. In addition to code, it contains issues used to discuss potential features and links to documentation of the design process.
 
 ### Why
 
