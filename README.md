@@ -39,8 +39,11 @@ Current install steps:
 * Start server: ```python run.py```
 
 After pulling down new code:
+
 ```pip install -r requirements.txt```
+
 ```python db.py db migrate```
+
 ```python db.py db upgrade```
 
 
