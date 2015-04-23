@@ -1,17 +1,21 @@
-var gulp        =  require('gulp'),
-    gutil       =  require('gulp-util'),
-    concat      =  require('gulp-concat'),
-    connect     =  require('gulp-connect'),
-    sass        =  require('gulp-sass'),
-    jshint      =  require('gulp-jshint'),
-    stylish     =  require('jshint-stylish'),
-    cssmin      =  require('gulp-minify-css'),
-    htmlmin     =  require('gulp-minify-html'),
-    uglify      =  require('gulp-uglify'),
-    streamify   =  require('gulp-streamify'),
-    browserify  =  require('browserify'),
-    source      =  require('vinyl-source-stream'),
-    rename      =  require('gulp-rename');
+/** MODULES
+  *
+  *
+  */
+const gulp        =  require('gulp'),
+      gutil       =  require('gulp-util'),
+      concat      =  require('gulp-concat'),
+      connect     =  require('gulp-connect'),
+      sass        =  require('gulp-sass'),
+      jshint      =  require('gulp-jshint'),
+      stylish     =  require('jshint-stylish'),
+      cssmin      =  require('gulp-minify-css'),
+      htmlmin     =  require('gulp-minify-html'),
+      uglify      =  require('gulp-uglify'),
+      streamify   =  require('gulp-streamify'),
+      browserify  =  require('browserify'),
+      source      =  require('vinyl-source-stream'),
+      rename      =  require('gulp-rename');
 
 
 
@@ -19,14 +23,14 @@ var gulp        =  require('gulp'),
   *
   *
   */
-var app = './app/';
-var dest = app + 'static/';
-var src = './src/';
+const app  = './app/',
+      dest = app + 'static/',
+      src  = './src/';
 
 
 
-/** SASS
-  *
+/** CSS: Sass preprocessing
+  * var sass
   *
   */
 gulp.task('sass', function(){
@@ -35,6 +39,41 @@ gulp.task('sass', function(){
     .pipe(gulp.dest(dest + 'css'));
     // .pipe(connect.reload());
 });
+
+/** JS: concat & minify
+  * var concat, uglify
+  *
+  * TODO: this isn't the most elegant way to include these
+  * scripts Since Bootstrap requires jQuery we have to place
+  * jQuery before in the array... meh.
+  *
+  */
+var js_src = [
+  './node_modules/jquery/dist/jquery.min.js',
+  './node_modules/bootstrap/dist/js/bootstrap.min.js',
+  src + 'js/**/*.js'
+];
+
+gulp.task('js', ['lint'], function() {
+  gulp.src(js_src)
+    .pipe(concat('app.min.js'))
+    .pipe(uglify({
+      outSourceMap: true
+    }))
+    .pipe(gulp.dest(dest + 'js'));
+    // .pipe(connect.reload());
+});
+
+/** JS: linting
+  * var jshint
+  *
+  */
+gulp.task('lint', function() {
+  return gulp.src(src + 'js/**/*.js')
+    .pipe(jshint())
+    .pipe(jshint.reporter('default'));
+});
+
 
 
 // gulp.task('copy', function(){
@@ -47,24 +86,6 @@ gulp.task('sass', function(){
 // gulp.task('fonts', function(){
 //   return gulp.src(appstatic + 'fonts/*')
 //     .pipe(gulp.dest(diststatic + 'fonts/'));
-// });
-
-// // JS error checking
-// gulp.task('lint', function() {
-// return gulp.src(['./gulpfile.js', 
-//   './app/js/**/*.js'])
-//       .pipe(jshint())
-//       .pipe(jshint.reporter());
-// });
-
-// // Concatenate & Minify JS
-// gulp.task('js', ['lint'], function() {
-//   return browserify('./app/js/main.js')
-//     .bundle({ debug: true })
-//     .pipe(source('bundle.js'))
-//     .pipe(gulp.dest(appstatic + 'js'))
-//     .pipe(gulp.dest(diststatic + 'js'))
-//     .pipe(connect.reload());
 // });
 
 // var vendorEntryFiles = [

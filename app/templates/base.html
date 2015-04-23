@@ -10,5 +10,12 @@
         {% endif %}
     </div>
     {% block content %}{% endblock %}
+    <script src="{{ url_for('static', filename='js/app.min.js') }}"></script>
+    <script>
+    window.onload = init();
+    function init() {
+      window.App = new AppController();
+    }
+    </script>
   </body>
 </html>
