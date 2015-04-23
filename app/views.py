@@ -62,8 +62,8 @@ def add():
         filename = secure_filename(file.filename)
         filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         file.save(filepath)
-      documentImage = DocumentImage(patient.id, filename)
-      db.session.add(documentImage)
+        documentImage = DocumentImage(patient.id, filename)
+        db.session.add(documentImage)
 
     db.session.commit()
 
@@ -114,5 +114,4 @@ def get_image(filename):
 @login_required
 def index():
   patients = Patient.query.all()    
-  print patients[2].documentimages
   return render_template('index.html', patients=patients)
