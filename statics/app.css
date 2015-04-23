@@ -9,3 +9,6 @@ body {
  *
  */
 .nav a .glyphicon:before { margin-right:8px; }
+
+/*Documents*/
+ul.documents { list-style-type: none; padding-left: 0; }
