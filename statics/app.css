@@ -18,7 +18,8 @@ body {
  *
  *
  */
-.nav a .glyphicon:before { margin-right:.5em; }
+.navbar {}
+.nav a {}
 
 
 /* LOGIN LANDING
