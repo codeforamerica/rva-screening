@@ -18,7 +18,6 @@ const gulp        =  require('gulp'),
       rename      =  require('gulp-rename');
 
 
-
 /** PATHS
   *
   *
@@ -28,20 +27,31 @@ const app  = './app/',
       src  = './src/';
 
 
+/** ERRORS
+  * Returns so we don't break the watcher.
+  * But who is watching the watcher?
+  *
+  */
+function handleError (err) {
+  return;
+}
+
 
 /** CSS: Sass preprocessing
-  * var sass
+  * sass
   *
   */
 gulp.task('sass', function(){
   return gulp.src(src + 'sass/main.scss')
-    .pipe(sass())
+    .pipe(sass({
+      errLogToConsole: true
+    }))
     .pipe(gulp.dest(dest + 'css'));
-    // .pipe(connect.reload());
 });
 
+
 /** JS: concat & minify
-  * var concat, uglify
+  * concat, uglify
   *
   * TODO: this isn't the most elegant way to include these
   * scripts Since Bootstrap requires jQuery we have to place
@@ -60,9 +70,10 @@ gulp.task('js', ['lint'], function() {
     .pipe(uglify({
       outSourceMap: true
     }))
+    .on('error', handleError)
     .pipe(gulp.dest(dest + 'js'));
-    // .pipe(connect.reload());
 });
+
 
 /** JS: linting
   * var jshint
@@ -71,9 +82,8 @@ gulp.task('js', ['lint'], function() {
 gulp.task('lint', function() {
   return gulp.src(src + 'js/**/*.js')
     .pipe(jshint())
-    .pipe(jshint.reporter('default'));
+    .pipe(jshint.reporter('jshint-stylish'));
 });
-
 
 
 // gulp.task('copy', function(){
@@ -117,12 +127,11 @@ gulp.task('lint', function() {
 //     .pipe(connect.reload());
 // });
 
-// // Watch Files For Changes
-// gulp.task('watch', function() {
-//     gulp.watch(appdir + '*.html', ['html', 'copy']);
-//     gulp.watch([appdir + 'js/**/*.js', appdir + 'js/**/*.hbs'], ['js']);
-//     gulp.watch(appdir + 'less/**/*.less', ['less']);
-// });
+// Watch Files For Changes
+gulp.task('watch', function() {
+    gulp.watch(src + 'js/**/*.js', ['js']);
+    gulp.watch(src + 'sass/**/*.scss', ['sass']);
+});
 
 
 // gulp.task('connect', function(){
@@ -134,5 +143,5 @@ gulp.task('lint', function() {
 // });
 
 
-// gulp.task('build', ['copy', 'html', 'less', 'vendor', 'glyphicons', 'js']);
-// gulp.task('default', ['build', 'connect', 'watch']);
+gulp.task('build', ['js', 'sass']);
+gulp.task('default', ['build', 'watch']);
