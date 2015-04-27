@@ -4,8 +4,97 @@ body {
   background:#f6f6f6;
 }
 
+
+/* HELPERS
+ *
+ *
+ */
+.push-right { /* used mostly with icons */
+  margin-right:.5em;
+}
+
+
 /* MENU
  *
  *
  */
-.nav a .glyphicon:before { margin-right:8px; }
+.navbar {}
+.nav a {}
+
+
+/* LOGIN LANDING
+ *
+ *
+ */
+.patient-list-item { 
+  color:white;
+  background:#333;
+  padding:.8em 1em .1em;
+  margin-bottom:.1em;
+}
+.patient-list-item-id {
+  font-weight:100;
+  letter-spacing: .05em;
+  color:#c0c0c0;
+}
+.completion {
+  color:#FF851B;
+  font-weight:900;
+  font-size:1.1em;
+  float:right;
+}
+.completion.high {
+  color:#3D9970;
+}
+.completion.med {
+  color:#2ECC40;
+}
+.completion.low {
+  color:#FF4136;
+}
+.alert.small {
+  padding:0 .3em;
+  margin-bottom:0;
+}
+.push-left {
+  margin-left:.5em;
+}
+.push-right {
+  margin-right:.5em;
+}
+
+
+/* PRE-SCREENING
+ *
+ *
+ */
+.pre-screeners {}
+.pre-screener-option {
+  padding:1.2em;
+  color:#fff;
+  background:#333;
+  margin-bottom:1em;
+  text-transform: uppercase;
+  font-weight:300;
+  letter-spacing: .1em;
+}
+.pre-screener-option .glyphicon {
+  float:right;
+}
+.pre-screener-option:nth-child(2n) {
+  background-color:#e5e5e5;
+}
+
+.prescreen-form .form-group {
+  margin-bottom:3em;
+}
+
+
+/* PATIENT PAGE
+ *
+ *
+ */
+ul.documents { list-style-type: none; padding-left: 0; }
+
+
+
