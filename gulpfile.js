@@ -1,6 +1,5 @@
 /** MODULES
   *
-  *
   */
 const gulp        =  require('gulp'),
       gutil       =  require('gulp-util'),
@@ -20,7 +19,6 @@ const gulp        =  require('gulp'),
 
 /** PATHS
   *
-  *
   */
 const app  = './app/',
       dest = app + 'static/',
@@ -29,7 +27,6 @@ const app  = './app/',
 
 /** ERRORS
   * Returns so we don't break the watcher.
-  * But who is watching the watcher?
   *
   */
 function handleError (err) {
@@ -86,48 +83,10 @@ gulp.task('lint', function() {
 });
 
 
-// gulp.task('copy', function(){
-//   return gulp.src([
-//     appstatic + 'favicon.ico',
-//     ])
-//     .pipe(gulp.dest(diststatic));
-// });
-
-// gulp.task('fonts', function(){
-//   return gulp.src(appstatic + 'fonts/*')
-//     .pipe(gulp.dest(diststatic + 'fonts/'));
-// });
-
-// var vendorEntryFiles = [
-//         './node_modules/jquery/dist/jquery.js',
-//         './node_modules/bootstrap/dist/js/bootstrap.js',
-//         ];
-
-// gulp.task('vendor', function(){
-//   gulp.src(vendorEntryFiles)
-//     .pipe(concat('vendor.js'))
-//     .pipe(gulp.dest(appstatic + 'js/'))
-//     .pipe(gulp.dest(diststatic + 'js/'));
-// });
-
-// gulp.task('glyphicons', function(){
-//   return gulp.src('./node_modules/bootstrap/fonts/*')
-//     .pipe(gulp.dest('./app/static/fonts/'))
-//     .pipe(gulp.dest('./dist/static/fonts/'));
-// });
-
-
-// gulp.task('html', function() {
-//   gulp.src(appdir + '*.html')
-//     .pipe(htmlmin({
-//       comments: true,
-//       conditionals: true
-//     })).pipe(cssmin())
-//     .pipe(gulp.dest(distdir))
-//     .pipe(connect.reload());
-// });
-
-// Watch Files For Changes
+/** WATCHER
+  * But who is watching the watcher?
+  *
+  */
 gulp.task('watch', function() {
     gulp.watch(src + 'js/**/*.js', ['js']);
     gulp.watch(src + 'sass/**/*.scss', ['sass']);
