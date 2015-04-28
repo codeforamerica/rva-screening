@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+    <form method="post">
+    	What is your household size?
+        <input
+        	type="text"
+        	name="household_size"
+        	value="{{ patient.householdsize if patient is defined }}"
+        />
+        What is your annual household income?
+        <input
+        	type="text" 
+        	name="household_income"
+        	value="{{ patient.householdincome if patient is defined }}"
+        />  
+        <button type="submit">Check eligibility</button>       
+    </form>
+{% endblock %}

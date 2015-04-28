@@ -5,8 +5,10 @@
   <body>
     <div>
         <a href="{{ url_for('index') }}">Home</a>
+        | <a href="{{ url_for('new_prescreening') }}">Pre-Screening</a>
+        | <a href="{{ url_for('new_patient') }}">New Patient</a>
         {% if g.user.is_authenticated() %}
-        | <a href="{{ url_for('logout') }}">Log out</a>
+          | <a href="{{ url_for('logout') }}">Log out</a>
         {% endif %}
     </div>
     {% block content %}{% endblock %}

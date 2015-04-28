@@ -2,21 +2,10 @@
 {% block content %}
   <body>
     <h1>RVA Screener</h1>
-    <a href="/add">Add new patient</a>
     {% for patient in patients %}
       <h3>{{ patient.firstname }} {{ patient.middlename }} {{ patient.lastname }}</h3>
       <p>DOB: {{ patient.dob }}</p>
-      <p>Primary phone: {{ patient.phonenumber1 }}</p>
-      <p>Secondary phone: {{ patient.phonenumber2 }}</p>
-      <p>
-        {% for documentImage in patient.documentimages %}
-          <a href="{{ url_for('document_image', image_id=documentImage.id) }}">
-            Image {{ loop.index0 + 1 }}
-          </a>
-        {% endfor %}
-      </p>
-      <a href="{{ url_for('update', id=patient.id) }}">Edit patient</a>
-      <a href="{{ url_for('delete', id=patient.id) }}">Delete patient</a>
+      <a href="{{ url_for('patient_details', id=patient.id) }}">Details</a>
     {% endfor %}
   </body>
 {% endblock %}    

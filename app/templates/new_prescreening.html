@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+    <h3>Which services would you like to check your eligibility for?</h3>
+    <form method="post">
+        <input type="checkbox" name="services" value="resource_centers" />Resource centers<br />
+        <input type="checkbox" name="services" value="cross_over" />Cross Over<br />
+        <input type="checkbox" name="services" value="daily_planet" />Daily Planet<br />
+        <input type="checkbox" name="services" value="access_now" />Access Now<br />
+        <button type="submit">Go</button>       
+    </form>
+{% endblock %}
