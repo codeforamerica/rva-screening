@@ -1,4 +1,4 @@
   <div class="form-group">
     <label for="mainPhoneNumber">Main Phone Number</label>
-    <input type="tel" class="form-control" id="mainPhoneNumber">
+    <input type="tel" class="form-control" id="mainPhoneNumber"{% if page.patient.main_phone %} value="{{page.patient.main_phone}}"{% endif %}>
   </div>

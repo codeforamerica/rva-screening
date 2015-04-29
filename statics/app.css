@@ -90,11 +90,31 @@ body {
 }
 
 
-/* PATIENT PAGE
+/* PATIENT DETAILS
  *
  *
  */
 ul.documents { list-style-type: none; padding-left: 0; }
 
+.patient_doc_thumbnail img {
+  width: 4rem;
+}
 
+/* Household member subform
+ */
+tr.hh_member.patient {
+  color: #888;
+}
+
+.hh_member_subform {
+  overflow: auto;
+}
+.hh_member_dob {
+  float: left;
+  width: 43%;
+}
+.hh_member_relationship_to_patient {
+  float: right;
+  width: 53%;
+}
 
