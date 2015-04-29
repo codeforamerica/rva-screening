@@ -3,6 +3,7 @@ body {
   margin:0;
   background:#f6f6f6;
 }
+.glyphicon { line-height: inherit; }
 
 
 /* HELPERS
@@ -100,7 +101,31 @@ ul.documents { list-style-type: none; padding-left: 0; }
   width: 4rem;
 }
 
-/* Household member subform
+/* ID & CONTACT INFO
+ * first, mi, last: [___][_][_____]
+ */
+.first_name, .mi { float: left }
+.first_name { width: 40%; }
+.mi { width: 10%; }
+.last_name { width: 50%; float: right; }
+.name_group { overflow: auto; }
+
+/*[___] [___]*/
+.dob_ssn_group { overflow: auto; }
+.dob { float: left; width: 45%; }
+.ssn { float: right; width: 45%; }
+
+/* Phone numbers */
+.main_phone input { font-weight: bold; }
+.phone_number_number { max-width: 8em; }
+/* Addresses */
+.address_type { max-width: 5em; }
+/* Emergency Contact relation & Phone */
+.emergency_contact_relation_phone_group { overflow: auto; }
+.emergency_contact_relation { float: left; width: 60% }
+.emergency_contact_phone { float: right; width: 35%; }
+
+/* HOUSEHOLD SIZE
  */
 tr.hh_member.patient {
   color: #888;

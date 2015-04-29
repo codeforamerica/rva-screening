@@ -15,7 +15,7 @@
 
   <tr class="hh_member patient">
     <th class="hh_member_number">1</td>
-    <td class="hh_member_name">{{page.patient.name}}</td>
+    <td class="hh_member_full_name">{{page.patient.full_name}}</td>
     <td class="hh_member_age">{{page.patient.age}}</td>
     <td class="hh_member_relation">Patient</td>
     <td class="hh_member_edit">
@@ -26,7 +26,7 @@
   {% for member in page.patient.hh_members %}
   <tr class="hh_member">
     <th class="hh_member_number">{{member.number}}</td>
-    <td class="hh_member_name">{{member.name}}</td>
+    <td class="hh_member_full_name">{{member.full_name}}</td>
     <td class="hh_member_age">{{member.age}}</td>
     <td class="hh_member_relation">{{member.relation}}</td>
     <td class="hh_member_edit">

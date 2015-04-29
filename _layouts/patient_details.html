@@ -10,13 +10,9 @@ login: true
 {% endif %}
 
   <hr>
-  {% include patient_basic_info.html %}
-
-<button type="button" class="btn btn-success">
-  <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-{% if page.patient %} Save patient info {% else %} Save new patient info {% endif %}
-</button>
-
+  {% include patient_id.html %}
+  <hr>
+  {% include patient_contact_info.html %}
   <hr>
   {% include patient_docs.html %}
   <hr>
