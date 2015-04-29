@@ -1,6 +1,14 @@
 .DS_Store
+
+# flask
 *.pyc
 venv
 activate
 migrations
+
+# npm
+node_modules
+npm-debug.log
+
+# jekyll leftovers
 _site
