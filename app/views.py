@@ -67,7 +67,6 @@ def new_patient():
         documentImage = DocumentImage(patient.id, filename)
         db.session.add(documentImage)
         db.session.commit()
-   
     return redirect(url_for('index'))
   else:
     # Check whether we already have some data from a pre-screening

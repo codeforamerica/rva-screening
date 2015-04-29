@@ -2,11 +2,11 @@
 
 ### What
 
-A repository of early-stage design ideas for an application that would allow safety net health clinics in Richmond, VA to share income verification screening.
+A repository of early prototyping and design ideas for an application that would allow safety net health services in Richmond, VA to share income verification screening.
 
 ### Status
 
-This project is in an early design stage. This repository contains no code. Instead, it only contains issues that are used to discuss potential features in the application, as well as links to documentation of the design process.
+This project is in an early design stage. In addition to code, it contains issues used to discuss potential features and links to documentation of the design process.
 
 ### Why
 
@@ -27,8 +27,25 @@ Sam Matthews ([svamatthews](//github.com/svmatthews))
 
 ### How
 
-There is no code. There is nothing to install, nothing to deploy, no dependencies.
-So far you should find only links to google docs and conversations contained in issue threads.
+Current install steps:
+* Install MySQL (http://dev.mysql.com/downloads/mysql/) and start your server.
+* Set the root MySQL password to "password": ```mysqladmin -u root -p “password”```
+* Create a database called rva_screening.
+* Install requirements: ```pip install -r requirements.txt```
+* Create migrations folder: ```python db.py db init```
+* Create migration based on current models: ```python db.py db migrate```
+* Apply migration to database: ```python db.py db upgrade```
+* Create a user account for login: ```python add_user.py```
+* Start server: ```python run.py```
+
+After pulling down new code:
+
+```pip install -r requirements.txt```
+
+```python db.py db migrate```
+
+```python db.py db upgrade```
+
 
 ### Contribute
 
