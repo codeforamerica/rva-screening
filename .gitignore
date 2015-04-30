@@ -11,8 +11,3 @@ app/static/.webassets-cache
 # npm
 node_modules
 npm-debug.log
-
-# jekyll leftovers
-_site
-*.pyc
-migrations
