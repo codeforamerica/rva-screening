@@ -8,20 +8,21 @@ js = Bundle(
   depends=('js/*.js', 'js/**/*.js')
 )
 
-sass = Bundle(
-  'sass/main.scss',
-  filters='sass',
-  output='./public/css/app.css',
-  depends=('sass/*.scss', 'sass/**/*.scss')
-)
-
-css_bootstrap = Bundle(
-  'vendor/bootstrap/dist/css/bootstrap.css',
-  output='./public/css/bootstrap.css'
+css = Bundle(
+  Bundle(
+    'vendor/bootstrap/dist/css/bootstrap.css',
+    filters='cssmin',
+    output='./public/css/bootstrap.css'
+  ),
+  Bundle(
+    'sass/main.scss',
+    filters='sass,cssmin',
+    output='./public/css/app.css',
+    depends=('sass/*.scss', 'sass/**/*.scss')
+  )
 )
 
 assets = Environment()
 
 assets.register('js_all', js)
-assets.register('css_bootstrap', css_bootstrap)
-assets.register('css_app', sass)
+assets.register('css_all', css)
