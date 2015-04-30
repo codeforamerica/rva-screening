@@ -125,6 +125,11 @@ ul.documents { list-style-type: none; padding-left: 0; }
 .emergency_contact_relation { float: left; width: 60% }
 .emergency_contact_phone { float: right; width: 35%; }
 
+/* Gender Transgender */
+.patient_gender_trans_group { overflow: auto; }
+.gender { float: left; width: 45% }
+.transgender { float: right; width: 45%; }
+
 /* HOUSEHOLD SIZE
  */
 tr.hh_member.patient {
