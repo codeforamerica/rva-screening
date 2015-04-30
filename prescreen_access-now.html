@@ -1,0 +1,73 @@
+---
+layout: default
+login: false
+---
+
+<p>This is the application for <strong>Access Now</strong>. You can learn more about Access Now <a href="about_access-now.html">here</a></p>
+
+<hr>
+
+<form class="prescreen-form">
+
+  <!-- houshold size -->
+  <div class="form-group">
+    <div class="input-group">
+      <label for="household-size">What is your household size?</label>
+      <input type="text" class="form-control" id="household-size" placeholder="# of residents">
+      <!-- <input type="text" class="form-control" placeholder=".col-xs-2"> -->
+    </div>
+    <div class="checkbox">
+      <label>
+        <input type="checkbox" id="checkboxSuccess" value="option1">
+        I don't know
+      </label>
+    </div>
+  </div>
+
+  <!-- income -->
+  <div class="form-group">
+    <label for="household-income">What is your household income?</label>
+    <div class="input-group">
+      <div class="input-group-addon">$</div>
+      <input type="text" class="form-control" id="household-income" placeholder="Amount">
+      <div class="input-group-addon">.00</div>
+    </div>
+    <div class="checkbox">
+      <label>
+        <input type="checkbox" id="checkboxSuccess" value="option1">
+        I don't know
+      </label>
+    </div>
+  </div>
+
+  <!-- do you have health insurance? -->
+  <div class="form-group">
+    <p><strong>Do you have health insurance?</strong></p>
+    <label class="radio-inline">
+      <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> Yes
+    </label>
+    <label class="radio-inline">
+      <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> No
+    </label>
+    <label class="radio-inline">
+      <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3"> I don't know
+    </label>
+  </div>
+
+  <!-- are you eligible for medicare/medicaid? -->
+  <div class="form-group">
+    <p><strong>Are you eligible for Medicare/Medicaid?</strong></p>
+    <label class="radio-inline">
+      <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> Yes
+    </label>
+    <label class="radio-inline">
+      <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> No
+    </label>
+    <label class="radio-inline">
+      <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3"> I don't know
+    </label>
+  </div>
+
+  <a href="prescreen_status.html" class="btn btn-primary">Check Elibility</a>
+
+</form>

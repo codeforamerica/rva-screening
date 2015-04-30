@@ -1,0 +1,21 @@
+{% include head.html %}
+<body>
+
+  {% include nav.html %}
+
+  <div class="container">
+    {{ content }}
+  </div>
+
+  <script src="/statics/bootstrap/js/bootstrap.min.js"></script>
+  <script src="/statics/app.js"></script>
+  <script>
+  function init() {
+    window.app = new AppController();
+  }
+  window.onload = init;
+  </script>
+</body>
+</html>
+</body>
+</html>

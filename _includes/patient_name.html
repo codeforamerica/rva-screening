@@ -1,0 +1,23 @@
+<div class="name_group">
+
+  <div class="form-group full_name">
+    <label for="full_name">Full Legal Name</label>
+    <input type="text" class="form-control" name="full_name" id="full_name" {% if page.patient.full_name %}value="{{page.patient.full_name}}"{% endif %}>
+  </div>
+
+  <div class="form-group first_name">
+    <label for="first_name">First Name</label>
+    <input type="text" class="form-control" name="first_name" id="first_name" {% if page.patient.first_name %}value="{{page.patient.first_name}}"{% endif %}>
+  </div>
+
+  <div class="form-group mi">
+    <label for="mi">MI</label>
+    <input type="text" class="form-control" name="mi" id="mi" {% if page.patient.mi %}value="{{page.patient.mi}}"{% endif %}>
+  </div>
+
+  <div class="form-group last_name">
+    <label for="last_name">Last Name</label>
+    <input type="text" class="form-control" name="last_name" id="last_name" {% if page.patient.last_name %}value="{{page.patient.last_name}}"{% endif %}>
+  </div>
+</div>
+

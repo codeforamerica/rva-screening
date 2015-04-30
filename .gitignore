@@ -12,3 +12,5 @@ npm-debug.log
 
 # jekyll leftovers
 _site
+*.pyc
+migrations
