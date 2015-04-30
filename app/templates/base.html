@@ -2,8 +2,8 @@
   <head>
     <title>RVA Screener</title>
     <meta name="viewport" content="width=device-width">
-    <!-- <link href="{{ url_for('static', filename='css/bootstrap.css') }}" rel="stylesheet"> -->
-    <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
+    {% assets "css_all" %}<link href="{{ ASSET_URL }}" rel="stylesheet">
+    {% endassets %}
   </head>
   <body>
     <div>
@@ -15,11 +15,13 @@
         {% endif %}
     </div>
     {% block content %}{% endblock %}
-    <script src="{{ url_for('static', filename='js/app.min.js') }}"></script>
+    {% assets "js_all" %}<script type="text/javascript" src="{{ ASSET_URL }}"></script>{% endassets %}
     <script>
     window.onload = init();
     function init() {
-      window.App = new AppController();
+      window.App = new AppController({
+        foo: 'bar'
+      });
     }
     </script>
   </body>
