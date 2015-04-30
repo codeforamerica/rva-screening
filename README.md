@@ -25,18 +25,9 @@ Ben Golder ([bengolder](//github.com/bengolder))
 Emma Smithayer ([esmithayer](//github.com/esmithayer))  
 Sam Matthews ([svamatthews](//github.com/svmatthews))  
 
-### How
+### How (Installation)
 
-Current install steps:
-
-**1. Assets (Gulp)**
-
-We are using [Gulp](http://gulpjs.com/) for CSS pre-processing & Javascript linting. These rely on Node.js and `npm`, which can be installed using [these instructions](https://docs.npmjs.com/getting-started/installing-node). Once installed, follow these steps to set up Gulp:
-
-* Install all modules `npm install`
-* Run `gulp` to build your CSS and Javascripts
-
-**2. Site & Server (Flask)**
+**Site & Server (Flask)**
 * Install MySQL (http://dev.mysql.com/downloads/mysql/) and start your server.
 * Set the root MySQL password to "password": ```mysqladmin -u root -p “password”```
 * Create a database called rva_screening.
@@ -55,6 +46,16 @@ After pulling down new code:
 
 ```python db.py db upgrade```
 
+**Assets**
+
+All assets build from `app/static/` using Flask-Assets and webassets. They are bundled into `public/` and retrieved on page loads.
+
+The front-end currently depends on some 3rd party assets. To install these, use `npm`:
+
+```
+cd ./app/static/
+npm install
+```
 
 ### Contribute
 
