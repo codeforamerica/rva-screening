@@ -55,16 +55,6 @@ def new_patient():
         form[key] = None
     patient = Patient(**form)
 
-    # patient=Patient(
-    #   firstname = request.form['firstname'],
-    #   middlename = request.form['middlename'],
-    #   lastname = request.form['lastname'],
-    #   dob = datetime.datetime.strptime(request.form['dob'], '%m/%d/%Y').date(),
-    #   phonenumber1 = request.form['phonenumber1'],
-    #   phonenumber2 = request.form['phonenumber2'],
-    #   householdsize = request.form['householdsize'],
-    #   householdincome = request.form['householdincome']
-    # )
     db.session.add(patient)
     db.session.commit()
 
@@ -94,14 +84,13 @@ def new_patient():
 def patient_details(id):
   patient = Patient.query.get(id)
   if request.method == 'POST':
-    patient.firstname = request.form['firstname']
-    patient.middlename = request.form['middlename']
-    patient.lastname = request.form['lastname']
-    patient.dob = datetime.datetime.strptime(request.form['dob'], '%m/%d/%Y').date()
-    patient.phonenumber1 = request.form['phonenumber1']
-    patient.phonenumber2 = request.form['phonenumber2']
-    patient.householdsize = request.form['householdsize']
-    patient.householdincome = request.form['householdincome']
+
+    for key, value in request.form.iteritems():
+      if key == 'dob':
+        value = datetime.datetime.strptime(value, '%m/%d/%Y').date()
+      if value == '':
+        value = None
+      setattr(patient, key, value)
 
     for file in request.files.itervalues():
       if allowed_file(file.filename):
