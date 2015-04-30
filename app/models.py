@@ -12,6 +12,9 @@ class Patient(db.Model):
   householdsize = db.Column(db.Integer, nullable=True)
   householdincome = db.Column(db.Integer, nullable=True)
 
+  def __init__(self, **fields): 
+    self.__dict__.update(fields)
+
 class DocumentImage(db.Model):
   id = db.Column(db.Integer, primary_key=True)
   patientid = db.Column(db.Integer, db.ForeignKey("patient.id"))

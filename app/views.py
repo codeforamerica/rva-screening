@@ -46,16 +46,25 @@ def allowed_file(filename):
 @login_required
 def new_patient():
   if request.method == 'POST':
-    patient=Patient(
-      firstname = request.form['firstname'],
-      middlename = request.form['middlename'],
-      lastname = request.form['lastname'],
-      dob = datetime.datetime.strptime(request.form['dob'], '%m/%d/%Y').date(),
-      phonenumber1 = request.form['phonenumber1'],
-      phonenumber2 = request.form['phonenumber2'],
-      householdsize = request.form['householdsize'],
-      householdincome = request.form['householdincome']
-    )
+
+    form = dict((key, value) for key, value in request.form.iteritems())
+    if form.get('dob'):
+      form['dob'] = datetime.datetime.strptime(form['dob'], '%m/%d/%Y').date()
+    for key, value in form.iteritems():
+      if value == '':
+        form[key] = None
+    patient = Patient(**form)
+
+    # patient=Patient(
+    #   firstname = request.form['firstname'],
+    #   middlename = request.form['middlename'],
+    #   lastname = request.form['lastname'],
+    #   dob = datetime.datetime.strptime(request.form['dob'], '%m/%d/%Y').date(),
+    #   phonenumber1 = request.form['phonenumber1'],
+    #   phonenumber2 = request.form['phonenumber2'],
+    #   householdsize = request.form['householdsize'],
+    #   householdincome = request.form['householdincome']
+    # )
     db.session.add(patient)
     db.session.commit()
 
