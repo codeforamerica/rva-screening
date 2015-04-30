@@ -2,7 +2,6 @@ from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.login import LoginManager
 from flask.ext.bcrypt import Bcrypt
-from flask.ext.assets import Environment, Bundle
 from werkzeug import secure_filename
 
 UPLOAD_FOLDER = 'var/uploads/documentimages'
