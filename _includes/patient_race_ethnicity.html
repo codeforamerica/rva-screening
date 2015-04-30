@@ -1,0 +1,35 @@
+<div class="patient_race_ethnicity_group">
+
+<!--Race	multiselect(
+)-->
+<!--Ethinicity	select(Hispanic or Latino____| Non-Hispanic or Latino)-->
+
+  <div class="form-group race">
+    <label for="race">Race</label>
+    <select class="form-control" name="race">
+      <option value=""{% unless page.patient.race %} selected{% endunless %}></option>
+      <option value="American Indian/Alaskan Native"{% if page.patient.race == "American Indian/Alaskan Native" %} selected{% endif %}>American Indian/Alaskan Native</option>
+      <option value="Asian"{% if page.patient.race == "Asian" %} selected{% endif %}>Asian</option>
+      <option value="Black or African-American"{% if page.patient.race == "Black or African-American" %} selected{% endif %}>Black or African-American</option>
+      <option value="Native Hawaiian/Pacific Islander"{% if page.patient.race == "Native Hawaiian/Pacific Islander" %} selected{% endif %}>Native Hawaiian/Pacific Islander</option>
+      <option value="White or Caucasian"{% if page.patient.race == "White or Caucasian" %} selected{% endif %}>White or Caucasian</option>
+      <option value="Other"{% if page.patient.race == "Other" %} selected{% endif %}>Other</option>
+    </select>
+  </div>
+
+  <div class="form-group {% unless page.patient.race == "Other" %} hidden{% endunless %}">
+    <label for="race_other">Please specify other race</label>
+    <input type="text" class="form-control" name="race_other" id="race_other">
+  </div>
+
+  <div class="form-group ethnicity">
+    <label for="ethnicity">Ethnicity</label>
+    <select class="form-control" name="ethnicity">
+      <option value=""{% unless page.patient.ethnicity %} selected{% endunless %}></option>
+      <option value="Hispanic or Latino"{% if page.patient.ethnicity == "Hispanic or Latino" %} selected{% endif %}>Hispanic or Latino</option>
+      <option value="Not Hispanic or Latino"{% if page.patient.ethnicity == "Not Hispanic or Latino" %} selected{% endif %}>Not Hispanic or Latino</option>
+    </select>
+  </div>
+
+</div>
+

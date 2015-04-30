@@ -1,4 +1,4 @@
     <div class="form-group">
       <label for="dateOfBirth">Date of Birth</label>
-      <input type="date" class="form-control" id="dateOfBirth">
+      <input type="date" class="form-control" id="dateOfBirth" {% if page.patient.dob %}value="{{page.patient.dob}}"{% endif %}>
     </div>

@@ -1,5 +1,5 @@
   <div class="form-group">
     <label for="fullLegalName">Full Legal Name</label>
-    <input type="text" class="form-control" id="fullLegalName" {% if client.fullLegalName %}value="{{client.fullLegalName}}"{% endif %}>
+    <input type="text" class="form-control" id="fullLegalName" {% if page.patient.name %}value="{{page.patient.name}}"{% endif %}>
   </div>
 
