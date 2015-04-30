@@ -86,7 +86,7 @@ def patient_details(id):
   if request.method == 'POST':
 
     for key, value in request.form.iteritems():
-      if key == 'dob':
+      if key == 'dob' and value != '':
         value = datetime.datetime.strptime(value, '%m/%d/%Y').date()
       if value == '':
         value = None
