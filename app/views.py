@@ -8,7 +8,7 @@ from app import login_manager
 from werkzeug import secure_filename
 
 # example data for front-end prototyping
-from app import example_data
+from app import example_data as EXAMPLE_DATA
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -106,6 +106,8 @@ def patient_details(id):
     db.session.commit()
     return redirect(url_for('index'))
   else:
+    if not patient:
+        patient = EXAMPLE_DATA.example_patient
     return render_template('patient_details.html', patient=patient)
 
 @app.route('/delete/<id>', methods=['POST', 'GET'])
@@ -164,8 +166,7 @@ def prescreening_results():
   if 'services' in session:
     services = session['services']
   else:
-    # example data
-    services = example_data.services
+    services = EXAMPLE_DATA.services
   if 'patient_id' in session and session['patient_id']:
     return render_template(
       'prescreening_results.html',
@@ -192,4 +193,6 @@ def save_prescreening_updates():
 def index():
   session.clear()
   patients = Patient.query.all()
+  if not patients:
+      patients = EXAMPLE_DATA.patients
   return render_template('index.html', patients=patients)
