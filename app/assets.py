@@ -1,8 +1,8 @@
 from flask_assets import Bundle, Environment
 
 js = Bundle(
-  'vendor/jquery/dist/jquery.js',
-  'vendor/bootstrap/dist/js/bootstrap.js',
+  'node_modules/jquery/dist/jquery.js',
+  'node_modules/bootstrap/dist/js/bootstrap.js',
   'js/main.js',
   output='./public/js/app.js',
   depends=('js/*.js', 'js/**/*.js')
@@ -10,7 +10,7 @@ js = Bundle(
 
 css = Bundle(
   Bundle(
-    'vendor/bootstrap/dist/css/bootstrap.css',
+    'node_modules/bootstrap/dist/css/bootstrap.css',
     filters='cssmin',
     output='./public/css/bootstrap.css'
   ),

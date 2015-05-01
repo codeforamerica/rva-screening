@@ -50,6 +50,12 @@ After pulling down new code:
 
 All assets build from `app/static/` using Flask-Assets and webassets. They are bundled into `public/` and retrieved on page loads.
 
+The front-end currently depends on some 3rd party assets. To install these, use `npm`:
+
+```
+cd ./app/static/
+npm install
+```
 
 ### Contribute
 
