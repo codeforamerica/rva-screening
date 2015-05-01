@@ -163,7 +163,7 @@ def prescreening_results():
       'prescreening_results.html',
       patientid = session['patient_id'],
       services = session['services']
-    ) 
+    )
   else:
     return render_template('prescreening_results.html', services = session['services'])
 
@@ -183,5 +183,5 @@ def save_prescreening_updates():
 @login_required
 def index():
   session.clear()
-  patients = Patient.query.all()    
+  patients = Patient.query.all()
   return render_template('index.html', patients=patients)
