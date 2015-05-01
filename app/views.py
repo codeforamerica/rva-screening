@@ -7,6 +7,9 @@ from flask.ext.login import login_user, logout_user, current_user, login_require
 from app import login_manager
 from werkzeug import secure_filename
 
+# example data for front-end prototyping
+from app import example_data
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
   if request.method == 'POST':
@@ -158,14 +161,19 @@ def prescreening_basic():
 @app.route('/prescreening_results')
 @login_required
 def prescreening_results():
+  if 'services' in session:
+    services = session['services']
+  else:
+    # example data
+    services = example_data.services
   if 'patient_id' in session and session['patient_id']:
     return render_template(
       'prescreening_results.html',
-      patientid = session['patient_id'],
-      services = session['services']
+      services = services,
+      patientid = session['patient_id']
     )
   else:
-    return render_template('prescreening_results.html', services = session['services'])
+    return render_template('prescreening_results.html', services = services)
 
 @app.route('/save_prescreening_updates')
 @login_required
