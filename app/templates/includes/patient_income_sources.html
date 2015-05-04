@@ -1,6 +1,6 @@
 <h4>Household Income: $1,147.40/mo.</h4>
 
-{% if page.patient.income_sources %}
+{% if patient.income_sources %}
 
 <table class="table table-condensed income_sources">
 
@@ -11,7 +11,7 @@
     </tr>
   </thead>
 
-  {% for source in page.patient.income_sources %}
+  {% for source in patient.income_sources %}
   <tr class="income_source">
     <td class="income_source_type">
       {{source.source_type}}

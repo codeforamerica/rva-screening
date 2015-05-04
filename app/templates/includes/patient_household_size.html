@@ -15,15 +15,15 @@
 
   <tr class="hh_member patient">
     <th class="hh_member_number">1</td>
-    <td class="hh_member_full_name">{{page.patient.full_name}}</td>
-    <td class="hh_member_age">{{page.patient.age}}</td>
+    <td class="hh_member_full_name">{{patient.full_name}}</td>
+    <td class="hh_member_age">{{patient.age}}</td>
     <td class="hh_member_relation">Patient</td>
     <td class="hh_member_edit">
     </td>
   </tr>
 
-  {% if page.patient.hh_members %}
-  {% for member in page.patient.hh_members %}
+  {% if patient.hh_members %}
+  {% for member in patient.hh_members %}
   <tr class="hh_member">
     <th class="hh_member_number">{{member.number}}</td>
     <td class="hh_member_full_name">{{member.full_name}}</td>

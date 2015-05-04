@@ -28,74 +28,13 @@
   <!--demographics-->
   {% include "includes/patient_demographic_info.html" %}
   <hr>
-  <!--docs-->
+  {% include "includes/patient_docs.html" %}
   <hr>
   <!--household-->
+  {% include "includes/patient_household_size.html" %}
   <hr>
   <!--income-->
+  {% include "includes/patient_income_sources.html" %}
   <hr>
 
-    <form enctype="multipart/form-data" method="post">
-        First name
-        <input
-            type="text"
-            name="firstname"
-            value="{{ patient.firstname if patient and patient.firstname }}"
-        />
-        Middle name
-        <input
-            type="text"
-            name="middlename"
-            value="{{ patient.middlename if patient and patient.middlename }}"
-        />
-        Last name
-        <input
-            type="text"
-            name="lastname"
-            value="{{ patient.lastname if patient and patient.lastname }}"
-        />
-        DOB
-        <input
-            type="text"
-            name="dob"
-            value="{{ patient.dob.strftime('%m/%d/%Y') if patient and patient.dob }}"
-        />
-        Primary phone number
-        <input
-            type="text"
-            name="phonenumber1"
-            value="{{ patient.phonenumber1 if patient and patient.phonenumber1 }}"
-        />
-        Secondary phone number
-        <input
-            type="text"
-            name="phonenumber2"
-            value="{{ patient.phonenumber2 if patient and patient.phonenumber2 }}"
-        />
-        Household size
-        <input
-            type="text"
-            name="householdsize"
-            value="{{ patient.householdsize if patient and patient.householdsize }}"
-        />
-        Household income
-        <input
-            type="text"
-            name="householdincome"
-            value="{{ patient.householdincome if patient and patient.householdincome }}"
-        />
-        Upload images of documents:
-        <input type="file" name="image1"/> 
-        <input type="file" name="image2"/>
-        {% if patient and patient.id %}
-            <p>
-                {% for documentImage in patient.documentimages %}
-                    <a href="{{ url_for('document_image', image_id=documentImage.id) }}">
-                        Image {{ loop.index0 + 1 }}
-                    </a>
-                {% endfor %}
-            </p>
-        {% endif %}
-        <button type="submit">Save</button>
-  </form>
 {% endblock %}

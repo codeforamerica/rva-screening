@@ -108,10 +108,10 @@ ul.documents { list-style-type: none; padding-left: 0; }
 /* ID & CONTACT INFO
  * first, mi, last: [___][_][_____]
  */
-.first_name, .mi { float: left }
-.first_name { width: 40%; }
+.firstname, .mi { float: left }
+.firstname { width: 40%; }
 .mi { width: 10%; }
-.last_name { width: 50%; float: right; }
+.lastname { width: 50%; float: right; }
 .name_group { overflow: auto; }
 
 /*[___] [___]*/

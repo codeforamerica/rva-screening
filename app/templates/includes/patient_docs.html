@@ -1,6 +1,6 @@
 <h4>Patient Documents</h4>
 
-{% if page.patient.documents %}
+{% if patient.documents %}
 
 <table class="table table-condensed patient_docs">
 
@@ -12,7 +12,7 @@
     </tr>
   </thead>
 
-  {% for doc in page.patient.documents %}
+  {% for doc in patient.documents %}
   <tr class="patient_doc">
     <td class="patient_doc_thumbnail">
       <img src="{{doc.thumbnail_url}}" alt="preview of {{doc.title}}">
