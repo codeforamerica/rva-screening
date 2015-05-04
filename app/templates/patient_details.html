@@ -1,11 +1,21 @@
 {% extends "base.html" %}
 {% block content %}
     {% if patient and patient.id %}
+        <div class="patient-options">
+          <a class="btn btn-primary left" href="{{ url_for('new_prescreening', patient_id=patient.id) }}">
+          <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
+              Prescreen this patient
+          </a>
+
+          <a class="btn btn-danger delete-patient right" href="{{ url_for('delete', id=patient.id) }}">
+          <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+            Delete patient
+          </a>
+        </div>
+
         <h2>{{ patient.firstname }} {{ patient.lastname }}</h2>
-        <a href="{{ url_for('new_prescreening', patient_id=patient.id) }}">
-            Prescreen this patient
-        </a>
-        <a href="{{ url_for('delete', id=patient.id) }}">Delete patient</a>
+
+
     {% else %}
         <h2>Add New Patient</h2>
     {% endif %}

@@ -97,6 +97,10 @@ body {
  */
 ul.documents { list-style-type: none; padding-left: 0; }
 
+.patient_options { overflow: auto; background-color: #f00; }
+.left{ display: block; float: left; }
+.right{ display: block; float: right; }
+
 .patient_doc_thumbnail img {
   width: 4rem;
 }
