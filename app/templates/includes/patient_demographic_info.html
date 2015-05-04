@@ -2,19 +2,15 @@
 
 <form action="" method="post">
 
-  {% include patient_gender.html %}
-
-  {% include patient_race_ethnicity.html %}
-
-  {% include patient_language.html %}
+  {% include "includes/patient_gender.html" %}
+  {% include "includes/patient_race_ethnicity.html" %}
+  {% include "includes/patient_language.html" %}
 
 <!--Marital status	select(Single|Married|Div|Widow|Legally Separated|Partner)-->
 
 <!--Are you a veteran of the United States?	select(Yes|No)-->
 
 <!--Living Status	select(Rent|Own home (self or family)|Live with someone|Transitional housing for homeless|Live temporarily with family or friends|On the street (abandoned buildings, encampment, car)|Emergency shelter|Other (please specify):___________)-->
-
-
 
   <button type="button" class="btn btn-primary">
     <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>

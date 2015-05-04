@@ -14,25 +14,25 @@
     </tr>
   </thead>
 
-  {% if page.patient.main_phone %}
+  {% if patient.main_phone %}
   <tr class="main_phone phone_number">
     <td class="phone_number_number">
-      <input type="tel" class="form-control" value="{{page.patient.main_phone.number}}" name="main_phone_number" id="main_phone_number"/>
+      <input type="tel" class="form-control" value="{{patient.main_phone.number}}" name="main_phone_number" id="main_phone_number"/>
     </td>
     <td class="phone_number_name">
-      <input type="text" class="form-control" value="{{page.patient.main_phone.name}}" name="main_phone_name" id="main_phone_name"/>
+      <input type="text" class="form-control" value="{{patient.main_phone.name}}" name="main_phone_name" id="main_phone_name"/>
     </td>
   </tr>
   {% endif %}
 
-  {% if page.patient.phone_numbers %}
-  {% for phone in page.patient.phone_numbers %}
+  {% if patient.phone_numbers %}
+  {% for phone in patient.phone_numbers %}
   <tr class="phone_number">
     <td class="phone_number_number">
-      <input class="form-control" type="tel" value="{{phone.number}}" name="phone_number_{{forloop.index}}" id="phone_number_{{forloop.index}}"/>
+      <input class="form-control" type="tel" value="{{phone.number}}" name="phone_number_{{loop.index}}" id="phone_number_{{loop.index}}"/>
     </td>
     <td class="phone_number_name">
-      <input class="form-control" type="text" value="{{phone.name}}" name="phone_name_{{forloop.index}}" id="phone_name_{{forloop.index}}"/>
+      <input class="form-control" type="text" value="{{phone.name}}" name="phone_name_{{loop.index}}" id="phone_name_{{loop.index}}"/>
     </td>
   </tr>
   {% endfor %}

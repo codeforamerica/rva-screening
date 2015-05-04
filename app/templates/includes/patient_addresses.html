@@ -5,7 +5,7 @@
   <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
 </h5>
 
-{% if page.patient.addresses %}
+{% if patient.addresses %}
 <table class="table table-condensed addresses">
 
   <thead>
@@ -16,7 +16,7 @@
     </tr>
   </thead>
 
-  {% for address in page.patient.addresses %}
+  {% for address in patient.addresses %}
   <tr class="address">
     <th class="address_type">{{address.type}}</td>
     <td class="address_address">

@@ -1,0 +1,21 @@
+<div class="patient_gender_trans_group">
+
+  <div class="form-group gender">
+    <label for="gender">Gender</label>
+    <select class="form-control" name="gender">
+      <option value="no_answer"{% if patient.gender == "no_answer" %} selected{% endif %}>No Answer</option>
+      <option value="female"{% if patient.gender == "female" %} selected{% endif %}>Female</option>
+      <option value="male"{% if patient.gender == "male" %} selected{% endif %}>Male</option>
+    </select>
+  </div>
+
+  <div class="form-group transgender">
+    <label for="transgender">Transgender</label>
+    <select class="form-control" name="transgender">
+      <option value="no"{% if patient.gender == "no" %} selected{% endif %}>No</option>
+      <option value="ftm"{% if patient.gender == "ftm" %} selected{% endif %}>FTM</option>
+      <option value="mtf"{% if patient.gender == "mtf" %} selected{% endif %}>MTF</option>
+    </select>
+  </div>
+</div>
+
