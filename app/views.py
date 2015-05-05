@@ -80,7 +80,7 @@ def new_patient():
       session.clear()
       return render_template('patient_details.html', patient=patient)
 
-    return render_template('patient_details.html')
+    return render_template('patient_details.html', patient={})
 
 @app.route('/patient_details/<id>', methods=['POST', 'GET'])
 @login_required
