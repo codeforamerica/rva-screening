@@ -1,0 +1,23 @@
+
+<!--Living Status	select(Rent|Own home (self or family)|Live with someone|Transitional housing for homeless|Live temporarily with family or friends|On the street (abandoned buildings, encampment, car)|Emergency shelter|Other (please specify):___________)-->
+
+  <div class="form-group">
+    <label for="housing_status">Living situation</label>
+    <select class="form-control" name="housing_status">
+      <option value=""{% if not patient.housing_status %} selected{% endif %}></option>
+      <option value="Renting"{% if patient.housing_status == "Renting" %} selected{% endif %}>Renting</option>
+      <option value="Owns home (self or family)"{% if patient.housing_status == "Owns home (self or family)" %} selected{% endif %}>Owns home (self or family)</option>
+      <option value="Lives with someone"{% if patient.housing_status == "Lives with someone" %} selected{% endif %}>Lives with someone</option>
+      <option value="Lives temporarily with family or friends"{% if patient.housing_status == "Lives temporarily with family or friends" %} selected{% endif %}>Lives temporarily with family or friends</option>
+      <option value="Is in transitional housing for homeless"{% if patient.housing_status == "Is in transitional housing for homeless" %} selected{% endif %}>Is in transitional housing for homeless</option>
+      <option value="Emergency shelter"{% if patient.housing_status == "Emergency shelter" %} selected{% endif %}>Emergency shelter</option>
+      <option value="On the street (car, encampment, abandoned building)"{% if patient.housing_status == "On the street (car, encampment, abandoned building)" %} selected{% endif %}>On the street (car, encampment, abandoned building)</option>
+      <option value="Other"{% if patient.housing_status == "Other" %} selected{% endif %}>Other</option>
+    </select>
+  </div>
+
+  <div class="form-group {% if not patient.housing_status == "Other" %} hidden{% endif %}">
+    <label for="housing_status_other">Please specify other living situation</label>
+    <input type="text" class="form-control" name="housing_status_other" id="housing_status_other">
+  </div>
+

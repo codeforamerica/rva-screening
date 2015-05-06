@@ -1,0 +1,12 @@
+
+<!--Marital status	select(Single|Married|Div|Widow|Legally Separated|Partner)-->
+
+  <div class="form-group">
+    <label for="is_veteran">Are you a veteran of the United States?</label>
+    <select class="form-control" name="is_veteran">
+      <option value=""{% if not patient.is_veteran %} selected{% endif %}></option>
+      <option value="Yes"{% if patient.is_veteran == "Yes" %} selected{% endif %}>Yes</option>
+      <option value="No"{% if patient.is_veteran == "No" %} selected{% endif %}>No</option>
+    </select>
+  </div>
+
