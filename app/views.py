@@ -15,7 +15,7 @@ def login():
   if request.method == 'POST':
     user = User.query.filter(User.email == request.form['email']).first()
     if user:
-      if bcrypt.check_password_hash(user.password, request.form['password']):
+      if bcrypt.check_password_hash(user.password.encode('utf8'), request.form['password']):
         user.authenticated = True
         db.session.add(user)
         db.session.commit()
