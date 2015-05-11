@@ -3,15 +3,10 @@ body {
   padding:0;
 }
 
-.a-class {
-  color:white;
-  font-size:1em;
-}
-
-.something {
-  color:black;
-}
-
-.waka {
-  content: 'flaka';
+@media print {
+  @page { margin: 3cm; }
+  body { width: 100%; margin: 0; }
+  * { visibility: hidden; }
+  .print,
+  .print * { visibility: visible; }
 }

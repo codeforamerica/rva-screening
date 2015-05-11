@@ -179,6 +179,15 @@ def save_prescreening_updates():
     session.clear()
     return redirect(url_for('patient_details', id = patient_id))
 
+# PRINT PATIENT DETAILS
+# @param patient id
+@app.route('/patient_print/<patient_id>')
+@login_required
+def patient_print(patient_id):
+  patient = Patient.query.get(patient_id)
+  return render_template('print.html', patient=patient)
+
+
 @app.route('/' )
 @login_required
 def index():

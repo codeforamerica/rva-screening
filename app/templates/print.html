@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+  <body>
+    
+    {% if patient and patient.id %}
+    
+    <div class="print">
+      <h1>{{ patient.firstname }} {{ patient.lastname }}</h1>
+    </div>
+
+    {% endif %}
+
+  </body>
+{% endblock %}    
