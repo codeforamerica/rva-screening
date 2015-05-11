@@ -2,10 +2,20 @@
 {% block content %}
   <body>
     <h1>RVA Screener</h1>
-    {% for patient in patients %}
-      <h3>{{ patient.firstname }} {{ patient.middlename }} {{ patient.lastname }}</h3>
-      <p>DOB: {{ patient.dob }}</p>
-      <a href="{{ url_for('patient_details', id=patient.id) }}">Details</a>
-    {% endfor %}
+
+    <!-- search -->
+    <p>Search for patients</p>
+    <div id="patient-search">
+      <input class="search" />
+      <ul class="list">
+        {% for patient in patients %}
+        <li>
+          <h3 class="patient-name">{{ patient.firstname }} {{ patient.middlename }} {{ patient.lastname }}</h3>
+          <p class="patient-dob">DOB: {{ patient.dob }}</p>
+          <a href="{{ url_for('patient_details', id=patient.id) }}">Details</a>
+        </li>
+        {% endfor %}
+      </ul>
+    <!-- /search -->
   </body>
 {% endblock %}    
