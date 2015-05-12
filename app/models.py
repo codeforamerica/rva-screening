@@ -27,6 +27,7 @@ class Patient(db.Model):
   emergency_contacts = db.relationship('EmergencyContact', backref='patient', lazy='dynamic')
   household_members = db.relationship('HouseholdMember', backref='patient', lazy='dynamic')
   income_sources = db.relationship('IncomeSource', backref='patient', lazy='dynamic')
+  employers = db.relationship('Employer', backref='patient', lazy='dynamic')
   document_images = db.relationship('DocumentImage', backref='patient', lazy='dynamic')
 
   def __init__(self, **fields): 

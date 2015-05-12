@@ -165,6 +165,21 @@ def patient_details(id):
         patient.emergency_contacts.append(emergency_contact)
         db.session.add(emergency_contact)
 
+    employer_employees = request.form.getlist('employer_employee')
+    employer_names = request.form.getlist('employer_name')
+    employer_phone_numbers = request.form.getlist('employer_phone_number')
+    employer_start_dates = request.form.getlist('employer_start_date')
+    for index, value in enumerate(employer_employees):
+      if value:
+        employer = Employer(
+          employee = value,
+          name = employer_names[index],
+          phone_number = employer_phone_numbers[index],
+          start_date = employer_start_dates[index]
+        )
+        patient.employers.append(employer)
+        db.session.add(employer)
+
     for key, value in request.form.iteritems():
       if key == 'dob' and value != '':
         value = datetime.datetime.strptime(value, '%Y-%m-%d').date()
