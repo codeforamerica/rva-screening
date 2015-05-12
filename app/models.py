@@ -11,7 +11,7 @@ class Patient(db.Model):
   gender = db.Column(db.String(2))
   transgender = db.Column(db.String(3))
   race = db.Column(db.String(16))
-  ethnicity = db.Column(db.String(16))
+  ethnicity = db.Column(db.String(32))
   languages = db.Column(db.String(64))
   marital_status = db.Column(db.String(16))
   veteran_yn = db.Column(db.String(1))

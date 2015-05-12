@@ -3,16 +3,16 @@
 <!--When and where did you last receive healthcare services?	text-->
   <div class="form-group">
     <label for="last_healthcare_service">When and where did you last receive healthcare services?</label>
-    <input type="text" class="form-control" name="last_healthcare_service" id="last_healthcare_service">
+    <input type="text" class="form-control" name="last_healthcare" id="last_healthcare_service" value="{{patient.last_healthcare}}">
   </div>
 
 <!--Do you have insurance or a card to help you cover medical costs?	select(Yes|No)-->
   <div class="form-group">
     <label for="has_insurance_or_card">Do you have insurance or a card to help you cover medical costs?</label>
-    <select class="form-control" name="has_insurance_or_card">
-      <option value=""{% if not patient.has_insurance_or_card %} selected{% endif %}></option>
-      <option value="Yes"{% if patient.has_insurance_or_card == "Yes" %} selected{% endif %}>Yes</option>
-      <option value="No"{% if patient.has_insurance_or_card == "No" %} selected{% endif %}>No</option>
+    <select class="form-control" name="insurance_status">
+      <option value=""{% if not patient.insurance_status %} selected{% endif %}></option>
+      <option value="Yes"{% if patient.insurance_status == "Yes" %} selected{% endif %}>Yes</option>
+      <option value="No"{% if patient.insurance_status == "No" %} selected{% endif %}>No</option>
     </select>
   </div>
 
