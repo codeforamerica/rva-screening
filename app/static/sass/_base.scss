@@ -2,11 +2,3 @@ body {
   margin:0;
   padding:0;
 }
-
-@media print {
-  @page { margin: 3cm; }
-  body { width: 100%; margin: 0; }
-  * { visibility: hidden; }
-  .print,
-  .print * { visibility: visible; }
-}

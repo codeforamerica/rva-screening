@@ -6,6 +6,11 @@
     
     <div class="print">
       <h1>{{ patient.firstname }} {{ patient.lastname }}</h1>
+      <p><strong>Date of birth:</strong> {{ patient.dob.strftime('%m/%d/%Y') if patient and patient.dob }}</p>
+      <p><strong>Primary Phone:</strong> {{ patient.phonenumber1 if patient and patient.phonenumber1 }}</p>
+      <p><strong>Secondary Phone:</strong> {{ patient.phonenumber2 if patient and patient.phonenumber2 }}</p>
+      <p><strong>Household Size:</strong> {{ patient.householdsize if patient and patient.householdsize }}</p>
+      <p><strong>Household Income:</strong> {{ patient.householdincome if patient and patient.householdincome }}</p>
     </div>
 
     {% endif %}

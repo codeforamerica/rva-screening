@@ -1,0 +1,9 @@
+.print {}
+
+@media print {
+  @page { margin: 1cm 2cm; }
+  body { width: 100%; margin: 0; }
+  * { visibility: hidden; }
+  .print,
+  .print * { visibility: visible; }
+}
