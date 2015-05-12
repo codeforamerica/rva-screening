@@ -187,18 +187,25 @@ def many_to_one_patient_updates(patient, form):
       patient.income_sources.append(income_source)
       db.session.add(income_source)
 
+  emergency_contact_ids = form.getlist('emergency_contact_id')
   emergency_contact_names = form.getlist('emergency_contact_name')
   emergency_contact_phone_numbers = form.getlist('emergency_contact_phone_number')
   emergency_contact_relationships = form.getlist('emergency_contact_relationship')
   for index, value in enumerate(emergency_contact_names):
     if value:
-      emergency_contact = EmergencyContact(
-        name = value,
-        phone_number = emergency_contact_phone_numbers[index],
-        relationship = emergency_contact_relationships[index]
-      )
-      patient.emergency_contacts.append(emergency_contact)
-      db.session.add(emergency_contact)
+      if len(emergency_contact_ids) > index:
+        emergency_contact = EmergencyContact.query.get(emergency_contact_ids[index])
+        emergency_contact.name = emergency_contact_names[index]
+        emergency_contact.phone_number = emergency_contact_phone_numbers[index]
+        emergency_contact.relationship = emergency_contact_relationships[index]
+      else:
+        emergency_contact = EmergencyContact(
+          name = value,
+          phone_number = emergency_contact_phone_numbers[index],
+          relationship = emergency_contact_relationships[index]
+        )
+        patient.emergency_contacts.append(emergency_contact)
+        db.session.add(emergency_contact)
 
   employer_employees = form.getlist('employer_employee')
   employer_names = form.getlist('employer_name')
