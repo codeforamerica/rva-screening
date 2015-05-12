@@ -99,12 +99,13 @@ def patient_details(id):
     phone_descriptions = request.form.getlist('phone_description')
     phone_primary_yns = request.form.getlist('phone_primary_yn')
     for index, value in enumerate(phone_numbers):
-      phone_number = PhoneNumber(
-        phone_number=value,
-        description = phone_descriptions[index]
-      )
-      patient.phone_numbers.append(phone_number)
-      db.session.add(phone_number)
+      if value:
+        phone_number = PhoneNumber(
+          phone_number=value,
+          description = phone_descriptions[index]
+        )
+        patient.phone_numbers.append(phone_number)
+        db.session.add(phone_number)
 
     address1s = request.form.getlist('address1')
     address2s = request.form.getlist('address2')
@@ -113,16 +114,17 @@ def patient_details(id):
     zips = request.form.getlist('zip')
     address_descriptions = request.form.getlist('address_description')
     for index, value in enumerate(address1s):
-      address = Address(
-        address1 = value,
-        address2 = address2s[index],
-        city = cities[index],
-        state = states[index],
-        zip = zips[index],
-        description = address_descriptions[index]
-      )
-      patient.addresses.append(address)
-      db.session.add(address)
+      if value: 
+        address = Address(
+          address1 = value,
+          address2 = address2s[index],
+          city = cities[index],
+          state = states[index],
+          zip = zips[index],
+          description = address_descriptions[index]
+        )
+        patient.addresses.append(address)
+        db.session.add(address)
 
     household_member_full_names = request.form.getlist('household_member_full_name')
     household_member_dobs = request.form.getlist('household_member_dob')
@@ -142,12 +144,26 @@ def patient_details(id):
     income_sources = request.form.getlist('income_source_source')
     income_source_amounts = request.form.getlist('income_source_amount')
     for index, value in enumerate(income_sources):
-      income_source = IncomeSource(
-        source = value,
-        annual_amount = int(income_source_amounts[index]) * 12
-      )
-      patient.income_sources.append(income_source)
-      db.session.add(income_source)
+      if value:
+        income_source = IncomeSource(
+          source = value,
+          annual_amount = int(income_source_amounts[index]) * 12
+        )
+        patient.income_sources.append(income_source)
+        db.session.add(income_source)
+
+    emergency_contact_names = request.form.getlist('emergency_contact_name')
+    emergency_contact_phone_numbers = request.form.getlist('emergency_contact_phone_number')
+    emergency_contact_relationships = request.form.getlist('emergency_contact_relationship')
+    for index, value in enumerate(emergency_contact_names):
+      if value:
+        emergency_contact = EmergencyContact(
+          name = value,
+          phone_number = emergency_contact_phone_numbers[index],
+          relationship = emergency_contact_relationships[index]
+        )
+        patient.emergency_contacts.append(emergency_contact)
+        db.session.add(emergency_contact)
 
     for key, value in request.form.iteritems():
       if key == 'dob' and value != '':
