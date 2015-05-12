@@ -129,14 +129,25 @@ def patient_details(id):
     household_member_ssns = request.form.getlist('household_member_ssn')
     household_member_relations = request.form.getlist('household_member_relation')
     for index, value in enumerate(household_member_full_names):
-      household_member = HouseholdMember(
-        full_name = value,
-        dob = household_member_dobs[index],
-        ssn = household_member_ssns[index],
-        relationship = household_member_relations[index]
+      if value:
+        household_member = HouseholdMember(
+          full_name = value,
+          dob = household_member_dobs[index],
+          ssn = household_member_ssns[index],
+          relationship = household_member_relations[index]
+        )
+        patient.household_members.append(household_member)
+        db.session.add(household_member)
+
+    income_sources = request.form.getlist('income_source_source')
+    income_source_amounts = request.form.getlist('income_source_amount')
+    for index, value in enumerate(income_sources):
+      income_source = IncomeSource(
+        source = value,
+        annual_amount = int(income_source_amounts[index]) * 12
       )
-      patient.household_members.append(household_member)
-      db.session.add(household_member)
+      patient.income_sources.append(income_source)
+      db.session.add(income_source)
 
     for key, value in request.form.iteritems():
       if key == 'dob' and value != '':
