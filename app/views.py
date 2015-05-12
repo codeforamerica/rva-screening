@@ -161,20 +161,28 @@ def many_to_one_patient_updates(patient, form):
         patient.addresses.append(address)
         db.session.add(address)
 
+  household_member_ids = form.getlist('household_member_id')
   household_member_full_names = form.getlist('household_member_full_name')
   household_member_dobs = form.getlist('household_member_dob')
   household_member_ssns = form.getlist('household_member_ssn')
   household_member_relations = form.getlist('household_member_relation')
   for index, value in enumerate(household_member_full_names):
     if value:
-      household_member = HouseholdMember(
-        full_name = value,
-        dob = household_member_dobs[index],
-        ssn = household_member_ssns[index],
-        relationship = household_member_relations[index]
-      )
-      patient.household_members.append(household_member)
-      db.session.add(household_member)
+      if len(household_member_ids) > index:
+        household_member = HouseholdMember.query.get(household_member_ids[index])
+        household_member.full_name = value
+        household_member.dob = household_member_dobs[index]
+        household_member.ssn = household_member_ssns[index]
+        household_member.relationship = household_member_relations[index]
+      else:
+        household_member = HouseholdMember(
+          full_name = value,
+          dob = household_member_dobs[index],
+          ssn = household_member_ssns[index],
+          relationship = household_member_relations[index]
+        )
+        patient.household_members.append(household_member)
+        db.session.add(household_member)
 
   income_sources = form.getlist('income_source_source')
   income_source_amounts = form.getlist('income_source_amount')
