@@ -27,10 +27,16 @@ body {
  *
  *
  */
+#patient-search {
+  .list {
+    margin:0;
+    padding:0;
+  }
+}
 .patient-list-item { 
   color:white;
   background:#333;
-  padding:.8em 1em .1em;
+  padding:.1em 1em 1em;
   margin-bottom:.1em;
 }
 .patient-list-item-id {

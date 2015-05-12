@@ -4,9 +4,10 @@
     <h1>RVA Screener</h1>
 
     <!-- search -->
-    <p>Search for patients</p>
     <div id="patient-search">
-      <input class="search" />
+      <div class="form-group">
+        <input type="text" class="search form-control" placeholder="Search your patients..."/>
+      </div>
       <ul class="list">
         <li class="patient-list-item">
           <h3 class="patient-name">Recent Patient</h3>
@@ -24,5 +25,7 @@
         {% endfor %}
       </ul>
     <!-- /search -->
+
+    
   </body>
 {% endblock %}    
