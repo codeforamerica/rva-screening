@@ -124,6 +124,20 @@ def patient_details(id):
       patient.addresses.append(address)
       db.session.add(address)
 
+    household_member_full_names = request.form.getlist('household_member_full_name')
+    household_member_dobs = request.form.getlist('household_member_dob')
+    household_member_ssns = request.form.getlist('household_member_ssn')
+    household_member_relations = request.form.getlist('household_member_relation')
+    for index, value in enumerate(household_member_full_names):
+      household_member = HouseholdMember(
+        full_name = value,
+        dob = household_member_dobs[index],
+        ssn = household_member_ssns[index],
+        relationship = household_member_relations[index]
+      )
+      patient.household_members.append(household_member)
+      db.session.add(household_member)
+
     for key, value in request.form.iteritems():
       if key == 'dob' and value != '':
         value = datetime.datetime.strptime(value, '%Y-%m-%d').date()
