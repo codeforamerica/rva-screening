@@ -21,6 +21,7 @@ class Patient(db.Model):
   spouse_employment_status = db.Column(db.String(16))
   last_healthcare = db.Column(db.String(128))
   insurance_status = db.Column(db.String(32))
+  coverage_type = db.Column(db.String(32))
   insurances = db.relationship('Insurance', backref='patient', lazy='dynamic')
   phone_numbers = db.relationship('PhoneNumber', backref='patient', lazy='dynamic')
   addresses = db.relationship('Address', backref='patient', lazy='dynamic')
