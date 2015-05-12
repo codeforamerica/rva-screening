@@ -57,15 +57,16 @@ def new_patient():
       if value == '':
         form[key] = None
     patient = Patient(**form)
-    emergency_contact = EmergencyContact(
-      name = form['emergency_contact_name'],
-      relationship = form['emergency_contact_relation'],
-      phone_number = form['emergency_contact_phone']
-    )
-    patient.emergency_contacts.append(emergency_contact)
+    # emergency_contact = EmergencyContact(
+    #   name = form['emergency_contact_name'],
+    #   relationship = form['emergency_contact_relation'],
+    #   phone_number = form['emergency_contact_phone']
+    # )
+    # patient.emergency_contacts.append(emergency_contact)
 
     db.session.add(patient)
-    db.session.add(emergency_contact)
+    many_to_one_patient_updates(patient, request.form)
+    #db.session.add(emergency_contact)
     db.session.commit()
 
     for file in request.files.itervalues():
@@ -95,90 +96,7 @@ def patient_details(id):
   patient = Patient.query.get(id)
 
   if request.method == 'POST':
-    phone_numbers = request.form.getlist('phone_number')
-    phone_descriptions = request.form.getlist('phone_description')
-    phone_primary_yns = request.form.getlist('phone_primary_yn')
-    for index, value in enumerate(phone_numbers):
-      if value:
-        phone_number = PhoneNumber(
-          phone_number=value,
-          description = phone_descriptions[index]
-        )
-        patient.phone_numbers.append(phone_number)
-        db.session.add(phone_number)
-
-    address1s = request.form.getlist('address1')
-    address2s = request.form.getlist('address2')
-    cities = request.form.getlist('city')
-    states = request.form.getlist('state')
-    zips = request.form.getlist('zip')
-    address_descriptions = request.form.getlist('address_description')
-    for index, value in enumerate(address1s):
-      if value: 
-        address = Address(
-          address1 = value,
-          address2 = address2s[index],
-          city = cities[index],
-          state = states[index],
-          zip = zips[index],
-          description = address_descriptions[index]
-        )
-        patient.addresses.append(address)
-        db.session.add(address)
-
-    household_member_full_names = request.form.getlist('household_member_full_name')
-    household_member_dobs = request.form.getlist('household_member_dob')
-    household_member_ssns = request.form.getlist('household_member_ssn')
-    household_member_relations = request.form.getlist('household_member_relation')
-    for index, value in enumerate(household_member_full_names):
-      if value:
-        household_member = HouseholdMember(
-          full_name = value,
-          dob = household_member_dobs[index],
-          ssn = household_member_ssns[index],
-          relationship = household_member_relations[index]
-        )
-        patient.household_members.append(household_member)
-        db.session.add(household_member)
-
-    income_sources = request.form.getlist('income_source_source')
-    income_source_amounts = request.form.getlist('income_source_amount')
-    for index, value in enumerate(income_sources):
-      if value:
-        income_source = IncomeSource(
-          source = value,
-          annual_amount = int(income_source_amounts[index]) * 12
-        )
-        patient.income_sources.append(income_source)
-        db.session.add(income_source)
-
-    emergency_contact_names = request.form.getlist('emergency_contact_name')
-    emergency_contact_phone_numbers = request.form.getlist('emergency_contact_phone_number')
-    emergency_contact_relationships = request.form.getlist('emergency_contact_relationship')
-    for index, value in enumerate(emergency_contact_names):
-      if value:
-        emergency_contact = EmergencyContact(
-          name = value,
-          phone_number = emergency_contact_phone_numbers[index],
-          relationship = emergency_contact_relationships[index]
-        )
-        patient.emergency_contacts.append(emergency_contact)
-        db.session.add(emergency_contact)
-
-    employer_employees = request.form.getlist('employer_employee')
-    employer_names = request.form.getlist('employer_name')
-    employer_phone_numbers = request.form.getlist('employer_phone_number')
-    employer_start_dates = request.form.getlist('employer_start_date')
-    for index, value in enumerate(employer_employees):
-      if value:
-        employer = Employer(
-          employee = value,
-          name = employer_names[index],
-          phone_number = employer_phone_numbers[index],
-          start_date = employer_start_dates[index]
-        )
-        patient.employers.append(employer)
-        db.session.add(employer)
+    many_to_one_patient_updates(patient, request.form)
 
     for key, value in request.form.iteritems():
       if key == 'dob' and value != '':
@@ -201,6 +119,94 @@ def patient_details(id):
     if not patient:
         patient = EXAMPLE_DATA.example_patient
     return render_template('patient_details.html', patient=patient)
+
+def many_to_one_patient_updates(patient, form):
+  phone_numbers = form.getlist('phone_number')
+  phone_descriptions = form.getlist('phone_description')
+  phone_primary_yns = form.getlist('phone_primary_yn')
+  for index, value in enumerate(phone_numbers):
+    if value:
+      phone_number = PhoneNumber(
+        phone_number=value,
+        description = phone_descriptions[index]
+      )
+      patient.phone_numbers.append(phone_number)
+      db.session.add(phone_number)
+
+  address1s = form.getlist('address1')
+  address2s = form.getlist('address2')
+  cities = form.getlist('city')
+  states = form.getlist('state')
+  zips = form.getlist('zip')
+  address_descriptions = form.getlist('address_description')
+  for index, value in enumerate(address1s):
+    if value: 
+      address = Address(
+        address1 = value,
+        address2 = address2s[index],
+        city = cities[index],
+        state = states[index],
+        zip = zips[index],
+        description = address_descriptions[index]
+      )
+      patient.addresses.append(address)
+      db.session.add(address)
+
+  household_member_full_names = form.getlist('household_member_full_name')
+  household_member_dobs = form.getlist('household_member_dob')
+  household_member_ssns = form.getlist('household_member_ssn')
+  household_member_relations = form.getlist('household_member_relation')
+  for index, value in enumerate(household_member_full_names):
+    if value:
+      household_member = HouseholdMember(
+        full_name = value,
+        dob = household_member_dobs[index],
+        ssn = household_member_ssns[index],
+        relationship = household_member_relations[index]
+      )
+      patient.household_members.append(household_member)
+      db.session.add(household_member)
+
+  income_sources = form.getlist('income_source_source')
+  income_source_amounts = form.getlist('income_source_amount')
+  for index, value in enumerate(income_sources):
+    if value:
+      income_source = IncomeSource(
+        source = value,
+        annual_amount = int(income_source_amounts[index]) * 12
+      )
+      patient.income_sources.append(income_source)
+      db.session.add(income_source)
+
+  emergency_contact_names = form.getlist('emergency_contact_name')
+  emergency_contact_phone_numbers = form.getlist('emergency_contact_phone_number')
+  emergency_contact_relationships = form.getlist('emergency_contact_relationship')
+  for index, value in enumerate(emergency_contact_names):
+    if value:
+      emergency_contact = EmergencyContact(
+        name = value,
+        phone_number = emergency_contact_phone_numbers[index],
+        relationship = emergency_contact_relationships[index]
+      )
+      patient.emergency_contacts.append(emergency_contact)
+      db.session.add(emergency_contact)
+
+  employer_employees = form.getlist('employer_employee')
+  employer_names = form.getlist('employer_name')
+  employer_phone_numbers = form.getlist('employer_phone_number')
+  employer_start_dates = form.getlist('employer_start_date')
+  for index, value in enumerate(employer_employees):
+    if value:
+      employer = Employer(
+        employee = value,
+        name = employer_names[index],
+        phone_number = employer_phone_numbers[index],
+        start_date = employer_start_dates[index]
+      )
+      patient.employers.append(employer)
+      db.session.add(employer)
+
+  return
 
 @app.route('/delete/<id>', methods=['POST', 'GET'])
 @login_required
