@@ -1,0 +1,27 @@
+.expander {
+  cursor:pointer;
+  margin-bottom:1px;
+
+  .expander-title {
+    padding:1em;
+    color:white;
+    background:#333;
+    &:before {
+      font-family: "Glyphicons Halflings";
+      content:"\e114";
+      margin-right:10px
+    }
+  }
+  .expander-content {
+    display:none;
+  }
+
+  &.open {
+    .expander-title {
+      &:before {
+        content:"\e113";
+      }
+    }
+    .expander-content {}
+  }
+}

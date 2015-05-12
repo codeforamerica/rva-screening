@@ -6,6 +6,17 @@ var AppController = function ( options ) {
   this.waka = 'flaka';
   this.hiphip = 'hooray!';
   console.log(this);
+
+
+  addEventListeners();
+  function addEventListeners() {
+
+    // expander sections
+    $('.expander-title').on('click', function(){
+      $(this).parent().toggleClass('open');
+      $(this).next('.expander-content').slideToggle(300);
+    });
+  }
 };
 
 function addNewInputRow($table, $input_row) {
