@@ -20,3 +20,12 @@ function addNewInputRow($table, $input_row) {
 	$table.append($new_row);
 	return;
 }
+
+function showHiddenFields() {
+	$(event.target).parent().siblings().each(
+		function() {
+			$(this).find(".hidden-input").show().prop('disabled', false);
+			$(this).find(".read-only").hide().prop('disabled', true);
+		}
+	);
+}
