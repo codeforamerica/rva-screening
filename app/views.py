@@ -179,6 +179,12 @@ def save_prescreening_updates():
     session.clear()
     return redirect(url_for('patient_details', id = patient_id))
 
+@app.route('/search_new' )
+@login_required
+def search_new():
+  patients = Patient.query.all()
+  return render_template('search.html', patients=patients)
+
 @app.route('/' )
 @login_required
 def index():
