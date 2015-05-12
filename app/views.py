@@ -57,16 +57,9 @@ def new_patient():
       if value == '':
         form[key] = None
     patient = Patient(**form)
-    # emergency_contact = EmergencyContact(
-    #   name = form['emergency_contact_name'],
-    #   relationship = form['emergency_contact_relation'],
-    #   phone_number = form['emergency_contact_phone']
-    # )
-    # patient.emergency_contacts.append(emergency_contact)
 
     db.session.add(patient)
     many_to_one_patient_updates(patient, request.form)
-    #db.session.add(emergency_contact)
     db.session.commit()
 
     for file in request.files.itervalues():
@@ -121,18 +114,25 @@ def patient_details(id):
     return render_template('patient_details.html', patient=patient)
 
 def many_to_one_patient_updates(patient, form):
+  phone_number_ids = form.getlist('phone_number_id')
   phone_numbers = form.getlist('phone_number')
   phone_descriptions = form.getlist('phone_description')
   phone_primary_yns = form.getlist('phone_primary_yn')
   for index, value in enumerate(phone_numbers):
     if value:
-      phone_number = PhoneNumber(
-        phone_number=value,
-        description = phone_descriptions[index]
-      )
-      patient.phone_numbers.append(phone_number)
-      db.session.add(phone_number)
+      if len(phone_number_ids) > index:
+        phone_number = PhoneNumber.query.get(phone_number_ids[index])
+        phone_number.phone_number = value
+        phone_number.description = phone_descriptions[index]
+      else:
+        phone_number = PhoneNumber(
+          phone_number=value,
+          description = phone_descriptions[index]
+        )
+        patient.phone_numbers.append(phone_number)
+        db.session.add(phone_number)
 
+  address_ids = form.getlist('address_id')
   address1s = form.getlist('address1')
   address2s = form.getlist('address2')
   cities = form.getlist('city')
@@ -141,16 +141,25 @@ def many_to_one_patient_updates(patient, form):
   address_descriptions = form.getlist('address_description')
   for index, value in enumerate(address1s):
     if value: 
-      address = Address(
-        address1 = value,
-        address2 = address2s[index],
-        city = cities[index],
-        state = states[index],
-        zip = zips[index],
-        description = address_descriptions[index]
-      )
-      patient.addresses.append(address)
-      db.session.add(address)
+      if len(address_ids) > index:
+        address = Address.query.get(address_ids[index])
+        address.address1 = value
+        address.address2 = address2s[index]
+        address.city = cities[index]
+        address.state = states[index]
+        address.zip = zips[index]
+        address.description = address_descriptions[index]
+      else:
+        address = Address(
+          address1 = value,
+          address2 = address2s[index],
+          city = cities[index],
+          state = states[index],
+          zip = zips[index],
+          description = address_descriptions[index]
+        )
+        patient.addresses.append(address)
+        db.session.add(address)
 
   household_member_full_names = form.getlist('household_member_full_name')
   household_member_dobs = form.getlist('household_member_dob')
