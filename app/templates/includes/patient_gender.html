@@ -3,9 +3,9 @@
   <div class="form-group gender">
     <label for="gender">Gender</label>
     <select class="form-control" name="gender">
-      <option value="no_answer"{% if patient.gender == "no_answer" %} selected{% endif %}>No Answer</option>
-      <option value="female"{% if patient.gender == "female" %} selected{% endif %}>Female</option>
-      <option value="male"{% if patient.gender == "male" %} selected{% endif %}>Male</option>
+      <option value=""{% if patient.gender == "" %} selected{% endif %}>No Answer</option>
+      <option value="F"{% if patient.gender == "F" %} selected{% endif %}>Female</option>
+      <option value="M"{% if patient.gender == "M" %} selected{% endif %}>Male</option>
     </select>
   </div>
 

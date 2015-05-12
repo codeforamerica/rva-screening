@@ -1,47 +1,55 @@
 {% extends "base.html" %}
 {% block content %}
-    {% if patient and patient.id %}
-        <h2>{{ patient.firstname }} {{ patient.lastname }}</h2>
+  {% if patient and patient.id %}
+      <h2>{{ patient.firstname }} {{ patient.lastname }}</h2>
 
-        <div class="patient-options">
-          <a class="btn btn-primary left" href="{{ url_for('new_prescreening', patient_id=patient.id) }}">
-          <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
-              Prescreen this patient
-          </a>
+      <div class="patient-options">
+        <a class="btn btn-primary left" href="{{ url_for('new_prescreening', patient_id=patient.id) }}">
+        <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
+            Prescreen this patient
+        </a>
 
-          <a class="btn btn-danger delete-patient right" href="{{ url_for('delete', id=patient.id) }}">
-          <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-            Delete patient
-          </a>
-        </div>
+        <a class="btn btn-danger delete-patient right" href="{{ url_for('delete', id=patient.id) }}">
+        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+          Delete patient
+        </a>
+      </div>
 
-    {% else %}
-        <h2>Add New Patient</h2>
-    {% endif %}
+  {% else %}
+      <h2>Add New Patient</h2>
+  {% endif %}
 
-  <hr>
-  {% include "includes/patient_id.html" %}
-  <hr>
-  <!--contact info-->
-  {% include "includes/patient_contact_info.html" %}
-  <hr>
-  <!--demographics-->
-  {% include "includes/patient_demographic_info.html" %}
-  <hr>
-  <!--employment-->
-  {% include "includes/patient_employment_info.html" %}
-  <hr>
-  <!--insurance-->
-  {% include "includes/patient_insurance_info.html" %}
-  <hr>
-  <!--documents-->
-  {% include "includes/patient_docs.html" %}
-  <hr>
-  <!--household-->
-  {% include "includes/patient_household_size.html" %}
-  <hr>
-  <!--income-->
-  {% include "includes/patient_income_sources.html" %}
-  <hr>
+  <form enctype="multipart/form-data" action="" method="post">
+    <hr>
+    {% include "includes/patient_id.html" %}
+    <hr>
+    <!--contact info-->
+    {% include "includes/patient_contact_info.html" %}
+    <hr>
+    <!--demographics-->
+    {% include "includes/patient_demographic_info.html" %}
+    <hr>
+    <!--employment-->
+    {% include "includes/patient_employment_info.html" %}
+    <hr>
+    <!--insurance-->
+    {% include "includes/patient_insurance_info.html" %}
+    <hr>
+    <!--documents-->
+    {% include "includes/patient_docs.html" %}
+    <hr>
+    <!--household-->
+    {% include "includes/patient_household_size.html" %}
+    <hr>
+    <!--income-->
+    {% include "includes/patient_income_sources.html" %}
+    <hr>
+
+    <button type="submit" class="btn btn-primary">
+      <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+      {% if patient %} Save patient info {% else %} Save new patient info {% endif %}
+    </button>
+
+  </form>
 
 {% endblock %}

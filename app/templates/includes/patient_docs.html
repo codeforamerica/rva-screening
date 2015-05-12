@@ -1,6 +1,6 @@
 <h4>Patient Documents</h4>
 
-{% if patient.documents %}
+{% if patient.document_images %}
 
 <table class="table table-condensed patient_docs">
 
@@ -12,7 +12,7 @@
     </tr>
   </thead>
 
-  {% for doc in patient.documents %}
+  {% for doc in patient.document_images %}
   <tr class="patient_doc">
     <td class="patient_doc_thumbnail">
       <img src="{{doc.thumbnail_url}}" alt="preview of {{doc.title}}">
@@ -29,10 +29,11 @@
 {% endif %}
 
     <div class="form-group add_patient_doc">
-        <button type="button" class="btn btn-primary">
+      <input type="file" name="image1"/> 
+<!--         <button type="button" class="btn btn-primary">
           <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
           Add a document
-        </button>
+        </button> -->
     </div>
 
 

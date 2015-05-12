@@ -1,7 +1,5 @@
 <h4>Employment Info</h4>
 
-<form action="" method="post">
-
   {% include "includes/patient_student_status.html" %}
 
   <div class="form-group">
@@ -52,13 +50,6 @@
     <input type="tel" class="form-control" name="spouse_employer_phone" id="spouse_employer_phone" {% if patient.employer %} value="{{patient.employer.phone}}"{% endif %}>
   </div>
 
-
-  <button type="button" class="btn btn-primary">
-    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-    Save patient info
-  </button>
-
-</form>
 
 
 

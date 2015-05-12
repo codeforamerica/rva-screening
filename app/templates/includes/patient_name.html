@@ -7,17 +7,17 @@
 
   <div class="form-group firstname">
     <label for="firstname">First Name</label>
-    <input type="text" class="form-control" name="firstname" id="firstname" {% if patient.firstname %}value="{{patient.firstname}}"{% endif %}>
+    <input type="text" class="form-control" name="first_name" id="firstname" {% if patient.first_name %}value="{{patient.first_name}}"{% endif %}>
   </div>
 
   <div class="form-group mi">
-    <label for="mi">MI</label>
-    <input type="text" class="form-control" name="mi" id="mi" {% if patient.mi %}value="{{patient.mi}}"{% endif %}>
+    <label for="mi">Middle Name</label>
+    <input type="text" class="form-control" name="middle_name" id="middle_name" {% if patient.middle_name %}value="{{patient.middle_name}}"{% endif %}>
   </div>
 
   <div class="form-group lastname">
     <label for="lastname">Last Name</label>
-    <input type="text" class="form-control" name="lastname" id="lastname" {% if patient.lastname %}value="{{patient.lastname}}"{% endif %}>
+    <input type="text" class="form-control" name="last_name" id="last_name" {% if patient.last_name %}value="{{patient.last_name}}"{% endif %}>
   </div>
 </div>
 
