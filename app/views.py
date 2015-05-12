@@ -184,16 +184,22 @@ def many_to_one_patient_updates(patient, form):
         patient.household_members.append(household_member)
         db.session.add(household_member)
 
+  income_source_ids = form.getlist('income_source_id')
   income_sources = form.getlist('income_source_source')
   income_source_amounts = form.getlist('income_source_amount')
   for index, value in enumerate(income_sources):
     if value:
-      income_source = IncomeSource(
-        source = value,
-        annual_amount = int(income_source_amounts[index]) * 12
-      )
-      patient.income_sources.append(income_source)
-      db.session.add(income_source)
+      if len(income_source_ids) > index:
+        income_source = IncomeSource.query.get(income_source_ids[index])
+        income_source.source = income_sources[index]
+        income_source.annual_amount = int(income_source_amounts[index]) * 12
+      else:
+        income_source = IncomeSource(
+          source = value,
+          annual_amount = int(income_source_amounts[index]) * 12
+        )
+        patient.income_sources.append(income_source)
+        db.session.add(income_source)
 
   emergency_contact_ids = form.getlist('emergency_contact_id')
   emergency_contact_names = form.getlist('emergency_contact_name')
