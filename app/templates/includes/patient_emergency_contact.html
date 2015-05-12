@@ -1,0 +1,21 @@
+<h5>Emergency Contact</h5>
+
+  <div class="form-group">
+    <label for="emergency_contact_name">Name</label>
+    <input type="text" class="form-control" name="emergency_contact_name" id="emergency_contact_name" {% if patient.emergency_contacts %} value="{{patient.emergency_contacts[0].name}}"{% endif %}>
+  </div>
+
+  <div class="emergency_contact_relation_phone_group">
+    <div class="form-group emergency_contact_relation">
+      <label for="emergency_contact_relation">Relationship to Patient</label>
+      <input type="text" class="form-control" name="emergency_contact_relation" id="emergency_contact_relation"{% if patient.emergency_contacts %} value="{{patient.emergency_contacts[0].relationship}}"{% endif %}>
+    </div>
+
+    <div class="form-group emergency_contact_phone">
+      <label for="emergency_contact_phone">Phone Number</label>
+      <input type="tel" class="form-control" name="emergency_contact_phone" id="emergency_contact_phone" {% if patient.emergency_contacts %} value="{{patient.emergency_contacts[0].phone_number}}"{% endif %}>
+    </div>
+  </div>
+
+  
+

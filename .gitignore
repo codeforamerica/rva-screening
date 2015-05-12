@@ -12,5 +12,5 @@ app/static/.webassets-cache
 node_modules
 npm-debug.log
 
-# jekyll leftovers
-_site
+# vim
+*.sw[op]
