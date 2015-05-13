@@ -1,6 +1,6 @@
 <h4>Household Size: 
   {% if patient.household_members %}
-    {{ patient.household_members.count() + 1 }}
+    {{ patient.household_members|length }}
   {% endif %}
 </h4>
 
