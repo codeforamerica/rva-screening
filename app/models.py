@@ -30,7 +30,7 @@ class Patient(db.Model):
   employers = db.relationship('Employer', backref='patient', lazy='dynamic')
   document_images = db.relationship('DocumentImage', backref='patient', lazy='dynamic')
 
-  def __init__(self, **fields): 
+  def __init__(self, **fields):
     self.__dict__.update(fields)
 
 class PhoneNumber(db.Model):
@@ -83,6 +83,7 @@ class DocumentImage(db.Model):
   id = db.Column(db.Integer, primary_key=True)
   patient_id = db.Column(db.Integer, db.ForeignKey("patient.id"))
   file_name = db.Column(db.String(64))
+  description = db.Column(db.String(64))
 
 class Insurance(db.Model):
   id = db.Column(db.Integer, primary_key=True)
