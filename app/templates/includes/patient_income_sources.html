@@ -13,11 +13,20 @@
     {% for source in patient.income_sources %}
       <tr class="income_source">
         <td class="income_source_type">
-          {{source.source}}
+          <input class="hidden" value="{{source.id}}" name="income_source_id">
+          <div class="read-only">{{source.source}}</div>
+          <input class="form-control hidden-input" type="text" name="income_source_source" value="{{source.source}}"/>
         </td>
-        <td class="income_source_amount">${{source.annual_amount / 12}}</td>
+        <td class="income_source_amount">
+          <div class="read-only">${{(source.annual_amount / 12) | int}}</div>
+          <input class="form-control hidden-input" type="text" name="income_source_amount" value="{{(source.annual_amount / 12) | int}}"/>
+        </td>
         <td class="income_source_edit">
-              <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+          <span
+            class="glyphicon glyphicon-pencil"
+            aria-hidden="true"
+            onclick="showHiddenFields()"
+          ></span>
         </td>
       </tr>
     {% endfor %}
