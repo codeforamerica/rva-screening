@@ -1,23 +1,7 @@
-<div class="name_group">
-
-  <div class="form-group full_name">
-    <label for="full_name">Full Legal Name</label>
-    <input type="text" class="form-control" name="full_name" id="full_name" {% if patient.full_name %}value="{{patient.full_name}}"{% endif %}>
-  </div>
-
-  <div class="form-group firstname">
-    <label for="firstname">First Name</label>
-    <input type="text" class="form-control" name="first_name" id="firstname" {% if patient.first_name %}value="{{patient.first_name}}"{% endif %}>
-  </div>
-
-  <div class="form-group mi">
-    <label for="mi">Middle Name</label>
-    <input type="text" class="form-control" name="middle_name" id="middle_name" {% if patient.middle_name %}value="{{patient.middle_name}}"{% endif %}>
-  </div>
-
-  <div class="form-group lastname">
-    <label for="lastname">Last Name</label>
-    <input type="text" class="form-control" name="last_name" id="last_name" {% if patient.last_name %}value="{{patient.last_name}}"{% endif %}>
-  </div>
+<div class="form-group full_name">
+  <label for="full_name">Full Legal Name</label>
+  <!--storing full legal name in first_name so that it doesn't break backend-->
+  <input type="text" class="form-control" name="first_name" id="full_name" 
+  {% if patient.full_name %}value="{{patient.full_name}}"{% elif patient.first_name %}value="{{patient.first_name}}"{% endif %}>
 </div>
 

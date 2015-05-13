@@ -106,15 +106,6 @@ ul.documents { list-style-type: none; padding-left: 0; }
   width: 4rem;
 }
 
-/* ID & CONTACT INFO
- * first, mi, last: [___][_][_____]
- */
-.firstname, .mi { float: left }
-.firstname { width: 40%; }
-.mi { width: 10%; }
-.lastname { width: 50%; float: right; }
-.name_group { overflow: auto; }
-
 /*[___] [___]*/
 .dob_ssn_group { overflow: auto; }
 .dob { float: left; width: 45%; }
