@@ -1,0 +1,66 @@
+<h5>
+  Emails
+</h5>
+{% if patient.emails %} 
+<table class="table table-condensed emails" id="email_table"> 
+    <thead>
+      <tr>
+        <th>Address</th>
+        <th>Description</th>
+        <th>Edit</th>
+      </tr>
+    </thead>
+
+    {% for email in patient.emails %}
+      <tr class="email">
+        <td class="email_email">
+          <input class="hidden" value="{{email.id}}" name="email_id">
+          <email class="read-only">
+            {{email.email1}}{% if email.email2 %}, {{email.email2}}{% endif %}<br>
+            {{email.city}}, {{email.state}} {{email.zip}}
+          </email>
+          <div class="hidden-input">
+            Address: <input class="form-control" type="text" name="email1" value="{{email.email1}}">
+            <input class="form-control" type="text" name="email2" value="{{email.email2}}">
+            City: <input class="form-control" type="text" name="city" value="{{email.city}}">
+            State: <input class="form-control" type="text" name="state" value="{{email.state}}">
+            ZIP: <input class="form-control" type="text" name="zip" value="{{email.zip}}">
+          </div>
+        </td>
+        <td>
+          <div class="read-only">{{email.description}}</div>
+          <input class="form-control hidden-input" type="text" name="email_description" value="{{email.description}}">
+        </td>
+        <td class="email_edit">
+          <span class="glyphicon glyphicon-pencil" aria-hidden="true" onclick="showHiddenFields()"></span>
+        </td>
+      </tr>
+    {% endfor %}
+
+    <tr class="email" id="email_input">
+      <td class="email_email">
+        Address: <input class="form-control" type="text" name="email1">
+        <input class="form-control" type="text" name="email2">
+        City: <input class="form-control" type="text" name="city">
+        State: <input class="form-control" type="text" name="state">
+        ZIP: <input class="form-control" type="text" name="zip">
+      </td>
+      <td class="email_type">
+        <input class="form-control" type="text" name="email_description">
+      </td>
+    </tr>
+
+  </table>
+{% endif %}
+
+<div class="form-group add_email">
+  <button
+    type="button"
+    class="btn btn-primary"
+    onclick="addNewInputRow($('#email_table'), $('#email_input'))"
+  >
+    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+    Add an email
+  </button>
+</div>
+
