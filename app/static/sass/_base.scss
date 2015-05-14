@@ -106,6 +106,7 @@ ul.documents { list-style-type: none; padding-left: 0; }
 .patient-options { overflow: auto; }
 .left{ float: left; }
 .right{ float: right; }
+.hidden-input { display: none; disabled: true; }
 
 .patient_doc_thumbnail img {
   width: 4rem;
