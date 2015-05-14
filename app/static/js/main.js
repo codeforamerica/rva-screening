@@ -39,3 +39,8 @@ function showHiddenFields() {
 		}
 	);
 }
+
+function requestPatientButtonClick( btn ) {
+  $(btn).parent().parent().addClass('requested');
+  $(btn).text('request sent');
+}

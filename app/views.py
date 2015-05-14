@@ -348,7 +348,7 @@ def save_prescreening_updates():
 @login_required
 def search_new():
   patients = Patient.query.all()
-  return render_template('search.html', patients=patients)
+  return render_template('search_new.html', patients=patients)
 
 @app.route('/' )
 @login_required
