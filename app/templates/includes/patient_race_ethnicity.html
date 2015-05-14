@@ -1,19 +1,14 @@
 <div class="patient_race_ethnicity_group">
 
-<!--Race	multiselect(
-)-->
-<!--Ethinicity	select(Hispanic or Latino____| Non-Hispanic or Latino)-->
-
   <div class="form-group race">
     <label for="race">Race</label>
-    <select class="form-control" name="race">
-      <option value=""{% if not patient.race %} selected{% endif %}></option>
-      <option value="American Indian/Alaskan Native"{% if patient.race == "American Indian/Alaskan Native" %} selected{% endif %}>American Indian/Alaskan Native</option>
-      <option value="Asian"{% if patient.race == "Asian" %} selected{% endif %}>Asian</option>
-      <option value="Black or African-American"{% if patient.race == "Black or African-American" %} selected{% endif %}>Black or African-American</option>
-      <option value="Native Hawaiian/Pacific Islander"{% if patient.race == "Native Hawaiian/Pacific Islander" %} selected{% endif %}>Native Hawaiian/Pacific Islander</option>
-      <option value="White or Caucasian"{% if patient.race == "White or Caucasian" %} selected{% endif %}>White or Caucasian</option>
-      <option value="Other"{% if patient.race == "Other" %} selected{% endif %}>Other</option>
+    <select multiple class="form-control has_other" name="race">
+      {% with %}
+      {% set default_choice=("", "") %}
+      {% set choices=[("AIAN", "American Indian/Alaskan Native"), ("A", "Asian"), ("AA", "Black or African-American"), ("NHPI", "Native Hawaiian/Pacific Islander"), ("W", "White"), ("other", "Other")] %}
+      {% set test_value=patient.race %}
+      {% include "includes/choices.html" %}
+      {% endwith %}
     </select>
   </div>
 
@@ -25,9 +20,15 @@
   <div class="form-group ethnicity">
     <label for="ethnicity">Ethnicity</label>
     <select class="form-control" name="ethnicity">
+      {% with  %}
+      {% set default_choice=("", "") %}
+      {% set choices=[("HL","Hispanic or Latino"),("NHL","Not Hispanic or Latino")] %}
+      {% set test_value=patient.ethinicity %}
+      {% include "includes/choices.html" %}
+      {% endwith %}
       <option value=""{% if not patient.ethnicity %} selected{% endif %}></option>
-      <option value="Hispanic or Latino"{% if patient.ethnicity == "Hispanic or Latino" %} selected{% endif %}>Hispanic or Latino</option>
-      <option value="Not Hispanic or Latino"{% if patient.ethnicity == "Not Hispanic or Latino" %} selected{% endif %}>Not Hispanic or Latino</option>
+      <option value="HL"{% if patient.ethnicity == "HL" %} selected{% endif %}>Hispanic or Latino</option>
+      <option value="NHL"{% if patient.ethnicity == "NHL" %} selected{% endif %}>Not Hispanic or Latino</option>
     </select>
   </div>
 
