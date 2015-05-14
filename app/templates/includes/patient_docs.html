@@ -8,6 +8,7 @@
       <tr>
         <th>Preview</th>
         <th>Description</th>
+        <th>Uploaded</th>
         <th>Edit</th>
       </tr>
     </thead>
@@ -24,6 +25,9 @@
             {{doc.description}}
           </a>
           <input type="text" class="hidden-input" name="document_image_description" value="{{doc.description}}">
+        </td>
+        <td class="patient_doc_uploaded">
+          {{doc.created | default("May 10, 2015")}} by {{ doc.createdby | default("jsmith")}}
         </td>
         <td class="patient_doc_edit">
           <span
