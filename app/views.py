@@ -6,6 +6,7 @@ import os
 from flask.ext.login import login_user, logout_user, current_user, login_required
 from app import login_manager
 from werkzeug import secure_filename
+from sqlalchemy import func
 
 # example data for front-end prototyping
 from app import example_data as EXAMPLE_DATA
@@ -67,7 +68,11 @@ def new_patient():
         file_name = secure_filename(file.filename)
         file_path = os.path.join(app.config['UPLOAD_FOLDER'], file_name)
         file.save(file_path)
-        document_image = DocumentImage(patient.id, file_name)
+        document_image = DocumentImage(
+          patient_id=patient.id,
+          file_name=file_name,
+          description = request.form['document_image_description']
+        )
         db.session.add(document_image)
         db.session.commit()
     return redirect(url_for('index'))
@@ -103,7 +108,11 @@ def patient_details(id):
         file_name = secure_filename(file.filename)
         file_path = os.path.join(app.config['UPLOAD_FOLDER'], file_name)
         file.save(file_path)
-        document_image = DocumentImage(patient_id=patient.id, file_name=file_name)
+        document_image = DocumentImage(
+          patient_id=patient.id,
+          file_name=file_name,
+          description = request.form['document_image_description']
+        )
         db.session.add(document_image)
 
     db.session.commit()
@@ -111,6 +120,13 @@ def patient_details(id):
   else:
     if not patient:
         patient = EXAMPLE_DATA.example_patient
+    patient.total_annual_income = sum(
+      source.annual_amount for source in patient.income_sources
+    )
+    patient.fpl_percentage = calculate_fpl(
+      patient.household_members.count() + 1,
+      patient.total_annual_income
+    )
     return render_template('patient_details.html', patient=patient)
 
 def many_to_one_patient_updates(patient, form):
@@ -245,6 +261,10 @@ def many_to_one_patient_updates(patient, form):
         db.session.add(employer)
 
   return
+
+def calculate_fpl(household_size, annual_income):
+  fpl = 5200 * household_size + 9520
+  return float(annual_income) / fpl * 100
 
 @app.route('/delete/<id>', methods=['POST', 'GET'])
 @login_required
