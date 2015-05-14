@@ -13,6 +13,8 @@ app.config.from_object('config')
 app.secret_key = 'some_secret'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
+# unless we are in a production environment, turn on debug
+app.debug = not app.config['IS_PRODUCTION']
 
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
