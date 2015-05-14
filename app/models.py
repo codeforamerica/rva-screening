@@ -21,6 +21,7 @@ class Patient(db.Model):
   spouse_employment_status = db.Column(db.String(16))
   last_healthcare = db.Column(db.String(128))
   insurance_status = db.Column(db.String(32))
+  coverage_type = db.Column(db.String(32))
   insurances = db.relationship('Insurance', backref='patient', lazy='dynamic')
   phone_numbers = db.relationship('PhoneNumber', backref='patient', lazy='dynamic')
   addresses = db.relationship('Address', backref='patient', lazy='dynamic')
@@ -29,6 +30,8 @@ class Patient(db.Model):
   income_sources = db.relationship('IncomeSource', backref='patient', lazy='dynamic')
   employers = db.relationship('Employer', backref='patient', lazy='dynamic')
   document_images = db.relationship('DocumentImage', backref='patient', lazy='dynamic')
+  total_annual_income = 0
+  fpl_percentage = 0
 
   def __init__(self, **fields):
     self.__dict__.update(fields)

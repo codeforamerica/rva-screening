@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
     {% for patient in patients %}
-      <h3>{{ patient.first_name }} {{ patient.middle_name }} {{ patient.last_name }}</h3>
+      <h3>{{ patient.full_name }}</h3>
       <p>DOB: {{ patient.dob }}</p>
       <a href="{{ url_for('patient_details', id=patient.id) }}">Details</a>
     {% endfor %}
