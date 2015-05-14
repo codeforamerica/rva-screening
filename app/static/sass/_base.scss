@@ -27,11 +27,44 @@ body {
  *
  *
  */
+#patient-search {
+  .list {
+    margin:0;
+    padding:0;
+    list-style-type: none;
+  }
+}
 .patient-list-item { 
-  color:white;
-  background:#333;
-  padding:.8em 1em .1em;
+  background:white;
+  padding:.1em 1em 1em;
   margin-bottom:.1em;
+  border-right:2px solid #f6f6f6;
+  &.recent {
+    border-left:2px solid #4D1B7B;
+  }
+  .request-button {
+    text-transform:uppercase;
+    letter-spacing:.1em;
+    -webkit-transition: 0.5s;
+       -moz-transition: 0.5s;
+        -ms-transition: 0.5s;
+         -o-transition: 0.5s;
+            transition: 0.5s;
+  }
+  &.requested {
+    .request-button {
+      background:#2ECC40;
+      color: white;
+      &:after {
+        font-family: "Glyphicons Halflings";
+        content: "\e013";
+        margin-left: 10px;
+      }
+    }
+  }
+  .patient-dob {
+    color:#999;
+  }
 }
 .patient-list-item-id {
   font-weight:100;
@@ -100,6 +133,7 @@ ul.documents { list-style-type: none; padding-left: 0; }
 .patient-options { overflow: auto; }
 .left{ float: left; }
 .right{ float: right; }
+.hidden-input { display: none; disabled: true; }
 
 .patient_doc_thumbnail img {
   width: 4rem;

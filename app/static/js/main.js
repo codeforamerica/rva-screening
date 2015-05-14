@@ -3,20 +3,44 @@ window.App = window.App || {};
 var AppController = function ( options ) {
   console.info('APP INITIALIZED :)');
   this.options = options || {};
-  this.waka = 'flaka';
-  this.hiphip = 'hooray!';
-  console.log(this);
-
 
   addEventListeners();
   function addEventListeners() {
-
-    // expander sections
+    /*
+    **  EXPANDER CLICK
+    **  This toggles the expander element and animates.
+    **
+    */
     $('.expander-title').on('click', function(){
       $(this).parent().toggleClass('open');
       $(this).next('.expander-content').slideToggle(300);
     });
   }
+
+  /*
+  **  SEARCH FIELD CHECK
+  **  If #patient-search exists, initialize the search
+  **
+  */
+  if ($('#patient-search').length) {
+    this.search = {};
+    this.initSearch('patient-search', { valueNames: ['patient-name', 'patient-dob'] });
+  }
+};
+
+
+/*
+**  SEARCH INITIALIZATION
+**  @param(id) - the element ID of the list you're making searchable
+**  @param(options) - options you can pass through, currently just an array
+**    of valueNames for the classes in your list items you want to make
+**    searchable.
+**
+*/
+AppController.prototype.initSearch = function ( id, options ) {
+  this.search.id = id;
+  this.search.options = options;
+  this.search.list = new List(id, options);
 };
 
 function addNewInputRow($table, $input_row) {
@@ -30,4 +54,25 @@ function addNewInputRow($table, $input_row) {
 	})
 	$table.append($new_row);
 	return;
+}
+
+function showHiddenFields() {
+	$(event.target).parent().siblings().each(
+		function() {
+			$(this).find(".hidden-input").show().prop('disabled', false);
+			$(this).find(".read-only").hide().prop('disabled', true);
+		}
+	);
+}
+
+
+/*
+**  REQUEST BUTTON CLICK / UPDATE
+**  Updates the className of the patient-list-item and changes
+**  the text within the button.
+**
+*/
+function requestPatientButtonClick( btn ) {
+  $(btn).parent().parent().addClass('requested');
+  $(btn).text('request sent');
 }
