@@ -1,8 +1,23 @@
 from flask_assets import Bundle, Environment
+import shutil
+
+# used to copy font files from Bootstrap
+def copy(src, dest):
+  try:
+    shutil.copytree(src, dest)
+  except OSError as e:
+    print(' * Files in %s are copied!' % src)
+
+bootstrap = 'node_modules/bootstrap/dist/'
+
+# Copy Bootstrap Fonts
+copy('app/static/{}fonts'.format(bootstrap), 'app/static/public/fonts/')
 
 js = Bundle(
   'node_modules/jquery/dist/jquery.js',
-  'node_modules/bootstrap/dist/js/bootstrap.js',
+  '{}js/bootstrap.js'.format(bootstrap),
+  'js/lib/typeahead.js',
+  'js/lib/list.js',
   'js/main.js',
   output='./public/js/app.js',
   depends=('js/*.js', 'js/**/*.js')
@@ -10,7 +25,7 @@ js = Bundle(
 
 css = Bundle(
   Bundle(
-    'node_modules/bootstrap/dist/css/bootstrap.css',
+    '{}css/bootstrap.css'.format(bootstrap),
     filters='cssmin',
     output='./public/css/bootstrap.css'
   ),

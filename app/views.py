@@ -60,21 +60,9 @@ def new_patient():
     patient = Patient(**form)
 
     db.session.add(patient)
-    many_to_one_patient_updates(patient, request.form)
+    many_to_one_patient_updates(patient, request.form, request.files)
     db.session.commit()
 
-    for file in request.files.itervalues():
-      if allowed_file(file.filename):
-        file_name = secure_filename(file.filename)
-        file_path = os.path.join(app.config['UPLOAD_FOLDER'], file_name)
-        file.save(file_path)
-        document_image = DocumentImage(
-          patient_id=patient.id,
-          file_name=file_name,
-          description = request.form['document_image_description']
-        )
-        db.session.add(document_image)
-        db.session.commit()
     return redirect(url_for('index'))
   else:
     # Check whether we already have some data from a pre-screening
@@ -94,7 +82,7 @@ def patient_details(id):
   patient = Patient.query.get(id)
 
   if request.method == 'POST':
-    many_to_one_patient_updates(patient, request.form)
+    many_to_one_patient_updates(patient, request.form, request.files)
 
     for key, value in request.form.iteritems():
       if key == 'dob' and value != '':
@@ -102,18 +90,6 @@ def patient_details(id):
       if value == '':
         value = None
       setattr(patient, key, value)
-
-    for file in request.files.itervalues():
-      if allowed_file(file.filename):
-        file_name = secure_filename(file.filename)
-        file_path = os.path.join(app.config['UPLOAD_FOLDER'], file_name)
-        file.save(file_path)
-        document_image = DocumentImage(
-          patient_id=patient.id,
-          file_name=file_name,
-          description = request.form['document_image_description']
-        )
-        db.session.add(document_image)
 
     db.session.commit()
     return redirect(url_for('index'))
@@ -129,7 +105,7 @@ def patient_details(id):
     )
     return render_template('patient_details.html', patient=patient)
 
-def many_to_one_patient_updates(patient, form):
+def many_to_one_patient_updates(patient, form, files):
   phone_number_ids = form.getlist('phone_number_id')
   phone_numbers = form.getlist('phone_number')
   phone_descriptions = form.getlist('phone_description')
@@ -260,6 +236,28 @@ def many_to_one_patient_updates(patient, form):
         patient.employers.append(employer)
         db.session.add(employer)
 
+  document_image_ids = form.getlist('document_image_id')
+  document_image_descriptions = form.getlist('document_image_description')
+  for index, value in enumerate(document_image_descriptions):
+    if value:
+      if len(document_image_ids) > index:
+        document_image = DocumentImage.query.get(document_image_ids[index])
+        document_image.description = document_image_descriptions[index]
+      else:
+        for file in files.itervalues():
+          if allowed_file(file.filename):
+            file_name = secure_filename(file.filename)
+            file_path = os.path.join(app.config['UPLOAD_FOLDER'], file_name)
+            file.save(file_path)
+            document_image = DocumentImage(
+              patient_id=patient.id,
+              file_name=file_name,
+              description = document_image_descriptions[index]
+            )
+            db.session.add(document_image)
+            index += 1
+        break
+
   return
 
 def calculate_fpl(household_size, annual_income):
@@ -343,6 +341,12 @@ def save_prescreening_updates():
     db.session.commit()
     session.clear()
     return redirect(url_for('patient_details', id = patient_id))
+
+@app.route('/search_new' )
+@login_required
+def search_new():
+  patients = Patient.query.all()
+  return render_template('search_new.html', patients=patients)
 
 @app.route('/' )
 @login_required
