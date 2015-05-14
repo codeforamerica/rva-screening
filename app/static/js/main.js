@@ -3,9 +3,19 @@ window.App = window.App || {};
 var AppController = function ( options ) {
   console.info('APP INITIALIZED :)');
   this.options = options || {};
-  this.waka = 'flaka';
   this.hiphip = 'hooray!';
   console.log(this);
+
+  if ($('#patient-search').length) {
+    this.search = {};
+    this.initSearch('patient-search', { valueNames: ['patient-name', 'patient-dob'] });
+  }
+};
+
+AppController.prototype.initSearch = function ( id, options ) {
+  this.search.id = id;
+  this.search.options = options;
+  this.search.list = new List(id, options);
 };
 
 function addNewInputRow($table, $input_row) {
@@ -28,4 +38,9 @@ function showHiddenFields() {
 			$(this).find(".read-only").hide().prop('disabled', true);
 		}
 	);
+}
+
+function requestPatientButtonClick( btn ) {
+  $(btn).parent().parent().addClass('requested');
+  $(btn).text('request sent');
 }
