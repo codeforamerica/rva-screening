@@ -1,17 +1,146 @@
 body {
-  margin:0;
   padding:0;
+  margin:0;
+  background:#f6f6f6;
+}
+.glyphicon { line-height: inherit; }
+
+
+/* HELPERS
+ *
+ *
+ */
+.push-right { /* used mostly with icons */
+  margin-right:.5em;
 }
 
-.a-class {
+
+/* MENU
+ *
+ *
+ */
+.navbar {}
+.nav a {}
+
+
+/* LOGIN LANDING
+ *
+ *
+ */
+.patient-list-item { 
   color:white;
-  font-size:1em;
+  background:#333;
+  padding:.8em 1em .1em;
+  margin-bottom:.1em;
+}
+.patient-list-item-id {
+  font-weight:100;
+  letter-spacing: .05em;
+  color:#c0c0c0;
+}
+.completion {
+  color:#FF851B;
+  font-weight:900;
+  font-size:1.1em;
+  float:right;
+}
+.completion.high {
+  color:#3D9970;
+}
+.completion.med {
+  color:#2ECC40;
+}
+.completion.low {
+  color:#FF4136;
+}
+.alert.small {
+  padding:0 .3em;
+  margin-bottom:0;
+}
+.push-left {
+  margin-left:.5em;
+}
+.push-right {
+  margin-right:.5em;
 }
 
-.something {
-  color:black;
+
+/* PRE-SCREENING
+ *
+ *
+ */
+.pre-screeners {}
+.pre-screener-option {
+  padding:1.2em;
+  color:#fff;
+  background:#333;
+  margin-bottom:1em;
+  text-transform: uppercase;
+  font-weight:300;
+  letter-spacing: .1em;
+}
+.pre-screener-option .glyphicon {
+  float:right;
+}
+.pre-screener-option:nth-child(2n) {
+  background-color:#e5e5e5;
 }
 
-.waka {
-  content: 'flaka';
+.prescreen-form .form-group {
+  margin-bottom:3em;
 }
+
+
+/* PATIENT DETAILS
+ *
+ *
+ */
+ul.documents { list-style-type: none; padding-left: 0; }
+
+.patient-options { overflow: auto; }
+.left{ float: left; }
+.right{ float: right; }
+.hidden-input { display: none; disabled: true; }
+
+.patient_doc_thumbnail img {
+  width: 4rem;
+}
+
+/*[___] [___]*/
+.dob_ssn_group { overflow: auto; }
+.dob { float: left; width: 45%; }
+.ssn { float: right; width: 45%; }
+
+/* Phone numbers */
+.main_phone input { font-weight: bold; }
+.phone_number_number { max-width: 8em; }
+/* Addresses */
+.address_type { max-width: 5em; }
+/* Emergency Contact relation & Phone */
+.emergency_contact_relation_phone_group { overflow: auto; }
+.emergency_contact_relation { float: left; width: 60% }
+.emergency_contact_phone { float: right; width: 35%; }
+
+/* Gender Transgender */
+.patient_gender_trans_group { overflow: auto; }
+.gender { float: left; width: 45% }
+.transgender { float: right; width: 45%; }
+
+/* HOUSEHOLD SIZE
+ */
+tr.hh_member.patient {
+  color: #888;
+}
+
+.hh_member_subform {
+  overflow: auto;
+}
+.hh_member_dob {
+  float: left;
+  width: 43%;
+}
+.hh_member_relationship_to_patient {
+  float: right;
+  width: 53%;
+}
+
