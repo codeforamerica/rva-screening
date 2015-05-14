@@ -67,7 +67,11 @@ def new_patient():
         file_name = secure_filename(file.filename)
         file_path = os.path.join(app.config['UPLOAD_FOLDER'], file_name)
         file.save(file_path)
-        document_image = DocumentImage(patient.id, file_name)
+        document_image = DocumentImage(
+          patient_id=patient.id,
+          file_name=file_name,
+          description = request.form['document_image_description']
+        )
         db.session.add(document_image)
         db.session.commit()
     return redirect(url_for('index'))
@@ -103,7 +107,11 @@ def patient_details(id):
         file_name = secure_filename(file.filename)
         file_path = os.path.join(app.config['UPLOAD_FOLDER'], file_name)
         file.save(file_path)
-        document_image = DocumentImage(patient_id=patient.id, file_name=file_name)
+        document_image = DocumentImage(
+          patient_id=patient.id,
+          file_name=file_name,
+          description = request.form['document_image_description']
+        )
         db.session.add(document_image)
 
     db.session.commit()
