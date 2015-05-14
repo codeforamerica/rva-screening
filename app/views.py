@@ -8,9 +8,6 @@ from app import login_manager
 from werkzeug import secure_filename
 from sqlalchemy import func
 
-# example data for front-end prototyping
-from app import example_data as EXAMPLE_DATA
-
 @app.route("/login", methods=["GET", "POST"])
 def login():
   if request.method == 'POST':
@@ -118,8 +115,6 @@ def patient_details(id):
     db.session.commit()
     return redirect(url_for('index'))
   else:
-    if not patient:
-        patient = EXAMPLE_DATA.example_patient
     patient.total_annual_income = sum(
       source.annual_amount for source in patient.income_sources
     )
@@ -156,7 +151,7 @@ def many_to_one_patient_updates(patient, form):
   zips = form.getlist('zip')
   address_descriptions = form.getlist('address_description')
   for index, value in enumerate(address1s):
-    if value: 
+    if value:
       if len(address_ids) > index:
         address = Address.query.get(address_ids[index])
         address.address1 = value
@@ -321,8 +316,6 @@ def prescreening_basic():
 def prescreening_results():
   if 'services' in session:
     services = session['services']
-  else:
-    services = EXAMPLE_DATA.services
   if 'patient_id' in session and session['patient_id']:
     return render_template(
       'prescreening_results.html',
@@ -349,6 +342,4 @@ def save_prescreening_updates():
 def index():
   session.clear()
   patients = Patient.query.all()
-  if not patients:
-      patients = EXAMPLE_DATA.patients
   return render_template('index.html', patients=patients)
