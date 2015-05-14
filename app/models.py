@@ -22,6 +22,8 @@ class Patient(db.Model):
   race = db.Column(db.String(16))
   ethnicity = db.Column(db.String(32))
   languages = db.Column(db.String(64))
+  has_interpreter_yn = db.Column(db.String(1))
+  education_level = db.Column(db.String(16))
   marital_status = db.Column(db.String(16))
   veteran_yn = db.Column(db.String(1))
   housing_status = db.Column(db.String(16))
@@ -58,7 +60,7 @@ class Patient(db.Model):
   ssd_date_effective = db.Column(db.Date())
   care_due_to_accident_yn = db.Column(db.String(1))
   accident_work_related_yn = db.Column(db.String(1))
-  recently_lost_health_insurance_yn = db.Column(db.String(1))
+  recently_lost_insurance_yn = db.Column(db.String(1))
 
   # Income/finances
   document_images = db.relationship('DocumentImage', backref='patient', lazy='dynamic')
