@@ -1,76 +1,77 @@
 {% extends "base.html" %}
 {% block content %}
-    {% if patient and patient.id %}
-        <h2>{{ patient.firstname }} {{ patient.lastname }}</h2>
-        <a href="{{ url_for('patient_print', patient_id=patient.id) }}"><span class="glyphicon glyphicon-print"></span> Print Patient Details</a><br>
-        <a href="{{ url_for('new_prescreening', patient_id=patient.id) }}">
+  {% if patient and patient.id %}
+      <h2>{{ patient.firstname }} {{ patient.lastname }}</h2>
+
+      <div class="patient-options">
+        <a class="btn btn-primary left" href="{{ url_for('new_prescreening', patient_id=patient.id) }}">
+        <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
             Prescreen this patient
         </a>
-        <a href="{{ url_for('delete', id=patient.id) }}">Delete patient</a>
-    {% else %}
-        <h2>Add New Patient</h2>
-    {% endif %}
-    <form enctype="multipart/form-data" method="post">
-        First name
-        <input
-            type="text"
-            name="firstname"
-            value="{{ patient.firstname if patient and patient.firstname }}"
-        />
-        Middle name
-        <input
-            type="text"
-            name="middlename"
-            value="{{ patient.middlename if patient and patient.middlename }}"
-        />
-        Last name
-        <input
-            type="text"
-            name="lastname"
-            value="{{ patient.lastname if patient and patient.lastname }}"
-        />
-        DOB
-        <input
-            type="text"
-            name="dob"
-            value="{{ patient.dob.strftime('%m/%d/%Y') if patient and patient.dob }}"
-        />
-        Primary phone number
-        <input
-            type="text"
-            name="phonenumber1"
-            value="{{ patient.phonenumber1 if patient and patient.phonenumber1 }}"
-        />
-        Secondary phone number
-        <input
-            type="text"
-            name="phonenumber2"
-            value="{{ patient.phonenumber2 if patient and patient.phonenumber2 }}"
-        />
-        Household size
-        <input
-            type="text"
-            name="householdsize"
-            value="{{ patient.householdsize if patient and patient.householdsize }}"
-        />
-        Household income
-        <input
-            type="text"
-            name="householdincome"
-            value="{{ patient.householdincome if patient and patient.householdincome }}"
-        />
-        Upload images of documents:
-        <input type="file" name="image1"/> 
-        <input type="file" name="image2"/>
-        {% if patient and patient.id %}
-            <p>
-                {% for documentImage in patient.documentimages %}
-                    <a href="{{ url_for('document_image', image_id=documentImage.id) }}">
-                        Image {{ loop.index0 + 1 }}
-                    </a>
-                {% endfor %}
-            </p>
-        {% endif %}
-        <button type="submit">Save</button>
+
+        <a class="btn btn-danger delete-patient right" href="{{ url_for('delete', id=patient.id) }}">
+        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+          Delete patient
+        </a>
+      </div>
+
+  {% else %}
+      <h2>Add New Patient</h2>
+  {% endif %}
+
+  <form enctype="multipart/form-data" action="" method="post">
+
+    <!-- id info -->
+    {% include "includes/patient_id.html" %}
+
+    <!--contact info-->
+    <div class="expander">
+        <div class="expander-title">Contact Information</div>
+        <div class="expander-content">{% include "includes/patient_contact_info.html" %}</div>
+    </div>
+
+    <!--demographics-->
+    <div class="expander">
+        <div class="expander-title">Demographics</div>
+        <div class="expander-content">{% include "includes/patient_demographic_info.html" %}</div>
+    </div>
+
+    <!--employment-->
+    <div class="expander">
+        <div class="expander-title">Employment Information</div>
+        <div class="expander-content">{% include "includes/patient_employment_info.html" %}</div>
+    </div>
+
+    <!--insurance-->
+    <div class="expander">
+        <div class="expander-title">Insurance</div>
+        <div class="expander-content">{% include "includes/patient_insurance_info.html" %}</div>
+    </div>
+
+    <!--documents-->
+    <div class="expander">
+        <div class="expander-title">Personal Documents</div>
+        <div class="expander-content">{% include "includes/patient_docs.html" %}</div>
+    </div>
+
+    <!--household-->
+    <div class="expander">
+        <div class="expander-title">Household</div>
+        <div class="expander-content">{% include "includes/patient_household_size.html" %}</div>
+    </div>
+
+    <!--income-->
+    <div class="expander">
+        <div class="expander-title">Income Sources</div>
+        <div class="expander-content">{% include "includes/patient_income_sources.html" %}</div>
+    </div>
+
+
+    <button type="submit" class="btn btn-primary">
+      <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+      {% if patient %} Save patient info {% else %} Save new patient info {% endif %}
+    </button>
+
   </form>
+
 {% endblock %}

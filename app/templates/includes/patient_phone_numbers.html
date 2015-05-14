@@ -1,0 +1,61 @@
+<h5>
+  Phone Numbers
+  <span class="glyphicon glyphicon-phone" aria-hidden="true"></span> 
+  /
+  <span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>
+</h5>
+
+<table class="table table-condensed phone_numbers" id="phone_number_table">
+
+  <thead>
+    <tr>
+      <th>Number</th>
+      <th>Description</th>
+      <th>Primary?</th>
+    </tr>
+  </thead>
+
+  {% if patient.phone_numbers %}
+    {% for phone in patient.phone_numbers %}
+      <tr class="phone_number">
+        <td class="phone_number_number">
+          <input class="hidden" value="{{phone.id}}" name="phone_number_id">
+          <input class="form-control" type="tel" value="{{phone.phone_number}}" name="phone_number" id="phone_number_{{loop.index}}"/>
+        </td>
+        <td class="phone_number_name">
+          <input class="form-control" type="text" value="{{phone.description}}" name="phone_description" id="phone_name_{{loop.index}}"/>
+        </td>
+        <td class="phone_number_primary_yn">
+          <input type="checkbox" checked="{{1 if phone.primary_yn == 'Y'}}" name="phone_primary_yn" id="phone_primary_yn_{{loop.index}}"/>
+        </td>
+      </tr>
+    {% endfor %}
+  {% endif %}
+
+  <tr class="phone_number" id="phone_number_input">
+    <td class="phone_number_number">
+      <input class="form-control" type="tel" name="phone_number">
+    </td>
+    <td class="phone_number_name">
+      <input class="form-control" type="text" name="phone_description"/>
+    </td>
+    <td class="phone_number_primary_yn">
+      <input type="checkbox" value="Y" name="phone_primary_yn"/>
+    </td>
+  </tr>
+
+</table>
+
+<div class="form-group add_phone_number">
+    <button
+      type="button"
+      class="btn btn-primary"
+      onclick="addNewInputRow($('#phone_number_table'), $('#phone_number_input'))"
+    >
+      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+      Add a phone number
+    </button>
+</div>
+
+
+

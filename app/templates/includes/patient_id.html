@@ -1,0 +1,19 @@
+<h4>Patient ID</h4>
+
+  {% include "includes/patient_name.html" %}
+
+  <div class="dob_ssn_group">
+      <div class="form-group dob">
+        <label for="dob">Date of birth</label>
+        <input type="date" class="form-control" name="dob" id="dob"{% if patient.dob %} value="{{patient.dob}}"{% endif %}>
+      </div>
+
+      <div class="form-group ssn">
+        <label for="ssn">SSN</label>
+        <input type="text" class="form-control" name="ssn" id="ssn" placeholder="555-55-5555" pattern="\d{3}-?\d{2}-?\d{4}"{% if patient.ssn %} value="{{patient.ssn}}"{% endif %}>
+      </div>
+  </div>
+
+
+
+

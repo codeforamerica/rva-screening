@@ -1,0 +1,108 @@
+<h4>Employment Info</h4>
+
+{% include "includes/patient_student_status.html" %}
+
+<div class="form-group">
+  <label for="employment_status">Employment Status</label>
+  <select class="form-control" name="employment_status">
+    <option value=""{% if not patient.employment_status %} selected{% endif %}></option>
+    <option value="Full-time"{% if patient.employment_status == "Full-time" %} selected{% endif %}>Full-time</option>
+    <option value="Part-time"{% if patient.employment_status == "Part-time" %} selected{% endif %}>Part-time</option>
+    <option value="Seasonal"{% if patient.employment_status == "Seasonal" %} selected{% endif %}>Seasonal</option>
+    <option value="Disabled"{% if patient.employment_status == "Disabled" %} selected{% endif %}>Disabled</option>
+    <option value="Retired"{% if patient.employment_status == "Retired" %} selected{% endif %}>Retired</option>
+    <option value="Dependent"{% if patient.employment_status == "Dependent" %} selected{% endif %}>Dependent</option>
+    <option value="Unemployed"{% if patient.employment_status == "Unemployed" %} selected{% endif %}>Unemployed</option>
+  </select>
+</div>
+
+<div class="form-group">
+  <label for="spouse_employment_status">Spouse's employment status</label>
+  <select class="form-control" name="spouse_employment_status">
+    <option value=""{% if not patient.spouse_employment_status %} selected{% endif %}></option>
+    <option value="Full-time"{% if patient.spouse_employment_status == "Full-time" %} selected{% endif %}>Full-time</option>
+    <option value="Part-time"{% if patient.spouse_employment_status == "Part-time" %} selected{% endif %}>Part-time</option>
+    <option value="Seasonal"{% if patient.spouse_employment_status == "Seasonal" %} selected{% endif %}>Seasonal</option>
+    <option value="Disabled"{% if patient.spouse_employment_status == "Disabled" %} selected{% endif %}>Disabled</option>
+    <option value="Retired"{% if patient.spouse_employment_status == "Retired" %} selected{% endif %}>Retired</option>
+    <option value="Dependent"{% if patient.spouse_employment_status == "Dependent" %} selected{% endif %}>Dependent</option>
+    <option value="Unemployed"{% if patient.spouse_employment_status == "Unemployed" %} selected{% endif %}>Unemployed</option>
+  </select>
+</div>
+
+<table class="table table-condensed employers" id="employer_table">
+
+  <thead>
+    <tr>
+      <th>Employee</th>
+      <th>Employer Name</th>
+      <th>Employer Phone</th>
+      <th>Start Date</th>
+      <th>Edit</th>
+    </tr>
+  </thead>
+
+  {% if patient.employers %}
+    {% for employer in patient.employers %}
+      <tr class="employer">
+        <td>
+          <input class="hidden" value="{{employer.id}}" name="employer_id">
+          <div class="read-only">{{employer.employee}}</div>
+          <input class="form-control hidden-input" type="text" name="employer_employee" value="{{employer.employee}}"/>
+        </td>
+        <td>
+          <div class="read-only">{{employer.name}}</div>
+          <input class="form-control hidden-input" type="text" name="employer_name" value="{{employer.name}}"/>
+        </td>
+        <td>
+          <div class="read-only">{{employer.phone_number}}</div>
+          <input class="form-control hidden-input" type="tel" name="employer_phone_number" value="{{employer.phone_number}}"/>
+        </td>
+        <td>
+          <div class="read-only">{{employer.start_date}}</div>
+          <input class="form-control hidden-input" type="date" name="employer_start_date" value="{{employer.start_date}}"/>
+        </td>
+        <td class="employer_edit">
+          <span
+            class="glyphicon glyphicon-pencil"
+            aria-hidden="true"
+            onclick="showHiddenFields()"
+          ></span>
+        </td>
+      </tr>
+    {% endfor %}
+  {% endif %}
+
+  <tr class="employer" id="employer_input">
+    <td>
+      <input class="form-control" type="text" name="employer_employee"/>
+    </td>
+    <td>
+      <input class="form-control" type="text" name="employer_name"/>
+    </td>
+    <td>
+      <input class="form-control" type="tel" name="employer_phone_number"/>
+    </td>
+    <td>
+      <input class="form-control" type="date" name="employer_start_date"/>
+    </td>
+    <td class="employer_edit"></td>
+  </tr>
+
+</table>
+
+<div class="form-group add_employer">
+    <button
+      type="button"
+      class="btn btn-primary"
+      onclick="addNewInputRow($('#employer_table'), $('#employer_input'))"
+    >
+      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+      Add an employer
+    </button>
+</div>
+
+
+
+
+

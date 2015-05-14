@@ -1,0 +1,16 @@
+
+  <div class="form-group language">
+    <label for="language">Language</label>
+    <select class="form-control" name="languages">
+      <option value=""{% if not patient.languages %} selected{% endif %}></option>
+      <option value="English"{% if patient.languages == "English" %} selected{% endif %}>English</option>
+      <option value="Spanish"{% if patient.languages == "Spanish" %} selected{% endif %}>Spanish</option>
+      <option value="Arabic"{% if patient.languages == "Arabic" %} selected{% endif %}>Arabic</option>
+      <option value="Other"{% if patient.languages == "Other" %} selected{% endif %}>Other</option>
+    </select>
+  </div>
+
+  <div class="form-group {% if not patient.language == "Other" %} hidden{% endif %}">
+    <label for="language_other">Please specify other language</label>
+    <input type="text" class="form-control" name="language_other" id="language_other">
+  </div>

@@ -1,0 +1,16 @@
+
+<!--Marital status	select(Single|Married|Div|Widow|Legally Separated|Partner)-->
+
+  <div class="form-group">
+    <label for="marital_status">Marital status</label>
+    <select class="form-control" name="marital_status">
+      <option value=""{% if not patient.marital_status %} selected{% endif %}></option>
+      <option value="Single"{% if patient.marital_status == "Single" %} selected{% endif %}>Single</option>
+      <option value="Married"{% if patient.marital_status == "Married" %} selected{% endif %}>Married</option>
+      <option value="Divorced"{% if patient.marital_status == "Divorced" %} selected{% endif %}>Divorced</option>
+      <option value="Widowed"{% if patient.marital_status == "Widowed" %} selected{% endif %}>Widowed</option>
+      <option value="Legally Separated"{% if patient.marital_status == "Legally Separated" %} selected{% endif %}>Legally Separated</option>
+      <option value="Partner"{% if patient.marital_status == "Partner" %} selected{% endif %}>Partner</option>
+    </select>
+  </div>
+
