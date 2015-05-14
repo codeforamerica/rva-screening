@@ -30,6 +30,8 @@ class Patient(db.Model):
   income_sources = db.relationship('IncomeSource', backref='patient', lazy='dynamic')
   employers = db.relationship('Employer', backref='patient', lazy='dynamic')
   document_images = db.relationship('DocumentImage', backref='patient', lazy='dynamic')
+  total_annual_income = 0
+  fpl_percentage = 0
 
   def __init__(self, **fields):
     self.__dict__.update(fields)

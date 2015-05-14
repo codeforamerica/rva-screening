@@ -1,4 +1,8 @@
-<h4>Household Income: $1,147.40/mo.</h4>
+<h4>Household Income: 
+  {% if patient.total_annual_income %}
+    ${{(patient.total_annual_income / 12) | int}}/month
+  {% endif %}
+</h4>
 
 <table class="table table-condensed income_sources" id="income_source_table">
 
