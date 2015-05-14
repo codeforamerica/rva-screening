@@ -2,18 +2,19 @@
 {% block content %}
 	{% for service in services %}
 		{% if service.likely_eligible %}
- 			<h3>You are likely eligible for {{ service }}.</h3>
+      <p class="alert alert-success"><span class="glyphicon glyphicon-ok push-right"></span>Good news!</p>
+ 			<h3>You are likely eligible for {{ service.name }}.</h3>
  		{% else %}
- 			<h3>You are likely not eligible for {{ service }}.</h3>
+ 			<h3>You are likely not eligible for {{ service.name }}.</h3>
     	{% endif %}
     {% endfor %}
-    {% if patientid %}
-    	<a href="{{ url_for('save_prescreening_updates', patientid = patientid) }}">
-    		Return to patient details.
+    {% if patient %}
+    	<a href="{{ url_for('save_prescreening_updates', patientid=patient.id) }}">
+        Return to details for {{ patient }}.
     	</a>
     {% else %}
-    	<p>Would you like to use this information to start the full applications?</p>
-    	<a href="{{ url_for('new_patient') }}">Yes</a>
-    	<a href="{{ url_for('index') }}">No thanks</a>
+    	<p>Would you save this information into a new patient record?</p>
+    	<a type="button" class="btn btn-success" href="{{ url_for('new_patient') }}">Yes</a>
+    	<a type="button" class="btn btn-default" href="{{ url_for('index') }}">No thanks</a>
     {% endif %}
 {% endblock %}

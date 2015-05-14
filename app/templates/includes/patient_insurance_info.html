@@ -1,0 +1,43 @@
+<h4>Insurance Information</h4>
+
+<!--When and where did you last receive healthcare services?	text-->
+  <div class="form-group">
+    <label for="last_healthcare_service">When and where did you last receive healthcare services?</label>
+    <input type="text" class="form-control" name="last_healthcare" id="last_healthcare_service" value="{{patient.last_healthcare}}">
+  </div>
+
+<!--Do you have insurance or a card to help you cover medical costs?	select(Yes|No)-->
+  <div class="form-group">
+    <label for="has_insurance_or_card">Do you have insurance or a card to help you cover medical costs?</label>
+    <select class="form-control" name="insurance_status">
+      <option value=""{% if not patient.insurance_status %} selected{% endif %}></option>
+      <option value="Yes"{% if patient.insurance_status == "Yes" %} selected{% endif %}>Yes</option>
+      <option value="No"{% if patient.insurance_status == "No" %} selected{% endif %}>No</option>
+    </select>
+  </div>
+
+
+<!--Coverage type	multiselect(Private Insurance|Medicaid|Medicare|VA Healthcare|VCC|CareCard|Other______)-->
+
+  <div class="form-group coverage_type">
+    <label for="coverage_type">Coverage Type</label>
+    <select class="form-control" name="coverage_type">
+      <option value=""{% if not patient.coverage_type %} selected{% endif %}></option>
+      <option value="Private insurance"{% if patient.coverage_type == "Private insurance" %} selected{% endif %}>Private insurance</option>
+      <option value="Medicaid"{% if patient.coverage_type == "Medicaid" %} selected{% endif %}>Medicaid</option>
+      <option value="Medicare"{% if patient.coverage_type == "Medicare" %} selected{% endif %}>Medicare</option>
+      <option value="VA Healthcare"{% if patient.coverage_type == "VA Healthcare" %} selected{% endif %}>VA Healthcare</option>
+      <option value="VCC"{% if patient.coverage_type == "VCC" %} selected{% endif %}>VCC</option>
+      <option value="CareCard"{% if patient.coverage_type == "CareCard" %} selected{% endif %}>CareCard</option>
+      <option value="Other"{% if patient.coverage_type == "Other" %} selected{% endif %}>Other</option>
+    </select>
+  </div>
+
+  <div class="form-group {% if not patient.coverage_type == "Other" %} hidden{% endif %}">
+    <label for="coverage_type_other">Please specify other coverage type</label>
+    <input type="text" class="form-control" name="coverage_type_other" id="coverage_type_other">
+  </div>
+
+
+
+

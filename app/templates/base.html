@@ -1,20 +1,10 @@
-<html>
-  <head>
-    <title>RVA Screener</title>
-    <meta name="viewport" content="width=device-width">
-    {% assets "css_all" %}<link href="{{ ASSET_URL }}" rel="stylesheet">
-    {% endassets %}
-  </head>
+<html lang="en">
+{% include "includes/head.html" %}
   <body>
-    <div>
-        <a href="{{ url_for('index') }}">Home</a>
-        | <a href="{{ url_for('new_prescreening') }}">Pre-Screening</a>
-        | <a href="{{ url_for('new_patient') }}">New Patient</a>
-        {% if g.user.is_authenticated() %}
-          | <a href="{{ url_for('logout') }}">Log out</a>
-        {% endif %}
-    </div>
+  {% include "includes/nav.html" %}
+  <div class="container">
     {% block content %}{% endblock %}
+  </div>
     {% assets "js_all" %}<script type="text/javascript" src="{{ ASSET_URL }}"></script>{% endassets %}
     <script>
     window.onload = init();

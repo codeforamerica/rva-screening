@@ -1,11 +1,15 @@
 from flask import render_template, request,flash, redirect, url_for, g, send_from_directory, session
 from app import app, db, bcrypt, ALLOWED_EXTENSIONS
-from app.models import Patient, DocumentImage, User
+from app.models import Patient, PhoneNumber, Address, EmergencyContact, Insurance, HouseholdMember, IncomeSource, Employer, DocumentImage, Service, User
 import datetime
 import os
 from flask.ext.login import login_user, logout_user, current_user, login_required
 from app import login_manager
 from werkzeug import secure_filename
+from sqlalchemy import func
+
+# example data for front-end prototyping
+from app import example_data as EXAMPLE_DATA
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -49,61 +53,216 @@ def new_patient():
 
     form = dict((key, value) for key, value in request.form.iteritems())
     if form.get('dob'):
-      form['dob'] = datetime.datetime.strptime(form['dob'], '%m/%d/%Y').date()
+      form['dob'] = datetime.datetime.strptime(form['dob'], '%Y-%m-%d').date()
     for key, value in form.iteritems():
       if value == '':
         form[key] = None
     patient = Patient(**form)
 
     db.session.add(patient)
+    many_to_one_patient_updates(patient, request.form, request.files)
     db.session.commit()
 
-    for file in request.files.itervalues():
-      if allowed_file(file.filename):
-        filename = secure_filename(file.filename)
-        filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-        file.save(filepath)
-        documentImage = DocumentImage(patient.id, filename)
-        db.session.add(documentImage)
-        db.session.commit()
     return redirect(url_for('index'))
   else:
     # Check whether we already have some data from a pre-screening
     if 'household_size' in session or 'household_income' in session:
       patient = Patient(
-        householdsize = session.get('household_size'),
-        householdincome = session.get('household_income')
+        household_size = session.get('household_size'),
+        household_income = session.get('household_income')
       )
       session.clear()
       return render_template('patient_details.html', patient=patient)
 
-    return render_template('patient_details.html')
+    return render_template('patient_details.html', patient={})
 
 @app.route('/patient_details/<id>', methods=['POST', 'GET'])
 @login_required
 def patient_details(id):
   patient = Patient.query.get(id)
+
   if request.method == 'POST':
+    many_to_one_patient_updates(patient, request.form, request.files)
 
     for key, value in request.form.iteritems():
       if key == 'dob' and value != '':
-        value = datetime.datetime.strptime(value, '%m/%d/%Y').date()
+        value = datetime.datetime.strptime(value, '%Y-%m-%d').date()
       if value == '':
         value = None
       setattr(patient, key, value)
 
-    for file in request.files.itervalues():
-      if allowed_file(file.filename):
-        filename = secure_filename(file.filename)
-        filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-        file.save(filepath)
-        documentImage = DocumentImage(patient.id, filename)
-        db.session.add(documentImage)
-
     db.session.commit()
     return redirect(url_for('index'))
   else:
+    if not patient:
+        patient = EXAMPLE_DATA.example_patient
+    patient.total_annual_income = sum(
+      source.annual_amount for source in patient.income_sources
+    )
+    patient.fpl_percentage = calculate_fpl(
+      patient.household_members.count() + 1,
+      patient.total_annual_income
+    )
     return render_template('patient_details.html', patient=patient)
+
+def many_to_one_patient_updates(patient, form, files):
+  phone_number_ids = form.getlist('phone_number_id')
+  phone_numbers = form.getlist('phone_number')
+  phone_descriptions = form.getlist('phone_description')
+  phone_primary_yns = form.getlist('phone_primary_yn')
+  for index, value in enumerate(phone_numbers):
+    if value:
+      if len(phone_number_ids) > index:
+        phone_number = PhoneNumber.query.get(phone_number_ids[index])
+        phone_number.phone_number = value
+        phone_number.description = phone_descriptions[index]
+      else:
+        phone_number = PhoneNumber(
+          phone_number=value,
+          description = phone_descriptions[index]
+        )
+        patient.phone_numbers.append(phone_number)
+        db.session.add(phone_number)
+
+  address_ids = form.getlist('address_id')
+  address1s = form.getlist('address1')
+  address2s = form.getlist('address2')
+  cities = form.getlist('city')
+  states = form.getlist('state')
+  zips = form.getlist('zip')
+  address_descriptions = form.getlist('address_description')
+  for index, value in enumerate(address1s):
+    if value: 
+      if len(address_ids) > index:
+        address = Address.query.get(address_ids[index])
+        address.address1 = value
+        address.address2 = address2s[index]
+        address.city = cities[index]
+        address.state = states[index]
+        address.zip = zips[index]
+        address.description = address_descriptions[index]
+      else:
+        address = Address(
+          address1 = value,
+          address2 = address2s[index],
+          city = cities[index],
+          state = states[index],
+          zip = zips[index],
+          description = address_descriptions[index]
+        )
+        patient.addresses.append(address)
+        db.session.add(address)
+
+  household_member_ids = form.getlist('household_member_id')
+  household_member_full_names = form.getlist('household_member_full_name')
+  household_member_dobs = form.getlist('household_member_dob')
+  household_member_ssns = form.getlist('household_member_ssn')
+  household_member_relations = form.getlist('household_member_relation')
+  for index, value in enumerate(household_member_full_names):
+    if value:
+      if len(household_member_ids) > index:
+        household_member = HouseholdMember.query.get(household_member_ids[index])
+        household_member.full_name = value
+        household_member.dob = household_member_dobs[index]
+        household_member.ssn = household_member_ssns[index]
+        household_member.relationship = household_member_relations[index]
+      else:
+        household_member = HouseholdMember(
+          full_name = value,
+          dob = household_member_dobs[index],
+          ssn = household_member_ssns[index],
+          relationship = household_member_relations[index]
+        )
+        patient.household_members.append(household_member)
+        db.session.add(household_member)
+
+  income_source_ids = form.getlist('income_source_id')
+  income_sources = form.getlist('income_source_source')
+  income_source_amounts = form.getlist('income_source_amount')
+  for index, value in enumerate(income_sources):
+    if value:
+      if len(income_source_ids) > index:
+        income_source = IncomeSource.query.get(income_source_ids[index])
+        income_source.source = income_sources[index]
+        income_source.annual_amount = int(income_source_amounts[index]) * 12
+      else:
+        income_source = IncomeSource(
+          source = value,
+          annual_amount = int(income_source_amounts[index]) * 12
+        )
+        patient.income_sources.append(income_source)
+        db.session.add(income_source)
+
+  emergency_contact_ids = form.getlist('emergency_contact_id')
+  emergency_contact_names = form.getlist('emergency_contact_name')
+  emergency_contact_phone_numbers = form.getlist('emergency_contact_phone_number')
+  emergency_contact_relationships = form.getlist('emergency_contact_relationship')
+  for index, value in enumerate(emergency_contact_names):
+    if value:
+      if len(emergency_contact_ids) > index:
+        emergency_contact = EmergencyContact.query.get(emergency_contact_ids[index])
+        emergency_contact.name = emergency_contact_names[index]
+        emergency_contact.phone_number = emergency_contact_phone_numbers[index]
+        emergency_contact.relationship = emergency_contact_relationships[index]
+      else:
+        emergency_contact = EmergencyContact(
+          name = value,
+          phone_number = emergency_contact_phone_numbers[index],
+          relationship = emergency_contact_relationships[index]
+        )
+        patient.emergency_contacts.append(emergency_contact)
+        db.session.add(emergency_contact)
+
+  employer_ids = form.getlist('employer_id')
+  employer_employees = form.getlist('employer_employee')
+  employer_names = form.getlist('employer_name')
+  employer_phone_numbers = form.getlist('employer_phone_number')
+  employer_start_dates = form.getlist('employer_start_date')
+  for index, value in enumerate(employer_employees):
+    if value:
+      if len(employer_ids) > index:
+        employer = Employer.query.get(employer_ids[index])
+        employer.employee = employer_employees[index]
+        employer.name = employer_names[index]
+        employer.phone_number = employer_phone_numbers[index]
+        employer.start_date = employer_start_dates[index]
+      else:
+        employer = Employer(
+          employee = value,
+          name = employer_names[index],
+          phone_number = employer_phone_numbers[index],
+          start_date = employer_start_dates[index]
+        )
+        patient.employers.append(employer)
+        db.session.add(employer)
+
+  document_image_ids = form.getlist('document_image_id')
+  document_image_descriptions = form.getlist('document_image_description')
+  for index, value in enumerate(document_image_descriptions):
+    if value:
+      if len(document_image_ids) > index:
+        document_image = DocumentImage.query.get(document_image_ids[index])
+        document_image.description = document_image_descriptions[index]
+      else:
+        for file in files.itervalues():
+          if allowed_file(file.filename):
+            file_name = secure_filename(file.filename)
+            file_path = os.path.join(app.config['UPLOAD_FOLDER'], file_name)
+            file.save(file_path)
+            document_image = DocumentImage(
+              patient_id=patient.id,
+              file_name=file_name,
+              description = document_image_descriptions[index]
+            )
+            db.session.add(document_image)
+            index += 1
+        break
+
+  return
+
+def calculate_fpl(household_size, annual_income):
+  fpl = 5200 * household_size + 9520
+  return float(annual_income) / fpl * 100
 
 @app.route('/delete/<id>', methods=['POST', 'GET'])
 @login_required
@@ -117,8 +276,8 @@ def delete(id):
 @login_required
 def document_image(image_id):
   _image = DocumentImage.query.get(image_id)
-  filepath = '/documentimages/' + _image.filename
-  return render_template('documentimage.html', filepath=filepath)
+  file_path = '/documentimages/' + _image.file_name
+  return render_template('documentimage.html', file_path=file_path)
 
 @app.route('/documentimages/<filename>')
 @login_required
@@ -158,14 +317,18 @@ def prescreening_basic():
 @app.route('/prescreening_results')
 @login_required
 def prescreening_results():
+  if 'services' in session:
+    services = session['services']
+  else:
+    services = EXAMPLE_DATA.services
   if 'patient_id' in session and session['patient_id']:
     return render_template(
       'prescreening_results.html',
-      patientid = session['patient_id'],
-      services = session['services']
-    ) 
+      services = services,
+      patient_id = session['patient_id']
+    )
   else:
-    return render_template('prescreening_results.html', services = session['services'])
+    return render_template('prescreening_results.html', services = services)
 
 @app.route('/save_prescreening_updates')
 @login_required
@@ -173,15 +336,23 @@ def save_prescreening_updates():
   if 'patient_id' in session and session['patient_id']:
     patient_id = session['patient_id']
     patient = Patient.query.get(session['patient_id'])
-    patient.householdsize = session['household_size']
-    patient.householdincome = session['household_income']
+    patient.household_size = session['household_size']
+    patient.household_income = session['household_income']
     db.session.commit()
     session.clear()
     return redirect(url_for('patient_details', id = patient_id))
+
+@app.route('/search_new' )
+@login_required
+def search_new():
+  patients = Patient.query.all()
+  return render_template('search_new.html', patients=patients)
 
 @app.route('/' )
 @login_required
 def index():
   session.clear()
-  patients = Patient.query.all()    
+  patients = Patient.query.all()
+  if not patients:
+      patients = EXAMPLE_DATA.patients
   return render_template('index.html', patients=patients)
