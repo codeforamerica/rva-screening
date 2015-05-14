@@ -5,8 +5,7 @@
 venv
 activate
 migrations
-app/static/public
-app/static/.webassets-cache
+app/static/
 
 # npm
 node_modules
