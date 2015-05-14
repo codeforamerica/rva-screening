@@ -20,30 +20,52 @@
   {% endif %}
 
   <form enctype="multipart/form-data" action="" method="post">
-    <hr>
+
+    <!-- id info -->
     {% include "includes/patient_id.html" %}
-    <hr>
+
     <!--contact info-->
-    {% include "includes/patient_contact_info.html" %}
-    <hr>
+    <div class="expander">
+        <div class="expander-title">Contact Information</div>
+        <div class="expander-content">{% include "includes/patient_contact_info.html" %}</div>
+    </div>
+
     <!--demographics-->
-    {% include "includes/patient_demographic_info.html" %}
-    <hr>
+    <div class="expander">
+        <div class="expander-title">Demographics</div>
+        <div class="expander-content">{% include "includes/patient_demographic_info.html" %}</div>
+    </div>
+
     <!--employment-->
-    {% include "includes/patient_employment_info.html" %}
-    <hr>
+    <div class="expander">
+        <div class="expander-title">Employment Information</div>
+        <div class="expander-content">{% include "includes/patient_employment_info.html" %}</div>
+    </div>
+
     <!--insurance-->
-    {% include "includes/patient_insurance_info.html" %}
-    <hr>
+    <div class="expander">
+        <div class="expander-title">Insurance</div>
+        <div class="expander-content">{% include "includes/patient_insurance_info.html" %}</div>
+    </div>
+
     <!--documents-->
-    {% include "includes/patient_docs.html" %}
-    <hr>
+    <div class="expander">
+        <div class="expander-title">Personal Documents</div>
+        <div class="expander-content">{% include "includes/patient_docs.html" %}</div>
+    </div>
+
     <!--household-->
-    {% include "includes/patient_household_size.html" %}
-    <hr>
+    <div class="expander">
+        <div class="expander-title">Household</div>
+        <div class="expander-content">{% include "includes/patient_household_size.html" %}</div>
+    </div>
+
     <!--income-->
-    {% include "includes/patient_income_sources.html" %}
-    <hr>
+    <div class="expander">
+        <div class="expander-title">Income Sources</div>
+        <div class="expander-content">{% include "includes/patient_income_sources.html" %}</div>
+    </div>
+
 
     <button type="submit" class="btn btn-primary">
       <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
