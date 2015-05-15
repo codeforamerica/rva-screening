@@ -100,7 +100,7 @@ def new_patient():
     many_to_one_patient_updates(patient, request.form, request.files)
     db.session.commit()
 
-    return redirect(url_for('index'))
+    return redirect(url_for('patient_details', id=patient.id))
   else:
     # Check whether we already have some data from a pre-screening
     if 'household_size' in session or 'household_income' in session:
