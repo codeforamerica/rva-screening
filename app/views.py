@@ -11,6 +11,46 @@ from sqlalchemy import func
 # example data for front-end prototyping
 from app import example_data as EXAMPLE_DATA
 
+DAILY_PLANET_FEES = {
+  'Nominal': (
+    ('Dental services', 30),
+    ('Medical services', 10),
+    ('Mental health services, initial visit of calendar month', 10),
+    ('Mental health services, other visits', 5)
+  ),
+  'Slide A': (
+    ('Dental services', '45\% of full fee'),
+    ('Medical services', 15),
+    ('Mental health services, initial visit of calendar month', 15),
+    ('Mental health services, second visit of calendar month', 10),
+    ('Mental health services, other visits', 5)
+  ),
+  'Slide B': (
+    ('Dental services', '55\% of full fee'),
+    ('Medical services', 20),
+    ('Mental health services, initial visit of calendar month', 20),
+    ('Mental health services, second visit of calendar month', 15),
+    ('Mental health services, other visits', 5)
+  ),
+  'Slide C': (
+    ('Dental services', '65\% of full fee'),
+    ('Medical services', 30),
+    ('Mental health services, initial visit of calendar month', 30),
+    ('Mental health services, second visit of calendar month', 25),
+    ('Mental health services, other visits', 5)
+  ),
+  'Full fee': ()
+}
+CROSSOVER_FEES = (
+  ('Medications', 4),
+  ('Nurse/Labs', 10),
+  ('Vaccine clinic', 10),
+  ('Medical visit/mental health', 15),
+  ('Eye', 15),
+  ('Same day appointments', 20),
+  ('Dental', 25)
+)
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
   if request.method == 'POST':
@@ -261,7 +301,7 @@ def many_to_one_patient_updates(patient, form, files):
   return
 
 def calculate_fpl(household_size, annual_income):
-  fpl = 5200 * household_size + 9520
+  fpl = 5200 * int(household_size) + 9520
   return float(annual_income) / fpl * 100
 
 @app.route('/delete/<id>', methods=['POST', 'GET'])
@@ -306,6 +346,8 @@ def prescreening_basic():
   if request.method == 'POST':
     session['household_size'] = request.form['household_size']
     session['household_income'] = request.form['household_income']
+    session['has_health_insurance'] = request.form['has_health_insurance']
+    session['is_eligible_for_medicaid'] = request.form['is_eligible_for_medicaid']
     return redirect(url_for('prescreening_results'))
   else:
     if session.get('patient_id'):
@@ -313,6 +355,88 @@ def prescreening_basic():
       return render_template('prescreening_basic.html', patient = patient)
     else:
       return render_template('prescreening_basic.html')
+
+def calculate_pre_screen_results():
+  fpl = calculate_fpl(session['household_size'], int(session['household_income']) * 12)
+  service_results = []
+  for service in session['services']:
+    if service == 'daily_planet':
+      sliding_scale = daily_planet_pre_screen(fpl)
+      service_results.append({
+        'name': 'Daily Planet',
+        'eligible': True,
+        'sliding_scale': sliding_scale,
+        'sliding_scale_fees': DAILY_PLANET_FEES[sliding_scale]
+      })
+    if service == 'resource_centers':
+      service_results.append({
+        'name': 'RCHD resource centers',
+        'eligible': True,
+        'sliding_scale': resource_center_pre_screen(fpl)
+      })
+    if service == 'cross_over':
+      service_results.append({
+        'name': 'CrossOver',
+        'eligible': cross_over_pre_screen(
+          fpl,
+          session['has_health_insurance'],
+          session['is_eligible_for_medicaid']
+        ),
+        'sliding_scale': 0,
+        'general_fees': CROSSOVER_FEES
+      })
+    if service == 'access_now':
+      service_results.append({
+        'name': 'Access Now',
+        'eligible': access_now_pre_screen(
+          fpl,
+          session['has_health_insurance'],
+          session['is_eligible_for_medicaid']
+        ),
+        'sliding_scale': 0
+      })
+  return service_results
+
+def daily_planet_pre_screen(fpl):
+  if fpl <= 100:
+    sliding_scale = 'Nominal'
+  elif 100 < fpl <= 125:
+    sliding_scale = 'A'
+  elif 125 < fpl <= 150:
+    sliding_scale = 'B'
+  elif 150 <fpl <= 200:
+    sliding_scale = 'C'
+  else:
+    sliding_scale = 'Full fee'
+  return sliding_scale
+
+def resource_center_pre_screen(fpl):
+  if fpl <= 100:
+    sliding_scale = 'Nominal'
+  elif 100 < fpl <= 125:
+    sliding_scale = 'A'
+  elif 125 < fpl <= 150:
+    sliding_scale = 'B'
+  elif 150 <fpl <= 200:
+    sliding_scale = 'C'
+  else:
+    sliding_scale = 'Full fee'
+  return sliding_scale
+
+def cross_over_pre_screen(fpl, has_health_insurance, is_eligible_for_medicaid):
+  print fpl
+  print has_health_insurance
+  print is_eligible_for_medicaid
+  if fpl <= 200 and has_health_insurance == 'no' and is_eligible_for_medicaid == 'no':
+    return True
+  else:
+    return False
+
+def access_now_pre_screen(fpl, has_health_insurance, is_eligible_for_medicaid):
+  if fpl <= 200 and has_health_insurance == 'no' and is_eligible_for_medicaid == 'no':
+    return True
+  else:
+    return False
 
 @app.route('/prescreening_results')
 @login_required
@@ -328,7 +452,10 @@ def prescreening_results():
       patient_id = session['patient_id']
     )
   else:
-    return render_template('prescreening_results.html', services = services)
+    return render_template(
+      'prescreening_results.html',
+      services = calculate_pre_screen_results()
+    )
 
 @app.route('/save_prescreening_updates')
 @login_required
