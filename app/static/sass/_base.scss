@@ -109,6 +109,24 @@ body {
 }
 
 
+/* PATIENT DETAILS
+ *
+ *
+ */
+.patient-details-wrapper {
+  opacity:.3;
+  &.show {
+    opacity:1;
+    .hide-block {
+      display:block;
+    }
+  }
+  .hide-block {
+    display:none;
+  }
+}
+
+
 /* PRE-SCREENING
  *
  *

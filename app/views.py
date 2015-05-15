@@ -477,11 +477,26 @@ def patient_print(patient_id):
   patient = Patient.query.get(patient_id)
   return render_template('print.html', patient=patient)
 
+# PATIENT DETAILS (NEW)
+#
+# this is a tempomrary route that shows what viewing a new patient
+# will look like. When the page loads, it will have an alert asking
+# for consent
+#
+# TODO: this will essentially be part of the patient_details route
+# to check if the user has permission to view the patient. When that
+# functionality is added we should delete the patient_details_new.html
+# template
+@app.route('/patient_details_new/')
+@login_required
+def patient_details_new():
+  return render_template('patient_details_new.html')
+
 @app.route('/patient_history/<patient_id>')
 @login_required
 def patient_history(patient_id):
   patient = Patient.query.get(patient_id)
-  return render_template('history.html', patient=patient, request=request)
+  return render_template('history.html', patient=patient)
 
 @app.route('/' )
 @login_required
