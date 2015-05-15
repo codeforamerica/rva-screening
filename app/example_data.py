@@ -7,7 +7,6 @@ services = [
         {"name": "Resource centers", "likely_eligible": False },
         ]
 
-
 example_patient = {
         "id": 432,
         "first_name": "Robert",
@@ -22,7 +21,7 @@ example_patient = {
             {
                 "number": "408-484-8484",
                 "description": "Main cell phone",
-                "primary_yn": "y",
+                "primary_yn": "Y",
             },
             {
                 "number": "408-848-4848",
