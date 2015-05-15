@@ -483,6 +483,14 @@ def patient_history(patient_id):
   patient = Patient.query.get(patient_id)
   return render_template('history.html', patient=patient, request=request)
 
+# SHARE PATIENT DETAILS
+# @param patient id
+@app.route('/patient_share/<patient_id>')
+@login_required
+def patient_share(patient_id):
+  patient = Patient.query.get(patient_id)
+  return render_template('patient_share.html', patient=patient)
+
 @app.route('/' )
 @login_required
 def index():
