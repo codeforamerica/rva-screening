@@ -4,9 +4,14 @@
       <h2>{{ patient.firstname }} {{ patient.lastname }}</h2>
 
       <div class="patient-options">
-        <a class="btn btn-primary left" href="{{ url_for('new_prescreening', patient_id=patient.id) }}">
+        <a class="btn btn-primary" href="{{ url_for('new_prescreening', patient_id=patient.id) }}">
         <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
             Prescreen this patient
+        </a>
+
+        <a class="btn btn-default" href="{{ url_for('patient_print', patient_id=patient.id) }}">
+        <span class="glyphicon glyphicon-print" aria-hidden="true"></span>
+            Print this patient
         </a>
 
         <a class="btn btn-danger delete-patient right" href="{{ url_for('delete', id=patient.id) }}">

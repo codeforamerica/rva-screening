@@ -342,7 +342,13 @@ def save_prescreening_updates():
     session.clear()
     return redirect(url_for('patient_details', id = patient_id))
 
-<<<<<<< HEAD
+# SEARCH NEW PATIENT
+@app.route('/search_new' )
+@login_required
+def search_new():
+  patients = Patient.query.all()
+  return render_template('search_new.html', patients=patients)
+
 # PRINT PATIENT DETAILS
 # @param patient id
 @app.route('/patient_print/<patient_id>')
@@ -350,14 +356,6 @@ def save_prescreening_updates():
 def patient_print(patient_id):
   patient = Patient.query.get(patient_id)
   return render_template('print.html', patient=patient)
-
-=======
-@app.route('/search_new' )
-@login_required
-def search_new():
-  patients = Patient.query.all()
-  return render_template('search_new.html', patients=patients)
->>>>>>> master
 
 @app.route('/' )
 @login_required
