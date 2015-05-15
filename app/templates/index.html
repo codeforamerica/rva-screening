@@ -18,7 +18,7 @@
         </li>
         {% for patient in patients %}
         <li class="patient-list-item col-sm-6">
-          <h3 class="patient-name">{{ patient.first_name }} {{ patient.middle_name }} {{ patient.last_name }}</h3>
+          <h3>{{ patient.full_name }}</h3>
           <p class="patient-dob">DOB: {{ patient.dob }}</p>
           <p class="patient-lastedit">Last edited by: <a href="#">Sandy</a> at <a href="#">Richmond Resource Centers</a></p>
           <a href="{{ url_for('patient_details', id=patient.id) }}">Details <span class="glyphicon glyphicon-chevron-right"></span></a>
@@ -26,7 +26,6 @@
         {% endfor %}
       </ul>
     <!-- /search -->
-
     
   </body>
 {% endblock %}    

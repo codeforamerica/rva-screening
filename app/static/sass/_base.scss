@@ -22,6 +22,17 @@ body {
 .navbar {}
 .nav a {}
 
+.patient-nav {
+  margin-bottom:1em;
+  li {
+    &.active {
+      a {
+        background:#f6f6f6;
+      }
+    }
+  }
+}
+
 
 /* LOGIN LANDING
  *
@@ -123,6 +134,10 @@ body {
   margin-bottom:3em;
 }
 
+.service-pre-screen-result {
+  margin-bottom: 5em;
+}
+
 
 /* PATIENT DETAILS
  *
@@ -138,15 +153,6 @@ ul.documents { list-style-type: none; padding-left: 0; }
 .patient_doc_thumbnail img {
   width: 4rem;
 }
-
-/* ID & CONTACT INFO
- * first, mi, last: [___][_][_____]
- */
-.firstname, .mi { float: left }
-.firstname { width: 40%; }
-.mi { width: 10%; }
-.lastname { width: 50%; float: right; }
-.name_group { overflow: auto; }
 
 /*[___] [___]*/
 .dob_ssn_group { overflow: auto; }

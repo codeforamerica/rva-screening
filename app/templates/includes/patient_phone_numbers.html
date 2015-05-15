@@ -20,13 +20,13 @@
       <tr class="phone_number">
         <td class="phone_number_number">
           <input class="hidden" value="{{phone.id}}" name="phone_number_id">
-          <input class="form-control" type="tel" value="{{phone.phone_number}}" name="phone_number" id="phone_number_{{loop.index}}"/>
+          <input class="form-control" type="tel" value="{{phone.number}}" name="number" id="number_{{loop.index}}"/>
         </td>
         <td class="phone_number_name">
           <input class="form-control" type="text" value="{{phone.description}}" name="phone_description" id="phone_name_{{loop.index}}"/>
         </td>
         <td class="phone_number_primary_yn">
-          <input type="checkbox" checked="{{1 if phone.primary_yn == 'Y'}}" name="phone_primary_yn" id="phone_primary_yn_{{loop.index}}"/>
+          <input type="checkbox"{% if phone.primary_yn == 'Y' %} checked{% endif %} name="phone_primary_yn" id="phone_primary_yn_{{loop.index}}"/>
         </td>
       </tr>
     {% endfor %}
