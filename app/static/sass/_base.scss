@@ -22,6 +22,16 @@ body {
 .navbar {}
 .nav a {}
 
+.patient-nav {
+  li {
+    &.active {
+      a {
+        background:#f6f6f6;
+      }
+    }
+  }
+}
+
 
 /* LOGIN LANDING
  *

@@ -468,6 +468,14 @@ def search_new():
   patients = Patient.query.all()
   return render_template('search_new.html', patients=patients)
 
+# PRINT PATIENT DETAILS
+# @param patient id
+@app.route('/patient_history/<patient_id>')
+@login_required
+def patient_history(patient_id):
+  patient = Patient.query.get(patient_id)
+  return render_template('history.html', patient=patient, request=request)
+
 @app.route('/' )
 @login_required
 def index():
