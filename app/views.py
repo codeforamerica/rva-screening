@@ -1,12 +1,14 @@
-from flask import render_template, request,flash, redirect, url_for, g, send_from_directory, session
-from app import app, db, bcrypt, ALLOWED_EXTENSIONS
+import time, os, base64, hmac, urllib
+from flask import render_template, request,flash, redirect, url_for, g, send_from_directory, session, current_app
+from app import app, db, bcrypt
 from app.models import Patient, PhoneNumber, Address, EmergencyContact, Insurance, HouseholdMember, IncomeSource, Employer, DocumentImage, Service, User
 import datetime
-import os
 from flask.ext.login import login_user, logout_user, current_user, login_required
 from app import login_manager
-from werkzeug import secure_filename
+from app.utils import upload_file, send_document_image
 from sqlalchemy import func
+from hashlib import sha1
+
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -39,9 +41,6 @@ def load_user(email):
 @app.before_request
 def before_request():
   g.user = current_user
-
-def allowed_file(filename):
-  return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
 @app.route('/new_patient' , methods=['POST', 'GET'])
 @login_required
@@ -100,17 +99,14 @@ def patient_details(id):
         value = None
       setattr(patient, key, value)
 
-    for file in request.files.itervalues():
-      if allowed_file(file.filename):
-        file_name = secure_filename(file.filename)
-        file_path = os.path.join(app.config['UPLOAD_FOLDER'], file_name)
-        file.save(file_path)
-        document_image = DocumentImage(
+    for _file in request.files.itervalues():
+      filename = upload_file(_file)
+      document_image = DocumentImage(
           patient_id=patient.id,
-          file_name=file_name,
+          file_name=filename,
           description = request.form['document_image_description']
-        )
-        db.session.add(document_image)
+      )
+      db.session.add(document_image)
 
     db.session.commit()
     return redirect(url_for('index'))
@@ -273,17 +269,20 @@ def delete(id):
 @login_required
 def document_image(image_id):
   _image = DocumentImage.query.get(image_id)
-  file_path = '/documentimages/' + _image.file_name
+  if current_app.config['SCREENER_ENVIRONMENT'] == 'prod':
+    file_path = 'http://s3.amazonaws.com/{bucket}/{uploaddir}/{filename}'.format(
+        bucket=current_app.config['S3_BUCKET_NAME'],
+        uploaddir=current_app.config['S3_FILE_UPLOAD_DIR'],
+        filename=_image.file_name
+    )
+  else:
+    file_path = '/documentimages/' + _image.file_name
   return render_template('documentimage.html', file_path=file_path)
 
 @app.route('/documentimages/<filename>')
 @login_required
 def get_image(filename):
-  return send_from_directory(os.path.join(
-    app.config['PROJECT_ROOT'],
-    app.config['UPLOAD_FOLDER']),
-    filename
-  )
+  return send_document_image(filename)
 
 @app.route('/new_prescreening/<patient_id>', methods=['POST', 'GET'])
 @app.route('/new_prescreening', defaults={'patient_id': None}, methods=['POST', 'GET'])
