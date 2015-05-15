@@ -22,6 +22,17 @@ body {
 .navbar {}
 .nav a {}
 
+.patient-nav {
+  margin-bottom:1em;
+  li {
+    &.active {
+      a {
+        background:#f6f6f6;
+      }
+    }
+  }
+}
+
 
 /* LOGIN LANDING
  *
@@ -180,4 +191,3 @@ tr.hh_member.patient {
   float: right;
   width: 53%;
 }
-
