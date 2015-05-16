@@ -15,6 +15,19 @@ var AppController = function ( options ) {
       $(this).parent().toggleClass('open');
       $(this).next('.expander-content').slideToggle(300);
     });
+
+    /*
+    **  CONSENT BUTTON CLICK
+    **  Removes the parent container and shows the patient
+    **  information below.
+    **
+    */
+    if ($('#consent-button').length) {
+      $('#consent-button').on('click', function(){
+        $(this).parent().parent().hide();
+        $('.patient-details-wrapper').addClass('show');
+      });
+    }
   }
 
   /*
@@ -69,18 +82,6 @@ function showHiddenFields() {
 	);
 }
 
-
-/*
-**  REQUEST BUTTON CLICK / UPDATE
-**  Updates the className of the patient-list-item and changes
-**  the text within the button.
-**
-*/
-function requestPatientButtonClick( btn ) {
-  $(btn).parent().parent().addClass('requested');
-  $(btn).text('request sent');
-}
-
 function convertForPrint() {
   $('#patient_details_form').find(':input').not('.hidden-input').not('.hidden').replaceWith(function(){
     return '<span>'+this.value+'</span>'
@@ -90,4 +91,15 @@ function convertForPrint() {
   });
   $('.expander-title').hide();
   $('table').not('#phone_number_table').find('th:last-child, td:last-child').hide();
+}
+
+/*
+**  REQUEST BUTTON CLICK / UPDATE
+**  Updates the className of the patient-list-item and changes
+**  the text within the button.
+**
+*/
+function sharePatientInfo( btn ) {
+  $(btn).addClass('shared');
+  $(btn).text('information sent');
 }

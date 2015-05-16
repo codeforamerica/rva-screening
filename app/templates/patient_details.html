@@ -4,8 +4,7 @@
   {% if patient and patient.id %}
 
       {% include "includes/patient_nav.html" %}
-
-      <h2>{{ patient.full_name }}</h2>
+      <h2>{{ patient.full_name or patient.first_name }}</h2>
 
   {% else %}
       <h2>Add New Patient</h2>

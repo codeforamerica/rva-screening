@@ -33,6 +33,27 @@ body {
   }
 }
 
+/* SERVICE & SHARE INFORMATION
+ *
+ *
+ */
+.service {
+  margin-bottom:3em;
+}
+
+.share-button {
+  text-transform:uppercase;
+  letter-spacing:.1em;
+  &.shared {
+    background:#2ECC40;
+    color: white;
+    &:after {
+      font-family: "Glyphicons Halflings";
+      content: "\e013";
+      margin-left: 10px;
+    }
+  }
+}
 
 /* LOGIN LANDING
  *
@@ -52,26 +73,6 @@ body {
   border-right:2px solid #f6f6f6;
   &.recent {
     border-left:2px solid #4D1B7B;
-  }
-  .request-button {
-    text-transform:uppercase;
-    letter-spacing:.1em;
-    -webkit-transition: 0.5s;
-       -moz-transition: 0.5s;
-        -ms-transition: 0.5s;
-         -o-transition: 0.5s;
-            transition: 0.5s;
-  }
-  &.requested {
-    .request-button {
-      background:#2ECC40;
-      color: white;
-      &:after {
-        font-family: "Glyphicons Halflings";
-        content: "\e013";
-        margin-left: 10px;
-      }
-    }
   }
   .patient-dob {
     color:#999;
@@ -106,6 +107,24 @@ body {
 }
 .push-right {
   margin-right:.5em;
+}
+
+
+/* PATIENT DETAILS
+ *
+ *
+ */
+.patient-details-wrapper {
+  opacity:.3;
+  &.show {
+    opacity:1;
+    .hide-block {
+      display:block;
+    }
+  }
+  .hide-block {
+    display:none;
+  }
 }
 
 
