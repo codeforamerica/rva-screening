@@ -12,6 +12,7 @@
 
 <br>
 <ul class="patient-nav nav nav-tabs">
+
   <li role="presentation" {% if request.path == url_for('patient_details', id=patient.id) %}class="active"{% endif %}>
     <a href="{{ url_for('patient_details', id=patient.id) }}">
     <span class="glyphicon glyphicon-user" aria-hidden="true"></span>  
