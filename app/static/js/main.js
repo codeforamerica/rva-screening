@@ -15,6 +15,19 @@ var AppController = function ( options ) {
       $(this).parent().toggleClass('open');
       $(this).next('.expander-content').slideToggle(300);
     });
+
+    /*
+    **  CONSENT BUTTON CLICK
+    **  Removes the parent container and shows the patient
+    **  information below.
+    **
+    */
+    if ($('#consent-button').length) {
+      $('#consent-button').on('click', function(){
+        $(this).parent().parent().hide();
+        $('.patient-details-wrapper').addClass('show');
+      });
+    }
   }
 
   /*
@@ -26,6 +39,7 @@ var AppController = function ( options ) {
     this.search = {};
     this.initSearch('patient-search', { valueNames: ['patient-name', 'patient-dob'] });
   }
+
 };
 
 
@@ -72,7 +86,7 @@ function showHiddenFields() {
 **  the text within the button.
 **
 */
-function requestPatientButtonClick( btn ) {
-  $(btn).parent().parent().addClass('requested');
-  $(btn).text('request sent');
+function sharePatientInfo( btn ) {
+  $(btn).addClass('shared');
+  $(btn).text('information sent');
 }
