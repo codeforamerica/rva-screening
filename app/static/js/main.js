@@ -44,7 +44,9 @@ var AppController = function ( options ) {
   if (window.location.pathname.indexOf('/patient_print') > -1) {
     convertForPrint();
   }
+
 };
+
 
 /*
 **  SEARCH INITIALIZATION
@@ -92,6 +94,7 @@ function convertForPrint() {
   $('.expander-title').hide();
   $('table').not('#phone_number_table').find('th:last-child, td:last-child').hide();
 }
+
 
 /*
 **  REQUEST BUTTON CLICK / UPDATE

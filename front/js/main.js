@@ -40,6 +40,11 @@ var AppController = function ( options ) {
     this.initSearch('patient-search', { valueNames: ['patient-name', 'patient-dob'] });
   }
 
+  // If we're on the print page, hide everything that shouldn't print
+  if (window.location.pathname.indexOf('/patient_print') > -1) {
+    convertForPrint();
+  }
+
 };
 
 
@@ -77,6 +82,17 @@ function showHiddenFields() {
       $(this).find(".read-only").hide().prop('disabled', true);
     }
   );
+}
+
+function convertForPrint() {
+  $('#patient_details_form').find(':input').not('.hidden-input').not('.hidden').replaceWith(function(){
+    return '<span>'+this.value+'</span>'
+  });
+  $('.expander').replaceWith(function(){
+    return $(this).children()
+  });
+  $('.expander-title').hide();
+  $('table').not('#phone_number_table').find('th:last-child, td:last-child').hide();
 }
 
 
