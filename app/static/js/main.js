@@ -86,7 +86,7 @@ function showHiddenFields() {
 **  the text within the button.
 **
 */
-function requestPatientButtonClick( btn ) {
-  $(btn).parent().parent().addClass('requested');
-  $(btn).text('request sent');
+function sharePatientInfo( btn ) {
+  $(btn).addClass('shared');
+  $(btn).text('information sent');
 }
