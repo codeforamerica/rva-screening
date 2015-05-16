@@ -33,8 +33,7 @@ gulp.task('vendorCSS', function(){
 });
 
 var jsFiles = [
-  './front/js/main.js',
-  './front/js/app.js'
+  './front/js/main.js'
 ];
 // Concatenate js
 gulp.task('js', function() {
@@ -46,6 +45,7 @@ gulp.task('js', function() {
 var vendorJSFiles = [
 				'./node_modules/jquery/dist/jquery.js',
 				'./node_modules/bootstrap/dist/js/bootstrap.js',
+        './front/js/lib/*.js'
 				];
 
 gulp.task('vendorJS', function(){

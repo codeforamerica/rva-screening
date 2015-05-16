@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+  <body>
+
+    {% include "includes/patient_nav.html" %}
+    
+    {% if patient and patient.id %}
+    
+    <div class="print">
+      
+      <div class="col-sm-12 print-card">
+        <h3>{{ patient.full_name }}</h3>
+        <p class="print-patient_id"><strong>Patient ID: <span>{{ patient.id }}24572034</span></strong></p>
+        Date of birth: <strong>{{ patient.dob }}</strong><br>
+        SSN: <strong>{{ patient.ssn }}</strong><br>
+        {% if patient.addresses %}
+          <p class="print-patient_address">
+          {% for address in patient.addresses %}
+            {{ address.address1 }}{% if address.address2 %}, {{ address.address2 }}{% endif %}<br>
+            {{ address.city }}, {{ address.state }} {{ address.zip }}<br>
+          {% endfor %}
+          </p>
+        {% endif %}
+      </div>
+
+    </div>
+
+    {% endif %}
+
+  </body>
+{% endblock %}

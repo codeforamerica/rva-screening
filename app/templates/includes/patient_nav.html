@@ -1,0 +1,43 @@
+<div class="patient-options">
+  <a class="btn btn-primary" href="{{ url_for('new_prescreening', patient_id=patient.id) }}">
+  <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
+      Prescreen this patient
+  </a>
+
+  <a class="btn btn-danger delete-patient right" href="{{ url_for('delete', id=patient.id) }}">
+  <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+    Delete patient
+  </a>
+</div>
+
+<br>
+<ul class="patient-nav nav nav-tabs">
+
+  <li role="presentation" {% if request.path == url_for('patient_details', id=patient.id) %}class="active"{% endif %}>
+    <a href="{{ url_for('patient_details', id=patient.id) }}">
+    <span class="glyphicon glyphicon-user" aria-hidden="true"></span>  
+    Details
+    </a>
+  </li>
+
+  <li role="presentation" {% if request.path == url_for('patient_print', patient_id=patient.id) %}class="active"{% endif %}>
+    <a href="{{ url_for('patient_print', patient_id=patient.id) }}">
+      <span class="glyphicon glyphicon-print" aria-hidden="true"></span>
+      Print this patient
+    </a>
+  </li>
+
+  <li role="presentation" {% if request.path == url_for('patient_history', patient_id=patient.id) %}class="active"{% endif %}>
+    <a href="{{ url_for('patient_history', patient_id=patient.id) }}">
+    <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>  
+      View Edit History
+    </a>
+  </li>
+
+  <li role="presentation" {% if request.path == url_for('patient_share', patient_id=patient.id) %}class="active"{% endif %}>
+    <a href="{{ url_for('patient_share', patient_id=patient.id) }}">
+    <span class="glyphicon glyphicon-share-alt"></span>
+      Share Patient
+    </a>
+  </li>
+</ul>

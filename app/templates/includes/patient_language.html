@@ -1,12 +1,12 @@
-
   <div class="form-group language">
     <label for="language">Language</label>
-    <select class="form-control" name="languages">
-      <option value=""{% if not patient.languages %} selected{% endif %}></option>
-      <option value="English"{% if patient.languages == "English" %} selected{% endif %}>English</option>
-      <option value="Spanish"{% if patient.languages == "Spanish" %} selected{% endif %}>Spanish</option>
-      <option value="Arabic"{% if patient.languages == "Arabic" %} selected{% endif %}>Arabic</option>
-      <option value="Other"{% if patient.languages == "Other" %} selected{% endif %}>Other</option>
+    <select class="form-control has_other" name="languages">
+      {% with  %}
+      {% set default_choice=("", "") %}
+      {% set choices=[("EN", "English"), ("ES", "Spanish"), ("AR", "Arabic"), ("other", "Other")] %}
+      {% set test_value=patient.languages %}
+      {% include "includes/choices.html" %}
+      {% endwith %}
     </select>
   </div>
 

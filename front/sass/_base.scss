@@ -22,16 +22,61 @@ body {
 .navbar {}
 .nav a {}
 
+.patient-nav {
+  margin-bottom:1em;
+  li {
+    &.active {
+      a {
+        background:#f6f6f6;
+      }
+    }
+  }
+}
+
+/* SERVICE & SHARE INFORMATION
+ *
+ *
+ */
+.service {
+  margin-bottom:3em;
+}
+
+.share-button {
+  text-transform:uppercase;
+  letter-spacing:.1em;
+  &.shared {
+    background:#2ECC40;
+    color: white;
+    &:after {
+      font-family: "Glyphicons Halflings";
+      content: "\e013";
+      margin-left: 10px;
+    }
+  }
+}
 
 /* LOGIN LANDING
  *
  *
  */
+#patient-search {
+  .list {
+    margin:0;
+    padding:0;
+    list-style-type: none;
+  }
+}
 .patient-list-item { 
-  color:white;
-  background:#333;
-  padding:.8em 1em .1em;
+  background:white;
+  padding:.1em 1em 1em;
   margin-bottom:.1em;
+  border-right:2px solid #f6f6f6;
+  &.recent {
+    border-left:2px solid #4D1B7B;
+  }
+  .patient-dob {
+    color:#999;
+  }
 }
 .patient-list-item-id {
   font-weight:100;
@@ -65,6 +110,24 @@ body {
 }
 
 
+/* PATIENT DETAILS
+ *
+ *
+ */
+.patient-details-wrapper {
+  opacity:.3;
+  &.show {
+    opacity:1;
+    .hide-block {
+      display:block;
+    }
+  }
+  .hide-block {
+    display:none;
+  }
+}
+
+
 /* PRE-SCREENING
  *
  *
@@ -88,6 +151,10 @@ body {
 
 .prescreen-form .form-group {
   margin-bottom:3em;
+}
+
+.service-pre-screen-result {
+  margin-bottom: 5em;
 }
 
 
@@ -143,4 +210,3 @@ tr.hh_member.patient {
   float: right;
   width: 53%;
 }
-

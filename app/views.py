@@ -9,6 +9,45 @@ from app.utils import upload_file, send_document_image
 from sqlalchemy import func
 from hashlib import sha1
 
+DAILY_PLANET_FEES = {
+  'Nominal': (
+    ('Dental services', 30),
+    ('Medical services', 10),
+    ('Mental health services, initial visit of calendar month', 10),
+    ('Mental health services, other visits', 5)
+  ),
+  'Slide A': (
+    ('Dental services', '45\% of full fee'),
+    ('Medical services', 15),
+    ('Mental health services, initial visit of calendar month', 15),
+    ('Mental health services, second visit of calendar month', 10),
+    ('Mental health services, other visits', 5)
+  ),
+  'Slide B': (
+    ('Dental services', '55\% of full fee'),
+    ('Medical services', 20),
+    ('Mental health services, initial visit of calendar month', 20),
+    ('Mental health services, second visit of calendar month', 15),
+    ('Mental health services, other visits', 5)
+  ),
+  'Slide C': (
+    ('Dental services', '65\% of full fee'),
+    ('Medical services', 30),
+    ('Mental health services, initial visit of calendar month', 30),
+    ('Mental health services, second visit of calendar month', 25),
+    ('Mental health services, other visits', 5)
+  ),
+  'Full fee': ()
+}
+CROSSOVER_FEES = (
+  ('Medications', 4),
+  ('Nurse/Labs', 10),
+  ('Vaccine clinic', 10),
+  ('Medical visit/mental health', 15),
+  ('Eye', 15),
+  ('Same day appointments', 20),
+  ('Dental', 25)
+)
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -56,22 +95,10 @@ def new_patient():
     patient = Patient(**form)
 
     db.session.add(patient)
-    many_to_one_patient_updates(patient, request.form)
+    many_to_one_patient_updates(patient, request.form, request.files)
     db.session.commit()
 
-    for file in request.files.itervalues():
-      if allowed_file(file.filename):
-        file_name = secure_filename(file.filename)
-        file_path = os.path.join(app.config['UPLOAD_FOLDER'], file_name)
-        file.save(file_path)
-        document_image = DocumentImage(
-          patient_id=patient.id,
-          file_name=file_name,
-          description = request.form['document_image_description']
-        )
-        db.session.add(document_image)
-        db.session.commit()
-    return redirect(url_for('index'))
+    return redirect(url_for('patient_details', id=patient.id))
   else:
     # Check whether we already have some data from a pre-screening
     if 'household_size' in session or 'household_income' in session:
@@ -90,7 +117,7 @@ def patient_details(id):
   patient = Patient.query.get(id)
 
   if request.method == 'POST':
-    many_to_one_patient_updates(patient, request.form)
+    many_to_one_patient_updates(patient, request.form, request.files)
 
     for key, value in request.form.iteritems():
       if key == 'dob' and value != '':
@@ -120,7 +147,7 @@ def patient_details(id):
     )
     return render_template('patient_details.html', patient=patient)
 
-def many_to_one_patient_updates(patient, form):
+def many_to_one_patient_updates(patient, form, files):
   phone_number_ids = form.getlist('phone_number_id')
   phone_numbers = form.getlist('phone_number')
   phone_descriptions = form.getlist('phone_description')
@@ -251,10 +278,32 @@ def many_to_one_patient_updates(patient, form):
         patient.employers.append(employer)
         db.session.add(employer)
 
+  document_image_ids = form.getlist('document_image_id')
+  document_image_descriptions = form.getlist('document_image_description')
+  for index, value in enumerate(document_image_descriptions):
+    if value:
+      if len(document_image_ids) > index:
+        document_image = DocumentImage.query.get(document_image_ids[index])
+        document_image.description = document_image_descriptions[index]
+      else:
+        for file in files.itervalues():
+          if allowed_file(file.filename):
+            file_name = secure_filename(file.filename)
+            file_path = os.path.join(app.config['UPLOAD_FOLDER'], file_name)
+            file.save(file_path)
+            document_image = DocumentImage(
+              patient_id=patient.id,
+              file_name=file_name,
+              description = document_image_descriptions[index]
+            )
+            db.session.add(document_image)
+            index += 1
+        break
+
   return
 
 def calculate_fpl(household_size, annual_income):
-  fpl = 5200 * household_size + 9520
+  fpl = 5200 * int(household_size) + 9520
   return float(annual_income) / fpl * 100
 
 @app.route('/delete/<id>', methods=['POST', 'GET'])
@@ -302,6 +351,8 @@ def prescreening_basic():
   if request.method == 'POST':
     session['household_size'] = request.form['household_size']
     session['household_income'] = request.form['household_income']
+    session['has_health_insurance'] = request.form['has_health_insurance']
+    session['is_eligible_for_medicaid'] = request.form['is_eligible_for_medicaid']
     return redirect(url_for('prescreening_results'))
   else:
     if session.get('patient_id'):
@@ -309,6 +360,88 @@ def prescreening_basic():
       return render_template('prescreening_basic.html', patient = patient)
     else:
       return render_template('prescreening_basic.html')
+
+def calculate_pre_screen_results():
+  fpl = calculate_fpl(session['household_size'], int(session['household_income']) * 12)
+  service_results = []
+  for service in session['services']:
+    if service == 'daily_planet':
+      sliding_scale = daily_planet_pre_screen(fpl)
+      service_results.append({
+        'name': 'Daily Planet',
+        'eligible': True,
+        'sliding_scale': sliding_scale,
+        'sliding_scale_fees': DAILY_PLANET_FEES[sliding_scale]
+      })
+    if service == 'resource_centers':
+      service_results.append({
+        'name': 'RCHD resource centers',
+        'eligible': True,
+        'sliding_scale': resource_center_pre_screen(fpl)
+      })
+    if service == 'cross_over':
+      service_results.append({
+        'name': 'CrossOver',
+        'eligible': cross_over_pre_screen(
+          fpl,
+          session['has_health_insurance'],
+          session['is_eligible_for_medicaid']
+        ),
+        'sliding_scale': 0,
+        'general_fees': CROSSOVER_FEES
+      })
+    if service == 'access_now':
+      service_results.append({
+        'name': 'Access Now',
+        'eligible': access_now_pre_screen(
+          fpl,
+          session['has_health_insurance'],
+          session['is_eligible_for_medicaid']
+        ),
+        'sliding_scale': 0
+      })
+  return service_results
+
+def daily_planet_pre_screen(fpl):
+  if fpl <= 100:
+    sliding_scale = 'Nominal'
+  elif 100 < fpl <= 125:
+    sliding_scale = 'A'
+  elif 125 < fpl <= 150:
+    sliding_scale = 'B'
+  elif 150 <fpl <= 200:
+    sliding_scale = 'C'
+  else:
+    sliding_scale = 'Full fee'
+  return sliding_scale
+
+def resource_center_pre_screen(fpl):
+  if fpl <= 100:
+    sliding_scale = 'Nominal'
+  elif 100 < fpl <= 125:
+    sliding_scale = 'A'
+  elif 125 < fpl <= 150:
+    sliding_scale = 'B'
+  elif 150 <fpl <= 200:
+    sliding_scale = 'C'
+  else:
+    sliding_scale = 'Full fee'
+  return sliding_scale
+
+def cross_over_pre_screen(fpl, has_health_insurance, is_eligible_for_medicaid):
+  print fpl
+  print has_health_insurance
+  print is_eligible_for_medicaid
+  if fpl <= 200 and has_health_insurance == 'no' and is_eligible_for_medicaid == 'no':
+    return True
+  else:
+    return False
+
+def access_now_pre_screen(fpl, has_health_insurance, is_eligible_for_medicaid):
+  if fpl <= 200 and has_health_insurance == 'no' and is_eligible_for_medicaid == 'no':
+    return True
+  else:
+    return False
 
 @app.route('/prescreening_results')
 @login_required
@@ -322,7 +455,10 @@ def prescreening_results():
       patient_id = session['patient_id']
     )
   else:
-    return render_template('prescreening_results.html', services = services)
+    return render_template(
+      'prescreening_results.html',
+      services = calculate_pre_screen_results()
+    )
 
 @app.route('/save_prescreening_updates')
 @login_required
@@ -335,6 +471,50 @@ def save_prescreening_updates():
     db.session.commit()
     session.clear()
     return redirect(url_for('patient_details', id = patient_id))
+
+# SEARCH NEW PATIENT
+@app.route('/search_new' )
+@login_required
+def search_new():
+  patients = Patient.query.all()
+  return render_template('search_new.html', patients=patients)
+
+# PRINT PATIENT DETAILS
+# @param patient id
+@app.route('/patient_print/<patient_id>')
+@login_required
+def patient_print(patient_id):
+  patient = Patient.query.get(patient_id)
+  return render_template('print.html', patient=patient)
+
+# PATIENT DETAILS (NEW)
+#
+# this is a tempomrary route that shows what viewing a new patient
+# will look like. When the page loads, it will have an alert asking
+# for consent
+#
+# TODO: this will essentially be part of the patient_details route
+# to check if the user has permission to view the patient. When that
+# functionality is added we should delete the patient_details_new.html
+# template
+@app.route('/patient_details_new/')
+@login_required
+def patient_details_new():
+  return render_template('patient_details_new.html')
+
+@app.route('/patient_history/<patient_id>')
+@login_required
+def patient_history(patient_id):
+  patient = Patient.query.get(patient_id)
+  return render_template('history.html', patient=patient)
+
+# SHARE PATIENT DETAILS
+# @param patient id
+@app.route('/patient_share/<patient_id>')
+@login_required
+def patient_share(patient_id):
+  patient = Patient.query.get(patient_id)
+  return render_template('patient_share.html', patient=patient)
 
 @app.route('/' )
 @login_required

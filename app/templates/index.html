@@ -1,8 +1,31 @@
 {% extends "base.html" %}
 {% block content %}
-    {% for patient in patients %}
-      <h3>{{ patient.full_name }}</h3>
-      <p>DOB: {{ patient.dob }}</p>
-      <a href="{{ url_for('patient_details', id=patient.id) }}">Details</a>
-    {% endfor %}
+  <body>
+    <h1>RVA Screener</h1>
+
+    <!-- search -->
+    <div id="patient-search">
+      <div class="form-group">
+        <input type="text" class="search form-control" placeholder="Search your patients..."/>
+        <a href="{{ url_for('search_new') }}" class="btn btn-success"><span class="glyphicon glyphicon-eye-open"></span> Search new patients</a>
+      </div>
+      <ul class="list">
+        <li class="patient-list-item  col-sm-6 recent">
+          <h3 class="patient-name">Recent Patient</h3>
+          <p class="patient-dob">DOB: xx/xx/xxxx</p>
+          <p class="patient-lastedit">Last edited by: <a href="#">Me</a> at <a href="#">Where I work</a></p>
+          <a href="#">Details <span class="glyphicon glyphicon-chevron-right"></span></a>
+        </li>
+        {% for patient in patients %}
+        <li class="patient-list-item col-sm-6">
+          <h3>{{ patient.full_name }}</h3>
+          <p class="patient-dob">DOB: {{ patient.dob }}</p>
+          <p class="patient-lastedit">Last edited by: <a href="#">Sandy</a> at <a href="#">Richmond Resource Centers</a></p>
+          <a href="{{ url_for('patient_details', id=patient.id) }}">Details <span class="glyphicon glyphicon-chevron-right"></span></a>
+        </li>
+        {% endfor %}
+      </ul>
+    <!-- /search -->
+    
+  </body>
 {% endblock %}    

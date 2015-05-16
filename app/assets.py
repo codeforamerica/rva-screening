@@ -16,6 +16,8 @@ bootstrap = 'node_modules/bootstrap/dist/'
 js = Bundle(
   'node_modules/jquery/dist/jquery.js',
   '{}js/bootstrap.js'.format(bootstrap),
+  'js/lib/typeahead.js',
+  'js/lib/list.js',
   'js/main.js',
   output='./public/js/app.js',
   depends=('js/*.js', 'js/**/*.js')
