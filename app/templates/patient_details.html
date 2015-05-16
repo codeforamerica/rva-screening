@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
+
   {% if patient and patient.id %}
 
       {% include "includes/patient_nav.html" %}
@@ -9,7 +10,7 @@
       <h2>Add New Patient</h2>
   {% endif %}
 
-  <form enctype="multipart/form-data" action="" method="post">
+  <form enctype="multipart/form-data" action="" method="post" id="patient_details_form" class="print">
 
     <!-- id info -->
     {% include "includes/patient_id.html" %}

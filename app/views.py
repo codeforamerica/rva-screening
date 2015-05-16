@@ -485,7 +485,7 @@ def search_new():
 @login_required
 def patient_print(patient_id):
   patient = Patient.query.get(patient_id)
-  return render_template('print.html', patient=patient)
+  return render_template('patient_details.html', patient=patient)
 
 # PATIENT DETAILS (NEW)
 #
