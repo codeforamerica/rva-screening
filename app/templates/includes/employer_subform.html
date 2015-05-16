@@ -1,0 +1,27 @@
+<div class="form-row">
+
+  {% if employer %}
+    <input class="hidden" value="{{employer.id}}" name="employer_id">
+  {% endif %}
+
+    <input type="date" class="hidden" value="1000-01-01" name="employer_start_date">
+
+    <div class="form-group employer_name">
+      <label for="employer_name">Employer Name</label>
+      <input type="text" class="form-control" name="employer_name" id="employer_name"{% if employer %} value="{{employer.name}}"{% endif %}>
+    </div>
+
+    <div class="form-group employer_phone_number">
+      <label for="employer_phone_number">Phone Number</label>
+      <input type="tel" class="form-control" name="employer_phone_number" id="employer_phone_number"{% if employer %} value="{{employer.phone_number}}"{% endif %}>
+    </div>
+
+    <div class="form-group">
+      <label for="employer_employee">Who's job?</label>
+      <select class="form-control" name="employer_employee">
+        <option value="Patient"{% if not employer or not employer.employee or employer.employee == 'Patient' %} selected{% endif %}>Patient</option>
+        <option value="Spouse"{% if employer and employer.employee == 'Spouse' %} selected{% endif %}>Spouse</option>
+      </select>
+    </div>
+
+</div>

@@ -1,6 +1,5 @@
 <h4>Employment Info</h4>
 
-{% include "includes/patient_student_status.html" %}
 
 <div class="form-group">
   <label for="employment_status">Employment Status</label>
@@ -16,6 +15,8 @@
   </select>
 </div>
 
+{% include "includes/patient_student_status.html" %}
+
 <div class="form-group">
   <label for="spouse_employment_status">Spouse's employment status</label>
   <select class="form-control" name="spouse_employment_status">
@@ -30,76 +31,27 @@
   </select>
 </div>
 
-<table class="table table-condensed employers" id="employer_table">
 
-  <thead>
-    <tr>
-      <th>Employee</th>
-      <th>Employer Name</th>
-      <th>Employer Phone</th>
-      <th>Start Date</th>
-      <th>Edit</th>
-    </tr>
-  </thead>
-
+<div class="employers">
+  <h4>Employers</h4>
   {% if patient.employers %}
     {% for employer in patient.employers %}
-      <tr class="employer">
-        <td>
-          <input class="hidden" value="{{employer.id}}" name="employer_id">
-          <div class="read-only">{{employer.employee}}</div>
-          <input class="form-control hidden-input" type="text" name="employer_employee" value="{{employer.employee}}"/>
-        </td>
-        <td>
-          <div class="read-only">{{employer.name}}</div>
-          <input class="form-control hidden-input" type="text" name="employer_name" value="{{employer.name}}"/>
-        </td>
-        <td>
-          <div class="read-only">{{employer.phone_number}}</div>
-          <input class="form-control hidden-input" type="tel" name="employer_phone_number" value="{{employer.phone_number}}"/>
-        </td>
-        <td>
-          <div class="read-only">{{employer.start_date}}</div>
-          <input class="form-control hidden-input" type="date" name="employer_start_date" value="{{employer.start_date}}"/>
-        </td>
-        <td class="employer_edit">
-          <span
-            class="glyphicon glyphicon-pencil"
-            aria-hidden="true"
-            onclick="showHiddenFields()"
-          ></span>
-        </td>
-      </tr>
+    {% include "includes/employer_subform.html" %}
     {% endfor %}
   {% endif %}
 
-  <tr class="employer" id="employer_input">
-    <td>
-      <input class="form-control" type="text" name="employer_employee"/>
-    </td>
-    <td>
-      <input class="form-control" type="text" name="employer_name"/>
-    </td>
-    <td>
-      <input class="form-control" type="tel" name="employer_phone_number"/>
-    </td>
-    <td>
-      <input class="form-control" type="date" name="employer_start_date"/>
-    </td>
-    <td class="employer_edit"></td>
-  </tr>
+  <div class="many_to_one_form hidden">
+    {% include "includes/employer_subform.html" %}
+  </div>
 
-</table>
-
-<div class="form-group add_employer">
-    <button
-      type="button"
-      class="btn btn-primary"
-      onclick="addNewInputRow($('#employer_table'), $('#employer_input'))"
-    >
-      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-      Add an employer
-    </button>
+  <div class="form-group">
+      <button type="button" class="btn btn-primary" >
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+        <span class="phrase">
+        Input an employer
+        </span>
+      </button>
+  </div>
 </div>
 
 
