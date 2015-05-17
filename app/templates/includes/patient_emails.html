@@ -1,15 +1,8 @@
 <h5>
   Emails
 </h5>
+
 {% if patient.emails %} 
-<table class="table table-condensed emails" id="email_table"> 
-    <thead>
-      <tr>
-        <th>Address</th>
-        <th>Description</th>
-        <th>Edit</th>
-      </tr>
-    </thead>
 
     {% for email in patient.emails %}
       <tr class="email">
@@ -51,6 +44,7 @@
     </tr>
 
   </table>
+    </thead>
 {% endif %}
 
 <div class="form-group add_email">
