@@ -26,9 +26,6 @@
       {% set test_value=patient.ethinicity %}
       {% include "includes/choices.html" %}
       {% endwith %}
-      <option value=""{% if not patient.ethnicity %} selected{% endif %}></option>
-      <option value="HL"{% if patient.ethnicity == "HL" %} selected{% endif %}>Hispanic or Latino</option>
-      <option value="NHL"{% if patient.ethnicity == "NHL" %} selected{% endif %}>Not Hispanic or Latino</option>
     </select>
   </div>
 
