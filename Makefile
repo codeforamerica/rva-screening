@@ -1,5 +1,5 @@
 run:
-	foreman start web \
+	foreman run python run.py \
 		--env=.env
 
 new_db:
