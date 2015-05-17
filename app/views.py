@@ -266,7 +266,7 @@ def many_to_one_patient_updates(patient, form, files):
   employer_names = form.getlist('employer_name')
   employer_phone_numbers = form.getlist('employer_phone_number')
   employer_start_dates = form.getlist('employer_start_date')
-  for index, value in enumerate(employer_employees):
+  for index, value in enumerate(employer_names):
     if value:
       if len(employer_ids) > index:
         employer = Employer.query.get(employer_ids[index])
@@ -276,8 +276,8 @@ def many_to_one_patient_updates(patient, form, files):
         employer.start_date = screen_empty_dates(employer_start_dates[index])
       else:
         employer = Employer(
-          employee = value,
-          name = employer_names[index],
+          employee = employer_employees[index],
+          name = value,
           phone_number = employer_phone_numbers[index],
           start_date = screen_empty_dates(employer_start_dates[index])
         )
