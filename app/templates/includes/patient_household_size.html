@@ -1,94 +1,28 @@
-<h4>Household Size{% if patient.household_members %}:
-    {{ patient.household_members.count() + 1 }}
+<h4>Household Size:
+  {% if not patient or patient.household_members.count() == 0 %}
+    1 (Patient alone)
+    {% else %} 
+    {{patient.household_members.count() + 1}} (Patient + {{patient.household_members.count()}})
   {% endif %}
 </h4>
 
-
-<table class="table table-condensed hh_members" id="household_member_table">
-
-  <thead>
-    <tr>
-      <th>#</th>
-      <th>Name</th>
-      <th>DOB</th>
-      <th>SSN</th>
-      <th>Relation</th>
-      <th>Edit</th>
-    </tr>
-  </thead>
-
-  <tr class="hh_member patient">
-    <td class="hh_member_number">1</td>
-    <td class="hh_member_full_name">{{patient.full_name}}</td>
-    <td class="hh_member_dob">{{patient.dob}}</td>
-    <td class="hh_member_ssn">{{patient.ssn}}</td>
-    <td class="hh_member_relation">Patient</td>
-    <td class="hh_member_edit">
-    </td>
-  </tr>
-
-  {% if patient.household_members %}
+<div class="form-list">
+  {% if not patient or not patient.household_members.count() %}
+    {% include "includes/household_member_subform.html" %}
+  {% elif patient.household_members %}
     {% for member in patient.household_members %}
-      <tr class="hh_member">
-        <td class="hh_member_number">
-          <input class="hidden" value="{{member.id}}" name="household_member_id">
-          {{ loop.index + 1}}
-        </td>
-        <td class="hh_member_full_name">
-          <div class="read-only">{{member.full_name}}</div>
-          <input class="form-control hidden-input" type="text" name="household_member_full_name" value="{{member.full_name}}"/>
-        </td>
-        <td class="hh_member_dob">
-          <div class="read-only">{{member.dob}}</div>
-          <input class="form-control hidden-input" type="date" name="household_member_dob" value="{{member.dob}}"/>
-        </td>
-        <td class="hh_member_ssn">
-          <div class="read-only">{{member.ssn}}</div>
-          <input class="form-control hidden-input" type="text" name="household_member_ssn" value="{{member.ssn}}"/>
-        </td>
-        <td class="hh_member_relation">
-          <div class="read-only">{{member.relationship}}</div>
-          <input class="form-control hidden-input" type="text" name="household_member_relation" value="{{member.relationship}}"/>
-        </td>
-        <td class="hh_member_edit">
-          <span
-            class="glyphicon glyphicon-pencil"
-            aria-hidden="true"
-            onclick="showHiddenFields()"
-          ></span>
-        </td>
-      </tr>
+      {% include "includes/household_member_subform.html" %}
     {% endfor %}
   {% endif %}
 
-  <tr class="hh_member" id="household_member_input">
-    <td class="hh_member_number"></td>
-    <td class="hh_member_full_name">
-      <input class="form-control" type="text" name="household_member_full_name"/>
-    </td>
-    <td class="hh_member_age">
-      <input class="form-control" type="date" name="household_member_dob"/>
-    </td>
-    <td class="hh_member_ssn">
-      <input class="form-control" type="text" name="household_member_ssn"/>
-    </td>
-    <td class="hh_member_relation">
-      <input class="form-control" type="text" name="household_member_relation"/>
-    </td>
-    <td class="hh_member_edit"></td>
-  </tr>
-
-</table>
-
-<div class="form-group add_hh_member">
-  <button
-    type="button"
-    class="btn btn-primary"
-    onclick="addNewInputRow($('#household_member_table'), $('#household_member_input'))"
-  >
-    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-    Add a person
-  </button>
+  <div class="form-group add-form-list-item">
+    <button
+      type="button"
+      class="btn btn-primary">
+      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+      Add a person
+    </button>
+  </div>
 </div>
 
 
