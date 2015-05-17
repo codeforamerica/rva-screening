@@ -1,70 +1,25 @@
 <h4>Patient Documents</h4>
 
-{% if patient.document_images %}
+<div class="form-list">
 
-<div class="table-wrapper">
-  <table class="table table-condensed patient_docs" id="document_image_table">
-
-    <thead>
-      <tr>
-        <th>Preview</th>
-        <th>Description</th>
-        <th>Uploaded</th>
-        <th>Edit</th>
-      </tr>
-    </thead>
-
-    {% for doc in patient.document_images %}
-      <tr class="patient_doc">
-        <td class="patient_doc_thumbnail">
-          <input class="hidden" value="{{doc.id}}" name="document_image_id">
-    <!--    <img src="{{doc.thumbnail_url}}" alt="preview of {{doc.title}}"> -->
-          <img src="https://github.com/codeforamerica/rva-screening/blob/templating/images/w2.jpg?raw=true" alt="preview of {{doc.title}}">
-        </td>
-        <td class="patient_doc_title">
-          <a href="{{ url_for('document_image', image_id=doc.id) }}" class="read-only">
-            {{doc.description}}
-          </a>
-          <input type="text" class="hidden-input" name="document_image_description" value="{{doc.description}}">
-        </td>
-        <td class="patient_doc_uploaded">
-          {{doc.created | default("May 10, 2015")}} by {{ doc.createdby | default("jsmith")}}
-        </td>
-        <td class="patient_doc_edit">
-          <span
-            class="glyphicon glyphicon-pencil"
-            aria-hidden="true"
-            onclick="showHiddenFields()"
-          ></span>
-        </td>
-      </tr>
+  {% if patient.document_images %}
+    {% for document in patient.document_images %}
+    {% include "includes/document_subform.html" %}
     {% endfor %}
+  {% endif %}
+  {% if not patient or not patient.document_images.count() %}
+    {% include "includes/document_subform.html" %}
+  {% endif %}
 
-    <tr id="document_image_input">
-      <td>
-        <input type="file" name="document_image_file">
-      </td>
-      <td>
-        <input type="text" id ="document_image_description" name="document_image_description">
-      </td>
-    </tr>
-
-  </table>
+  <div class="form-group add-form-list-item">
+    <button
+      type="button"
+      class="btn btn-primary">
+      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+      Add a document
+    </button>
+  </div>
 
 </div>
-
-{% endif %}
-
-<div class="form-group add_patient_doc">
-  <button
-    type="button"
-    class="btn btn-primary"
-    onclick="addNewInputRow($('#document_image_table'), $('#document_image_input'))"
-  >
-    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-    Add a document
-  </button>
-</div>
-
 
 
