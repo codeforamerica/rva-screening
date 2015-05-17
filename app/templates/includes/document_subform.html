@@ -23,12 +23,7 @@
       {% if document %} value="{{document.description}}"{% endif %}>
     </div>
 
-    <div class="form-group">
-          Uploaded {{document.created | default("May 10, 2015")}} by {{ document.createdby | default("jsmith")}}
-    </div>
-
-
+    <div class="form-group date_updated"> {% if document %}
+        Uploaded {{document.created | default("May 10, 2015")}} by {{ document.createdby | default("jsmith")}}
+    {% endif %}</div>
 </div>
-
-
-
