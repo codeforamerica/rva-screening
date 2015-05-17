@@ -14,7 +14,7 @@
 
       <!-- this macro is just for templating help, will remove when grabbing from DB! -->
       {% macro patient(name, class, editor='Me', service='Where I work', comp_cat='med', comp_per='50') %}
-        <li class="patient-list-item col-sm-6 {{ class }}">
+        <li class="patient-list-item clearfix col-sm-6 {{ class }}">
           <h3 class="patient-name">{{ name }}</h3>
           <p class="patient-dob">DOB: xx/xx/xxxx</p>
           <div class="completion-wrapper"><div class="completion {{ comp_cat }}" style="width:{{ comp_per }}%"></div></div><div class="completion-percentage">{{ comp_per }}%</div>
@@ -32,7 +32,7 @@
         {{ patient( "Cliff Sider", "recent", "Me", "Where I work", "high", "100" ) }}
 
         {% for patient in patients %}
-        <li class="patient-list-item col-sm-6">
+        <li class="patient-list-item clearfix col-sm-6">
           <h3 class="patient-name">{{ patient.full_name }}</h3>
           <p class="patient-dob">DOB: {{ patient.dob }}</p>
           <div class="completion-wrapper"><div class="completion high" style="width:87%"></div></div><div class="completion-percentage">{{ comp_per }}87%</div>

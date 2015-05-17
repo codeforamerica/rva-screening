@@ -88,8 +88,10 @@ body {
   margin-bottom:10px;
   position:relative;
 
-  &:nth-child(2n-1) {
-    border-right:10px solid #f6f6f6;
+  @media screen and (min-width: 768px) {
+    &:nth-child(2n-1) {
+      border-right:10px solid #f6f6f6;
+    }
   }
   
   &.recent {
