@@ -1,4 +1,5 @@
 run:
+	gulp & 
 	foreman run python run.py \
 		--env=.env
 
