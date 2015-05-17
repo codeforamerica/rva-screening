@@ -6,7 +6,8 @@
   {% for address in patient.addresses %}
   {% include "includes/address_subform.html" %}
   {% endfor %}
-{% else %}
+{% endif %}
+{% if not patient or not patient.addresses.count() %}
   {% include "includes/address_subform.html" %}
 {% endif %}
 

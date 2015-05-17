@@ -7,7 +7,7 @@
 
     <div class="form-group address_description">
       <label for="address_description">What kind of address is this?</label>
-      <input type="text" class="form-control" description="address_description" id="address_description"
+      <input type="text" class="form-control" description="address_description" name="address_description"
       {% if address %} value="{{address.description}}"{% endif %}>
     </div>
 
@@ -16,9 +16,11 @@
       <textarea id="address1" name="address1" class="form-control">{% if address %}{{address.address1}}{% endif %}</textarea>
     </div>
 
+    <input class="hidden" name="address2">
+
     <div class="form-group city">
       <label for="city">City</label>
-      <input type="text" class="form-control" description="city" id="city"
+      <input type="text" class="form-control" description="city" name="city"
       {% if address %} value="{{address.city}}"{% endif %}>
     </div>
 
@@ -29,8 +31,8 @@
 
     <div class="form-group zip">
       <label for="zip">ZIP</label>
-      <input type="text" class="form-control" description="zip" id="zip"
-      placeholder="00000" pattern="\d{10}
+      <input type="text" class="form-control" description="zip" name="zip"
+      placeholder="00000" 
       {% if address %} value="{{address.zip}}"{% endif %}>
     </div>
 
