@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import boto.s3
+import boto.s3, os
 from app.models import DocumentImage
 from boto.s3.connection import S3Connection
 from werkzeug import secure_filename

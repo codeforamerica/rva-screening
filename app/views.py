@@ -126,14 +126,14 @@ def patient_details(id):
         value = None
       setattr(patient, key, value)
 
-    for _file in request.files.itervalues():
-      filename = upload_file(_file)
-      document_image = DocumentImage(
-          patient_id=patient.id,
-          file_name=filename,
-          description = request.form['document_image_description']
-      )
-      db.session.add(document_image)
+    # for _file in request.files.itervalues():
+    #   filename = upload_file(_file)
+    #   document_image = DocumentImage(
+    #       patient_id=patient.id,
+    #       file_name=filename,
+    #       description = request.form['document_image_description']
+    #   )
+    #   db.session.add(document_image)
 
     db.session.commit()
     return redirect(url_for('index'))
@@ -286,18 +286,15 @@ def many_to_one_patient_updates(patient, form, files):
         document_image = DocumentImage.query.get(document_image_ids[index])
         document_image.description = document_image_descriptions[index]
       else:
-        for file in files.itervalues():
-          if allowed_file(file.filename):
-            file_name = secure_filename(file.filename)
-            file_path = os.path.join(app.config['UPLOAD_FOLDER'], file_name)
-            file.save(file_path)
-            document_image = DocumentImage(
-              patient_id=patient.id,
-              file_name=file_name,
-              description = document_image_descriptions[index]
-            )
-            db.session.add(document_image)
-            index += 1
+        for _file in files.getlist('document_image_file'):
+          filename = upload_file(_file)
+          document_image = DocumentImage(
+            patient_id=patient.id,
+            file_name=filename,
+            description = document_image_descriptions[index]
+          )
+          db.session.add(document_image)
+          index +=1
         break
 
   return
