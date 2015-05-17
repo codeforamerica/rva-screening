@@ -1,0 +1,11 @@
+{
+  "private": true,
+  "devDependencies": {
+    "bootstrap": "^3.3.4",
+    "gulp": "^3.8.11",
+    "gulp-concat": "^2.5.2",
+    "gulp-rename": "^1.2.2",
+    "gulp-sass": "^2.0.1",
+    "jquery": "^2.1.4"
+  }
+}
