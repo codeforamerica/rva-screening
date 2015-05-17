@@ -45,17 +45,16 @@ var AppController = function ( options ) {
     *   .form-list-item is the div to be added
     */
     $('.add-form-list-item').on('click', function(){
-      var formList = $(this).parents('.form-list');
-      var formToCopy = $(
-          formList.find('.form-list-item')[0]
+      var formClone = $(
+          $(this).siblings('.form-list-item')[0]
         ).clone();
       inputClearingFunctions.forEach(function(selectorFunctionPair){
         console.log("selectorFunctionPair", selectorFunctionPair);
         var selector = selectorFunctionPair[0];
         var fn = selectorFunctionPair[1];
-        formToCopy.find(selector).each(fn);
+        formClone.find(selector).each(fn);
       });
-      formToCopy.insertBefore(this);
+      formClone.insertBefore(this).removeClass('hidden');
     });
   }
 

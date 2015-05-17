@@ -1,8 +1,6 @@
-<h4>
-  Addresses
-</h4>
 
 <div class="form-list">
+  <h4>Addresses</h4>
   {% if patient.addresses %}
     {% for address in patient.addresses %}
     {% include "includes/address_subform.html" %}

@@ -1,4 +1,8 @@
-<div class="form-row">
+  {% if not patient or not patient.employers.count() %}
+<div class="form-list-item hidden">
+  {% else %}
+<div class="form-list-item">
+  {% endif %}
 
   {% if employer %}
     <input class="hidden" value="{{employer.id}}" name="employer_id">
