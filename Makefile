@@ -14,7 +14,10 @@ migrate:
 upgrade:
 	python db.py db upgrade
 
-
 deploy_static:
 	gulp build
 	python ./upload_assets.py
+
+deploy:
+	make deploy_static
+	git push heroku master
