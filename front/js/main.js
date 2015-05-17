@@ -1,5 +1,14 @@
 window.App = window.App || {};
 
+var inputClearingFunctions = [
+  ['input', function(){ $(this).val(''); }],
+  ['textarea', function(){ $(this).html(''); }],
+  ['select', function(){ $(this).children().each(function(){
+    if( $(this).hasClass('default-choice')){ this.selected = true;
+    } else { this.selected = false; }
+  }); }]
+];
+
 var AppController = function ( options ) {
   console.info('APP INITIALIZED :)');
   this.options = options || {};
@@ -28,6 +37,26 @@ var AppController = function ( options ) {
         $('.patient-details-wrapper').addClass('show');
       });
     }
+
+    /*
+    **  ADD FORM ITEM CLICK
+    **  This adds new empty forms for many-to one items
+    **  .form-list contains both .add-form-list-item and .form-list-item
+    *   .form-list-item is the div to be added
+    */
+    $('.add-form-list-item').on('click', function(){
+      var formList = $(this).parents('.form-list');
+      var formToCopy = $(
+          formList.find('.form-list-item')[0]
+        ).clone();
+      inputClearingFunctions.forEach(function(selectorFunctionPair){
+        console.log("selectorFunctionPair", selectorFunctionPair);
+        var selector = selectorFunctionPair[0];
+        var fn = selectorFunctionPair[1];
+        formToCopy.find(selector).each(fn);
+      });
+      formToCopy.insertBefore(this);
+    });
   }
 
   /*
@@ -37,8 +66,10 @@ var AppController = function ( options ) {
   */
   if ($('#patient-search').length) {
     this.search = {};
-    this.initSearch('patient-search', { valueNames: ['patient-name', 'patient-dob'] });
+    this.initSearch('patient-search', 
+        { valueNames: ['patient-name', 'patient-dob'] });
   }
+
 
   // If we're on the print page, hide everything that shouldn't print
   if (window.location.pathname.indexOf('/patient_print') > -1) {
@@ -61,6 +92,7 @@ AppController.prototype.initSearch = function ( id, options ) {
   this.search.options = options;
   this.search.list = new List(id, options);
 };
+
 
 function addNewInputRow($table, $input_row) {
   $new_row = $input_row.clone();
@@ -102,3 +134,4 @@ function sharePatientInfo( btn ) {
   $(btn).addClass('shared');
   $(btn).text('information sent');
 }
+

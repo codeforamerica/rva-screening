@@ -2,23 +2,24 @@
   Addresses
 </h4>
 
-{% if patient.addresses %}
-  {% for address in patient.addresses %}
-  {% include "includes/address_subform.html" %}
-  {% endfor %}
-{% endif %}
-{% if not patient or not patient.addresses.count() %}
-  {% include "includes/address_subform.html" %}
-{% endif %}
+<div class="form-list">
+  {% if patient.addresses %}
+    {% for address in patient.addresses %}
+    {% include "includes/address_subform.html" %}
+    {% endfor %}
+  {% endif %}
+  {% if not patient or not patient.addresses.count() %}
+    {% include "includes/address_subform.html" %}
+  {% endif %}
 
-<div class="form-group add_address">
-  <button
-    type="button"
-    class="btn btn-primary"
-    onclick="addNewInputRow($('#address_table'), $('#address_input'))"
-  >
-    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-    Add an address
-  </button>
+  <div class="form-group add-form-list-item">
+    <button
+      type="button"
+      class="btn btn-primary">
+      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+      Add an address
+    </button>
+  </div>
+
 </div>
 
