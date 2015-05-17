@@ -11,7 +11,7 @@ def copy(src, dest):
 bootstrap = 'node_modules/bootstrap/dist/'
 
 # Copy Bootstrap Fonts
-copy('app/static/{}fonts'.format(bootstrap), 'app/static/public/fonts/')
+#copy('app/static/{}fonts'.format(bootstrap), 'app/static/public/fonts/')
 
 js = Bundle(
   'node_modules/jquery/dist/jquery.js',

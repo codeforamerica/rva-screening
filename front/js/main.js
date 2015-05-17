@@ -44,7 +44,9 @@ var AppController = function ( options ) {
   if (window.location.pathname.indexOf('/patient_print') > -1) {
     convertForPrint();
   }
+
 };
+
 
 /*
 **  SEARCH INITIALIZATION
@@ -61,25 +63,25 @@ AppController.prototype.initSearch = function ( id, options ) {
 };
 
 function addNewInputRow($table, $input_row) {
-	current_length = $input_row.length;
-	$new_row = $input_row.clone();
-	$new_row.each(function() {
-		this.id += current_length;
-		// $(this).find("input").each(function() {
-		// 	this.name +=current_length;
-		// })
-	})
-	$table.append($new_row);
-	return;
+  current_length = $input_row.length;
+  $new_row = $input_row.clone();
+  $new_row.each(function() {
+    this.id += current_length;
+    // $(this).find("input").each(function() {
+    //  this.name +=current_length;
+    // })
+  })
+  $table.append($new_row);
+  return;
 }
 
 function showHiddenFields() {
-	$(event.target).parent().siblings().each(
-		function() {
-			$(this).find(".hidden-input").show().prop('disabled', false);
-			$(this).find(".read-only").hide().prop('disabled', true);
-		}
-	);
+  $(event.target).parent().siblings().each(
+    function() {
+      $(this).find(".hidden-input").show().prop('disabled', false);
+      $(this).find(".read-only").hide().prop('disabled', true);
+    }
+  );
 }
 
 function convertForPrint() {
@@ -92,6 +94,7 @@ function convertForPrint() {
   $('.expander-title').hide();
   $('table').not('#phone_number_table').find('th:last-child, td:last-child').hide();
 }
+
 
 /*
 **  REQUEST BUTTON CLICK / UPDATE
