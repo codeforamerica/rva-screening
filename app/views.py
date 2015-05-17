@@ -49,6 +49,12 @@ CROSSOVER_FEES = (
   ('Dental', 25)
 )
 
+def screen_empty_dates(val):
+    if val == '':
+        return None
+    else:
+        return val
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
   if request.method == 'POST':
@@ -205,13 +211,13 @@ def many_to_one_patient_updates(patient, form, files):
       if len(household_member_ids) > index:
         household_member = HouseholdMember.query.get(household_member_ids[index])
         household_member.full_name = value
-        household_member.dob = household_member_dobs[index]
+        household_member.dob = screen_empty_dates(household_member_dobs[index])
         household_member.ssn = household_member_ssns[index]
         household_member.relationship = household_member_relations[index]
       else:
         household_member = HouseholdMember(
           full_name = value,
-          dob = household_member_dobs[index],
+          dob = screen_empty_dates(household_member_dobs[index]),
           ssn = household_member_ssns[index],
           relationship = household_member_relations[index]
         )
@@ -267,13 +273,13 @@ def many_to_one_patient_updates(patient, form, files):
         employer.employee = employer_employees[index]
         employer.name = employer_names[index]
         employer.phone_number = employer_phone_numbers[index]
-        employer.start_date = employer_start_dates[index]
+        employer.start_date = screen_empty_dates(employer_start_dates[index])
       else:
         employer = Employer(
           employee = value,
           name = employer_names[index],
           phone_number = employer_phone_numbers[index],
-          start_date = employer_start_dates[index]
+          start_date = screen_empty_dates(employer_start_dates[index])
         )
         patient.employers.append(employer)
         db.session.add(employer)
