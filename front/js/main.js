@@ -49,7 +49,6 @@ var AppController = function ( options ) {
           $(this).siblings('.form-list-item')[0]
         ).clone();
       inputClearingFunctions.forEach(function(selectorFunctionPair){
-        console.log("selectorFunctionPair", selectorFunctionPair);
         var selector = selectorFunctionPair[0];
         var fn = selectorFunctionPair[1];
         formClone.find(selector).each(fn);
