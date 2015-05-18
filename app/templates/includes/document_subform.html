@@ -1,0 +1,29 @@
+<!--form for a single document-->
+<div class="form-list-item document_image">
+  {% if document %}
+    <input class="hidden" value="{{document.id}}" name="document_id">
+  {% endif %}
+
+    <div class="form-group document">
+      <label>Document
+      {% if document %}
+        <div class="document_thumbnail">
+          <a href="{{ url_for('document_image', image_id=document.id) }}"> 
+            <img src="https://github.com/codeforamerica/rva-screening/blob/templating/images/w2.jpg?raw=true" alt="preview of {{document.description}}">
+          </a>
+        </div>
+      {% endif %}
+        <input type="file" class="form-control" name="document_image_file">
+    </label>
+    </div>
+
+    <div class="form-group document_image_description">
+      <label for="document_image_description">What kind of document is this?</label>
+      <input type="text" class="form-control" description="document_image_description" name="document_image_description"
+      {% if document %} value="{{document.description}}"{% endif %}>
+    </div>
+
+    <div class="form-group date_updated"> {% if document %}
+        Uploaded {{document.created | default("May 10, 2015")}} by {{ document.createdby | default("jsmith")}}
+    {% endif %}</div>
+</div>
