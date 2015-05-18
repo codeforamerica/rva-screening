@@ -560,10 +560,14 @@ def patient_print(patient_id):
 # to check if the user has permission to view the patient. When that
 # functionality is added we should delete the patient_details_new.html
 # template
-@app.route('/patient_details_new/')
+@app.route('/consent/')
 @login_required
-def patient_details_new():
-  return render_template('patient_details_new.html')
+def consent():
+  # this is temporary!
+  patients = Patient.query.all()
+  first = patients[0]
+  print first.id
+  return render_template('consent.html', patient=first)
 
 @app.route('/patient_history/<patient_id>')
 @login_required

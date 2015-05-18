@@ -26,19 +26,6 @@ var AppController = function ( options ) {
     });
 
     /*
-    **  CONSENT BUTTON CLICK
-    **  Removes the parent container and shows the patient
-    **  information below.
-    **
-    */
-    if ($('#consent-button').length) {
-      $('#consent-button').on('click', function(){
-        $(this).parent().parent().hide();
-        $('.patient-details-wrapper').addClass('show');
-      });
-    }
-
-    /*
     **  ADD FORM ITEM CLICK
     **  This adds new empty forms for many-to one items
     **  .form-list contains both .add-form-list-item and .form-list-item
