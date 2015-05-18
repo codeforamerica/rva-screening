@@ -1,27 +1,43 @@
 {% extends "base.html" %}
 {% block content %}
   <body>
+
+    <a href="{{ url_for('search_new') }}" class="btn btn-success right"><span class="glyphicon glyphicon-eye-open"></span> Search new patients</a>
+
     <h1>RVA Screener</h1>
 
     <!-- search -->
     <div id="patient-search">
       <div class="form-group">
         <input type="text" class="search form-control" placeholder="Search your patients..."/>
-        <a href="{{ url_for('search_new') }}" class="btn btn-success"><span class="glyphicon glyphicon-eye-open"></span> Search new patients</a>
       </div>
-      <ul class="list">
-        <li class="patient-list-item  col-sm-6 recent">
-          <h3 class="patient-name">Recent Patient</h3>
+
+      <!-- this macro is just for templating help, will remove when grabbing from DB! -->
+      {% macro patient(name, class, editor='Me', service='Where I work', comp_cat='med', comp_per='50') %}
+        <li class="patient-list-item clearfix col-sm-6 {{ class }}">
+          <h3 class="patient-name">{{ name }}</h3>
           <p class="patient-dob">DOB: xx/xx/xxxx</p>
-          <p class="patient-lastedit">Last edited by: <a href="#">Me</a> at <a href="#">Where I work</a></p>
-          <a href="#">Details <span class="glyphicon glyphicon-chevron-right"></span></a>
+          <div class="completion-wrapper"><div class="completion {{ comp_cat }}" style="width:{{ comp_per }}%"></div></div><div class="completion-percentage">{{ comp_per }}%</div>
+          <p class="patient-lastedit left">Last edited by: <a href="#">{{ editor }}</a> at <a href="#">{{ service }}</a></p>
+          <a class="btn btn-default btn-sm right" href="#">Details <span class="glyphicon glyphicon-chevron-right"></span></a>
         </li>
+      {%- endmacro %}
+
+      <ul class="list">
+
+        {{ patient( "Jane Doe", "new", "- - -", "Crossover", "high", "90" ) }}
+        {{ patient( "John Doe", "new", "- - -", "Crossover", "med", "74" ) }}
+        {{ patient( "Flint Clempsey", "new", "- - -", "Crossover", "low", "6" ) }}
+        {{ patient( "Audrey Walker", "recent", "Me", "Where I work", "high", "94" ) }}
+        {{ patient( "Cliff Sider", "recent", "Me", "Where I work", "high", "100" ) }}
+
         {% for patient in patients %}
-        <li class="patient-list-item col-sm-6">
-          <h3>{{ patient.full_name }}</h3>
+        <li class="patient-list-item clearfix col-sm-6">
+          <h3 class="patient-name">{{ patient.full_name }}</h3>
           <p class="patient-dob">DOB: {{ patient.dob }}</p>
-          <p class="patient-lastedit">Last edited by: <a href="#">Sandy</a> at <a href="#">Richmond Resource Centers</a></p>
-          <a href="{{ url_for('patient_details', id=patient.id) }}">Details <span class="glyphicon glyphicon-chevron-right"></span></a>
+          <div class="completion-wrapper"><div class="completion high" style="width:87%"></div></div><div class="completion-percentage">{{ comp_per }}87%</div>
+          <p class="patient-lastedit left">Last edited by: <a href="#">____</a> at <a href="#">Richmond Resource Center</a></p>
+          <a class="btn btn-default btn-sm right" href="#">Details <span class="glyphicon glyphicon-chevron-right"></span></a>
         </li>
         {% endfor %}
       </ul>
