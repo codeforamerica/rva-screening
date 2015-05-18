@@ -495,9 +495,6 @@ def resource_center_pre_screen(fpl):
   return sliding_scale
 
 def cross_over_pre_screen(fpl, has_health_insurance, is_eligible_for_medicaid):
-  print fpl
-  print has_health_insurance
-  print is_eligible_for_medicaid
   if fpl <= 200 and has_health_insurance == 'no' and is_eligible_for_medicaid == 'no':
     return True
   else:
@@ -517,7 +514,7 @@ def prescreening_results():
   if 'patient_id' in session and session['patient_id']:
     return render_template(
       'prescreening_results.html',
-      services = services,
+      services = calculate_pre_screen_results(),
       patient_id = session['patient_id']
     )
   else:
