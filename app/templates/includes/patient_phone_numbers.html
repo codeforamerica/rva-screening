@@ -15,7 +15,7 @@
     </tr>
   </thead>
 
-  {% if patient.phone_numbers %}
+  {% if patient and patient.phone_numbers %}
     {% for phone in patient.phone_numbers %}
       <tr class="phone_number">
         <td class="phone_number_number">
@@ -44,7 +44,7 @@
       <input class="form-control" type="text" name="phone_description"/>
     </td>
     <td class="phone_number_primary_yn">
-      <select class="form-control" name="phone_primary_yn" id="phone_primary_yn_{{loop.index}}">
+      <select class="form-control" name="phone_primary_yn" id="phone_primary_yn">
         {% with %}
         {% include "includes/select_yn.html" %}
         {% endwith %}
