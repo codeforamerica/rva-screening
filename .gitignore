@@ -1,5 +1,8 @@
+# mac system files
 .DS_Store
-.env
+
+# configuration files
+.env*
 
 # flask
 *.pyc

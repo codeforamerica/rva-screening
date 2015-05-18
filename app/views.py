@@ -127,7 +127,7 @@ def patient_details(id):
       setattr(patient, key, value)
 
     db.session.commit()
-    return redirect(url_for('index'))
+    return redirect(url_for('patient_details', id=patient.id))
   else:
     patient.total_annual_income = sum(
       source.annual_amount for source in patient.income_sources
