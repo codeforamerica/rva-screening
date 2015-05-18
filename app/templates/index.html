@@ -23,7 +23,7 @@
         TODO: calculate percent completion realistically, not randomly with the loop.index
         -->
         <li class="patient-list-item clearfix col-sm-6 {% if loop.index < 3 %}new{% endif %} {% if loop.index == 3 %}recent{% endif %}">
-          <h3>{{ patient.full_name or patient.first_name }}</h3>
+          <h3 class="patient-name">{{ patient.full_name or patient.first_name }}</h3>
           <p class="patient-dob">DOB: {{ patient.dob }}</p>
           <div class="completion-wrapper"><div class="completion high" style="width:{{ loop.index }}9%"></div></div><div class="completion-percentage">{{ loop.index }}9%</div>
           <p class="patient-lastedit left">Last edited by: <a href="#">____</a> at <a href="#">Richmond Resource Center</a></p>
