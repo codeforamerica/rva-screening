@@ -18,7 +18,7 @@
       {% with %}
       {% set default_choice=("", "No Answer") %}
       {% set choices=[("FTM", "Female to Male"), ("MTF", "Male to Female")] %}
-      {% set test_value=patient.gender %}
+      {% set test_value=patient.transgender %}
       {% include "includes/choices.html" %}
       {% endwith %}
     </select>

@@ -7,7 +7,7 @@
       {% set choices=
 [("SIM", "Single"), ("MAR", "Married"), ("DIV", "Divorced"), ("WID", "Widowed"), ("SEP", "Legally Separated"), ("PAR", "Partner")]
       %}
-      {% set test_value=patient.race %}
+      {% set test_value=patient.marital_status %}
       {% include "includes/choices.html" %}
       {% endwith %}
     </select>

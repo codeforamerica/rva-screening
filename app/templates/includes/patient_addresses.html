@@ -5,17 +5,18 @@
   <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
 </h5>
 
-{% if patient.addresses %}
-  <table class="table table-condensed addresses" id="address_table">
+<table class="table table-condensed addresses" id="address_table">
 
-    <thead>
-      <tr>
-        <th>Address</th>
-        <th>Description</th>
-        <th>Edit</th>
-        <th>Delete</th>
-      </tr>
-    </thead>
+  <thead>
+    <tr>
+      <th>Address</th>
+      <th>Description</th>
+      <th>Edit</th>
+      <th>Delete</th>
+    </tr>
+  </thead>
+
+  {% if patient.addresses %}
 
     {% for address in patient.addresses %}
       <tr class="address">
@@ -46,21 +47,23 @@
       </tr>
     {% endfor %}
 
-    <tr class="address" id="address_input">
-      <td class="address_address">
-        Address: <input class="form-control" type="text" name="address1">
-        <input class="form-control" type="text" name="address2">
-        City: <input class="form-control" type="text" name="city">
-        State: <input class="form-control" type="text" name="state">
-        ZIP: <input class="form-control" type="text" name="zip">
-      </td>
-      <td class="address_type">
-        <input class="form-control" type="text" name="address_description">
-      </td>
-    </tr>
+  {% endif %}
 
-  </table>
-{% endif %}
+  <tr class="address" id="address_input">
+    <td class="address_address">
+      Address: <input class="form-control" type="text" name="address1">
+      <input class="form-control" type="text" name="address2">
+      City: <input class="form-control" type="text" name="city">
+      State: <input class="form-control" type="text" name="state">
+      ZIP: <input class="form-control" type="text" name="zip">
+    </td>
+    <td class="address_type">
+      <input class="form-control" type="text" name="address_description">
+    </td>
+  </tr>
+
+</table>
+
 
 <div class="form-group add_address">
   <button

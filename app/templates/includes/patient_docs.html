@@ -1,7 +1,5 @@
 <h4>Patient Documents</h4>
 
-{% if patient.document_images %}
-
 <div class="table-wrapper">
   <table class="table table-condensed patient_docs" id="document_image_table">
 
@@ -14,6 +12,8 @@
         <th>Delete</th>
       </tr>
     </thead>
+
+    {% if patient.document_images %}
 
     {% for doc in patient.document_images %}
       <tr class="patient_doc">
@@ -48,6 +48,8 @@
       </tr>
     {% endfor %}
 
+    {% endif %}
+
     <tr id="document_image_input">
       <td>
         <input type="file" name="document_image_file">
@@ -61,7 +63,7 @@
 
 </div>
 
-{% endif %}
+
 
 <div class="form-group add_patient_doc">
   <button

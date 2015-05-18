@@ -26,7 +26,11 @@
           <input class="form-control" type="text" value="{{phone.description}}" name="phone_description" id="phone_name_{{loop.index}}"/>
         </td>
         <td class="phone_number_primary_yn">
-          <input type="checkbox"{% if phone.primary_yn == 'Y' %} checked{% endif %} name="phone_primary_yn" id="phone_primary_yn_{{loop.index}}"/>
+          <select class="form-control" name="phone_primary_yn" id="phone_primary_yn_{{loop.index}}">
+            {% with attribute=phone.primary_yn %}
+            {% include "includes/select_yn.html" %}
+            {% endwith %}
+          </select>
         </td>
       </tr>
     {% endfor %}
@@ -40,7 +44,11 @@
       <input class="form-control" type="text" name="phone_description"/>
     </td>
     <td class="phone_number_primary_yn">
-      <input type="checkbox" value="Y" name="phone_primary_yn"/>
+      <select class="form-control" name="phone_primary_yn" id="phone_primary_yn_{{loop.index}}">
+        {% with %}
+        {% include "includes/select_yn.html" %}
+        {% endwith %}
+      </select>
     </td>
   </tr>
 
