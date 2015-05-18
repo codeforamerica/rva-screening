@@ -1,11 +1,10 @@
 <!-- <div class="form-row"> -->
-
-{% if employer %}
-  <input class="hidden" value="{{ employer.id }}" name="employer_id">
-{% endif %}
-
 <tr>
   <td>
+    {% if employer %}
+    <input class="hidden" value="{{ employer.id }}" name="employer_id">
+    <input class="hidden" value="" name="start_date">
+    {% endif %}
     <div class="read-only">{% if employer %}{{ employer.name }}{% endif %}</div>
     <div class="hidden-input">
       <input type="text" class="hidden-input form-control" name="employer_name" id="employer_name"{% if employer %} value="{{ employer.name }}"{% endif %}>
