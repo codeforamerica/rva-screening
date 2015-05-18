@@ -282,7 +282,7 @@ def many_to_one_patient_updates(patient, form, files):
   # Employers
   employer_rows = [
     {'id': id, 'employee': employee, 'name': name, 'phone_number': phone_number, 'start_date': start_date}
-    for id, employe, name, phone_number, start_date
+    for id, employee, name, phone_number, start_date
     in map(
       None,
       form.getlist('employer_id'),
@@ -294,7 +294,7 @@ def many_to_one_patient_updates(patient, form, files):
   ]
   for row in employer_rows:
     # Check that at least one field in the row has data, otherwise delete it
-    if bool([val for key, val in row.iteritems() if val != '' and key != 'id']):     
+    if bool([val for key, val in row.iteritems() if val != '' and val is not None and key != 'id']):     
       if row['id'] != None:
         employer = Employer.query.get(row['id'])
         employer.employee = row['employee']

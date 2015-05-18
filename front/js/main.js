@@ -74,7 +74,6 @@ function addNewInputRow($table, $input_row) {
 function hideRow() {
   $(event.target).parent().siblings().each(
     function() {
-      debugger;
       $(this).find(".hidden-input").attr('value', '');
       $(this).find("input[type='date'].hidden-input").attr('value', 'mm/dd/yyyy');
     }
