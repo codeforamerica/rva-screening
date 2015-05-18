@@ -126,15 +126,6 @@ def patient_details(id):
         value = None
       setattr(patient, key, value)
 
-    # for _file in request.files.itervalues():
-    #   filename = upload_file(_file)
-    #   document_image = DocumentImage(
-    #       patient_id=patient.id,
-    #       file_name=filename,
-    #       description = request.form['document_image_description']
-    #   )
-    #   db.session.add(document_image)
-
     db.session.commit()
     return redirect(url_for('index'))
   else:
@@ -195,88 +186,132 @@ def many_to_one_patient_updates(patient, form, files):
         patient.addresses.append(address)
         db.session.add(address)
 
-  household_member_ids = form.getlist('household_member_id')
-  household_member_full_names = form.getlist('household_member_full_name')
-  household_member_dobs = form.getlist('household_member_dob')
-  household_member_ssns = form.getlist('household_member_ssn')
-  household_member_relations = form.getlist('household_member_relation')
-  for index, value in enumerate(household_member_full_names):
-    if value:
-      if len(household_member_ids) > index:
-        household_member = HouseholdMember.query.get(household_member_ids[index])
-        household_member.full_name = value
-        household_member.dob = household_member_dobs[index]
-        household_member.ssn = household_member_ssns[index]
-        household_member.relationship = household_member_relations[index]
+  # Household members
+  household_member_rows = [
+    {'id': id, 'full_name': full_name, 'dob': dob, 'ssn': ssn, 'relation': relation}
+    for id, full_name, dob, ssn, relation
+    in map(
+      None,
+      form.getlist('household_member_id'),
+      form.getlist('household_member_full_name'),
+      form.getlist('household_member_dob'),
+      form.getlist('household_member_ssn'),
+      form.getlist('household_member_relation'),
+    )
+  ]
+  for row in household_member_rows:
+    # Check that at least one field in the row has data, otherwise delete it
+    if bool([val for key, val in row.iteritems() if val != '' and key != 'id']):     
+      if row['id'] != None:
+        household_member = HouseholdMember.query.get(row['id'])
+        household_member.full_name = row['full_name']
+        household_member.dob = row['dob']
+        household_member.ssn= row['ssn']
+        household_member.relationship = row['relation']
       else:
         household_member = HouseholdMember(
-          full_name = value,
-          dob = household_member_dobs[index],
-          ssn = household_member_ssns[index],
-          relationship = household_member_relations[index]
+          full_name = row['full_name'],
+          dob = row['dob'],
+          ssn = row['ssn'],
+          relationship = row['relation']
         )
         patient.household_members.append(household_member)
         db.session.add(household_member)
+    elif row['id'] != None:
+      db.session.delete(HouseholdMember.query.get(row['id']))
 
-  income_source_ids = form.getlist('income_source_id')
-  income_sources = form.getlist('income_source_source')
-  income_source_amounts = form.getlist('income_source_amount')
-  for index, value in enumerate(income_sources):
-    if value:
-      if len(income_source_ids) > index:
-        income_source = IncomeSource.query.get(income_source_ids[index])
-        income_source.source = income_sources[index]
-        income_source.annual_amount = int(income_source_amounts[index]) * 12
+  # Income sources
+  income_source_rows = [
+    {'id': id, 'source': source, 'amount': amount}
+    for id, source, amount
+    in map(
+      None,
+      form.getlist('income_source_id'),
+      form.getlist('income_source_source'),
+      form.getlist('income_source_amount'),
+    )
+  ]
+  for row in income_source_rows:
+    # Check that at least one field in the row has data, otherwise delete it
+    if bool([val for key, val in row.iteritems() if val != '' and key != 'id']):     
+      if row['id'] != None:
+        income_source = IncomeSource.query.get(row['id'])
+        income_source.source = row['source']
+        income_source.annual_amount = int(row['amount']) * 12
       else:
         income_source = IncomeSource(
-          source = value,
-          annual_amount = int(income_source_amounts[index]) * 12
+          source = row['source'],
+          annual_amount = int(row['amount']) * 12
         )
         patient.income_sources.append(income_source)
         db.session.add(income_source)
+    elif row['id'] != None:
+      db.session.delete(IncomeSource.query.get(row['id']))
 
-  emergency_contact_ids = form.getlist('emergency_contact_id')
-  emergency_contact_names = form.getlist('emergency_contact_name')
-  emergency_contact_phone_numbers = form.getlist('emergency_contact_phone_number')
-  emergency_contact_relationships = form.getlist('emergency_contact_relationship')
-  for index, value in enumerate(emergency_contact_names):
-    if value:
-      if len(emergency_contact_ids) > index:
-        emergency_contact = EmergencyContact.query.get(emergency_contact_ids[index])
-        emergency_contact.name = emergency_contact_names[index]
-        emergency_contact.phone_number = emergency_contact_phone_numbers[index]
-        emergency_contact.relationship = emergency_contact_relationships[index]
+  # Emergency contacts
+  form_contacts = [
+    {'id': id, 'name': name, 'phone_number': phone_number, 'relationship': relationship}
+    for id, name, phone_number, relationship
+    in map(
+      None,
+      form.getlist('emergency_contact_id'),
+      form.getlist('emergency_contact_name'),
+      form.getlist('emergency_contact_phone_number'),
+      form.getlist('emergency_contact_relationship')
+    )
+  ]
+  for contact in form_contacts:
+    # Check that at least one field in the row has data, otherwise delete it
+    if bool([val for key, val in contact.iteritems() if val != '' and key != 'id']):     
+      if contact['id'] != None:
+        emergency_contact = EmergencyContact.query.get(contact['id'])
+        emergency_contact.name = contact['name']
+        emergency_contact.phone_number = contact['phone_number']
+        emergency_contact.relationship = contact['relationship']
       else:
         emergency_contact = EmergencyContact(
-          name = value,
-          phone_number = emergency_contact_phone_numbers[index],
-          relationship = emergency_contact_relationships[index]
+          name = contact['name'],
+          phone_number = contact['phone_number'],
+          relationship = contact['relationship']
         )
         patient.emergency_contacts.append(emergency_contact)
         db.session.add(emergency_contact)
+    elif contact['id'] != None:
+      db.session.delete(EmergencyContact.query.get(contact['id']))
 
-  employer_ids = form.getlist('employer_id')
-  employer_employees = form.getlist('employer_employee')
-  employer_names = form.getlist('employer_name')
-  employer_phone_numbers = form.getlist('employer_phone_number')
-  employer_start_dates = form.getlist('employer_start_date')
-  for index, value in enumerate(employer_employees):
-    if value:
-      if len(employer_ids) > index:
-        employer = Employer.query.get(employer_ids[index])
-        employer.employee = employer_employees[index]
-        employer.name = employer_names[index]
-        employer.phone_number = employer_phone_numbers[index]
-        employer.start_date = employer_start_dates[index]
+  # Employers
+  employer_rows = [
+    {'id': id, 'employee': employee, 'name': name, 'phone_number': phone_number, 'start_date': start_date}
+    for id, employe, name, phone_number, start_date
+    in map(
+      None,
+      form.getlist('employer_id'),
+      form.getlist('employer_employee'),
+      form.getlist('employer_name'),
+      form.getlist('employer_phone_number'),
+      form.getlist('employer_start_date')
+    )
+  ]
+  for row in employer_rows:
+    # Check that at least one field in the row has data, otherwise delete it
+    if bool([val for key, val in row.iteritems() if val != '' and key != 'id']):     
+      if row['id'] != None:
+        employer = Employer.query.get(row['id'])
+        employer.employee = row['employee']
+        employer.name = row['name']
+        employer.phone_number = row['phone_number']
+        employer.start_date = row['start_date']
       else:
         employer = Employer(
-          employee = value,
-          name = employer_names[index],
-          phone_number = employer_phone_numbers[index],
-          start_date = employer_start_dates[index]
+          employee = row['employee'],
+          name = row['name'],
+          phone_number = row['phone_number'],
+          start_date = row['start_date']
         )
         patient.employers.append(employer)
         db.session.add(employer)
+    elif row['id'] != None:
+      db.session.delete(Employer.query.get(row['id']))
 
   document_image_ids = form.getlist('document_image_id')
   document_image_descriptions = form.getlist('document_image_description')

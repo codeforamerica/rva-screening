@@ -7,6 +7,8 @@
       <th>Name</th>
       <th>Phone Number</th>
       <th>Relationship</th>
+      <th>Edit</th>
+      <th>Delete</th>
     </tr>
   </thead>
 
@@ -33,6 +35,12 @@
             onclick="showHiddenFields()"
           ></span>
         </td>
+        <td class="emergency_contact_delete">
+          <span
+            class="glyphicon glyphicon-remove"
+            aria-hidden="true"
+            onclick="hideRow()"
+          ></span>
       </tr>
     {% endfor %}
   {% endif %}
