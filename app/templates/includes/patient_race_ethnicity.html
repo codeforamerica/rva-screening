@@ -23,7 +23,7 @@
       {% with  %}
       {% set default_choice=("", "") %}
       {% set choices=[("HL","Hispanic or Latino"),("NHL","Not Hispanic or Latino")] %}
-      {% set test_value=patient.ethinicity %}
+      {% set test_value=patient.ethnicity %}
       {% include "includes/choices.html" %}
       {% endwith %}
     </select>
