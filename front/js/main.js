@@ -102,11 +102,21 @@ function addNewInputRow($table, $input_row) {
   return;
 }
 
+function hideRow() {
+  $(event.target).parent().siblings().each(
+    function() {
+      $(this).find(".hidden-input").attr('value', '');
+      $(this).find("input[type='date'].hidden-input").attr('value', 'mm/dd/yyyy');
+    }
+  );
+  $(event.target).parent().parent().hide();
+}
+
 function showHiddenFields() {
   $(event.target).parent().siblings().each(
     function() {
-      $(this).find(".hidden-input").show().prop('disabled', false);
-      $(this).find(".read-only").hide().prop('disabled', true);
+      $(this).find(".hidden-input").show();
+      $(this).find(".read-only").hide();
     }
   );
 }

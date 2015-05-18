@@ -1,23 +1,75 @@
+<h5>
+  Addresses
+  <span class="glyphicon glyphicon-home" aria-hidden="true"></span> 
+  /
+  <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+</h5>
 
-<div class="form-list">
-  <h4>Addresses</h4>
-  {% if patient.addresses %}
+{% if patient.addresses %}
+  <table class="table table-condensed addresses" id="address_table">
+
+    <thead>
+      <tr>
+        <th>Address</th>
+        <th>Description</th>
+        <th>Edit</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+
     {% for address in patient.addresses %}
-    {% include "includes/address_subform.html" %}
+      <tr class="address">
+        <td class="address_address">
+          <input class="hidden" value="{{address.id}}" name="address_id">
+          <address class="read-only">
+            {{address.address1}}{% if address.address2 %}, {{address.address2}}{% endif %}<br>
+            {{address.city}}, {{address.state}} {{address.zip}}
+          </address>
+          <div class="hidden-input">
+            Address: <input class="form-control hidden-input" type="text" name="address1" value="{{address.address1}}">
+            <input class="form-control hidden-input" type="text" name="address2" value="{{address.address2}}">
+            City: <input class="form-control hidden-input" type="text" name="city" value="{{address.city}}">
+            State: <input class="form-control hidden-input" type="text" name="state" value="{{address.state}}">
+            ZIP: <input class="form-control hidden-input" type="text" name="zip" value="{{address.zip}}">
+          </div>
+        </td>
+        <td>
+          <div class="read-only">{{address.description}}</div>
+          <input class="form-control hidden-input" type="text" name="address_description" value="{{address.description}}">
+        </td>
+        <td class="address_edit">
+          <span class="glyphicon glyphicon-pencil" aria-hidden="true" onclick="showHiddenFields()"></span>
+        </td>
+        <td class="address_delete">
+          <span class="glyphicon glyphicon-remove" aria-hidden="true" onclick="hideRow()"></span>
+        </td>
+      </tr>
     {% endfor %}
-  {% endif %}
-  {% if not patient or not patient.addresses.count() %}
-    {% include "includes/address_subform.html" %}
-  {% endif %}
 
-  <div class="form-group add-form-list-item">
-    <button
-      type="button"
-      class="btn btn-primary">
-      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-      Add an address
-    </button>
-  </div>
+    <tr class="address" id="address_input">
+      <td class="address_address">
+        Address: <input class="form-control" type="text" name="address1">
+        <input class="form-control" type="text" name="address2">
+        City: <input class="form-control" type="text" name="city">
+        State: <input class="form-control" type="text" name="state">
+        ZIP: <input class="form-control" type="text" name="zip">
+      </td>
+      <td class="address_type">
+        <input class="form-control" type="text" name="address_description">
+      </td>
+    </tr>
 
+  </table>
+{% endif %}
+
+<div class="form-group add_address">
+  <button
+    type="button"
+    class="btn btn-primary"
+    onclick="addNewInputRow($('#address_table'), $('#address_input'))"
+  >
+    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+    Add an address
+  </button>
 </div>
 

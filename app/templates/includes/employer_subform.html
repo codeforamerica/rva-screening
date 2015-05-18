@@ -1,31 +1,40 @@
-  {% if not patient or not patient.employers.count() %}
-<div class="form-list-item hidden">
-  {% else %}
-<div class="form-list-item">
-  {% endif %}
-
-  {% if employer %}
-    <input class="hidden" value="{{employer.id}}" name="employer_id">
-  {% endif %}
-
-    <input type="date" class="hidden" value="1000-01-01" name="employer_start_date">
-
-    <div class="form-group employer_name">
-      <label for="employer_name">Employer Name</label>
-      <input type="text" class="form-control" name="employer_name" id="employer_name"{% if employer %} value="{{employer.name}}"{% endif %}>
+<!-- <div class="form-row"> -->
+<tr>
+  <td>
+    {% if employer %}
+    <input class="hidden" value="{{ employer.id }}" name="employer_id">
+    <input class="hidden" value="" name="start_date">
+    {% endif %}
+    <div class="read-only">{% if employer %}{{ employer.name }}{% endif %}</div>
+    <div class="hidden-input">
+      <input type="text" class="hidden-input form-control" name="employer_name" id="employer_name"{% if employer %} value="{{ employer.name }}"{% endif %}>
     </div>
-
-    <div class="form-group employer_phone_number">
-      <label for="employer_phone_number">Phone Number</label>
-      <input type="tel" class="form-control" name="employer_phone_number" id="employer_phone_number"{% if employer %} value="{{employer.phone_number}}"{% endif %}>
+  </td>
+  <td>
+    <div class="read-only">{% if employer %}{{ employer.phone_number }}{% endif %}</div>
+    <div class="hidden-input">
+      <input type="tel" class="hidden-input form-control" name="employer_phone_number" id="employer_phone_number"{% if employer %} value="{{ employer.phone_number }}"{% endif %}>
     </div>
-
-    <div class="form-group">
-      <label for="employer_employee">Who's job?</label>
-      <select class="form-control" name="employer_employee">
-        <option value="Patient"{% if not employer or not employer.employee or employer.employee == 'Patient' %} selected{% endif %}>Patient</option>
-        <option value="Spouse"{% if employer and employer.employee == 'Spouse' %} selected{% endif %}>Spouse</option>
+  </td>
+  <td>
+    <div class="read-only">{% if employer %}{{ employer.employee }}{% endif %}</div>
+    <div class="hidden-input">
+      <select class="hidden-input form-control" name="employer_employee">
+        <option class="hidden-input" value="Patient"{% if not employer or not employer.employee or employer.employee == 'Patient' %} selected{% endif %}>Patient</option>
+        <option class="hidden-input" value="Spouse"{% if employer and employer.employee == 'Spouse' %} selected{% endif %}>Spouse</option>
       </select>
     </div>
-
-</div>
+  </td>
+  <td class="edit">
+    <span 
+      class="glyphicon glyphicon-pencil"
+      aria-hidden="true"
+      onclick="showHiddenFields()"></span>
+  </td>
+  <td class="income_source_delete">
+    <span
+      class="glyphicon glyphicon-remove"
+      aria-hidden="true"
+      onclick="hideRow()"></span>
+  </td>
+</tr>
