@@ -4,7 +4,7 @@
 
       {% include "includes/patient_nav.html" %}
 
-      <h2>{{ patient.full_name }}</h2>
+      <h2>{{ patient.full_name or patient.first_name }}</h2>
       <p>Who would you like to share this information with?</p>
 
       <div class="col-sm-6 service">

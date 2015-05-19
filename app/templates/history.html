@@ -4,7 +4,7 @@
 
       {% include "includes/patient_nav.html" %}
 
-      <h2>Edit History for {{ patient.full_name }}</h2>
+      <h2>Edit History for {{ patient.full_name or patient.first_name }}</h2>
 
       <table class="table">
         <thead>

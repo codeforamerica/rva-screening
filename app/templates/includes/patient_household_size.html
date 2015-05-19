@@ -12,7 +12,7 @@
       <th>Name</th>
       <th>DOB</th>
       <th>SSN</th>
-      <th>Relation</th>
+      <th>Relationship</th>
       <th>Edit</th>
       <th>Delete</th>
     </tr>
@@ -20,10 +20,10 @@
 
   <tr class="hh_member patient">
     <td class="hh_member_number">1</td>
-    <td class="hh_member_full_name">{{patient.full_name}}</td>
-    <td class="hh_member_dob">{{patient.dob}}</td>
-    <td class="hh_member_ssn">{{patient.ssn}}</td>
-    <td class="hh_member_relation">Patient</td>
+    <td class="hh_member_full_name">{{patient.full_name or patient.first_name or 'Patient'}}</td>
+    <td class="hh_member_dob">{{patient.dob or ''}}</td>
+    <td class="hh_member_ssn">{{patient.ssn or ''}}</td>
+    <td class="hh_member_relation">Self</td>
     <td class="hh_member_edit">
     </td>
   </tr>
