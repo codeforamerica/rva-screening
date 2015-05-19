@@ -17,21 +17,21 @@ DAILY_PLANET_FEES = {
     ('Mental health services, other visits', 5)
   ),
   'Slide A': (
-    ('Dental services', '45\% of full fee'),
+    ('Dental services', '45% of full fee'),
     ('Medical services', 15),
     ('Mental health services, initial visit of calendar month', 15),
     ('Mental health services, second visit of calendar month', 10),
     ('Mental health services, other visits', 5)
   ),
   'Slide B': (
-    ('Dental services', '55\% of full fee'),
+    ('Dental services', '55% of full fee'),
     ('Medical services', 20),
     ('Mental health services, initial visit of calendar month', 20),
     ('Mental health services, second visit of calendar month', 15),
     ('Mental health services, other visits', 5)
   ),
   'Slide C': (
-    ('Dental services', '65\% of full fee'),
+    ('Dental services', '65% of full fee'),
     ('Medical services', 30),
     ('Mental health services, initial visit of calendar month', 30),
     ('Mental health services, second visit of calendar month', 25),
@@ -229,13 +229,14 @@ def many_to_one_patient_updates(patient, form, files):
       if row['id'] != None:
         household_member = HouseholdMember.query.get(row['id'])
         household_member.full_name = row['full_name']
-        household_member.dob = row['dob']
+        if row['dob']:
+          household_member.dob = row['dob']
         household_member.ssn= row['ssn']
         household_member.relationship = row['relation']
       else:
         household_member = HouseholdMember(
           full_name = row['full_name'],
-          dob = row['dob'],
+          dob = row['dob'] or None,
           ssn = row['ssn'],
           relationship = row['relation']
         )
@@ -261,11 +262,11 @@ def many_to_one_patient_updates(patient, form, files):
       if row['id'] != None:
         income_source = IncomeSource.query.get(row['id'])
         income_source.source = row['source']
-        income_source.annual_amount = int(row['amount']) * 12
+        income_source.annual_amount = int(row['amount'] or '0') * 12
       else:
         income_source = IncomeSource(
           source = row['source'],
-          annual_amount = int(row['amount']) * 12
+          annual_amount = int(row['amount'] or '0') * 12
         )
         patient.income_sources.append(income_source)
         db.session.add(income_source)
@@ -472,11 +473,11 @@ def daily_planet_pre_screen(fpl):
   if fpl <= 100:
     sliding_scale = 'Nominal'
   elif 100 < fpl <= 125:
-    sliding_scale = 'A'
+    sliding_scale = 'Slide A'
   elif 125 < fpl <= 150:
-    sliding_scale = 'B'
+    sliding_scale = 'Slide B'
   elif 150 <fpl <= 200:
-    sliding_scale = 'C'
+    sliding_scale = 'Slide C'
   else:
     sliding_scale = 'Full fee'
   return sliding_scale
