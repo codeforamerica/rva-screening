@@ -28,3 +28,6 @@ class DevConfig(Config):
 class TestConfig(Config):
     DEBUG = True
     TESTING = True
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL',
+            'postgresql://localhost/screener_test')
+
