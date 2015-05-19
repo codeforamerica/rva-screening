@@ -106,7 +106,7 @@ class HouseholdMember(db.Model):
   patientid = db.Column(db.Integer, db.ForeignKey("patient.id"))
   full_name = db.Column(db.String(64))
   dob = db.Column(db.Date())
-  ssn = db.Column(db.String(9))
+  ssn = db.Column(db.String(11))
   relationship = db.Column(db.String(32))
 
 class IncomeSource(db.Model):

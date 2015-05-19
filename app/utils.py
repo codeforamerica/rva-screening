@@ -21,8 +21,8 @@ def send_document_image(file_name):
         pass
     else:
         return send_from_directory(os.path.join(
-            app.config['PROJECT_ROOT'],
-            app.config['UPLOAD_FOLDER']),
+            current_app.config['PROJECT_ROOT'],
+            current_app.config['UPLOAD_FOLDER']),
             file_name
         )
 

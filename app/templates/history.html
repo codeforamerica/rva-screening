@@ -4,7 +4,7 @@
 
       {% include "includes/patient_nav.html" %}
 
-      <h2>Edit History for {{ patient.full_name }}</h2>
+      <h2>Edit History for {{ patient.full_name or patient.first_name }}</h2>
 
       <table class="table">
         <thead>
@@ -24,10 +24,24 @@
         </tr>
 
         <tr>
+          <td>May 15 10:10am, 2015</td>
+          <td><a href="#">Mr. Beep Boop</a></td>
+          <td><a href="#">Crossover</a></td>
+          <td>Confirmed patient access.</td>
+        </tr>
+
+        <tr>
+          <td>April 01 11:20am, 2015</td>
+          <td><a href="#">Tulip</a></td>
+          <td><a href="#">Resource Centers</a></td>
+          <td>Shared patient with <a href="">Crossover</a></td>
+        </tr>
+
+        <tr>
           <td>April 01 11:15am, 2015</td>
           <td><a href="#">Tulip</a></td>
           <td><a href="#">Resource Centers</a></td>
-          <td>Updated primary phone number</td>
+          <td>Updated primary phone number from <code>(123) 345-7890</code> to <code>(123) 765-4321</code></td>
         </tr>
 
         <tr>
