@@ -153,7 +153,7 @@ def many_to_one_patient_updates(patient, form, files):
   ]
   for row in phone_number_rows:
     # Check that at least one field in the row has data, otherwise delete it
-    if bool([val for key, val in row.iteritems() if val != '' and val is not None and key != 'id']):     
+    if bool([val for key, val in row.iteritems() if val != '' and val is not None and key != 'id']):
       if row['id'] != None:
         phone_number = PhoneNumber.query.get(row['id'])
         phone_number.phone_number = row['phone_number']
@@ -187,7 +187,7 @@ def many_to_one_patient_updates(patient, form, files):
   ]
   for row in address_rows:
     # Check that at least one field in the row has data, otherwise delete it
-    if bool([val for key, val in row.iteritems() if val != '' and key != 'id']):     
+    if bool([val for key, val in row.iteritems() if val != '' and key != 'id']):
       if row['id'] != None:
         address = Address.query.get(row['id'])
         address.address1 = row['address1']
@@ -225,7 +225,7 @@ def many_to_one_patient_updates(patient, form, files):
   ]
   for row in household_member_rows:
     # Check that at least one field in the row has data, otherwise delete it
-    if bool([val for key, val in row.iteritems() if val != '' and key != 'id']):     
+    if bool([val for key, val in row.iteritems() if val != '' and key != 'id']):
       if row['id'] != None:
         household_member = HouseholdMember.query.get(row['id'])
         household_member.full_name = row['full_name']
@@ -258,7 +258,7 @@ def many_to_one_patient_updates(patient, form, files):
   ]
   for row in income_source_rows:
     # Check that at least one field in the row has data, otherwise delete it
-    if bool([val for key, val in row.iteritems() if val != '' and key != 'id']):     
+    if bool([val for key, val in row.iteritems() if val != '' and key != 'id']):
       if row['id'] != None:
         income_source = IncomeSource.query.get(row['id'])
         income_source.source = row['source']
@@ -287,7 +287,7 @@ def many_to_one_patient_updates(patient, form, files):
   ]
   for row in emergency_contact_rows:
     # Check that at least one field in the row has data, otherwise delete it
-    if bool([val for key, val in row.iteritems() if val != '' and key != 'id']):     
+    if bool([val for key, val in row.iteritems() if val != '' and key != 'id']):
       if row['id'] != None:
         emergency_contact = EmergencyContact.query.get(row['id'])
         emergency_contact.name = row['name']
@@ -319,7 +319,7 @@ def many_to_one_patient_updates(patient, form, files):
   ]
   for row in employer_rows:
     # Check that at least one field in the row has data, otherwise delete it
-    if bool([val for key, val in row.iteritems() if val != '' and val is not None and key != 'id' and key != 'employee']):     
+    if bool([val for key, val in row.iteritems() if val != '' and val is not None and key != 'id' and key != 'employee']):
       if row['id'] != None:
         employer = Employer.query.get(row['id'])
         employer.employee = row['employee']
@@ -350,7 +350,7 @@ def many_to_one_patient_updates(patient, form, files):
   ]
   for row in document_image_rows:
     # Check that at least one field in the row has data, otherwise delete it
-    if bool([val for key, val in row.iteritems() if val != '' and key != 'id']):     
+    if bool([val for key, val in row.iteritems() if val != '' and key != 'id']):
       if row['id'] != None:
         document_image = DocumentImage.query.get(row['id'])
         document_image.description = row['description']
@@ -553,7 +553,7 @@ def patient_print(patient_id):
 
 # PATIENT DETAILS (NEW)
 #
-# this is a tempomrary route that shows what viewing a new patient
+# this is a temporary route that shows what viewing a new patient
 # will look like. When the page loads, it will have an alert asking
 # for consent
 #
@@ -569,6 +569,14 @@ def consent():
   first = patients[0]
   print first.id
   return render_template('consent.html', patient=first)
+
+# TEMPLATE PROTOTYPING
+# This is a dev-only route for prototyping fragments of other templates without touching
+# them. The url should not be linked anywhere, and ideally it should be not be
+# accessible in the deplyed version.
+@app.route('/template_prototyping/')
+def template_prototyping():
+    return render_template('template_prototyping.html')
 
 @app.route('/patient_history/<patient_id>')
 @login_required
