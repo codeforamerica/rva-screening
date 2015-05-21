@@ -25,3 +25,7 @@
     .expander-content {}
   }
 }
+
+.expander-content > div:first-child {
+    margin-top: 1em;
+}
