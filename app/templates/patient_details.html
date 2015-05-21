@@ -6,6 +6,16 @@
       {% include "includes/patient_nav.html" %}
       <h2>{{ patient.full_name or patient.first_name }}</h2>
 
+        {% if patient.fpl_percentage %}
+        <div class="fpl form-group">
+          <label class="fpl-label">
+            Estimated FPL:</label>
+          <span class="fpl-figure">
+            {{ '%0.2f'| format(patient.fpl_percentage|float) }}</span><span class="fpl-percent-symbol">%
+          </span>
+        </div>
+        {% endif %}
+
   {% else %}
       <h2>Add New Patient</h2>
   {% endif %}
@@ -17,13 +27,46 @@
 
     <!--contact info-->
     <div class="expander">
-        <div class="expander-title">Contact Information</div>
+        <div class="expander-title">Phone, Email, Address</div>
         <div class="expander-content">{% include "includes/patient_contact_info.html" %}</div>
+    </div>
+
+    <!--contact info-->
+    <div class="expander">
+        <div class="expander-title">Emergency Contacts</div>
+        <div class="expander-content">
+          {% include "includes/patient_emergency_contact.html" %}
+        </div>
+    </div>
+
+    <!--household-->
+    <div class="expander">
+        <div class="expander-title">Household Size{% if patient.household_members %}: 
+      {{ patient.household_members.count() + 1 }}
+    {% endif %}
+        </div>
+        <div class="expander-content">{% include "includes/patient_household_size.html" %}</div>
+    </div>
+
+    <!--income-->
+    <div class="expander">
+        <div class="expander-title">Household Income{% if patient.total_annual_income %}:
+    ${{(patient.total_annual_income / 12) | int}}/month
+  {% endif %}
+        </div>
+        <div class="expander-content">{% include "includes/patient_income_sources.html" %}</div>
+    </div>
+
+    <!--documents-->
+    <div class="expander">
+      <div class="expander-title">Document Uploads
+        {% if patient.document_images %} ({{patient.document_images.count()}}) {% endif %}</div>
+        <div class="expander-content">{% include "includes/patient_docs.html" %}</div>
     </div>
 
     <!--demographics-->
     <div class="expander">
-        <div class="expander-title">Demographics</div>
+        <div class="expander-title">Demographic Questions</div>
         <div class="expander-content">{% include "includes/patient_demographic_info.html" %}</div>
     </div>
 
@@ -35,28 +78,9 @@
 
     <!--insurance-->
     <div class="expander">
-        <div class="expander-title">Insurance</div>
+        <div class="expander-title">Insurance Information</div>
         <div class="expander-content">{% include "includes/patient_insurance_info.html" %}</div>
     </div>
-
-    <!--documents-->
-    <div class="expander">
-        <div class="expander-title">Personal Documents</div>
-        <div class="expander-content">{% include "includes/patient_docs.html" %}</div>
-    </div>
-
-    <!--household-->
-    <div class="expander">
-        <div class="expander-title">Household</div>
-        <div class="expander-content">{% include "includes/patient_household_size.html" %}</div>
-    </div>
-
-    <!--income-->
-    <div class="expander">
-        <div class="expander-title">Income Sources</div>
-        <div class="expander-content">{% include "includes/patient_income_sources.html" %}</div>
-    </div>
-
 
     <button type="submit" class="btn btn-primary">
       <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
