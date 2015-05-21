@@ -12,16 +12,7 @@ def create_app(config=ProdConfig):
     app.debug = app.config['DEBUG']
     register_blueprints(app)
     register_extensions(app)
-
-    @app.context_processor
-    def inject_static_url():
-        static_url = os.environ.get('STATIC_URL', app.static_url_path)
-        if not static_url.endswith('/'):
-            static_url += '/'
-        return dict(
-            static_url=static_url
-        )
-
+    register_context_processors(app)
     return app
 
 def register_blueprints(app):
@@ -34,30 +25,15 @@ def register_extensions(app):
     login_manager.init_app(app)
     login_manager.login_view = 'login'
 
+def register_context_processors(app):
+    from app.context_processors import inject_static_url, inject_example_data
+    app.context_processor(inject_static_url)
+    app.context_processor(inject_example_data)
+
 
 db = SQLAlchemy()
 bcrypt = Bcrypt()
 login_manager = LoginManager()
-
-
-@app.context_processor
-def inject_static_url():
-    """Adds `STATIC_URL` variable to template context.
-    """
-    static_url = os.environ.get('STATIC_URL', app.static_url_path)
-    if not static_url.endswith('/'):
-        static_url += '/'
-    return dict(
-        static_url=static_url
-    )
-
-@app.context_processor
-def inject_example_data():
-    """Adds `EXAMPLE` variable to template context, if we need to fake data
-    somewhere.
-    """
-    from app import example_data
-    return dict(EXAMPLE=example_data)
 
 
 from app import views, models

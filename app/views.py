@@ -572,19 +572,15 @@ def consent():
   print first.id
   return render_template('consent.html', patient=first)
 
-<<<<<<< HEAD
 # TEMPLATE PROTOTYPING
 # This is a dev-only route for prototyping fragments of other templates without touching
 # them. The url should not be linked anywhere, and ideally it should be not be
 # accessible in the deplyed version.
-@app.route('/template_prototyping/')
+@screener.route('/template_prototyping/')
 def template_prototyping():
     return render_template('template_prototyping.html')
 
-@app.route('/patient_history/<patient_id>')
-=======
 @screener.route('/patient_history/<patient_id>')
->>>>>>> switching to app factory & blueprint pattern
 @login_required
 def patient_history(patient_id):
   patient = Patient.query.get(patient_id)
