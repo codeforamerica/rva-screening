@@ -11,7 +11,6 @@
     <tr>
       <th>Number</th>
       <th>Description</th>
-      <th>Primary?</th>
     </tr>
   </thead>
 
@@ -20,17 +19,11 @@
       <tr class="phone_number">
         <td class="phone_number_number">
           <input class="hidden" value="{{phone.id}}" name="phone_number_id">
+          <input type="hidden" name="phone_primary_yn" id="phone_primary_yn_{{loop.index}}">
           <input class="form-control" type="tel" value="{{phone.phone_number}}" name="phone_number" id="number_{{loop.index}}"/>
         </td>
         <td class="phone_number_name">
           <input class="form-control" type="text" value="{{phone.description}}" name="phone_description" id="phone_name_{{loop.index}}"/>
-        </td>
-        <td class="phone_number_primary_yn">
-          <select class="form-control" name="phone_primary_yn" id="phone_primary_yn_{{loop.index}}">
-            {% with attribute=phone.primary_yn %}
-            {% include "includes/select_yn.html" %}
-            {% endwith %}
-          </select>
         </td>
       </tr>
     {% endfor %}
@@ -38,17 +31,11 @@
 
   <tr class="phone_number" id="phone_number_input">
     <td class="phone_number_number">
+      <input type="hidden" name="phone_primary_yn" >
       <input class="form-control" type="tel" name="phone_number">
     </td>
     <td class="phone_number_name">
       <input class="form-control" type="text" name="phone_description"/>
-    </td>
-    <td class="phone_number_primary_yn">
-      <select class="form-control" name="phone_primary_yn" id="phone_primary_yn">
-        {% with %}
-        {% include "includes/select_yn.html" %}
-        {% endwith %}
-      </select>
     </td>
   </tr>
 
