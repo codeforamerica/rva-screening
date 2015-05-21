@@ -203,6 +203,11 @@ body {
  *
  */
 
+/* Lable styles for emphasis
+*/
+label { font-weight: 300; }
+label strong { font-weight: 900; }
+
 .fpl { font-size: 2rem; font-weight: 500; }
 .fpl-figure { font-size: 1.15em; }
 .fpl-percent-symbol{ font-size: 0.8em; position: relative; top: -0.5rem; }
