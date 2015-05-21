@@ -3,7 +3,12 @@
   <div class="dob_ssn_group">
       <div class="form-group dob">
         <label for="dob">Date of birth</label>
-        <input type="date" class="form-control" name="dob" id="dob"{% if patient.dob %} value="{{patient.dob}}"{% endif %}>
+        <input type="date" class="form-control"  
+          max="2200-01-01" 
+          min="1899-01-01" 
+          name="dob" 
+          id="dob"
+          {% if patient.dob %} value="{{patient.dob}}"{% endif %}>
       </div>
 
       <div class="form-group ssn">
