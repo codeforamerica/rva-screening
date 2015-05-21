@@ -4,13 +4,16 @@ run:
 		--env=.env
 
 test:
-	psql -c 'drop database if exists screener_test;'
-	psql -c 'create database screener_test;'
 	nosetests tests/ \
 		-sv \
 		--with-coverage \
 		--cover-package=app \
 		--cover-erase 
+
+test_travis:
+	psql -c 'drop database if exists screener_test;' -U postgres
+	psql -c 'create database screener_test;' -U postgres
+	make test
 
 new_db:
 	rm -rf ./migrations
