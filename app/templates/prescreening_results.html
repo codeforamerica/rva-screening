@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
-	{% for service in services %}
+    {% for service in services %}
         <div class="service-pre-screen-result">
-    		{% if service.eligible %}
+            {% if service.eligible %}
                 <p class="alert alert-success">
                     <span class="glyphicon glyphicon-ok push-right"></span>
                     Good news!
                 </p>
-     			<h3>You are likely eligible for {{ service.name }}.</h3>
+                <h3>You are likely eligible for {{ service.name }}.</h3>
                 {% if service.general_fees %}
                     {% for fee in service.general_fees %}
                         <p>{{fee[0]}}: ${{fee[1]}}</p>
@@ -16,9 +16,9 @@
                 {% if service.name == 'Access Now' %}
                     Access Now's services are free.
                 {% endif %}
-     		{% else %}
-     			<h3>You are likely not eligible for {{ service.name }}.</h3>
-        	{% endif %}
+            {% else %}
+                <h3>You are likely not eligible for {{ service.name }}.</h3>
+            {% endif %}
             {% if service.sliding_scale %}
                 <h5>You're likely to fall in the {{service.sliding_scale}} section of the sliding scale.</h5>
                 {% if service.sliding_scale != 'Full fee' %}
@@ -31,14 +31,14 @@
     {% endfor %}
 
     {% if patient %}
-    	<a href="{{ url_for('save_prescreening_updates', patientid=patient.id) }}">
+        <a href="{{ url_for('screener.save_prescreening_updates', patientid=patient.id) }}">
         Return to details for {{ patient }}.
-    	</a>
+        </a>
 
  {#<!--    {% else %}
-    	<p>Would you save this information into a new patient record?</p>
-    	<a type="button" class="btn btn-success" href="{{ url_for('new_patient') }}">Yes</a>
-    	<a type="button" class="btn btn-default" href="{{ url_for('index') }}">No thanks</a> -->
+        <p>Would you save this information into a new patient record?</p>
+        <a type="button" class="btn btn-success" href="{{ url_for('screener.new_patient') }}">Yes</a>
+        <a type="button" class="btn btn-default" href="{{ url_for('screener.index') }}">No thanks</a> -->
  #}
     {% endif %}
 {% endblock %}

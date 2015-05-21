@@ -10,7 +10,7 @@
 
       {% macro patient(name) %}
         <li class="patient-list-item col-sm-6">
-          <h3 class="patient-name">{{ name }} <a class="btn btn-default" href="{{ url_for('consent') }}">Add New Patient</a></h3>
+          <h3 class="patient-name">{{ name }} <a class="btn btn-default" href="{{ url_for('screener.consent') }}">Add New Patient</a></h3>
           <p class="patient-dob">DOB: xx/xx/xxxx</p>
           <p class="patient-lastedit">Associated with <a href="#">Richmond Resource Centers</a>, <a href="">Daily Planet</a></p>
         </li>
@@ -37,4 +37,4 @@
       </ul>
     <!-- /search -->
   </body>
-{% endblock %}    
+{% endblock %}

@@ -14,13 +14,13 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="{{ url_for('new_prescreening') }}"><span class="glyphicon glyphicon-pencil push-right" aria-hidden="true"></span>Pre-Screener</a></li>
+        <li><a href="{{ url_for('screener.new_prescreening') }}"><span class="glyphicon glyphicon-pencil push-right" aria-hidden="true"></span>Pre-Screener</a></li>
         {% if g.user.is_authenticated() %}
-        <li><a href="{{ url_for('index') }}"><span class="glyphicon glyphicon-search push-right" aria-hidden="true"></span>Browse Patients</a></li>
-        <li><a href="{{ url_for('new_patient') }}"><span class="glyphicon glyphicon-plus push-right" aria-hidden="true"></span>Add Patient</a></li>
-        <li><a href="{{ url_for('logout') }}"><span class="glyphicon glyphicon-log-out push-right" aria-hidden="true"></span>Logout</a></li>
+        <li><a href="{{ url_for('screener.index') }}"><span class="glyphicon glyphicon-search push-right" aria-hidden="true"></span>Browse Patients</a></li>
+        <li><a href="{{ url_for('screener.new_patient') }}"><span class="glyphicon glyphicon-plus push-right" aria-hidden="true"></span>Add Patient</a></li>
+        <li><a href="{{ url_for('screener.logout') }}"><span class="glyphicon glyphicon-log-out push-right" aria-hidden="true"></span>Logout</a></li>
         {% else %}
-        <li><a href="{{ url_for('login') }}"><span class="glyphicon glyphicon-log-in push-right" aria-hidden="true"></span>Login</a></li>
+        <li><a href="{{ url_for('screener.login') }}"><span class="glyphicon glyphicon-log-in push-right" aria-hidden="true"></span>Login</a></li>
         {% endif %}
 
       </ul>

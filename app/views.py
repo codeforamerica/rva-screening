@@ -1,6 +1,6 @@
 import time, os, base64, hmac, urllib
-from flask import render_template, request,flash, redirect, url_for, g, send_from_directory, session, current_app
-from app import app, db, bcrypt
+from flask import Blueprint, render_template, request,flash, redirect, url_for, g, send_from_directory, session, current_app
+from app import db, bcrypt
 from app.models import Patient, PhoneNumber, Address, EmergencyContact, Insurance, HouseholdMember, IncomeSource, Employer, DocumentImage, Service, User
 import datetime
 from flask.ext.login import login_user, logout_user, current_user, login_required
@@ -8,6 +8,8 @@ from app import login_manager
 from app.utils import upload_file, send_document_image
 from sqlalchemy import func
 from hashlib import sha1
+
+screener = Blueprint('screener', __name__, url_prefix='')
 
 DAILY_PLANET_FEES = {
   'Nominal': (
@@ -49,7 +51,7 @@ CROSSOVER_FEES = (
   ('Dental', 25)
 )
 
-@app.route("/login", methods=["GET", "POST"])
+@screener.route("/login", methods=["GET", "POST"])
 def login():
   if request.method == 'POST':
     user = User.query.filter(User.email == request.form['email']).first()
@@ -59,11 +61,11 @@ def login():
         db.session.add(user)
         db.session.commit()
         login_user(user, remember=True)
-        return redirect(url_for('index'))
+        return redirect(url_for('screener.index'))
   else:
     return render_template("login.html")
 
-@app.route("/logout", methods=["GET"])
+@screener.route("/logout", methods=["GET"])
 @login_required
 def logout():
   user = current_user
@@ -71,17 +73,17 @@ def logout():
   db.session.add(user)
   db.session.commit()
   logout_user()
-  return redirect(url_for('index'))
+  return redirect(url_for('screener.index'))
 
 @login_manager.user_loader
 def load_user(email):
   return User.query.filter(User.email == email).first()
 
-@app.before_request
+@screener.before_request
 def before_request():
   g.user = current_user
 
-@app.route('/new_patient' , methods=['POST', 'GET'])
+@screener.route('/new_patient' , methods=['POST', 'GET'])
 @login_required
 def new_patient():
   if request.method == 'POST':
@@ -98,7 +100,7 @@ def new_patient():
     many_to_one_patient_updates(patient, request.form, request.files)
     db.session.commit()
 
-    return redirect(url_for('patient_details', id=patient.id))
+    return redirect(url_for('screener.patient_details', id=patient.id))
   else:
     # Check whether we already have some data from a pre-screening
     if 'household_size' in session or 'household_income' in session:
@@ -111,7 +113,7 @@ def new_patient():
 
     return render_template('patient_details.html', patient={})
 
-@app.route('/patient_details/<id>', methods=['POST', 'GET'])
+@screener.route('/patient_details/<id>', methods=['POST', 'GET'])
 @login_required
 def patient_details(id):
   patient = Patient.query.get(id)
@@ -127,7 +129,7 @@ def patient_details(id):
       setattr(patient, key, value)
 
     db.session.commit()
-    return redirect(url_for('patient_details', id=patient.id))
+    return redirect(url_for('screener.patient_details', id=patient.id))
   else:
     patient.total_annual_income = sum(
       source.annual_amount for source in patient.income_sources
@@ -373,15 +375,15 @@ def calculate_fpl(household_size, annual_income):
   fpl = 5200 * int(household_size) + 9520
   return float(annual_income) / fpl * 100
 
-@app.route('/delete/<id>', methods=['POST', 'GET'])
+@screener.route('/delete/<id>', methods=['POST', 'GET'])
 @login_required
 def delete(id):
   patient = Patient.query.get(id)
   db.session.delete(patient)
   db.session.commit()
-  return redirect(url_for('index'))
+  return redirect(url_for('screener.index'))
 
-@app.route('/document_image/<image_id>')
+@screener.route('/document_image/<image_id>')
 @login_required
 def document_image(image_id):
   _image = DocumentImage.query.get(image_id)
@@ -395,24 +397,24 @@ def document_image(image_id):
     file_path = '/documentimages/' + _image.file_name
   return render_template('documentimage.html', file_path=file_path)
 
-@app.route('/documentimages/<filename>')
+@screener.route('/documentimages/<filename>')
 @login_required
 def get_image(filename):
   return send_document_image(filename)
 
-@app.route('/new_prescreening/<patient_id>', methods=['POST', 'GET'])
-@app.route('/new_prescreening', defaults={'patient_id': None}, methods=['POST', 'GET'])
+@screener.route('/new_prescreening/<patient_id>', methods=['POST', 'GET'])
+@screener.route('/new_prescreening', defaults={'patient_id': None}, methods=['POST', 'GET'])
 @login_required
 def new_prescreening(patient_id):
   if request.method == 'POST':
     session['services'] = request.form.getlist('services')
-    return redirect(url_for('prescreening_basic'))
+    return redirect(url_for('screener.prescreening_basic'))
   if patient_id is not None:
     session.clear()
     session['patient_id'] = patient_id
   return render_template('new_prescreening.html')
 
-@app.route('/prescreening_basic', methods=['POST', 'GET'])
+@screener.route('/prescreening_basic', methods=['POST', 'GET'])
 @login_required
 def prescreening_basic():
   if request.method == 'POST':
@@ -420,7 +422,7 @@ def prescreening_basic():
     session['household_income'] = request.form['household_income']
     session['has_health_insurance'] = request.form['has_health_insurance']
     session['is_eligible_for_medicaid'] = request.form['is_eligible_for_medicaid']
-    return redirect(url_for('prescreening_results'))
+    return redirect(url_for('screener.prescreening_results'))
   else:
     if session.get('patient_id'):
       patient = Patient.query.get(session['patient_id'])
@@ -507,7 +509,7 @@ def access_now_pre_screen(fpl, has_health_insurance, is_eligible_for_medicaid):
   else:
     return False
 
-@app.route('/prescreening_results')
+@screener.route('/prescreening_results')
 @login_required
 def prescreening_results():
   if 'services' in session:
@@ -524,7 +526,7 @@ def prescreening_results():
       services = calculate_pre_screen_results()
     )
 
-@app.route('/save_prescreening_updates')
+@screener.route('/save_prescreening_updates')
 @login_required
 def save_prescreening_updates():
   if 'patient_id' in session and session['patient_id']:
@@ -534,10 +536,10 @@ def save_prescreening_updates():
     patient.household_income = session['household_income']
     db.session.commit()
     session.clear()
-    return redirect(url_for('patient_details', id = patient_id))
+    return redirect(url_for('screener.patient_details', id = patient_id))
 
 # SEARCH NEW PATIENT
-@app.route('/search_new' )
+@screener.route('/search_new' )
 @login_required
 def search_new():
   patients = Patient.query.all()
@@ -545,7 +547,7 @@ def search_new():
 
 # PRINT PATIENT DETAILS
 # @param patient id
-@app.route('/patient_print/<patient_id>')
+@screener.route('/patient_print/<patient_id>')
 @login_required
 def patient_print(patient_id):
   patient = Patient.query.get(patient_id)
@@ -561,7 +563,7 @@ def patient_print(patient_id):
 # to check if the user has permission to view the patient. When that
 # functionality is added we should delete the patient_details_new.html
 # template
-@app.route('/consent/')
+@screener.route('/consent/')
 @login_required
 def consent():
   # this is temporary!
@@ -570,6 +572,7 @@ def consent():
   print first.id
   return render_template('consent.html', patient=first)
 
+<<<<<<< HEAD
 # TEMPLATE PROTOTYPING
 # This is a dev-only route for prototyping fragments of other templates without touching
 # them. The url should not be linked anywhere, and ideally it should be not be
@@ -579,6 +582,9 @@ def template_prototyping():
     return render_template('template_prototyping.html')
 
 @app.route('/patient_history/<patient_id>')
+=======
+@screener.route('/patient_history/<patient_id>')
+>>>>>>> switching to app factory & blueprint pattern
 @login_required
 def patient_history(patient_id):
   patient = Patient.query.get(patient_id)
@@ -586,13 +592,13 @@ def patient_history(patient_id):
 
 # SHARE PATIENT DETAILS
 # @param patient id
-@app.route('/patient_share/<patient_id>')
+@screener.route('/patient_share/<patient_id>')
 @login_required
 def patient_share(patient_id):
   patient = Patient.query.get(patient_id)
   return render_template('patient_share.html', patient=patient)
 
-@app.route('/' )
+@screener.route('/' )
 @login_required
 def index():
   session.clear()

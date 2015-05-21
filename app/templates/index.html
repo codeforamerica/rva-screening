@@ -2,7 +2,7 @@
 {% block content %}
   <body>
 
-    <a href="{{ url_for('search_new') }}" class="btn btn-success right"><span class="glyphicon glyphicon-eye-open"></span> Search new patients</a>
+    <a href="{{ url_for('screener.search_new') }}" class="btn btn-success right"><span class="glyphicon glyphicon-eye-open"></span> Search new patients</a>
 
     <h1>RVA Screener</h1>
 
@@ -27,11 +27,11 @@
           <p class="patient-dob">DOB: {{ patient.dob }}</p>
           <div class="completion-wrapper"><div class="completion high" style="width:{{ loop.index }}9%"></div></div><div class="completion-percentage">{{ loop.index }}9% completion</div>
           <p class="patient-lastedit left">Last edited by: <a href="#">____</a> at <a href="#">Richmond Resource Center</a></p>
-          <a class="btn btn-default btn-sm right" href="{{ url_for('patient_details', id=patient.id) }}">Details <span class="glyphicon glyphicon-chevron-right"></span></a>
+          <a class="btn btn-default btn-sm right" href="{{ url_for('screener.patient_details', id=patient.id) }}">Details <span class="glyphicon glyphicon-chevron-right"></span></a>
         </li>
         {% endfor %}
       </ul>
     <!-- /search -->
-    
+
   </body>
-{% endblock %}    
+{% endblock %}

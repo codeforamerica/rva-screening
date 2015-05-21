@@ -4,21 +4,40 @@ from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.login import LoginManager
 from flask.ext.bcrypt import Bcrypt
 from werkzeug import secure_filename
-from config import Config
+from config import Config, ProdConfig
 
-app = Flask(__name__, static_url_path='')
+def create_app(config=ProdConfig):
+    app = Flask(__name__, static_url_path='')
+    app.config.from_object(config)
+    app.debug = app.config['DEBUG']
+    register_blueprints(app)
+    register_extensions(app)
 
-app.config.from_object(Config)
-app.secret_key = app.config['SECRET_KEY']
-# unless we are in a production environment, turn on debug
-app.debug = app.config['SCREENER_ENVIRONMENT'] != 'prod'
+    @app.context_processor
+    def inject_static_url():
+        static_url = os.environ.get('STATIC_URL', app.static_url_path)
+        if not static_url.endswith('/'):
+            static_url += '/'
+        return dict(
+            static_url=static_url
+        )
 
-db = SQLAlchemy(app)
-bcrypt = Bcrypt(app)
+    return app
 
+def register_blueprints(app):
+    from app.views import screener
+    app.register_blueprint(screener)
+
+def register_extensions(app):
+    db.init_app(app)
+    bcrypt.init_app(app)
+    login_manager.init_app(app)
+    login_manager.login_view = 'login'
+
+
+db = SQLAlchemy()
+bcrypt = Bcrypt()
 login_manager = LoginManager()
-login_manager.init_app(app)
-login_manager.login_view = 'login'
 
 
 @app.context_processor
@@ -42,4 +61,3 @@ def inject_example_data():
 
 
 from app import views, models
-

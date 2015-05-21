@@ -1,6 +1,7 @@
 import os
 
 class Config(object):
+    DEBUG = True
     SECRET_KEY = 'some-secret'
     SCREENER_ENVIRONMENT = os.environ.get('SCREENER_ENVIRONMENT', 'dev')
     IS_PRODUCTION = os.environ.get('IS_PRODUCTION', False)
@@ -17,3 +18,13 @@ class Config(object):
     S3_FILE_UPLOAD_DIR = 'uploads'
     S3_BUCKET_NAME = os.environ.get('S3_BUCKET_NAME', 'rva-screener')
     S3_ONLY_MODIFIED = False
+
+class ProdConfig(Config):
+    DEBUG = False
+
+class DevConfig(Config):
+    DEBUG = True
+
+class TestConfig(Config):
+    DEBUG = True
+    TESTING = True
