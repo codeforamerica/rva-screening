@@ -598,6 +598,14 @@ def user(user_id):
   user = User.query.get(user_id)
   return render_template('user_profile.html', user=user)
 
+# SERVICE PROFILE
+@app.route('/service/')
+@login_required
+def service():
+  # service = Service.query.get(service_id)
+  # points = []
+  return render_template('service_profile.html')
+
 @app.route('/')
 @login_required
 def index():

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="service">
+    <div class="col-sm-4">
+      <img src="http://www.crossoverministry.org/images/template/logo.jpg">
+      <h1>Crossover</h1>
+      <p><span class="glyphicon glyphicon-user"></span> <a href="#">Alex Chamberlain</a></p>
+      <p><span class="glyphicon glyphicon-link"></span> <a href="http://www.crossoverministry.org/">crossoverministry.org/</a></p>
+    </div>
+    <div class="col-sm-8">
+      <div class="description">
+        <p>CrossOver Healthcare Ministry provides quality and compassionate health care to the uninsured in the greater Richmond Metropolitan area.  Our mission is to provide health care, promote wellness, and connect the talents and resources of the community with people in need in the name of Jesus Christ. CrossOver is here to serve and empower patients by providing a comprehensive approach to health care for the body, mind, and spirit!</p>
+        <p>Established by volunteers in 1983, CrossOver offers a full continuum of health care services to the uninsured that includes: family medicine, primary care, obstetrics and pediatrics, podiatry, dental and vision care, mental health care, HIV diagnosis and treatment, and critical medications.  CrossOver operates 2 free clinics located in areas of identified need in Richmond, serving more than 6,800 individuals annually.</p>
+
+
+      </div>
+      
+      <hr>
+
+      <div class="locations">
+        <h3>Locations</h3>
+        <div class="location col-sm-6" 
+             data-name="Cowardin" 
+             data-address="108 Cowardin Ave, Richmond, VA 23224"
+             data-latitude="37.519541"
+             data-longitude="-77.449814">
+          <p><strong>Cowardin</strong></p>
+          <p>108 Cowardin Ave, Richmond, VA 23224</p>
+        </div>
+        <div class="location col-sm-6" 
+             data-name="Quioccasin" 
+             data-address="8600 Quioccasin Road, Suite 105, Richmond, VA 23229"
+             data-latitude="37.602507"
+             data-longitude="-77.565325">
+          <p><strong>Quioccasin</strong></p>
+          <p>8600 Quioccasin Road, Suite 105, Richmond, VA 23229</p>
+        </div>
+        <div id="service-map" class="location-map col-sm-12"></div>
+      </div>
+
+    </div>
+  </div>
+{% endblock %}
