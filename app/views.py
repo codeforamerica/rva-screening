@@ -585,14 +585,20 @@ def patient_history(patient_id):
   return render_template('history.html', patient=patient)
 
 # SHARE PATIENT DETAILS
-# @param patient id
 @app.route('/patient_share/<patient_id>')
 @login_required
 def patient_share(patient_id):
   patient = Patient.query.get(patient_id)
   return render_template('patient_share.html', patient=patient)
 
-@app.route('/' )
+# USER PROFILE
+@app.route('/user/<user_id>')
+@login_required
+def user(user_id):
+  user = User.query.get(user_id)
+  return render_template('user_profile.html', user=user)
+
+@app.route('/')
 @login_required
 def index():
   session.clear()
