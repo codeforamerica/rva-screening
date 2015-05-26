@@ -5,6 +5,10 @@
   }
 }
 
+.location {
+  @include block;
+}
+
 .location-map {
   min-height:300px;
 }

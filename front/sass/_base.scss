@@ -13,6 +13,20 @@ body {
 .push-right { /* used mostly with icons */
   margin-right:.5em;
 }
+.push-left {
+  margin-left:1em;
+}
+
+/* STYLE MIXINS
+ *
+ *
+ */
+@mixin block {
+  background:white;
+  padding:1em;
+  margin-bottom:10px;
+  position:relative;
+}
 
 
 /* MENU
