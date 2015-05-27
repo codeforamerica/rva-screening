@@ -599,6 +599,9 @@ def user(user_id):
   return render_template('user_profile.html', user=user)
 
 # SERVICE PROFILE
+# This is completely static right now. Eventually it will become a route with <service_id>
+# attached to specify which service. Currently /service/ statically shows information about
+# Crossover using the `service_profile.html` template.
 @app.route('/service/')
 @login_required
 def service():
