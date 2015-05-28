@@ -9,46 +9,6 @@ from app.utils import upload_file, send_document_image
 from sqlalchemy import func
 from hashlib import sha1
 
-DAILY_PLANET_FEES = {
-  'Nominal': (
-    ('Dental services', 30),
-    ('Medical services', 10),
-    ('Mental health services, initial visit of calendar month', 10),
-    ('Mental health services, other visits', 5)
-  ),
-  'Slide A': (
-    ('Dental services', '45% of full fee'),
-    ('Medical services', 15),
-    ('Mental health services, initial visit of calendar month', 15),
-    ('Mental health services, second visit of calendar month', 10),
-    ('Mental health services, other visits', 5)
-  ),
-  'Slide B': (
-    ('Dental services', '55% of full fee'),
-    ('Medical services', 20),
-    ('Mental health services, initial visit of calendar month', 20),
-    ('Mental health services, second visit of calendar month', 15),
-    ('Mental health services, other visits', 5)
-  ),
-  'Slide C': (
-    ('Dental services', '65% of full fee'),
-    ('Medical services', 30),
-    ('Mental health services, initial visit of calendar month', 30),
-    ('Mental health services, second visit of calendar month', 25),
-    ('Mental health services, other visits', 5)
-  ),
-  'Full fee': ()
-}
-CROSSOVER_FEES = (
-  ('Medications', 4),
-  ('Nurse/Labs', 10),
-  ('Vaccine clinic', 10),
-  ('Medical visit/mental health', 15),
-  ('Eye', 15),
-  ('Same day appointments', 20),
-  ('Dental', 25)
-)
-
 @app.route("/login", methods=["GET", "POST"])
 def login():
   if request.method == 'POST':
@@ -405,12 +365,13 @@ def get_image(filename):
 @login_required
 def new_prescreening(patient_id):
   if request.method == 'POST':
-    session['services'] = request.form.getlist('services')
+    session['service_ids'] = request.form.getlist('services')
     return redirect(url_for('prescreening_basic'))
   if patient_id is not None:
     session.clear()
     session['patient_id'] = patient_id
-  return render_template('new_prescreening.html')
+  services = Service.query.all()
+  return render_template('new_prescreening.html', services=services)
 
 @app.route('/prescreening_basic', methods=['POST', 'GET'])
 @login_required
@@ -428,84 +389,50 @@ def prescreening_basic():
     else:
       return render_template('prescreening_basic.html')
 
-def calculate_pre_screen_results():
-  fpl = calculate_fpl(session['household_size'], int(session['household_income']) * 12)
+def calculate_pre_screen_results(fpl):
   service_results = []
-  for service in session['services']:
-    if service == 'daily_planet':
-      sliding_scale = daily_planet_pre_screen(fpl)
-      service_results.append({
-        'name': 'Daily Planet',
-        'eligible': True,
-        'sliding_scale': sliding_scale,
-        'sliding_scale_fees': DAILY_PLANET_FEES[sliding_scale]
-      })
-    if service == 'resource_centers':
-      service_results.append({
-        'name': 'RCHD resource centers',
-        'eligible': True,
-        'sliding_scale': resource_center_pre_screen(fpl)
-      })
-    if service == 'cross_over':
-      service_results.append({
-        'name': 'CrossOver',
-        'eligible': cross_over_pre_screen(
-          fpl,
-          session['has_health_insurance'],
-          session['is_eligible_for_medicaid']
-        ),
-        'sliding_scale': 0,
-        'general_fees': CROSSOVER_FEES
-      })
-    if service == 'access_now':
-      service_results.append({
-        'name': 'Access Now',
-        'eligible': access_now_pre_screen(
-          fpl,
-          session['has_health_insurance'],
-          session['is_eligible_for_medicaid']
-        ),
-        'sliding_scale': 0
-      })
+  for service_id in session['service_ids']:
+    service = Service.query.get(service_id)
+
+    if (service.fpl_cutoff and fpl > service.fpl_cutoff):
+      eligible = False
+      fpl_eligible = False
+    elif ((service.uninsured_only_yn == 'Y' and session['has_health_insurance'] == 'yes') or
+      (service.medicaid_ineligible_only_yn == 'Y' and session['is_eligible_for_medicaid'] == 'yes')):
+      eligible = False
+      fpl_eligible = True
+    else:
+      eligible = True
+      fpl_eligible = True
+
+    sliding_scale_name = None
+    sliding_scale_range = None
+    sliding_scale_fees = None
+    for sliding_scale in service.sliding_scales:
+      if ((sliding_scale.fpl_low <= fpl < sliding_scale.fpl_high)
+        or (sliding_scale.fpl_low <= fpl and sliding_scale.fpl_high is None)):
+        sliding_scale_name = sliding_scale.scale_name
+        sliding_scale_fees = sliding_scale.sliding_scale_fees
+        if sliding_scale.fpl_high:
+          sliding_scale_range = 'between %d%% and %d%%' % (sliding_scale.fpl_low, sliding_scale.fpl_high)
+        else:
+          sliding_scale_range = 'over %d%%' % sliding_scale.fpl_low
+
+    service_results.append({
+      'name': service.name,
+      'eligible': eligible,
+      'fpl_cutoff': service.fpl_cutoff,
+      'fpl_eligible': fpl_eligible,
+      'uninsured_only_yn': service.uninsured_only_yn,
+      'medicaid_ineligible_only_yn': service.medicaid_ineligible_only_yn,
+      'residence_requirement_yn': service.residence_requirement_yn,
+      'time_in_area_requirement_yn': service.time_in_area_requirement_yn,
+      'sliding_scale': sliding_scale_name,
+      'sliding_scale_range': sliding_scale_range,
+      'sliding_scale_fees': sliding_scale_fees
+    })
+
   return service_results
-
-def daily_planet_pre_screen(fpl):
-  if fpl <= 100:
-    sliding_scale = 'Nominal'
-  elif 100 < fpl <= 125:
-    sliding_scale = 'Slide A'
-  elif 125 < fpl <= 150:
-    sliding_scale = 'Slide B'
-  elif 150 <fpl <= 200:
-    sliding_scale = 'Slide C'
-  else:
-    sliding_scale = 'Full fee'
-  return sliding_scale
-
-def resource_center_pre_screen(fpl):
-  if fpl <= 100:
-    sliding_scale = 'Nominal'
-  elif 100 < fpl <= 125:
-    sliding_scale = 'A'
-  elif 125 < fpl <= 150:
-    sliding_scale = 'B'
-  elif 150 <fpl <= 200:
-    sliding_scale = 'C'
-  else:
-    sliding_scale = 'Full fee'
-  return sliding_scale
-
-def cross_over_pre_screen(fpl, has_health_insurance, is_eligible_for_medicaid):
-  if fpl <= 200 and has_health_insurance == 'no' and is_eligible_for_medicaid == 'no':
-    return True
-  else:
-    return False
-
-def access_now_pre_screen(fpl, has_health_insurance, is_eligible_for_medicaid):
-  if fpl <= 200 and has_health_insurance == 'no' and is_eligible_for_medicaid == 'no':
-    return True
-  else:
-    return False
 
 @app.route('/prescreening_results')
 @login_required
@@ -519,9 +446,15 @@ def prescreening_results():
       patient_id = session['patient_id']
     )
   else:
+    fpl = calculate_fpl(session['household_size'], int(session['household_income']) * 12)
     return render_template(
       'prescreening_results.html',
-      services = calculate_pre_screen_results()
+      services = calculate_pre_screen_results(fpl),
+      household_size = session['household_size'],
+      household_income = int(session['household_income']) * 12,
+      fpl = fpl,
+      has_health_insurance = session['has_health_insurance'],
+      is_eligible_for_medicaid = session['is_eligible_for_medicaid']
     )
 
 @app.route('/save_prescreening_updates')
