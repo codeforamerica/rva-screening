@@ -1,31 +1,81 @@
 {% extends "base.html" %}
 {% block content %}
-	{% for service in services %}
+    <p>Your input:</p>
+    <p>${{household_income}} annual income for {{household_size}} household members = {{fpl | int}}% of the Federal Poverty Level</p>
+    <p>Has insurance: {{has_health_insurance}}</p>
+    <p>Eligible for Medicaid: {{is_eligible_for_medicaid}}</p>
+    {% for service in services %}
         <div class="service-pre-screen-result">
-    		{% if service.eligible %}
-                <p class="alert alert-success">
-                    <span class="glyphicon glyphicon-ok push-right"></span>
-                    Good news!
-                </p>
-     			<h3>You are likely eligible for {{ service.name }}.</h3>
-                {% if service.general_fees %}
-                    {% for fee in service.general_fees %}
-                        <p>{{fee[0]}}: ${{fee[1]}}</p>
-                    {% endfor %}
+            <div 
+                {% if service.eligible %}
+                    class="alert alert-success"
+                {% else %}
+                    class="alert alert-danger"
                 {% endif %}
-                {% if service.name == 'Access Now' %}
-                    Access Now's services are free.
+            >
+                {% if service.eligible %}
+                    <h4>You are likely eligible for {{ service.name }}.</h4>
+                {% else %}
+                    <h4>You are likely not eligible for {{ service.name }}.</h4>
                 {% endif %}
-     		{% else %}
-     			<h3>You are likely not eligible for {{ service.name }}.</h3>
-        	{% endif %}
-            {% if service.sliding_scale %}
-                <h5>You're likely to fall in the {{service.sliding_scale}} section of the sliding scale.</h5>
+                {% if service.fpl_cutoff %}
+                    <div>
+                        {% if service.fpl_eligible %}
+                            <span class="glyphicon glyphicon-ok push-right"></span>
+                        {% else %}
+                            <span class="glyphicon glyphicon-remove push-right"></span>
+                        {% endif %}
+                        Income below {{service.fpl_cutoff}}% of the Federal Poverty Level
+                    </div>
+                {% endif %}
+                {% if service.uninsured_only_yn == 'Y' %}
+                    <div>
+                        {% if has_health_insurance == 'no' %}
+                            <span class="glyphicon glyphicon-ok push-right"></span>
+                        {% else %}
+                            <span class="glyphicon glyphicon-remove push-right"></span>
+                        {% endif %}
+                        Uninsured
+                    </div>
+                {% endif %}
+                {% if service.medicaid_ineligible_only_yn == 'Y' %}
+                    <div>
+                        {% if is_eligible_for_medicaid == 'no' %}
+                            <span class="glyphicon glyphicon-ok push-right"></span>
+                        {% else %}
+                            <span class="glyphicon glyphicon-remove push-right"></span>
+                        {% endif %}
+                        Not eligible for Medicaid
+                    </div>
+                {% endif %}
+            </div>
+
+            {% if service.eligible and service.sliding_scale %}
+                {% if service.sliding_scale != 'All' %}
+                    <p>You're likely to fall in the <strong>{{service.sliding_scale}}</strong> section of the sliding scale because your income is <strong>{{service.sliding_scale_range}}</strong> of the Federal Poverty Level.</p>
+                {% else %}
+                    <p>Service fees:</p>
+                {% endif %}
+
                 {% if service.sliding_scale != 'Full fee' %}
-                    {% for fee in service.sliding_scale_fees %}
-                        <p>{{fee[0]}}: ${{fee[1]}}</p>
-                    {% endfor %}
+                    <ul>
+                        {% for fee in service.sliding_scale_fees %}
+                            {% if fee.price_absolute %}
+                                <li>{{fee.name}}: ${{fee.price_absolute}}</li>
+                            {% else %}
+                                <li>{{fee.name}}: {{fee.price_percentage}}% of full price</li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
                 {% endif %}
+            {% endif %}
+            {% if service.eligible and service.general_fees %}
+                {% for fee in service.general_fees %}
+                    <p>{{fee[0]}}: ${{fee[1]}}</p>
+                {% endfor %}
+            {% endif %}
+            {% if service.eligible and service.name == 'Access Now' %}
+                Access Now provides service at no cost to the patient.
             {% endif %}
         </div>
     {% endfor %}
