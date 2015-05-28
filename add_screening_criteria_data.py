@@ -156,7 +156,7 @@ def main():
                         ),
                         SlidingScaleFee(
                             name = 'Medical visit/mental health',
-                            price_absolute = 55
+                            price_absolute = 15
                         ),
                         SlidingScaleFee(
                             name = 'Eye',
