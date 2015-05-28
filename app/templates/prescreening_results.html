@@ -1,9 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
     <p>Your input:</p>
-    <p>${{household_income}} annual income for {{household_size}} household members = {{fpl | int}}% of the Federal Poverty Level</p>
-    <p>Has insurance: {{has_health_insurance}}</p>
-    <p>Eligible for Medicaid: {{is_eligible_for_medicaid}}</p>
+    <ul>
+        <li>Annual household income: ${{household_income}}</li>
+        <li>Household size: {{household_size}}</li>
+        <li>Has insurance: {{has_health_insurance}}</li>
+        <li>Eligible for Medicaid: {{is_eligible_for_medicaid}}</li>
+    </ul>
+    <h4>Federal Poverty Level percentage: {{fpl | int}}%</h4>
     {% for service in services %}
         <div class="service-pre-screen-result">
             <div 
