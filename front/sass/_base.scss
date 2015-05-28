@@ -188,9 +188,13 @@ body {
   .prescreen-user-info-item {
     text-align:center;
 
+    @media screen and (min-width: 768px) {
+      &.first {
+        text-align:right;
+        border-right:1px solid #c0c0c0;
+      }
+    }
     &.first {
-      text-align:right;
-      border-right:1px solid #c0c0c0;
       h2 {
         color:#0074D9;
       }
