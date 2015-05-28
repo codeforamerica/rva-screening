@@ -429,7 +429,8 @@ def calculate_pre_screen_results(fpl):
       'time_in_area_requirement_yn': service.time_in_area_requirement_yn,
       'sliding_scale': sliding_scale_name,
       'sliding_scale_range': sliding_scale_range,
-      'sliding_scale_fees': sliding_scale_fees
+      'sliding_scale_fees': sliding_scale_fees,
+      'id': service.id
     })
 
   return service_results
@@ -535,12 +536,32 @@ def user(user_id):
 # This is completely static right now. Eventually it will become a route with <service_id>
 # attached to specify which service. Currently /service/ statically shows information about
 # Crossover using the `service_profile.html` template.
-@app.route('/service/')
+
+# temporary service data, passed in as
+SERVICE_DATA = {
+  'Daily Planet': {
+    'locations': [
+      {
+        'name': 'Cowardin',
+        'address': '108 Cowardin Ave, Richmond, VA 23224',
+        'latitude': 37.519541,
+        'longitude': -77.449814
+      },
+      {
+        'name': 'Quioccasin',
+        'address': '8600 Quioccasin Road, Suite 105, Richmond, VA 23229',
+        'latitude': 37.602507,
+        'longitude': -77.565325
+      },
+    ]
+  },
+}
+
+@app.route('/service/<service_id>')
 @login_required
-def service():
-  # service = Service.query.get(service_id)
-  # points = []
-  return render_template('service_profile.html')
+def service(service_id):
+  service = Service.query.get(service_id)
+  return render_template('service_profile.html', service=service, data=SERVICE_DATA)
 
 @app.route('/')
 @login_required

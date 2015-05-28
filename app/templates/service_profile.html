@@ -3,13 +3,19 @@
   <div class="service">
     <div class="col-sm-4">
       <img src="http://www.crossoverministry.org/images/template/logo.jpg">
-      <h1>Crossover</h1>
+      <h1>{{ service.name }}</h1>
       <p><span class="glyphicon glyphicon-user"></span> <a href="#">Main contact name</a></p>
       <p><span class="glyphicon glyphicon-link"></span> <a href="http://www.crossoverministry.org/">crossoverministry.org/</a></p>
 
       <div class="locations">
 
         <h3>Location(s)</h3>
+
+        {{ data }}
+
+        {% for location in data.locations %}
+          {{ location }}
+        {% endfor %}
 
         <div class="location" 
              data-name="Cowardin" 
