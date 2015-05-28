@@ -14,8 +14,8 @@
           <p class="patient-dob">DOB: {{patient.dob}}</p>
           <p class="patient-lastedit">
             Associated with
-            {% for service in patient.patient_service_permissions %}
-              <a href="#">{{service.name}}</a>, 
+            {% for service in patient.services %}
+              <a href="#">{{service.name}}</a>{% if not loop.last %}, {% endif %} 
             {% endfor %}
           </p>
         </li>

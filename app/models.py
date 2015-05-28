@@ -75,7 +75,8 @@ class Patient(db.Model):
   fpl_percentage = 0
 
   # Permissions
-  patient_service_permissions = db.relationship('PatientServicePermission', backref='patient', lazy='dynamic')
+  #patient_service_permissions = db.relationship('PatientServicePermission', backref='patient', lazy='dynamic')
+  services = db.relationship('Service', secondary='patient_service_permission')
 
   def __init__(self, **fields):
     self.__dict__.update(fields)

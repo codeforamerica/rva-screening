@@ -91,8 +91,7 @@ def patient_details(id):
   else:
     # If the user's service doesn't have permission to see this patient yet,
     # redirect to consent page
-    if (current_user.service_id not in 
-      [permission.service_id for permission in patient.patient_service_permissions]):
+    if current_user.service_id not in [service.id for service in patient.services]:
       return redirect(url_for('consent', patient_id = patient.id))
 
     patient.total_annual_income = sum(
@@ -107,11 +106,9 @@ def patient_details(id):
 def many_to_one_patient_updates(patient, form, files):
   # If it's a new patient, they should initially be visible only to the service
   # that created the entry
-  if patient.patient_service_permissions.count() == 0:
-    service_permission = PatientServicePermission(
-      service_id = current_user.service_id
-    )
-    patient.patient_service_permissions.append(service_permission)
+  if len(patient.services) == 0:
+    service = Service.query.get(current_user.service_id)
+    patient.services.append(service)
 
   # Phone numbers
   phone_number_rows = [
@@ -488,7 +485,7 @@ def save_prescreening_updates():
 @login_required
 def search_new():
   patients = Patient.query.all()
-  patients = Patient.query.filter(~Patient.patient_service_permissions.any(PatientServicePermission.service_id == current_user.service_id))
+  patients = Patient.query.filter(~Patient.services.any(Service.id == current_user.service_id))
   return render_template('search_new.html', patients=patients)
 
 # PRINT PATIENT DETAILS
@@ -553,5 +550,5 @@ def patient_share(patient_id):
 def index():
   session.clear()
   #patients = Patient.query.all()
-  patients = Patient.query.filter(Patient.patient_service_permissions.any(PatientServicePermission.service_id == current_user.service_id))
+  patients = Patient.query.filter(Patient.services.any(Service.id == current_user.service_id))
   return render_template('index.html', patients=patients)
