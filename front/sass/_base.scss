@@ -172,6 +172,83 @@ body {
  *
  *
  */
+@mixin title {
+  text-transform:uppercase;
+  letter-spacing:.1em;
+}
+.prescreen-title {
+  text-transform: uppercase;
+  text-align: center;
+  color:steelblue;
+}
+.prescreen-user-info {
+  .prescreen-user-info-item {
+    background:white;
+    padding:1em;
+    border-right:2px solid #f6f6f6;
+    text-align:center;
+    p {
+      @include title;
+      font-size:.8em;
+      color:#999;
+      margin:0;
+      padding:0;
+    }
+    h2 {
+      text-transform:uppercase;
+      font-weight:900;
+      margin:0;
+      padding:0;
+    }
+  }
+}
+
+.prescreen-service {
+  background:white;
+  margin-bottom:1em;
+  
+  .prescreen-service-title {
+    padding:.5em 1em;
+    font-size:1.5em;
+    font-weight:300; 
+  }
+
+  &.eligible {
+    .prescreen-service-title {
+      color:#2ECC40;
+      border-bottom:1px solid #2ECC40;
+    }
+  }
+
+  &.not-eligible {
+    .prescreen-service-title {
+      color:#AAAAAA;
+      border-bottom:1px solid #AAAAAA;
+    }
+  }
+
+  .prescreen-service-info {
+    padding:1em;
+  }
+
+  .prescreen-service-items {
+    .item {
+      padding:.6em 1em;
+      font-size:.9em;
+      &:nth-child(2n-1) {
+        background-color:#f6f6f6;
+      }
+      @include title;
+      .item-price {
+        font-size:1.2em;
+        color:#3D9970;
+        float:right;
+      }
+    }
+  }
+}
+
+
 .pre-screeners {}
 .pre-screener-option {
   padding:1.2em;
