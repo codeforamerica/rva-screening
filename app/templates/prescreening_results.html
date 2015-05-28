@@ -1,26 +1,34 @@
 {% extends "base.html" %}
 {% block content %}
     
-    <h4 class="prescreen-title">Patient Inputs <a style="font-size:.6em;" href="#"><span class="glyphicon glyphicon-edit push-left"></span> Edit Inputs</a></h4>
+    <h4 class="prescreen-title">Patient Information <a style="font-size:.6em;" href="#"><span class="glyphicon glyphicon-edit push-left"></span> Edit</a></h4>
+    
     <div class="row prescreen-user-info">
+
+        <div class="col-sm-3 prescreen-user-info-item first">
+            <p>Federal Poverty Level percentage</p>
+            <h2>{{fpl | int}}%</h2>
+        </div>
+
         <div class="col-sm-3 prescreen-user-info-item">
             <p>Annual household income</p>
             <h2>${{household_income}}</h2>
         </div>
-        <div class="col-sm-3 prescreen-user-info-item">
+        <div class="col-sm-2 prescreen-user-info-item">
             <p>Household size</p>
             <h2>{{household_size}}</h2>
         </div>
-        <div class="col-sm-3 prescreen-user-info-item">
+        <div class="col-sm-2 prescreen-user-info-item">
             <p>Has insurance</p>
             <h2>{{has_health_insurance}}</h2>
         </div>
-        <div class="col-sm-3 prescreen-user-info-item">
+        <div class="col-sm-2 prescreen-user-info-item">
             <p>Eligible for Medicaid</p>
             <h2>{{is_eligible_for_medicaid}}</h2>
         </div>
     </div>
-    <h4>Federal Poverty Level percentage: {{fpl | int}}%</h4>
+
+    <h4 class="prescreen-title">Services</h4>
     
     {% for service in services %}
         <div class="prescreen-service row {% if service.eligible %}eligible{% else %}not-eligible{% endif %}">
@@ -68,15 +76,15 @@
                             Not eligible for Medicaid
                         </div>
                     {% endif %}
-                </div>
-                <div class="col-sm-8">
+                
                     {% if service.eligible and service.sliding_scale %}
                         {% if service.sliding_scale != 'All' %}
                             <p>You're likely to fall in the <strong>{{service.sliding_scale}}</strong> section of the sliding scale because your income is <strong>{{service.sliding_scale_range}}</strong> of the Federal Poverty Level.</p>
                         {% else %}
                             <p>Service fees:</p>
                         {% endif %}
-
+                </div>
+                <div class="col-sm-8">
                         {% if service.sliding_scale != 'Full fee' %}
                             <div class="prescreen-service-items">
                                 {% for fee in service.sliding_scale_fees %}

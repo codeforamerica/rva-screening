@@ -178,27 +178,50 @@ body {
 }
 .prescreen-title {
   text-transform: uppercase;
-  text-align: center;
-  color:steelblue;
+  margin-top:2em;
 }
 .prescreen-user-info {
+  margin-bottom:1em;
+  background:white;
+  padding:1em;
+  
   .prescreen-user-info-item {
-    background:white;
-    padding:1em;
-    border-right:2px solid #f6f6f6;
     text-align:center;
+
+    &.first {
+      text-align:right;
+      border-right:1px solid #c0c0c0;
+      h2 {
+        color:#0074D9;
+      }
+    }
+    
     p {
       @include title;
       font-size:.8em;
-      color:#999;
+      color:#c0c0c0;
       margin:0;
       padding:0;
     }
+
     h2 {
+      color:#333;
       text-transform:uppercase;
       font-weight:900;
+      font-size:1.3em;
+      letter-spacing:.1em;
       margin:0;
       padding:0;
+    }
+  }
+
+  .prescreen-fpl {
+    border:1px solid #c0c0c0;
+    font-size:1.5em;
+    font-weight:300;
+    padding:1em;
+    strong {
+      // color:#333;
     }
   }
 }
