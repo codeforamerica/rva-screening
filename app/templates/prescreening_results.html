@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
     
-    <h4 class="prescreen-title">Patient Inputs</h4>
+    <h4 class="prescreen-title">Patient Inputs <a style="font-size:.6em;" href="#"><span class="glyphicon glyphicon-edit push-left"></span> Edit Inputs</a></h4>
     <div class="row prescreen-user-info">
         <div class="col-sm-3 prescreen-user-info-item">
             <p>Annual household income</p>
@@ -31,6 +31,7 @@
                 {% else %}
                     You are likely not eligible for <strong>{{ service.name }}</strong>.
                 {% endif %}
+                <a class="btn btn-default btn-sm pull-right" href="#">More about <strong>{{ service.name }}</strong> <span class="glyphicon glyphicon-chevron-right"></span></a>
             </div>
 
             <div class="row prescreen-service-info">

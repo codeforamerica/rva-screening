@@ -208,22 +208,23 @@ body {
   margin-bottom:1em;
   
   .prescreen-service-title {
-    padding:.5em 1em;
+    padding:.5em;
     font-size:1.5em;
-    font-weight:300; 
+    font-weight:300;
+    border-bottom:1px solid #c0c0c0;
   }
 
   &.eligible {
+    border-left:5px solid #2ECC40;
     .prescreen-service-title {
       color:#2ECC40;
-      border-bottom:1px solid #2ECC40;
     }
   }
 
   &.not-eligible {
+    border-left:5px solid #AAAAAA;
     .prescreen-service-title {
       color:#AAAAAA;
-      border-bottom:1px solid #AAAAAA;
     }
   }
 
