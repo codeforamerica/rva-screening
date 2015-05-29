@@ -137,6 +137,27 @@ class Insurance(db.Model):
 class Service(db.Model):
   id = db.Column(db.Integer, primary_key=True)
   name = db.Column(db.String(64))
+  fpl_cutoff = db.Column(db.Integer)
+  uninsured_only_yn = db.Column(db.String(1))
+  medicaid_ineligible_only_yn = db.Column(db.String(1))
+  residence_requirement_yn = db.Column(db.String(1))
+  time_in_area_requirement_yn = db.Column(db.String(1))
+  sliding_scales = db.relationship('SlidingScale', backref='service', lazy='dynamic')
+
+class SlidingScale(db.Model):
+  id = db.Column(db.Integer, primary_key=True)
+  service_id = db.Column(db.Integer, db.ForeignKey("service.id"))
+  scale_name = db.Column(db.String(64))
+  fpl_low = db.Column(db.Float)
+  fpl_high = db.Column(db.Float)
+  sliding_scale_fees = db.relationship('SlidingScaleFee', backref='slidingscale', lazy='dynamic')
+
+class SlidingScaleFee(db.Model):
+  id = db.Column(db.Integer, primary_key=True)
+  sliding_scale_id = db.Column(db.Integer, db.ForeignKey("sliding_scale.id"))
+  name = db.Column(db.String(128))
+  price_absolute = db.Column(db.Integer)
+  price_percentage = db.Column(db.Integer)
 
 class User(db.Model):
   id = db.Column(db.Integer, primary_key=True)

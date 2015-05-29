@@ -13,6 +13,11 @@ body {
 .push-right { /* used mostly with icons */
   margin-right:.5em;
 }
+.pull-right-desktop {
+  @media screen and (min-width: 768px) {
+    float:right;
+  }
+}
 
 
 /* MENU
@@ -172,6 +177,110 @@ body {
  *
  *
  */
+@mixin title {
+  text-transform:uppercase;
+  letter-spacing:.1em;
+}
+.prescreen-title {
+  text-transform: uppercase;
+  margin-top:2em;
+}
+.prescreen-user-info {
+  margin-bottom:1em;
+  background:white;
+  padding:1em;
+  
+  .prescreen-user-info-item {
+    text-align:center;
+
+    @media screen and (min-width: 768px) {
+      &.first {
+        text-align:right;
+        border-right:1px solid #c0c0c0;
+      }
+    }
+    &.first {
+      h2 {
+        color:#0074D9;
+      }
+    }
+    
+    p {
+      @include title;
+      font-size:.8em;
+      color:#c0c0c0;
+      margin:0;
+      padding:0;
+    }
+
+    h2 {
+      color:#333;
+      text-transform:uppercase;
+      font-weight:900;
+      font-size:1.3em;
+      letter-spacing:.1em;
+      margin:0;
+      padding:0;
+    }
+  }
+
+  .prescreen-fpl {
+    border:1px solid #c0c0c0;
+    font-size:1.5em;
+    font-weight:300;
+    padding:1em;
+    strong {
+      // color:#333;
+    }
+  }
+}
+
+.prescreen-service {
+  background:white;
+  margin-bottom:1em;
+  
+  .prescreen-service-title {
+    padding:.5em;
+    font-size:1.5em;
+    font-weight:300;
+    border-bottom:1px solid #c0c0c0;
+  }
+
+  &.eligible {
+    border-left:5px solid #2ECC40;
+    .prescreen-service-title {
+      color:#2ECC40;
+    }
+  }
+
+  &.not-eligible {
+    border-left:5px solid #AAAAAA;
+    .prescreen-service-title {
+      color:#AAAAAA;
+    }
+  }
+
+  .prescreen-service-info {
+    padding:1em;
+  }
+
+  .prescreen-service-items {
+    .item {
+      padding:.6em 1em;
+      font-size:.9em;
+      &:nth-child(2n-1) {
+        background-color:#f6f6f6;
+      }
+      @include title;
+      .item-price {
+        font-size:1.2em;
+        color:#3D9970;
+      }
+    }
+  }
+}
+
+
 .pre-screeners {}
 .pre-screener-option {
   padding:1.2em;
