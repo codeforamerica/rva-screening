@@ -137,12 +137,28 @@ class Insurance(db.Model):
 class Service(db.Model):
   id = db.Column(db.Integer, primary_key=True)
   name = db.Column(db.String(64))
+  description = db.Column(db.Text)
+  logo_url = db.Column(db.String(128))
+  website_url = db.Column(db.String(128))
+  main_contact_name = db.Column(db.String(64))
+  main_contact_phone = db.Column(db.String(32))
   fpl_cutoff = db.Column(db.Integer)
   uninsured_only_yn = db.Column(db.String(1))
   medicaid_ineligible_only_yn = db.Column(db.String(1))
   residence_requirement_yn = db.Column(db.String(1))
   time_in_area_requirement_yn = db.Column(db.String(1))
   sliding_scales = db.relationship('SlidingScale', backref='service', lazy='dynamic')
+  locations = db.relationship('ServiceLocation', backref='service', lazy='dynamic')
+  users = db.relationship('User', backref='service', lazy='dynamic')
+
+class ServiceLocation(db.Model):
+  id = db.Column(db.Integer, primary_key=True)
+  service_id = db.Column(db.Integer, db.ForeignKey("service.id"))
+  name = db.Column(db.String(64))
+  phone_number = db.Column(db.String(32))
+  address = db.Column(db.String(64))
+  latitude = db.Column(db.Float)
+  longitude = db.Column(db.Float)
 
 class SlidingScale(db.Model):
   id = db.Column(db.Integer, primary_key=True)
@@ -165,6 +181,8 @@ class User(db.Model):
   password = db.Column(db.String(128))
   authenticated = db.Column(db.Boolean, default=False)
   service_id = db.Column(db.Integer, db.ForeignKey("service.id"))
+  full_name = db.Column(db.String(64))
+  phone_number = db.Column(db.String(32))
 
   def is_authenticated(self):
     return True

@@ -2,16 +2,16 @@
 {% block content %}
   <div class="service">
     <div class="col-sm-4">
-      <img src="{{ data.logo_url }}">
+      <img src="{{ service.logo_url }}">
       <h1>{{ service.name }}</h1>
-      <p><span class="glyphicon glyphicon-user"></span> <a href="#">{{ data.main_contact_name }}</a></p>
-      <p><span class="glyphicon glyphicon-link"></span> <a href="{{ data.website_url }}">{{ data.website_url }}</a></p>
+      <p><span class="glyphicon glyphicon-user"></span> <a href="#">{{ service.main_contact_name }}</a></p>
+      <p><span class="glyphicon glyphicon-link"></span> <a href="{{ service.website_url }}">{{ service.website_url }}</a></p>
 
       <div class="locations">
 
         <h3>Location(s)</h3>
 
-        {% for location in data.locations %}
+        {% for location in service.locations %}
         <div class="location" 
              data-name="{{ location.name }}" 
              data-address="{{ location.address }}"
@@ -20,7 +20,7 @@
           <p><strong>{{ location.name }}</strong></p>
           <p><span class="glyphicon glyphicon-home"></span> {{ location.address }}</p>
           <p><span class="glyphicon glyphicon-user"></span> <a href="#">Contact Name</a></p>
-          <p><span class="glyphicon glyphicon-earphone"></span> <a href="tel:6666666666">(123) 456-7890</a></p>
+          <p><span class="glyphicon glyphicon-earphone"></span> <a href="tel:6666666666">{{location.phone_number}}</a></p>
         </div>
         {% endfor %}        
       
@@ -28,7 +28,7 @@
     </div>
     <div class="col-sm-8">
       <div class="description">
-        {{ data.description }}
+        {{ service.description }}
       </div>
 
       <hr>
@@ -36,7 +36,7 @@
       <div id="service-map" class="location-map"></div>
 
       <div class="service-users">
-        <h3>Users at Crossover</h3>
+        <h3>Users at {{service.name}}</h3>
         <div class="table-wrapper">
           <table class="table table-condensed">
             <thead>
@@ -47,11 +47,11 @@
               </tr>
             </thead>
 
-            {% for u in data.users %}
+            {% for user in service.users %}
             <tr>
-              <td><a href="#"><strong>{{ u.name }}</strong></a></td>
-              <td><a href="{{ u.phone }}">{{ u.phone }}</a></td>
-              <td><a href="{{ u.email }}">{{ u.email }}</a></td>
+              <td><a href="{{ url_for('user', user_id=user.id) }}"><strong>{{ user.full_name }}</strong></a></td>
+              <td><a href="{{ user.phone }}">{{ user.phone_number }}</a></td>
+              <td><a href="{{ user.email }}">{{ user.email }}</a></td>
             </tr>
             {% endfor %}
           </table>

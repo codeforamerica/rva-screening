@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
   <div class="user">
-    <h1>Tulip</h1>
-    <a href="#">Richmond Resource Centers</a>
-    <p class="email">tulip@rrc.org</p>
-    <p class="phone-number">651-343-6555</p>
+    <h1>{{user.full_name}}</h1>
+    <a href="{{ url_for('service', service_id=user.service_id) }}">{{user.service.name}}</a>
+    <p class="email">{{user.email}}</p>
+    <p class="phone-number">{{user.phone_number}}</p>
     <p class="work-hours">Full-time, Mon - Fri, 8am - 4pm</p>
   </div>
 {% endblock %}
