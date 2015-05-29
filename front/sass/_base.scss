@@ -16,6 +16,11 @@ body {
 .push-left {
   margin-left:1em;
 }
+.pull-right-desktop {
+  @media screen and (min-width: 768px) {
+    float:right;
+  }
+}
 
 /* STYLE MIXINS
  *
@@ -284,7 +289,6 @@ body {
       .item-price {
         font-size:1.2em;
         color:#3D9970;
-        float:right;
       }
     }
   }

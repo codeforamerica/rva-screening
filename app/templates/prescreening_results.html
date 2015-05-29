@@ -3,7 +3,8 @@
     
     <h4 class="prescreen-title">Patient Information <a style="font-size:.6em;" href="#"><span class="glyphicon glyphicon-edit push-left"></span> Edit</a></h4>
     
-    <div class="row prescreen-user-info">
+    <div class="prescreen-user-info clearfix">
+
         <div class="col-sm-3 prescreen-user-info-item first">
             <p>Federal Poverty Level percentage</p>
             <h2>{{fpl | int}}%</h2>
@@ -30,14 +31,14 @@
     <h4 class="prescreen-title">Services</h4>
     
     {% for service in services %}
-    <div class="prescreen-service row {% if service.eligible %}eligible{% else %}not-eligible{% endif %}"> 
+    <div class="prescreen-service {% if service.eligible %}eligible{% else %}not-eligible{% endif %}"> 
         <div class="prescreen-service-title">
             {% if service.eligible %}
                 You are likely eligible for <strong>{{ service.name }}</strong>.
             {% else %}
                 You are likely not eligible for <strong>{{ service.name }}</strong>.
             {% endif %}
-            <a class="btn btn-default btn-sm pull-right" href="{{ url_for('service', service_id=service.id) }}">More about <strong>{{ service.name }}</strong> <span class="glyphicon glyphicon-chevron-right"></span></a>
+            <a class="btn btn-default btn-sm pull-right-desktop" href="{{ url_for('service', service_id=service.id) }}">More about <strong>{{ service.name }}</strong> <span class="glyphicon glyphicon-chevron-right"></span></a>
         </div>
         <div class="prescreen-service-info row">
             <div class="col-sm-4">
@@ -80,6 +81,7 @@
                     {% else %}
                         <p>Service fees:</p>
                     {% endif %}
+            <!-- this looks weird, but it's intentional! -->
             </div>
             <div class="col-sm-8">
                     {% if service.sliding_scale != 'Full fee' %}
@@ -88,7 +90,7 @@
                                 {% if fee.price_absolute %}
                                     <div class="item">{{fee.name}}: <span class="item-price"><strong>${{fee.price_absolute}}</strong><span></div>
                                 {% else %}
-                                    <div class="item">{{fee.name}}: <span class="item-price"><strong>{{fee.price_percentage}}%</strong><span> of full price</div>
+                                    <div class="item">{{fee.name}}: <span class="item-price pull-right-desktop"><strong>{{fee.price_percentage}}%</strong><span> of full price</div>
                                 {% endif %}
                             {% endfor %}
                         </div>
