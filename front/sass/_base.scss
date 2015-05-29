@@ -13,6 +13,11 @@ body {
 .push-right { /* used mostly with icons */
   margin-right:.5em;
 }
+.pull-right-desktop {
+  @media screen and (min-width: 768px) {
+    float:right;
+  }
+}
 
 
 /* MENU
@@ -270,7 +275,6 @@ body {
       .item-price {
         font-size:1.2em;
         color:#3D9970;
-        float:right;
       }
     }
   }

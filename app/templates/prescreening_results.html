@@ -39,7 +39,7 @@
                 {% else %}
                     You are likely not eligible for <strong>{{ service.name }}</strong>.
                 {% endif %}
-                <a class="btn btn-default btn-sm pull-right" href="#">More about <strong>{{ service.name }}</strong> <span class="glyphicon glyphicon-chevron-right"></span></a>
+                <a class="btn btn-default btn-sm pull-right-desktop" href="#">More about <strong>{{ service.name }}</strong> <span class="glyphicon glyphicon-chevron-right"></span></a>
             </div>
 
             <div class="row prescreen-service-info">
@@ -91,7 +91,7 @@
                                     {% if fee.price_absolute %}
                                         <div class="item">{{fee.name}}: <span class="item-price"><strong>${{fee.price_absolute}}</strong><span></div>
                                     {% else %}
-                                        <div class="item">{{fee.name}}: <span class="item-price"><strong>{{fee.price_percentage}}%</strong><span> of full price</div>
+                                        <div class="item">{{fee.name}}: <span class="item-price pull-right-desktop"><strong>{{fee.price_percentage}}%</strong><span> of full price</div>
                                     {% endif %}
                                 {% endfor %}
                             </div>
