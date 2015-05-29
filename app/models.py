@@ -155,6 +155,7 @@ class ServiceLocation(db.Model):
   id = db.Column(db.Integer, primary_key=True)
   service_id = db.Column(db.Integer, db.ForeignKey("service.id"))
   name = db.Column(db.String(64))
+  contact_name = db.Column(db.String(64))
   phone_number = db.Column(db.String(32))
   address = db.Column(db.String(64))
   latitude = db.Column(db.Float)

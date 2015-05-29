@@ -19,7 +19,7 @@
              data-longitude="{{ location.longitude }}">
           <p><strong>{{ location.name }}</strong></p>
           <p><span class="glyphicon glyphicon-home"></span> {{ location.address }}</p>
-          <p><span class="glyphicon glyphicon-user"></span> <a href="#">Contact Name</a></p>
+          <p><span class="glyphicon glyphicon-user"></span> <a href="#">{{location.contact_name}}</a></p>
           <p><span class="glyphicon glyphicon-earphone"></span> <a href="tel:6666666666">{{location.phone_number}}</a></p>
         </div>
         {% endfor %}        
