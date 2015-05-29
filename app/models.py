@@ -74,6 +74,10 @@ class Patient(db.Model):
   total_annual_income = 0
   fpl_percentage = 0
 
+  # Permissions
+  #patient_service_permissions = db.relationship('PatientServicePermission', backref='patient', lazy='dynamic')
+  services = db.relationship('Service', secondary='patient_service_permission')
+
   def __init__(self, **fields):
     self.__dict__.update(fields)
 
@@ -158,6 +162,11 @@ class SlidingScaleFee(db.Model):
   name = db.Column(db.String(128))
   price_absolute = db.Column(db.Integer)
   price_percentage = db.Column(db.Integer)
+
+class PatientServicePermission(db.Model):
+  id = db.Column(db.Integer, primary_key=True)
+  patient_id = db.Column(db.Integer, db.ForeignKey("patient.id"))
+  service_id = db.Column(db.Integer, db.ForeignKey("service.id"))
 
 class User(db.Model):
   id = db.Column(db.Integer, primary_key=True)

@@ -1,7 +1,7 @@
 import time, os, base64, hmac, urllib
 from flask import render_template, request,flash, redirect, url_for, g, send_from_directory, session, current_app
 from app import app, db, bcrypt
-from app.models import Patient, PhoneNumber, Address, EmergencyContact, Insurance, HouseholdMember, IncomeSource, Employer, DocumentImage, Service, User
+from app.models import Patient, PhoneNumber, Address, EmergencyContact, Insurance, HouseholdMember, IncomeSource, Employer, DocumentImage, Service, User, PatientServicePermission
 import datetime
 from flask.ext.login import login_user, logout_user, current_user, login_required
 from app import login_manager
@@ -89,6 +89,11 @@ def patient_details(id):
     db.session.commit()
     return redirect(url_for('patient_details', id=patient.id))
   else:
+    # If the user's service doesn't have permission to see this patient yet,
+    # redirect to consent page
+    if current_user.service_id not in [service.id for service in patient.services]:
+      return redirect(url_for('consent', patient_id = patient.id))
+
     patient.total_annual_income = sum(
       source.annual_amount for source in patient.income_sources
     )
@@ -99,6 +104,12 @@ def patient_details(id):
     return render_template('patient_details.html', patient=patient)
 
 def many_to_one_patient_updates(patient, form, files):
+  # If it's a new patient, they should initially be visible only to the service
+  # that created the entry
+  if len(patient.services) == 0:
+    service = Service.query.get(current_user.service_id)
+    patient.services.append(service)
+
   # Phone numbers
   phone_number_rows = [
     {'id': id, 'phone_number': phone_number, 'description': description, 'primary_yn': primary_yn}
@@ -474,6 +485,7 @@ def save_prescreening_updates():
 @login_required
 def search_new():
   patients = Patient.query.all()
+  patients = Patient.query.filter(~Patient.services.any(Service.id == current_user.service_id))
   return render_template('search_new.html', patients=patients)
 
 # PRINT PATIENT DETAILS
@@ -494,14 +506,22 @@ def patient_print(patient_id):
 # to check if the user has permission to view the patient. When that
 # functionality is added we should delete the patient_details_new.html
 # template
-@app.route('/consent/')
+@app.route('/consent/<patient_id>')
 @login_required
-def consent():
-  # this is temporary!
-  patients = Patient.query.all()
-  first = patients[0]
-  print first.id
-  return render_template('consent.html', patient=first)
+def consent(patient_id):
+  patient = Patient.query.get(patient_id)
+  return render_template('consent.html', patient=patient)
+
+@app.route('/consent_given/<patient_id>')
+@login_required
+def consent_given(patient_id):
+  service_permission = PatientServicePermission(
+    patient_id = patient_id,
+    service_id = current_user.service_id
+  )
+  db.session.add(service_permission)
+  db.session.commit()
+  return redirect(url_for('patient_details', id = patient_id))
 
 # TEMPLATE PROTOTYPING
 # This is a dev-only route for prototyping fragments of other templates without touching
@@ -529,5 +549,6 @@ def patient_share(patient_id):
 @login_required
 def index():
   session.clear()
-  patients = Patient.query.all()
+  #patients = Patient.query.all()
+  patients = Patient.query.filter(Patient.services.any(Service.id == current_user.service_id))
   return render_template('index.html', patients=patients)
