@@ -37,23 +37,25 @@
 
       <div class="service-users">
         <h3>Users at Crossover</h3>
-        <table class="table table-condensed">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Phone</th>
-              <th>Email</th>
-            </tr>
-          </thead>
+        <div class="table-wrapper">
+          <table class="table table-condensed">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Email</th>
+              </tr>
+            </thead>
 
-          {% for u in data.users %}
-          <tr>
-            <td><a href="#"><strong>{{ u.name }}</strong></a></td>
-            <td><a href="{{ u.phone }}">{{ u.phone }}</a></td>
-            <td><a href="{{ u.email }}">{{ u.email }}</a></td>
-          </tr>
-          {% endfor %}
-        </table>
+            {% for u in data.users %}
+            <tr>
+              <td><a href="#"><strong>{{ u.name }}</strong></a></td>
+              <td><a href="{{ u.phone }}">{{ u.phone }}</a></td>
+              <td><a href="{{ u.email }}">{{ u.email }}</a></td>
+            </tr>
+            {% endfor %}
+          </table>
+        </div>
       </div>
 
     </div>
