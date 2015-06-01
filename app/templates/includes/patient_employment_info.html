@@ -3,7 +3,7 @@
   <select class="form-control" name="employment_status">
       {% with %}
       {% set default_choice=("", "") %}
-      {% set choices=[ ("FT", "Full-time"), ("PT", "Part-time"), ("SEA", "Seasonal"), ("DIS", "Disabled"), ("RET", "Retired"), ("DEP", "Dependent"), ("UNE", "Unemployed") ] %}
+      {% set choices=CONSTANTS.EMPLOYMENT_STATUS_CHOICES %}
       {% set test_value=patient.employment_status %}
       {% include "includes/choices.html" %}
       {% endwith %}
@@ -17,7 +17,7 @@
   <select class="form-control" name="spouse_employment_status">
       {% with %}
       {% set default_choice=("", "") %}
-      {% set choices=[ ("FT", "Full-time"), ("PT", "Part-time"), ("SEA", "Seasonal"), ("DIS", "Disabled"), ("RET", "Retired"), ("DEP", "Dependent"), ("UNE", "Unemployed") ] %}
+      {% set choices=CONSTANTS.EMPLOYMENT_STATUS_CHOICES %}
       {% set test_value=patient.spouse_employment_status %}
       {% include "includes/choices.html" %}
       {% endwith %}

@@ -1,6 +1,14 @@
 YN_CHOICES = [("Y", "Yes"), ("N", "No")]
 YNN_CHOICES = [("Y", "Yes"), ("N", "No"), ("", "Not Sure")]
 
+GENDER_CHOICES = [("F", "Female"), ("M", "Male")]
+TRANSGENDER_CHOICES = [
+        ("No", "Not transgender"),
+        ("FTM", "Female to Male"),
+        ("MTF", "Male to Female")]
+
+LANGUAGE_CHOICES = [("EN", "English"), ("ES", "Spanish"), ("AR", "Arabic"), ("other", "Other")]
+
 STATE_CHOICES =[ ("AL", "AL - Alabama"), ("AK", "AK - Alaska"),
             ("AZ", "AZ - Arizona"), ("AR", "AR - Arkansas"),
             ("CA", "CA - California"), ("CO", "CO - Colorado"),
