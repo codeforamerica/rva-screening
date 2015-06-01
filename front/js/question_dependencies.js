@@ -1,8 +1,19 @@
+
+
+
+
+
+
+
+
+
 var DEPENDENCIES = [
-  { target: "marital_status", child:"spouse_employment_status", 
+  { target: "marital_status", child: "spouse_employment_status", 
     type: "equals", comparator: "MAR" },
-  { target: "employment_status", child:"employers",
+  { target: "employment_status", child: "employers",
     type: "in", comparator: [ "FT", "PT", "SEA" ] },
+  { target: "insurance_status", child: "coverage_type",
+    type: "equals", comparator: "Y" },
 ];
 
 var DEPENDENCY_PROCESSORS = {

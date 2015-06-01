@@ -63,3 +63,14 @@ RACE_CHOICES = [("AIAN", "American Indian/Alaskan Native"), ("A", "Asian"),
 ETHNICITY_CHOICES = [("HL","Hispanic or Latino"),
         ("NHL","Not Hispanic or Latino")]
 
+COVERAGE_TYPE_CHOICES = [
+        ("PRIV", "Private Insurance"),
+        ("MCAID", "Medicaid"),
+        ("MCARE", "Medicare"),
+        ("VA", "VA Healthcare"),
+        ("VCC", "VCC"),
+        ("VCUI", "VCU Indigent Care"),
+        ("BSCC", "Bon Secours CareCard"),
+        ("OTHER", "Other"),
+        ]
+
