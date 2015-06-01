@@ -5,7 +5,7 @@
     <select class="form-control has_other" name="race">
       {% with %}
       {% set default_choice=("", "") %}
-      {% set choices=[("AIAN", "American Indian/Alaskan Native"), ("A", "Asian"), ("AA", "Black or African-American"), ("NHPI", "Native Hawaiian/Pacific Islander"), ("W", "White"), ("other", "Other")] %}
+      {% set choices=CONSTANTS.RACE_CHOICES %}
       {% set test_value=patient.race %}
       {% include "includes/choices.html" %}
       {% endwith %}
@@ -22,7 +22,7 @@
     <select class="form-control" name="ethnicity">
       {% with  %}
       {% set default_choice=("", "") %}
-      {% set choices=[("HL","Hispanic or Latino"),("NHL","Not Hispanic or Latino")] %}
+      {% set choices=CONSTANTS.ETHNICITY_CHOICES %}
       {% set test_value=patient.ethnicity %}
       {% include "includes/choices.html" %}
       {% endwith %}

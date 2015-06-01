@@ -4,7 +4,7 @@
     <select class="form-control has_other" name="housing_status">
       {% with %}
       {% set default_choice=("", "") %}
-      {% set choices=[("REN", "Renting"), ("OWN", "Owns home (self or family)"), ("SOM", "Lives with someone"), ("TEM", "Lives temporarily with family or friends"), ("TRA", "Is in Transitional housing for the homeless"), ("EMR", "Emergency Shelter"), ("STR", "On the street (car, encampment, abandoned building)"), ("other", "Other")] %}
+      {% set choices=CONSTANTS.HOUSING_STATUS_CHOICES %}
       {% set test_value=patient.housing_status %}
       {% include "includes/choices.html" %}
       {% endwith %}

@@ -5,7 +5,7 @@
     <select class="form-control" name="gender">
       {% with %}
       {% set default_choice=("", "No Answer") %}
-      {% set choices=[("F", "Female"), ("M", "Male")] %}
+      {% set choices=CONSTANTS.GENDER_CHOICES %}
       {% set test_value=patient.gender %}
       {% include "includes/choices.html" %}
       {% endwith %}
@@ -16,8 +16,8 @@
     <label for="transgender">Transgender</label>
     <select class="form-control" name="transgender">
       {% with %}
-      {% set default_choice=("", "No Answer") %}
-      {% set choices=[("FTM", "Female to Male"), ("MTF", "Male to Female")] %}
+      {% set default_choice=("", "") %}
+      {% set choices=CONSTANTS.TRANSGENDER_CHOICES %}
       {% set test_value=patient.transgender %}
       {% include "includes/choices.html" %}
       {% endwith %}
