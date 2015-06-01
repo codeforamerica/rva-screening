@@ -1,30 +1,26 @@
-<div class="form-group">
+<div class="form-group employment_status">
   <label for="employment_status">Employment Status</label>
   <select class="form-control" name="employment_status">
-    <option value=""{% if not patient.employment_status %} selected{% endif %}></option>
-    <option value="Full-time"{% if patient.employment_status == "Full-time" %} selected{% endif %}>Full-time</option>
-    <option value="Part-time"{% if patient.employment_status == "Part-time" %} selected{% endif %}>Part-time</option>
-    <option value="Seasonal"{% if patient.employment_status == "Seasonal" %} selected{% endif %}>Seasonal</option>
-    <option value="Disabled"{% if patient.employment_status == "Disabled" %} selected{% endif %}>Disabled</option>
-    <option value="Retired"{% if patient.employment_status == "Retired" %} selected{% endif %}>Retired</option>
-    <option value="Dependent"{% if patient.employment_status == "Dependent" %} selected{% endif %}>Dependent</option>
-    <option value="Unemployed"{% if patient.employment_status == "Unemployed" %} selected{% endif %}>Unemployed</option>
+      {% with %}
+      {% set default_choice=("", "") %}
+      {% set choices=[ ("FT", "Full-time"), ("PT", "Part-time"), ("SEA", "Seasonal"), ("DIS", "Disabled"), ("RET", "Retired"), ("DEP", "Dependent"), ("UNE", "Unemployed") ] %}
+      {% set test_value=patient.employment_status %}
+      {% include "includes/choices.html" %}
+      {% endwith %}
   </select>
 </div>
 
 {% include "includes/patient_student_status.html" %}
 
-<div class="form-group">
+<div class="form-group spouse_employment_status">
   <label for="spouse_employment_status">Spouse's employment status</label>
   <select class="form-control" name="spouse_employment_status">
-    <option value=""{% if not patient.spouse_employment_status %} selected{% endif %}></option>
-    <option value="Full-time"{% if patient.spouse_employment_status == "Full-time" %} selected{% endif %}>Full-time</option>
-    <option value="Part-time"{% if patient.spouse_employment_status == "Part-time" %} selected{% endif %}>Part-time</option>
-    <option value="Seasonal"{% if patient.spouse_employment_status == "Seasonal" %} selected{% endif %}>Seasonal</option>
-    <option value="Disabled"{% if patient.spouse_employment_status == "Disabled" %} selected{% endif %}>Disabled</option>
-    <option value="Retired"{% if patient.spouse_employment_status == "Retired" %} selected{% endif %}>Retired</option>
-    <option value="Dependent"{% if patient.spouse_employment_status == "Dependent" %} selected{% endif %}>Dependent</option>
-    <option value="Unemployed"{% if patient.spouse_employment_status == "Unemployed" %} selected{% endif %}>Unemployed</option>
+      {% with %}
+      {% set default_choice=("", "") %}
+      {% set choices=[ ("FT", "Full-time"), ("PT", "Part-time"), ("SEA", "Seasonal"), ("DIS", "Disabled"), ("RET", "Retired"), ("DEP", "Dependent"), ("UNE", "Unemployed") ] %}
+      {% set test_value=patient.spouse_employment_status %}
+      {% include "includes/choices.html" %}
+      {% endwith %}
   </select>
 </div>
 

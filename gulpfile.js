@@ -33,7 +33,8 @@ gulp.task('vendorCSS', function(){
 });
 
 var jsFiles = [
-  './front/js/main.js'
+  './front/js/main.js',
+  './front/js/question_dependencies.js'
 ];
 // Concatenate js
 gulp.task('js', function() {
