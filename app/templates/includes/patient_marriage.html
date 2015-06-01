@@ -1,15 +1,11 @@
-
-  <div class="form-group">
+  <div class="form-group marital_status">
     <label for="marital_status">Marital status</label>
     <select class="form-control" name="marital_status">
       {% with %}
       {% set default_choice=("", "") %}
-      {% set choices=
-[("SIM", "Single"), ("MAR", "Married"), ("DIV", "Divorced"), ("WID", "Widowed"), ("SEP", "Legally Separated"), ("PAR", "Partner")]
-      %}
+      {% set choices=CONSTANTS.MARITAL_STATUS_CHOICES %}
       {% set test_value=patient.marital_status %}
       {% include "includes/choices.html" %}
       {% endwith %}
     </select>
   </div>
-

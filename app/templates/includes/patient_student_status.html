@@ -1,6 +1,4 @@
-<!--Student status	select(Full-time|Part-time)-->
-
-  <div class="form-group">
+  <div class="form-group student_status">
     <label for="student_status">Student Status</label>
     <select class="form-control" name="student_status">
       <option value=""{% if not patient.student_status %} selected{% endif %}></option>
@@ -9,4 +7,3 @@
       <option value="Part-time"{% if patient.student_status == "Part-time" %} selected{% endif %}>Part-time</option>
     </select>
   </div>
-
