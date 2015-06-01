@@ -1,92 +1,87 @@
 {% extends "base.html" %}
 {% block content %}
 
-  {% if patient and patient.id %}
+  {% include "includes/patient_profile.html" %}
 
-      {% include "includes/patient_nav.html" %}
-      <h2>{{ patient.full_name or patient.first_name }}</h2>
+  <div class="patient-content col-md-9">
 
-        {% if patient.fpl_percentage %}
-        <div class="fpl form-group">
-          <label class="fpl-label">
-            Estimated FPL:</label>
-          <span class="fpl-figure">
-            {{ '%0.2f'| format(patient.fpl_percentage|float) }}</span><span class="fpl-percent-symbol">%
-          </span>
-        </div>
-        {% endif %}
+    {% if patient and patient.id %}
 
-  {% else %}
-      <h2>Add New Patient</h2>
-  {% endif %}
+        {% include "includes/patient_nav.html" %}
 
-  <form enctype="multipart/form-data" action="" method="post" id="patient_details_form" class="print">
-
-    <!-- id info -->
-    {% include "includes/patient_id.html" %}
-
-    <!--contact info-->
-    <div class="expander">
-        <div class="expander-title">Phone, Email, Address</div>
-        <div class="expander-content">{% include "includes/patient_contact_info.html" %}</div>
-    </div>
-
-    <!--contact info-->
-    <div class="expander">
-        <div class="expander-title">Emergency Contacts</div>
-        <div class="expander-content">
-          {% include "includes/patient_emergency_contact.html" %}
-        </div>
-    </div>
-
-    <!--household-->
-    <div class="expander">
-        <div class="expander-title">Household Size{% if patient.household_members %}: 
-      {{ patient.household_members.count() + 1 }}
+    {% else %}
+        <h2>Add New Patient</h2>
     {% endif %}
-        </div>
-        <div class="expander-content">{% include "includes/patient_household_size.html" %}</div>
-    </div>
 
-    <!--income-->
-    <div class="expander">
-        <div class="expander-title">Household Income{% if patient.total_annual_income %}:
-    ${{(patient.total_annual_income / 12) | int}}/month
-  {% endif %}
-        </div>
-        <div class="expander-content">{% include "includes/patient_income_sources.html" %}</div>
-    </div>
+    <form enctype="multipart/form-data" action="" method="post" id="patient_details_form" class="print">
 
-    <!--documents-->
-    <div class="expander">
-      <div class="expander-title">Document Uploads
-        {% if patient.document_images %} ({{patient.document_images.count()}}) {% endif %}</div>
-        <div class="expander-content">{% include "includes/patient_docs.html" %}</div>
-    </div>
+      <!-- id info -->
+      {% include "includes/patient_id.html" %}
 
-    <!--demographics-->
-    <div class="expander">
-        <div class="expander-title">Demographic Questions</div>
-        <div class="expander-content">{% include "includes/patient_demographic_info.html" %}</div>
-    </div>
+      <!--contact info-->
+      <div class="expander">
+          <div class="expander-title">Phone, Email, Address</div>
+          <div class="expander-content">{% include "includes/patient_contact_info.html" %}</div>
+      </div>
 
-    <!--employment-->
-    <div class="expander">
-        <div class="expander-title">Employment Information</div>
-        <div class="expander-content">{% include "includes/patient_employment_info.html" %}</div>
-    </div>
+      <!--contact info-->
+      <div class="expander">
+          <div class="expander-title">Emergency Contacts</div>
+          <div class="expander-content">
+            {% include "includes/patient_emergency_contact.html" %}
+          </div>
+      </div>
 
-    <!--insurance-->
-    <div class="expander">
-        <div class="expander-title">Insurance Information</div>
-        <div class="expander-content">{% include "includes/patient_insurance_info.html" %}</div>
-    </div>
+      <!--household-->
+      <div class="expander">
+          <div class="expander-title">Household Size{% if patient.household_members %}: 
+        {{ patient.household_members.count() + 1 }}
+      {% endif %}
+          </div>
+          <div class="expander-content">{% include "includes/patient_household_size.html" %}</div>
+      </div>
 
-    <button type="submit" class="btn btn-primary">
-      <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-      {% if patient %} Save patient info {% else %} Save new patient info {% endif %}
-    </button>
+      <!--income-->
+      <div class="expander">
+          <div class="expander-title">Household Income{% if patient.total_annual_income %}:
+      ${{(patient.total_annual_income / 12) | int}}/month
+    {% endif %}
+          </div>
+          <div class="expander-content">{% include "includes/patient_income_sources.html" %}</div>
+      </div>
 
-  </form>
+      <!--documents-->
+      <div class="expander">
+        <div class="expander-title">Document Uploads
+          {% if patient.document_images %} ({{patient.document_images.count()}}) {% endif %}</div>
+          <div class="expander-content">{% include "includes/patient_docs.html" %}</div>
+      </div>
+
+      <!--demographics-->
+      <div class="expander">
+          <div class="expander-title">Demographic Questions</div>
+          <div class="expander-content">{% include "includes/patient_demographic_info.html" %}</div>
+      </div>
+
+      <!--employment-->
+      <div class="expander">
+          <div class="expander-title">Employment Information</div>
+          <div class="expander-content">{% include "includes/patient_employment_info.html" %}</div>
+      </div>
+
+      <!--insurance-->
+      <div class="expander">
+          <div class="expander-title">Insurance Information</div>
+          <div class="expander-content">{% include "includes/patient_insurance_info.html" %}</div>
+      </div>
+
+      <button type="submit" class="btn btn-primary">
+        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+        {% if patient %} Save patient info {% else %} Save new patient info {% endif %}
+      </button>
+
+    </form>
+
+  </div>
 
 {% endblock %}

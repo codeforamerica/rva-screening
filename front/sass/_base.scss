@@ -186,6 +186,23 @@ body {
   }
 }
 
+.patient-profile {
+  margin-bottom:5px;
+  @media screen and (max-width: 992px) {
+    h2 {
+      font-size:1.5em;
+    }
+    .fpl {
+      font-size:1em;
+    }
+    .patient-image {
+      float:left;
+      margin-right:5px;
+      max-width:100px;
+    }
+  }
+}
+
 
 /* PRE-SCREENING
  *
