@@ -2,63 +2,68 @@
 {% block content %}
   {% if patient and patient.id %}
 
-      {% include "includes/patient_nav.html" %}
+      {% include "includes/patient_profile.html" %}
 
-      <h2>Edit History for {{ patient.full_name or patient.first_name }}</h2>
+      <div class="patient-content col-md-9">
 
-      <table class="table">
-        <thead>
+        {% include "includes/patient_nav.html" %}
+
+        <h2>Edit History for {{ patient.full_name or patient.first_name }}</h2>
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Editor</th>
+              <th>Entity</th>
+              <th>Edit Description</th>
+            </tr>
+          </thead>
+
           <tr>
-            <th>Date</th>
-            <th>Editor</th>
-            <th>Entity</th>
-            <th>Edit Description</th>
+            <td>May 15 10:23am, 2015</td>
+            <td><a href="#">Mr. Beep Boop</a></td>
+            <td><a href="#">Crossover</a></td>
+            <td>Added household member</td>
           </tr>
-        </thead>
 
-        <tr>
-          <td>May 15 10:23am, 2015</td>
-          <td><a href="#">Mr. Beep Boop</a></td>
-          <td><a href="#">Crossover</a></td>
-          <td>Added household member</td>
-        </tr>
+          <tr>
+            <td>May 15 10:10am, 2015</td>
+            <td><a href="#">Mr. Beep Boop</a></td>
+            <td><a href="#">Crossover</a></td>
+            <td>Confirmed patient access.</td>
+          </tr>
 
-        <tr>
-          <td>May 15 10:10am, 2015</td>
-          <td><a href="#">Mr. Beep Boop</a></td>
-          <td><a href="#">Crossover</a></td>
-          <td>Confirmed patient access.</td>
-        </tr>
+          <tr>
+            <td>April 01 11:20am, 2015</td>
+            <td><a href="#">Tulip</a></td>
+            <td><a href="#">Resource Centers</a></td>
+            <td>Shared patient with <a href="">Crossover</a></td>
+          </tr>
 
-        <tr>
-          <td>April 01 11:20am, 2015</td>
-          <td><a href="#">Tulip</a></td>
-          <td><a href="#">Resource Centers</a></td>
-          <td>Shared patient with <a href="">Crossover</a></td>
-        </tr>
+          <tr>
+            <td>April 01 11:15am, 2015</td>
+            <td><a href="#">Tulip</a></td>
+            <td><a href="#">Resource Centers</a></td>
+            <td>Updated primary phone number from <code>(123) 345-7890</code> to <code>(123) 765-4321</code></td>
+          </tr>
 
-        <tr>
-          <td>April 01 11:15am, 2015</td>
-          <td><a href="#">Tulip</a></td>
-          <td><a href="#">Resource Centers</a></td>
-          <td>Updated primary phone number from <code>(123) 345-7890</code> to <code>(123) 765-4321</code></td>
-        </tr>
+          <tr>
+            <td>October 22 13:11pm, 2014</td>
+            <td><a href="#">Tulip</a></td>
+            <td><a href="#">Resource Centers</a></td>
+            <td>Added document (September Paystubs)</td>
+          </tr>
 
-        <tr>
-          <td>October 22 13:11pm, 2014</td>
-          <td><a href="#">Tulip</a></td>
-          <td><a href="#">Resource Centers</a></td>
-          <td>Added document (September Paystubs)</td>
-        </tr>
+          <tr>
+            <td>October 21 15:01pm, 2014</td>
+            <td><a href="#">Tulip</a></td>
+            <td><a href="#">Resource Centers</a></td>
+            <td>Patient profile created</td>
+          </tr>
 
-        <tr>
-          <td>October 21 15:01pm, 2014</td>
-          <td><a href="#">Tulip</a></td>
-          <td><a href="#">Resource Centers</a></td>
-          <td>Patient profile created</td>
-        </tr>
-
-      </table>
+        </table>
+      </div>
 
   {% else %}
       <h2>Uh oh, something is broken.</h2>
