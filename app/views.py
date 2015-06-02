@@ -451,23 +451,23 @@ def calculate_pre_screen_results(fpl):
 def prescreening_results():
   if 'services' in session:
     services = session['services']
-  if 'patient_id' in session and session['patient_id']:
-    return render_template(
-      'prescreening_results.html',
-      services = calculate_pre_screen_results(),
-      patient_id = session['patient_id']
-    )
-  else:
-    fpl = calculate_fpl(session['household_size'], int(session['household_income']) * 12)
-    return render_template(
-      'prescreening_results.html',
-      services = calculate_pre_screen_results(fpl),
-      household_size = session['household_size'],
-      household_income = int(session['household_income']) * 12,
-      fpl = fpl,
-      has_health_insurance = session['has_health_insurance'],
-      is_eligible_for_medicaid = session['is_eligible_for_medicaid']
-    )
+  # if 'patient_id' in session and session['patient_id']:
+  #   return render_template(
+  #     'prescreening_results.html',
+  #     services = calculate_pre_screen_results(),
+  #     patient_id = session['patient_id']
+  #   )
+  # else:
+  fpl = calculate_fpl(session['household_size'], int(session['household_income']) * 12)
+  return render_template(
+    'prescreening_results.html',
+    services = calculate_pre_screen_results(fpl),
+    household_size = session['household_size'],
+    household_income = int(session['household_income']) * 12,
+    fpl = fpl,
+    has_health_insurance = session['has_health_insurance'],
+    is_eligible_for_medicaid = session['is_eligible_for_medicaid']
+  )
 
 @app.route('/save_prescreening_updates')
 @login_required
