@@ -17,7 +17,7 @@
         <li class="{% if request.path == url_for('new_prescreening') %}current{% endif %}"><a href="{{ url_for('new_prescreening') }}"><span class="glyphicon glyphicon-pencil push-right" aria-hidden="true"></span>Pre-Screener</a></li>
         {% if g.user.is_authenticated() %}
         <li class="{% if request.path == url_for('index') %}current{% endif %}"><a href="{{ url_for('index') }}"><span class="glyphicon glyphicon-eye-open push-right" aria-hidden="true"></span>View Your Patients</a></li>
-        <li class="{% if request.path == url_for('search_new') %}current{% endif %}"><a href="{{ url_for('search_new') }}"><span class="glyphicon glyphicon-search push-right" aria-hidden="true"></span>Find Patient</a></li>
+        <li class="{% if request.path == url_for('search_new') %}current{% endif %}"><a href="{{ url_for('search_new') }}"><span class="glyphicon glyphicon-globe push-right" aria-hidden="true"></span>Find Patient in Network</a></li>
         <li class="{% if request.path == url_for('new_patient') %}current{% endif %}"><a href="{{ url_for('new_patient') }}"><span class="glyphicon glyphicon-plus push-right" aria-hidden="true"></span>Create Patient</a></li>
         <li><a href="{{ url_for('logout') }}"><span class="glyphicon glyphicon-log-out push-right" aria-hidden="true"></span>Logout</a></li>
         {% else %}
