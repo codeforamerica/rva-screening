@@ -38,7 +38,22 @@ body {
  *
  *
  */
-.navbar {}
+.navbar {
+  border:none;
+  .nav {
+    box-sizing:border-box;  
+    -moz-box-sizing:border-box; 
+    -webkit-box-sizing:border-box;
+  }
+  li {
+    box-sizing:border-box;  
+    -moz-box-sizing:border-box; 
+    -webkit-box-sizing:border-box;
+    &.current {
+      background-color:#353535;
+    }
+  }
+}
 .nav a {}
 
 .patient-nav {
