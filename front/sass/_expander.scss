@@ -14,6 +14,8 @@
   }
   .expander-content {
     display:none;
+    background-color:#e5e5e5;
+    padding:5px 15px;
   }
 
   &.open {
@@ -22,7 +24,9 @@
         content:"\e113";
       }
     }
-    .expander-content {}
+    .expander-content {
+      margin-bottom:15px;
+    }
   }
 }
 

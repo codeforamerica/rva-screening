@@ -2,30 +2,34 @@
 {% block content %}
   {% if patient and patient.id %}
 
-      {% include "includes/patient_nav.html" %}
+      {% include "includes/patient_profile.html" %}
+      
+      <div class="patient-content col-md-9">
 
-      <h2>{{ patient.full_name or patient.first_name }}</h2>
-      <p>Who would you like to share this information with?</p>
+        {% include "includes/patient_nav.html" %}
 
-      <div class="col-sm-6 service">
-        <h3>Crossover</h3>
-        <p>CrossOver Healthcare Ministry provides quality and compassionate health care to the uninsured in the greater Richmond Metropolitan area.</p>
-        <button onclick="sharePatientInfo( this )" class="btn btn-default btn-sm share-button">Send Info <span class="glyphicon glyphicon-share-alt"></span></button>
-      </div>
-      <div class="col-sm-6 service">
-        <h3>Daily Planet</h3>
-        <p>Daily Planet offers a wide range of healthcare for all ages. Appointments are available on a same day/next day basis. They accept most insurances and in addition offer a sliding scale fee for uninsured patients.</p>
-        <button onclick="sharePatientInfo( this )" class="btn btn-default btn-sm share-button">Send Info <span class="glyphicon glyphicon-share-alt"></span></button>
-      </div>
-      <div class="col-sm-6 service">
-        <h3>Access Now</h3>
-        <p>Access Now provides access to specialists so that no patient would go without care for lack of a willing provider. More than 900 specialists and physician extenders open their doors to treat patients referred by Access Now.</p>
-        <button onclick="sharePatientInfo( this )" class="btn btn-default btn-sm share-button">Send Info <span class="glyphicon glyphicon-share-alt"></span></button>
-      </div>
-      <div class="col-sm-6 service">
-        <h3>Richmond Resource Centers</h3>
-        <p>The resource centers are located in the public housing courts. They are run by Community Health Workers and have nurses on site certain days of the week.</p>
-        <button onclick="sharePatientInfo( this )" class="btn btn-default btn-sm share-button">Send Info <span class="glyphicon glyphicon-share-alt"></span></button>
+        <p>Who would you like to share this information with?</p>
+
+        <div class="col-sm-6 service">
+          <h3>Crossover</h3>
+          <p>CrossOver Healthcare Ministry provides quality and compassionate health care to the uninsured in the greater Richmond Metropolitan area.</p>
+          <button onclick="sharePatientInfo( this )" class="btn btn-default btn-sm share-button">Send Info <span class="glyphicon glyphicon-share-alt"></span></button>
+        </div>
+        <div class="col-sm-6 service">
+          <h3>Daily Planet</h3>
+          <p>Daily Planet offers a wide range of healthcare for all ages. Appointments are available on a same day/next day basis. They accept most insurances and in addition offer a sliding scale fee for uninsured patients.</p>
+          <button onclick="sharePatientInfo( this )" class="btn btn-default btn-sm share-button">Send Info <span class="glyphicon glyphicon-share-alt"></span></button>
+        </div>
+        <div class="col-sm-6 service">
+          <h3>Access Now</h3>
+          <p>Access Now provides access to specialists so that no patient would go without care for lack of a willing provider. More than 900 specialists and physician extenders open their doors to treat patients referred by Access Now.</p>
+          <button onclick="sharePatientInfo( this )" class="btn btn-default btn-sm share-button">Send Info <span class="glyphicon glyphicon-share-alt"></span></button>
+        </div>
+        <div class="col-sm-6 service">
+          <h3>Richmond Resource Centers</h3>
+          <p>The resource centers are located in the public housing courts. They are run by Community Health Workers and have nurses on site certain days of the week.</p>
+          <button onclick="sharePatientInfo( this )" class="btn btn-default btn-sm share-button">Send Info <span class="glyphicon glyphicon-share-alt"></span></button>
+        </div>
       </div>
 
       
