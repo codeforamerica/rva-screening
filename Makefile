@@ -22,6 +22,7 @@ deploy_static:
 deploy:
 	make deploy_static
 	git push heroku master
+	git push spanish master
 
 export_translations:
 	pybabel extract -F app/babel.cfg -o app/messages.pot .

@@ -11,24 +11,24 @@
         </div>
 
         <div class="col-sm-3 prescreen-user-info-item">
-            <p>Annual household income</p>
+          <p>{{_('Annual household income')}}</p>
             <h2>${{household_income}}</h2>
         </div>
         <div class="col-sm-2 prescreen-user-info-item">
-            <p>Household size</p>
+          <p>{{_('Household size')}}</p>
             <h2>{{household_size}}</h2>
         </div>
         <div class="col-sm-2 prescreen-user-info-item">
-            <p>Has insurance</p>
+          <p>{{_('Has insurance')}}</p>
             <h2>{{has_health_insurance}}</h2>
         </div>
         <div class="col-sm-2 prescreen-user-info-item">
-            <p>Eligible for Medicaid</p>
+          <p>{{_('Eligible for Medicaid')}}</p>
             <h2>{{is_eligible_for_medicaid}}</h2>
         </div>
     </div>
 
-    <h4 class="prescreen-title">Services</h4>
+    <h4 class="prescreen-title">{{_('Services')}}</h4>
     
     {% for service in services %}
     <div class="prescreen-service {% if service.eligible %}eligible{% else %}not-eligible{% endif %}"> 
