@@ -3,6 +3,7 @@ from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.login import LoginManager
 from flask.ext.bcrypt import Bcrypt
+from flask.ext.babel import Babel
 from werkzeug import secure_filename
 from config import Config
 
@@ -15,6 +16,7 @@ app.debug = app.config['SCREENER_ENVIRONMENT'] != 'prod'
 
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
+babel = Babel(app)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
