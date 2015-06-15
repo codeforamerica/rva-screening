@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 
-    <h3>Which services would you like to check your eligibility for?</h3>
+<h3>{{ _("Which services would you like to check your eligibility for?") }}</h3>
 
     <form method="post">
     
@@ -14,6 +14,6 @@
         </div>
       {% endfor %}
 
-      <button class="btn btn-primary"  type="submit">Check eligibility</button>       
+      <button class="btn btn-primary"  type="submit">{{ _("Check eligibility") }}</button>       
     </form>
 {% endblock %}

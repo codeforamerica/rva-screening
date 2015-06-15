@@ -17,3 +17,7 @@ class Config(object):
     S3_FILE_UPLOAD_DIR = 'uploads'
     S3_BUCKET_NAME = os.environ.get('S3_BUCKET_NAME', 'rva-screener')
     S3_ONLY_MODIFIED = False
+
+    BABEL_DEFAULT_LOCALE = os.environ.get('BABEL_DEFAULT_LOCALE', 'en_US')
+    BABEL_DEFAULT_TIMEZONE = os.environ.get('BABEL_DEFAULT_TIMEZONE', 'America/New_York')
+
