@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-06-15 13:58-0700\n"
-"PO-Revision-Date: 2015-06-15 14:02-0800\n"
+"POT-Creation-Date: 2015-06-15 18:01-0700\n"
+"PO-Revision-Date: 2015-06-15 18:03-0800\n"
 "Last-Translator: \n"
 "Language-Team: es_US <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -70,3 +70,75 @@ msgstr "Editar"
 #: app/templates/prescreening_results.html:9
 msgid "Federal Poverty Level percentage"
 msgstr "Porcentaje del Nivel Federal de Pobreza"
+
+#: app/templates/prescreening_results.html:14
+msgid "Annual household income"
+msgstr "Ingresos anuales de hogar"
+
+#: app/templates/prescreening_results.html:18
+msgid "Household size"
+msgstr "Tamaño de hogar"
+
+#: app/templates/prescreening_results.html:22
+msgid "Has insurance"
+msgstr "Tiene seguro"
+
+#: app/templates/prescreening_results.html:26
+msgid "Eligible for Medicaid"
+msgstr "Elegible para Medicaid o Medicare"
+
+#: app/templates/prescreening_results.html:31
+msgid "Services"
+msgstr "Servicios"
+
+#: app/templates/prescreening_results.html:37
+msgid "You are likely eligible for"
+msgstr "Usted es probablemente eligible para"
+
+#: app/templates/prescreening_results.html:39
+msgid "You are likely not eligible for"
+msgstr "Usted es probablemente no eligible para"
+
+#: app/templates/prescreening_results.html:41
+msgid "More about"
+msgstr "Más sobre"
+
+#: app/templates/prescreening_results.html:53
+#, python-format
+msgid "Income below %(percent)s%% of the Federal Poverty Level"
+msgstr "Ingreses menos que %(percent)s%% del Nivel Federal de Probreza"
+
+#: app/templates/prescreening_results.html:64
+msgid "Uninsured"
+msgstr "Sin seguro"
+
+#: app/templates/prescreening_results.html:75
+msgid "Not eligible for Medicaid"
+msgstr "No eligible para Medicaid o Medicare"
+
+#: app/templates/prescreening_results.html:81
+#, python-format
+msgid ""
+"You're likely to fall in the <strong>%(scale)s</strong> section of the "
+"sliding scale because your income is <strong>%(range)s</strong> of the "
+"Federal Poverty Level."
+msgstr ""
+"Es probable que usted estaría en el nivel <strong>%(scale)s</strong> de "
+"la escala movil porque sus ingresos son <strong>%(range)s</strong> del "
+"Nivel Federal de Pobreza."
+
+#: app/templates/prescreening_results.html:83
+msgid "Service fees:"
+msgstr "Tarifas de servicio:"
+
+#: app/templates/prescreening_results.html:94
+msgid "of full price"
+msgstr "del precio entero"
+
+#: app/templates/prescreening_results.html:108
+msgid "Access Now provides service at no cost to the patient."
+msgstr "Access Now provee servicios sin costo al paciente."
+
+#: app/templates/prescreening_results.html:117
+msgid "Return to details for"
+msgstr "Regresar a los detalles de"

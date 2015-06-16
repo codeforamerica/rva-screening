@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-06-15 13:58-0700\n"
+"POT-Creation-Date: 2015-06-15 18:01-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -67,5 +67,74 @@ msgstr ""
 
 #: app/templates/prescreening_results.html:9
 msgid "Federal Poverty Level percentage"
+msgstr ""
+
+#: app/templates/prescreening_results.html:14
+msgid "Annual household income"
+msgstr ""
+
+#: app/templates/prescreening_results.html:18
+msgid "Household size"
+msgstr ""
+
+#: app/templates/prescreening_results.html:22
+msgid "Has insurance"
+msgstr ""
+
+#: app/templates/prescreening_results.html:26
+msgid "Eligible for Medicaid"
+msgstr ""
+
+#: app/templates/prescreening_results.html:31
+msgid "Services"
+msgstr ""
+
+#: app/templates/prescreening_results.html:37
+msgid "You are likely eligible for"
+msgstr ""
+
+#: app/templates/prescreening_results.html:39
+msgid "You are likely not eligible for"
+msgstr ""
+
+#: app/templates/prescreening_results.html:41
+msgid "More about"
+msgstr ""
+
+#: app/templates/prescreening_results.html:53
+#, python-format
+msgid "Income below %(percent)s%% of the Federal Poverty Level"
+msgstr ""
+
+#: app/templates/prescreening_results.html:64
+msgid "Uninsured"
+msgstr ""
+
+#: app/templates/prescreening_results.html:75
+msgid "Not eligible for Medicaid"
+msgstr ""
+
+#: app/templates/prescreening_results.html:81
+#, python-format
+msgid ""
+"You're likely to fall in the <strong>%(scale)s</strong> section of the "
+"sliding scale because your income is <strong>%(range)s</strong> of the "
+"Federal Poverty Level."
+msgstr ""
+
+#: app/templates/prescreening_results.html:83
+msgid "Service fees:"
+msgstr ""
+
+#: app/templates/prescreening_results.html:94
+msgid "of full price"
+msgstr ""
+
+#: app/templates/prescreening_results.html:108
+msgid "Access Now provides service at no cost to the patient."
+msgstr ""
+
+#: app/templates/prescreening_results.html:117
+msgid "Return to details for"
 msgstr ""
 
