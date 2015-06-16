@@ -1,18 +1,15 @@
 <h5>
-  Addresses
-  <span class="glyphicon glyphicon-home" aria-hidden="true"></span> 
-  /
-  <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+  {{ _("Addresses") }}
 </h5>
 
 <table class="table table-condensed addresses" id="address_table">
 
   <thead>
     <tr>
-      <th>Address</th>
-      <th>Description</th>
-      <th>Edit</th>
-      <th>Delete</th>
+      <th>{{ _("Address") }}</th>
+      <th>{{ _("Description") }}</th>
+      <th>{{ _("Edit") }}</th>
+      <th>{{ _("Delete") }}</th>
     </tr>
   </thead>
 
@@ -27,11 +24,11 @@
             {{address.city}}, {{address.state}} {{address.zip}}
           </address>
           <div class="hidden-input">
-            Address: <input class="form-control hidden-input" type="text" name="address1" value="{{address.address1}}">
+            {{ _("Address") }}: <input class="form-control hidden-input" type="text" name="address1" value="{{address.address1}}">
             <input class="form-control hidden-input" type="text" name="address2" value="{{address.address2}}">
-            City: <input class="form-control hidden-input" type="text" name="city" value="{{address.city}}">
-            State: <input class="form-control hidden-input" type="text" name="state" value="{{address.state}}">
-            ZIP: <input class="form-control hidden-input" type="text" name="zip" value="{{address.zip}}">
+            {{ _("City") }}: <input class="form-control hidden-input" type="text" name="city" value="{{address.city}}">
+            {{ _("State") }}: <input class="form-control hidden-input" type="text" name="state" value="{{address.state}}">
+            {{ _("ZIP") }}: <input class="form-control hidden-input" type="text" name="zip" value="{{address.zip}}">
           </div>
         </td>
         <td>
@@ -72,7 +69,7 @@
     onclick="addNewInputRow($('#address_table'), $('#address_input'))"
   >
     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-    Add an address
+    {{ _("Add an address") }}
   </button>
 </div>
 

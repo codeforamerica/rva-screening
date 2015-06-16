@@ -9,7 +9,7 @@
 
       <div class="locations">
 
-        <h3>Location(s)</h3>
+        <h3>{{ _("Location(s)") }}</h3>
 
         {% for location in service.locations %}
         <div class="location" 
@@ -36,14 +36,14 @@
       <div id="service-map" class="location-map"></div>
 
       <div class="service-users">
-        <h3>Users at {{service.name}}</h3>
+        <h3>{{ _("Users at %(service)", service=service.name) }}</h3>
         <div class="table-wrapper">
           <table class="table table-condensed">
             <thead>
               <tr>
-                <th>Name</th>
-                <th>Phone</th>
-                <th>Email</th>
+                <th>{{ _("Name") }}</th>
+                <th>{{ _("Phone") }}</th>
+                <th>{{ _("Email") }}</th>
               </tr>
             </thead>
 

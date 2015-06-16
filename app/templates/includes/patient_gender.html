@@ -1,7 +1,7 @@
 <div class="patient_gender_trans_group">
 
   <div class="form-group gender">
-    <label for="gender">Gender</label>
+    <label for="gender">{{ _("Gender") }}</label>
     <select class="form-control" name="gender">
       {% with %}
       {% set default_choice=("", "No Answer") %}
@@ -13,7 +13,7 @@
   </div>
 
   <div class="form-group transgender">
-    <label for="transgender">Transgender</label>
+    <label for="transgender">{{ _("Transgender") }}</label>
     <select class="form-control" name="transgender">
       {% with %}
       {% set default_choice=("", "") %}

@@ -1,6 +1,5 @@
   <div class="form-group">
-    <label for="is_veteran">Are you a <strong>veteran</strong>
-      of the United States?</label>
+    <label for="is_veteran">{{ _("Are you a <strong>veteran</strong> of the United States?") }}</label>
     <select class="form-control" name="veteran_yn">
       {% with attribute=patient.veteran_yn %}
       {% include "includes/select_yn.html" %}

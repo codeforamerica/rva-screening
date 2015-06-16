@@ -1,11 +1,11 @@
 <!--When and where did you last receive healthcare services?	text-->
   <div class="form-group last_healthcare">
-    <label for="last_healthcare_service">When and where did you last receive healthcare services?</label>
+    <label for="last_healthcare_service">{{ _("When and where did you last receive healthcare services?") }}</label>
     <input type="text" class="form-control" name="last_healthcare" id="last_healthcare_service" value="{{patient.last_healthcare}}">
   </div>
 
   <div class="form-group insurance_status">
-    <label for="has_insurance_or_card">Do you have insurance or a card to help you cover medical costs?</label>
+    <label for="has_insurance_or_card">{{ _("Do you have insurance or a card to help you cover medical costs?") }}</label>
     <select class="form-control" name="insurance_status">
       {% with attribute=patient.insurance_status %}
       {% include "includes/select_yn.html" %}
@@ -14,7 +14,7 @@
   </div>
 
   <div class="form-group coverage_type">
-    <label for="coverage_type">Coverage Type</label>
+    <label for="coverage_type">{{ _("Coverage Type") }}</label>
     <select class="form-control" name="coverage_type">
       {% with %}
       {% set default_choice=("", "") %}
@@ -26,7 +26,7 @@
   </div>
 
   <div class="form-group {% if not patient.coverage_type == "Other" %} hidden{% endif %}">
-    <label for="coverage_type_other">Please specify other coverage type</label>
+    <label for="coverage_type_other">{{ _("Please specify other coverage type") }}</label>
     <input type="text" class="form-control" name="coverage_type_other" id="coverage_type_other">
   </div>
 

@@ -1,13 +1,19 @@
-YN_CHOICES = [("Y", "Yes"), ("N", "No")]
-YNN_CHOICES = [("Y", "Yes"), ("N", "No"), ("", "Not Sure")]
+from flask.ext.babel import gettext as _
 
-GENDER_CHOICES = [("F", "Female"), ("M", "Male")]
+YN_CHOICES = [("Y", _("Yes")), ("N", _("No"))]
+YNN_CHOICES = [("Y", _("Yes")), ("N", _("No")), ("", _("Not Sure"))]
+
+GENDER_CHOICES = [("F", _("Female")), ("M", _("Male"))]
 TRANSGENDER_CHOICES = [
-        ("No", "Not transgender"),
-        ("FTM", "Female to Male"),
-        ("MTF", "Male to Female")]
+        ("No",  _("Not transgender")),
+        ("FTM", _("Female to Male")),
+        ("MTF", _("Male to Female"))]
 
-LANGUAGE_CHOICES = [("EN", "English"), ("ES", "Spanish"), ("AR", "Arabic"), ("other", "Other")]
+LANGUAGE_CHOICES = [
+        ("EN",    _("English")),
+        ("ES",    _("Spanish")),
+        ("AR",    _("Arabic")),
+        ("other", _("Other"))]
 
 STATE_CHOICES =[ ("AL", "AL - Alabama"), ("AK", "AK - Alaska"),
             ("AZ", "AZ - Arizona"), ("AR", "AR - Arkansas"),
@@ -32,45 +38,58 @@ STATE_CHOICES =[ ("AL", "AL - Alabama"), ("AK", "AK - Alaska"),
             ("SD", "SD - South DakotaND"), ("TN", "TN - Tennessee"),
             ("TX", "TX - Texas"), ("UT", "UT - Utah"),
             ("VT", "VT - Vermont"), ("VA", "VA - Virginia"),
-            ("WA", "WA - Washington"), ("WV", "WV - West VirginiaVA"),
+            ("WA", "WA - Washington"), ("WV", "WV - West Virginia"),
             ("WI", "WI - Wisconsin"), ("WY", "WY - Wyoming"),
       ]
 
 HOUSING_STATUS_CHOICES = [
-        ("REN", "Renting"), ("OWN", "Owns home (self or family)"),
-        ("SOM", "Lives with someone"),
-        ("TEM", "Lives temporarily with family or friends"),
-        ("TRA", "Is in Transitional housing for the homeless"),
-        ("EMR", "Emergency Shelter"),
-        ("STR", "On the street (car, encampment, abandoned building)"),
-        ("other", "Other")]
+        ("REN",   _("Renting")),
+        ("OWN",   _("Owns home (self or family)")),
+        ("SOM",   _("Lives with someone")),
+        ("TEM",   _("Lives temporarily with family or friends")),
+        ("TRA",   _("Is in Transitional housing for the homeless")),
+        ("EMR",   _("Emergency Shelter")),
+        ("STR",   _("On the street (car, encampment, abandoned building)")),
+        ("other", _("Other"))]
 
 EMPLOYMENT_STATUS_CHOICES = [
-        ("FT", "Full-time"), ("PT", "Part-time"), ("SEA", "Seasonal"),
-        ("DIS", "Disabled"), ("RET", "Retired"), ("DEP", "Dependent"),
-        ("UNE", "Unemployed"),
+        ("FT",  _("Full-time")),
+        ("PT",  _("Part-time")),
+        ("SEA", _("Seasonal")),
+        ("DIS", _("Disabled")),
+        ("RET", _("Retired")),
+        ("DEP", _("Dependent")),
+        ("UNE", _("Unemployed")),
         ]
 
-MARITAL_STATUS_CHOICES = [("SIM", "Single"), ("MAR", "Married"),
-        ("DIV", "Divorced"), ("WID", "Widowed"), ("SEP", "Legally Separated"),
-        ("PAR", "Partner")]
+MARITAL_STATUS_CHOICES = [
+        ("SIM", _("Single")),
+        ("MAR", _("Married")),
+        ("DIV", _("Divorced")),
+        ("WID", _("Widowed")),
+        ("SEP", _("Legally Separated")),
+        ("PAR", _("Partner"))]
 
-RACE_CHOICES = [("AIAN", "American Indian/Alaskan Native"), ("A", "Asian"),
-        ("AA", "Black or African-American"),
-        ("NHPI", "Native Hawaiian/Pacific Islander"), ("W", "White"),
-        ("other", "Other")]
+RACE_CHOICES = [
+        ("AIAN",  _("American Indian/Alaskan Native")),
+        ("A",     _("Asian")),
+        ("AA",    _("Black or African-American")),
+        ("NHPI",  _("Native Hawaiian/Pacific Islander")),
+        ("W",     _("White")),
+        ("other", _("Other"))]
 
-ETHNICITY_CHOICES = [("HL","Hispanic or Latino"),
-        ("NHL","Not Hispanic or Latino")]
+ETHNICITY_CHOICES = [
+        ("HL",  _("Hispanic or Latino")),
+        ("NHL", _("Not Hispanic or Latino"))]
 
 COVERAGE_TYPE_CHOICES = [
-        ("PRIV", "Private Insurance"),
-        ("MCAID", "Medicaid"),
-        ("MCARE", "Medicare"),
-        ("VA", "VA Healthcare"),
-        ("VCC", "VCC"),
-        ("VCUI", "VCU Indigent Care"),
-        ("BSCC", "Bon Secours CareCard"),
-        ("OTHER", "Other"),
+        ("PRIV",  _("Private Insurance")),
+        ("MCAID", _("Medicaid")),
+        ("MCARE", _("Medicare")),
+        ("VA",    _("VA Healthcare")),
+        ("VCC",   _("VCC")),
+        ("VCUI",  _("VCU Indigent Care")),
+        ("BSCC",  _("Bon Secours CareCard")),
+        ("OTHER", _("Other")),
         ]
 

@@ -3,10 +3,10 @@
 
   <thead>
     <tr>
-      <th>Source</th>
-      <th>$/mo.</th>
-      <th>Edit</th>
-      <th>Delete</th>
+      <th>{{ _("Source") }}</th>
+      <th>{{ _("$/mo.") }}</th>
+      <th>{{ _("Edit") }}</th>
+      <th>{{ _("Delete") }}</th>
     </tr>
   </thead>
 
@@ -59,9 +59,6 @@
       onclick="addNewInputRow($('#income_source_table'), $('#income_source_input'))"
     >
       <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-      Add a source of income
+      {{ _("Add a source of income") }}
     </button>
 </div>
-
-
-

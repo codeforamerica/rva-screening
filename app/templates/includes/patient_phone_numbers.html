@@ -1,16 +1,13 @@
 <h5>
-  Phone Numbers
-  <span class="glyphicon glyphicon-phone" aria-hidden="true"></span> 
-  /
-  <span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>
+  {{ _("Phone Numbers") }}
 </h5>
 
 <table class="table table-condensed phone_numbers" id="phone_number_table">
 
   <thead>
     <tr>
-      <th>Number</th>
-      <th>Description</th>
+      <th>{{ _("Number") }}</th>
+      <th>{{ _("Description") }}</th>
     </tr>
   </thead>
 
@@ -48,9 +45,6 @@
       onclick="addNewInputRow($('#phone_number_table'), $('#phone_number_input'))"
     >
       <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-      Add a phone number
+      {{ _("Add a phone number") }}
     </button>
 </div>
-
-
-

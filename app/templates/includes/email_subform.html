@@ -1,7 +1,7 @@
 <div class="form-row">
 
     <div class="form-group email">
-      <label for="email">Email</label>
+      <label for="email">{{ _("Email") }}</label>
       <input type="email" class="form-control" name="email" id="email"{% if patient and patient.email %} value="{{patient.email}}"{% endif %}>
     </div>
 
