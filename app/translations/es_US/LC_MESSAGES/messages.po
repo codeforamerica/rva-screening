@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-06-17 12:04-0700\n"
-"PO-Revision-Date: 2015-06-17 13:11-0800\n"
+"POT-Creation-Date: 2015-06-17 15:15-0700\n"
+"PO-Revision-Date: 2015-06-17 15:16-0800\n"
 "Last-Translator: \n"
 "Language-Team: es_US <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -669,6 +669,10 @@ msgstr "Añadir un empleador"
 #: app/templates/includes/patient_gender.html:4
 msgid "Gender"
 msgstr "Género"
+
+#: app/templates/includes/patient_gender.html:7
+msgid "No Answer"
+msgstr "No respuesta"
 
 #: app/templates/includes/patient_gender.html:16
 msgid "Transgender"

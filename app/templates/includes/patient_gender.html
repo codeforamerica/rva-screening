@@ -4,7 +4,7 @@
     <label for="gender">{{ _("Gender") }}</label>
     <select class="form-control" name="gender">
       {% with %}
-      {% set default_choice=("", "No Answer") %}
+      {% set default_choice=("", _("No Answer")) %}
       {% set choices=CONSTANTS.GENDER_CHOICES %}
       {% set test_value=patient.gender %}
       {% include "includes/choices.html" %}
