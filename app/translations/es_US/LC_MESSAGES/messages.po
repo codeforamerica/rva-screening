@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-06-16 17:27-0700\n"
-"PO-Revision-Date: 2015-06-16 17:27-0800\n"
+"POT-Creation-Date: 2015-06-17 12:04-0700\n"
+"PO-Revision-Date: 2015-06-17 13:11-0800\n"
 "Last-Translator: \n"
 "Language-Team: es_US <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -242,6 +242,14 @@ msgstr "Busca sus pacientes…"
 msgid "completion"
 msgstr "cumplido"
 
+#: app/templates/index.html:34
+msgid "Last edited by"
+msgstr "Última edición por"
+
+#: app/templates/index.html:34
+msgid "at"
+msgstr "de"
+
 #: app/templates/index.html:35 app/templates/includes/patient_nav.html:19
 msgid "Details"
 msgstr "Detailles"
@@ -270,6 +278,10 @@ msgstr "Para cuál servicios quiere usted probar su eligibilidad?"
 #: app/templates/prescreening_basic.html:48
 msgid "Check eligibility"
 msgstr "Probar eiligibilidad"
+
+#: app/templates/patient_details.html:13 app/templates/search_new.html:13
+msgid "Add New Patient"
+msgstr "Añadir Nuevo Paciente"
 
 #: app/templates/patient_details.html:23
 msgid "Phone, Email, Address"
@@ -328,7 +340,7 @@ msgstr ""
 #: app/templates/patient_share.html:16 app/templates/patient_share.html:21
 #: app/templates/patient_share.html:26 app/templates/patient_share.html:31
 msgid "Send Info"
-msgstr "Mandar información"
+msgstr "Compartir información"
 
 #: app/templates/patient_share.html:20
 msgid ""
@@ -354,7 +366,7 @@ msgstr ""
 
 #: app/templates/patient_share.html:38
 msgid "Uh oh, something is broken."
-msgstr "Ay, algo se ha roto."
+msgstr "Ay, algo se ha roto!"
 
 #: app/templates/prescreening_basic.html:8
 msgid "What is your household size?"
@@ -487,10 +499,6 @@ msgstr "Buscar pacientes"
 #: app/templates/search_new.html:9
 msgid "Search by name or date of birth."
 msgstr "Buscar por nombre o fecha de nacimiento"
-
-#: app/templates/search_new.html:13
-msgid "Add New Patient"
-msgstr "Añadir Nuevo Paciente"
 
 #: app/templates/search_new.html:14
 #: app/templates/includes/patient_household_size.html:8
@@ -688,7 +696,7 @@ msgstr "$/mes"
 
 #: app/templates/includes/patient_income_sources.html:62
 msgid "Add a source of income"
-msgstr "Añadir otro fuente de ingreso"
+msgstr "Añadir otra fuente de ingreso"
 
 #: app/templates/includes/patient_insurance_info.html:3
 msgid "When and where did you last receive healthcare services?"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-06-16 17:27-0700\n"
+"POT-Creation-Date: 2015-06-17 12:04-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -237,6 +237,14 @@ msgstr ""
 msgid "completion"
 msgstr ""
 
+#: app/templates/index.html:34
+msgid "Last edited by"
+msgstr ""
+
+#: app/templates/index.html:34
+msgid "at"
+msgstr ""
+
 #: app/templates/index.html:35 app/templates/includes/patient_nav.html:19
 msgid "Details"
 msgstr ""
@@ -264,6 +272,10 @@ msgstr ""
 #: app/templates/new_prescreening.html:17
 #: app/templates/prescreening_basic.html:48
 msgid "Check eligibility"
+msgstr ""
+
+#: app/templates/patient_details.html:13 app/templates/search_new.html:13
+msgid "Add New Patient"
 msgstr ""
 
 #: app/templates/patient_details.html:23
@@ -478,10 +490,6 @@ msgstr ""
 
 #: app/templates/search_new.html:9
 msgid "Search by name or date of birth."
-msgstr ""
-
-#: app/templates/search_new.html:13
-msgid "Add New Patient"
 msgstr ""
 
 #: app/templates/search_new.html:14
