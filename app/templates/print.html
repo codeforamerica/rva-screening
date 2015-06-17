@@ -10,9 +10,9 @@
       
       <div class="col-sm-12 print-card">
         <h3>{{ patient.full_name }}</h3>
-        <p class="print-patient_id"><strong>Patient ID: <span>{{ patient.id }}24572034</span></strong></p>
-        Date of birth: <strong>{{ patient.dob }}</strong><br>
-        SSN: <strong>{{ patient.ssn }}</strong><br>
+        <p class="print-patient_id"><strong>{{ _("Patient ID") }}: <span>{{ patient.id }}24572034</span></strong></p>
+        {{ _("Date of birth") }}: <strong>{{ patient.dob }}</strong><br>
+        {{ _("SSN") }}: <strong>{{ patient.ssn }}</strong><br>
         {% if patient.addresses %}
           <p class="print-patient_address">
           {% for address in patient.addresses %}

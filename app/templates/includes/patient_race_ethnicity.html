@@ -1,7 +1,7 @@
 <div class="patient_race_ethnicity_group">
 
   <div class="form-group race">
-    <label for="race">Race</label>
+    <label for="race">{{ _("Race") }}</label>
     <select class="form-control has_other" name="race">
       {% with %}
       {% set default_choice=("", "") %}
@@ -13,12 +13,12 @@
   </div>
 
   <div class="form-group {% if not patient.race == "Other" %} hidden{% endif %}">
-    <label for="race_other">Please specify other race</label>
+    <label for="race_other">{{ _("Please specify other race") }}</label>
     <input type="text" class="form-control" name="race_other" id="race_other">
   </div>
 
   <div class="form-group ethnicity">
-    <label for="ethnicity">Ethnicity</label>
+    <label for="ethnicity">{{ _("Ethnicity") }}</label>
     <select class="form-control" name="ethnicity">
       {% with  %}
       {% set default_choice=("", "") %}

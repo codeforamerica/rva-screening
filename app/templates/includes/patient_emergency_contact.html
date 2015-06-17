@@ -3,11 +3,11 @@
 
     <thead>
       <tr>
-        <th>Name</th>
-        <th>Phone Number</th>
-        <th>Relationship</th>
-        <th>Edit</th>
-        <th>Delete</th>
+        <th>{{ _("Name") }}</th>
+        <th>{{ _("Phone Number") }} </th>
+        <th>{{ _("Relationship") }} </th>
+        <th>{{ _("Edit") }} </th>
+        <th>{{ _("Delete") }} </th>
       </tr>
     </thead>
 
@@ -67,10 +67,6 @@
     onclick="addNewInputRow($('#emergency_contact_table'), $('#emergency_contact_input'))"
   >
     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-    Add an emergency contact
+    {{ _("Add an emergency contact") }}
   </button>
 </div>
-
-
-
-

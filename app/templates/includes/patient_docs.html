@@ -3,11 +3,11 @@
 
     <thead>
       <tr>
-        <th>Preview</th>
-        <th>Description</th>
-        <th>Uploaded</th>
-        <th>Edit</th>
-        <th>Delete</th>
+        <th>{{ _("Preview") }}</th>
+        <th>{{ _("Description") }}</th>
+        <th>{{ _("Uploaded") }}</th>
+        <th>{{ _("Edit") }}</th>
+        <th>{{ _("Delete") }}</th>
       </tr>
     </thead>
 
@@ -18,7 +18,7 @@
         <td class="patient_doc_thumbnail">
           <input class="hidden" value="{{doc.id}}" name="document_image_id">
     <!--    <img src="{{doc.thumbnail_url}}" alt="preview of {{doc.title}}"> -->
-          <img src="https://github.com/codeforamerica/rva-screening/blob/templating/images/w2.jpg?raw=true" alt="preview of {{doc.title}}">
+    <img src="https://github.com/codeforamerica/rva-screening/blob/templating/images/w2.jpg?raw=true" alt="{{ _("preview of %(title)s", title=doc.title ) }}">
         </td>
         <td class="patient_doc_title">
           <a href="{{ url_for('document_image', image_id=doc.id) }}" class="read-only">
@@ -70,9 +70,6 @@
     onclick="addNewInputRow($('#document_image_table'), $('#document_image_input'))"
   >
     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-    Add a document
+    {{ _("Add a document") }}
   </button>
 </div>
-
-
-

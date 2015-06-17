@@ -24,7 +24,7 @@ deploy:
 	git push heroku master
 	git push spanish master
 
-export_translations:
+update_translations:
 	pybabel extract -F app/babel.cfg -o app/messages.pot .
 	pybabel update -i app/messages.pot -d app/translations
 
@@ -32,5 +32,5 @@ init_translationss:
 	pybabel extract -F app/babel.cfg -o app/messages.pot .
 	pybabel init -i app/messages.pot -d app/translations -l es_US
 
-import_translations:
+compile_translations:
 	pybabel compile -d app/translations

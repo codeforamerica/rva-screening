@@ -1,5 +1,5 @@
 <div class="form-group employment_status">
-  <label for="employment_status">Employment Status</label>
+  <label for="employment_status">{{ _("Employment Status") }}</label>
   <select class="form-control" name="employment_status">
       {% with %}
       {% set default_choice=("", "") %}
@@ -13,7 +13,7 @@
 {% include "includes/patient_student_status.html" %}
 
 <div class="form-group spouse_employment_status">
-  <label for="spouse_employment_status">Spouse's employment status</label>
+  <label for="spouse_employment_status">{{ _("Spouse's employment status") }}</label>
   <select class="form-control" name="spouse_employment_status">
       {% with %}
       {% set default_choice=("", "") %}
@@ -26,15 +26,15 @@
 
 
 <div class="employers">
-  <h4>Employers</h4>
+  <h4>{{ _("Employers") }}</h4>
   <div class="table-wrapper">
     <table class="table table-condensed employment" id="employer_table">
       <thead>
         <tr>
-          <th>Employer Name</th>
-          <th>Phone Number</th>
-          <th>Whose job?</th>
-          <th>Edit</th>
+          <th>{{ _("Employer Name") }}</th>
+          <th>{{ _("Phone Number") }}</th>
+          <th>{{ _("Whose job?") }}</th>
+          <th>{{ _("Edit") }}</th>
         </tr>
       </thead>
       {% if patient.employers %}
@@ -51,9 +51,8 @@
         </td>
         <td>
           <select class="form-control" name="employer_employee">
-            <option value=""></option>
-            <option value="Patient">Patient</option>
-            <option value="Spouse">Spouse</option>
+            <option value="Patient">{{ _("Patient") }}</option>
+            <option value="Spouse">{{ _("Spouse") }}</option>
           </select>
         </td>
       </tr>
@@ -70,7 +69,7 @@
       class="btn btn-primary"
       onclick="addNewInputRow($('#employer_table'), $('#employer_input'))">
       <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-      Add an employer
+      {{ _("Add an employer") }}
     </button>
  </div>
 </div>

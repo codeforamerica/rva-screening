@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-06-15 13:58-0700\n"
-"PO-Revision-Date: 2015-06-15 14:02-0800\n"
+"POT-Creation-Date: 2015-06-17 15:15-0700\n"
+"PO-Revision-Date: 2015-06-17 15:16-0800\n"
 "Last-Translator: \n"
 "Language-Team: es_US <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -19,6 +19,257 @@ msgstr ""
 "Language: es_US\n"
 "X-Generator: Poedit 1.8.1\n"
 
+#: app/template_constants.py:3 app/template_constants.py:4
+#: app/templates/prescreening_basic.html:24
+#: app/templates/prescreening_basic.html:38
+#: app/templates/includes/select_yn.html:2
+msgid "Yes"
+msgstr "Sí"
+
+#: app/template_constants.py:3 app/template_constants.py:4
+#: app/templates/prescreening_basic.html:27
+#: app/templates/prescreening_basic.html:41
+#: app/templates/includes/select_yn.html:3
+msgid "No"
+msgstr "No"
+
+#: app/template_constants.py:4 app/templates/prescreening_basic.html:30
+#: app/templates/prescreening_basic.html:44
+msgid "Not Sure"
+msgstr "No está seguro"
+
+#: app/template_constants.py:6
+msgid "Female"
+msgstr "Mujer"
+
+#: app/template_constants.py:6
+msgid "Male"
+msgstr "Hombre"
+
+#: app/template_constants.py:8
+msgid "Not transgender"
+msgstr "No transgénero"
+
+#: app/template_constants.py:9
+msgid "Female to Male"
+msgstr "Mujer a hombre"
+
+#: app/template_constants.py:10
+msgid "Male to Female"
+msgstr "Hombre a mujer"
+
+#: app/template_constants.py:13
+msgid "English"
+msgstr "inglés"
+
+#: app/template_constants.py:14
+msgid "Spanish"
+msgstr "español"
+
+#: app/template_constants.py:15
+msgid "Arabic"
+msgstr "árabe"
+
+#: app/template_constants.py:16 app/template_constants.py:53
+#: app/template_constants.py:79 app/template_constants.py:93
+msgid "Other"
+msgstr "Otro"
+
+#: app/template_constants.py:46
+msgid "Renting"
+msgstr "alquiler"
+
+#: app/template_constants.py:47
+msgid "Owns home (self or family)"
+msgstr "Dueño de casa (sí mismo o familia)"
+
+#: app/template_constants.py:48
+msgid "Lives with someone"
+msgstr "Vive con alguien"
+
+#: app/template_constants.py:49
+msgid "Lives temporarily with family or friends"
+msgstr "Vive temporalmente con familiares o amigos"
+
+#: app/template_constants.py:50
+msgid "Is in Transitional housing for the homeless"
+msgstr "Vivienda de transición para los sin hogares"
+
+#: app/template_constants.py:51
+msgid "Emergency Shelter"
+msgstr "Refugio de emergencia"
+
+#: app/template_constants.py:52
+msgid "On the street (car, encampment, abandoned building)"
+msgstr ""
+"En la calle (duerme afuera o en un coche, campamento, o edificio abandonado)"
+
+#: app/template_constants.py:56
+#: app/templates/includes/patient_student_status.html:6
+msgid "Full-time"
+msgstr "Tiempo completo"
+
+#: app/template_constants.py:57
+#: app/templates/includes/patient_student_status.html:7
+msgid "Part-time"
+msgstr "Tiempo parcial"
+
+#: app/template_constants.py:58
+msgid "Seasonal"
+msgstr "Estacional"
+
+#: app/template_constants.py:59
+msgid "Disabled"
+msgstr "Discapacitado"
+
+#: app/template_constants.py:60
+msgid "Retired"
+msgstr "Jubilado"
+
+#: app/template_constants.py:61
+msgid "Dependent"
+msgstr "Dependiente"
+
+#: app/template_constants.py:62
+msgid "Unemployed"
+msgstr "Desempleado"
+
+#: app/template_constants.py:66
+msgid "Single"
+msgstr "Soltero"
+
+#: app/template_constants.py:67
+msgid "Married"
+msgstr "Casado"
+
+#: app/template_constants.py:68
+msgid "Divorced"
+msgstr "Divorciado"
+
+#: app/template_constants.py:69
+msgid "Widowed"
+msgstr "Viudo"
+
+#: app/template_constants.py:70
+msgid "Legally Separated"
+msgstr "Separados legalmente"
+
+#: app/template_constants.py:71
+msgid "Partner"
+msgstr "Cónyuge"
+
+#: app/template_constants.py:74
+msgid "American Indian/Alaskan Native"
+msgstr "Indio americano/nativo de Alaska"
+
+#: app/template_constants.py:75
+msgid "Asian"
+msgstr "Asiático"
+
+#: app/template_constants.py:76
+msgid "Black or African-American"
+msgstr "Negro o afroamericano"
+
+#: app/template_constants.py:77
+msgid "Native Hawaiian/Pacific Islander"
+msgstr "Nativo de Hawaii/Islas del Pacifico"
+
+#: app/template_constants.py:78
+msgid "White"
+msgstr "Blanco"
+
+#: app/template_constants.py:82
+msgid "Hispanic or Latino"
+msgstr "Hispano o latino"
+
+#: app/template_constants.py:83
+msgid "Not Hispanic or Latino"
+msgstr "No hispano o latino"
+
+#: app/template_constants.py:86
+msgid "Private Insurance"
+msgstr "Seguro de salud privado"
+
+#: app/template_constants.py:87
+msgid "Medicaid"
+msgstr "Medicaid"
+
+#: app/template_constants.py:88
+msgid "Medicare"
+msgstr "Medicare"
+
+#: app/template_constants.py:89
+msgid "VA Healthcare"
+msgstr "VA / Asuntos Veteranos"
+
+#: app/template_constants.py:90
+msgid "VCC"
+msgstr "VCC"
+
+#: app/template_constants.py:91
+msgid "VCU Indigent Care"
+msgstr "VCU Indigent Care"
+
+#: app/template_constants.py:92
+msgid "Bon Secours CareCard"
+msgstr "Bon Secours CareCard"
+
+#: app/templates/auth_logout-success.html:7
+msgid "You have logged out."
+msgstr "Usted ha desconectado"
+
+#: app/templates/consent.html:5
+msgid "Almost there!"
+msgstr "Ya falta poco!"
+
+#: app/templates/consent.html:7
+msgid ""
+"In order to view this patient's information we need to make sure you have "
+"consent from them."
+msgstr ""
+"Para acceder a la información del paciente, afirma que usted ya ha obtenido "
+"el consentimiento del paciente"
+
+#: app/templates/consent.html:8
+msgid "CONSENT GIVEN"
+msgstr "CONSENTIMIENTO RECIBIDO"
+
+#: app/templates/index.html:17
+msgid "Search your patients..."
+msgstr "Busca sus pacientes…"
+
+#: app/templates/index.html:33
+msgid "completion"
+msgstr "cumplido"
+
+#: app/templates/index.html:34
+msgid "Last edited by"
+msgstr "Última edición por"
+
+#: app/templates/index.html:34
+msgid "at"
+msgstr "de"
+
+#: app/templates/index.html:35 app/templates/includes/patient_nav.html:19
+msgid "Details"
+msgstr "Detailles"
+
+#: app/templates/login.html:6
+msgid "Email address"
+msgstr "Email"
+
+#: app/templates/login.html:7
+msgid "you@example.com"
+msgstr "usted@ejemplo.com"
+
+#: app/templates/login.html:11
+msgid "Password"
+msgstr "Contraseña"
+
+#: app/templates/login.html:16
+msgid "Log in"
+msgstr "Iniciar sesión"
+
 #: app/templates/new_prescreening.html:4
 msgid "Which services would you like to check your eligibility for?"
 msgstr "Para cuál servicios quiere usted probar su eligibilidad?"
@@ -27,6 +278,95 @@ msgstr "Para cuál servicios quiere usted probar su eligibilidad?"
 #: app/templates/prescreening_basic.html:48
 msgid "Check eligibility"
 msgstr "Probar eiligibilidad"
+
+#: app/templates/patient_details.html:13 app/templates/search_new.html:13
+msgid "Add New Patient"
+msgstr "Añadir Nuevo Paciente"
+
+#: app/templates/patient_details.html:23
+msgid "Phone, Email, Address"
+msgstr "Teléfono, Email, Dirección"
+
+#: app/templates/patient_details.html:29
+msgid "Emergency Contacts"
+msgstr "Contactos de Emergencia"
+
+#: app/templates/patient_details.html:37
+msgid "Household Size"
+msgstr "Tamaño de hogar"
+
+#: app/templates/patient_details.html:46
+msgid "Household Income"
+msgstr "Ingresos de Hogar"
+
+#: app/templates/patient_details.html:47
+msgid "month"
+msgstr "mes"
+
+#: app/templates/patient_details.html:55
+msgid "Document Uploads"
+msgstr "Documentos Subidos"
+
+#: app/templates/patient_details.html:62
+msgid "Demographic Questions"
+msgstr "Información Demografica"
+
+#: app/templates/patient_details.html:68
+msgid "Employment Information"
+msgstr "Información de Empleo"
+
+#: app/templates/patient_details.html:74
+msgid "Insurance Information"
+msgstr "Seguro de Salud"
+
+#: app/templates/patient_details.html:80
+msgid "Save patient info"
+msgstr "Guardar paciente"
+
+#: app/templates/patient_details.html:80
+msgid "Save new patient info"
+msgstr "Guardar nuevo paciente"
+
+#: app/templates/patient_share.html:11
+msgid "Who would you like to share this information with?"
+msgstr "Con quién le gustaría compartir esta información?"
+
+#: app/templates/patient_share.html:15
+msgid ""
+"CrossOver Healthcare Ministry provides quality and compassionate health "
+"care to the uninsured in the greater Richmond Metropolitan area."
+msgstr ""
+
+#: app/templates/patient_share.html:16 app/templates/patient_share.html:21
+#: app/templates/patient_share.html:26 app/templates/patient_share.html:31
+msgid "Send Info"
+msgstr "Compartir información"
+
+#: app/templates/patient_share.html:20
+msgid ""
+"Daily Planet offers a wide range of healthcare for all ages. Appointments "
+"are available on a same day/next day basis. They accept most insurances and "
+"in addition offer a sliding scale fee for uninsured patients."
+msgstr ""
+
+#: app/templates/patient_share.html:25
+msgid ""
+"Access Now provides access to specialists so that no patient would go "
+"without care for lack of a willing provider. More than 900 specialists and "
+"physician extenders open their doors to treat patients referred by Access "
+"Now."
+msgstr ""
+
+#: app/templates/patient_share.html:30
+msgid ""
+"The resource centers are located in the public housing courts. They are run "
+"by Community Health Workers and have nurses on site certain days of the "
+"week."
+msgstr ""
+
+#: app/templates/patient_share.html:38
+msgid "Uh oh, something is broken."
+msgstr "Ay, algo se ha roto!"
 
 #: app/templates/prescreening_basic.html:8
 msgid "What is your household size?"
@@ -40,21 +380,6 @@ msgstr "Qué son sus ingresos mensual de hogar?"
 msgid "Do you have health insurance?"
 msgstr "Tiene usted seguro de salud?"
 
-#: app/templates/prescreening_basic.html:24
-#: app/templates/prescreening_basic.html:38
-msgid "Yes"
-msgstr "Sí"
-
-#: app/templates/prescreening_basic.html:27
-#: app/templates/prescreening_basic.html:41
-msgid "No"
-msgstr "No"
-
-#: app/templates/prescreening_basic.html:30
-#: app/templates/prescreening_basic.html:44
-msgid "Not Sure"
-msgstr "No está seguro"
-
 #: app/templates/prescreening_basic.html:36
 msgid "Are you eligible for Medicare/Medicaid?"
 msgstr "Está usted eligible para Medicare/Medicaid?"
@@ -64,9 +389,410 @@ msgid "Patient Information"
 msgstr "Información del Paciente"
 
 #: app/templates/prescreening_results.html:4
+#: app/templates/includes/patient_addresses.html:11
+#: app/templates/includes/patient_docs.html:9
+#: app/templates/includes/patient_emergency_contact.html:9
+#: app/templates/includes/patient_employment_info.html:37
+#: app/templates/includes/patient_household_size.html:11
+#: app/templates/includes/patient_income_sources.html:8
 msgid "Edit"
 msgstr "Editar"
 
 #: app/templates/prescreening_results.html:9
 msgid "Federal Poverty Level percentage"
 msgstr "Porcentaje del Nivel Federal de Pobreza"
+
+#: app/templates/prescreening_results.html:14
+msgid "Annual household income"
+msgstr "Ingresos anuales de hogar"
+
+#: app/templates/prescreening_results.html:18
+msgid "Household size"
+msgstr "Tamaño de hogar"
+
+#: app/templates/prescreening_results.html:22
+msgid "Has insurance"
+msgstr "Tiene seguro"
+
+#: app/templates/prescreening_results.html:26
+msgid "Eligible for Medicaid"
+msgstr "Elegible para Medicaid o Medicare"
+
+#: app/templates/prescreening_results.html:31
+msgid "Services"
+msgstr "Servicios"
+
+#: app/templates/prescreening_results.html:37
+msgid "You are likely eligible for"
+msgstr "Usted es probablemente eligible para"
+
+#: app/templates/prescreening_results.html:39
+msgid "You are likely not eligible for"
+msgstr "Usted es probablemente no eligible para"
+
+#: app/templates/prescreening_results.html:41
+msgid "More about"
+msgstr "Más sobre"
+
+#: app/templates/prescreening_results.html:53
+#, python-format
+msgid "Income below %(percent)s%% of the Federal Poverty Level"
+msgstr "Ingreses menos que %(percent)s%% del Nivel Federal de Probreza"
+
+#: app/templates/prescreening_results.html:64
+msgid "Uninsured"
+msgstr "Sin seguro"
+
+#: app/templates/prescreening_results.html:75
+msgid "Not eligible for Medicaid"
+msgstr "No eligible para Medicaid o Medicare"
+
+#: app/templates/prescreening_results.html:81
+#, python-format
+msgid ""
+"You're likely to fall in the <strong>%(scale)s</strong> section of the "
+"sliding scale because your income is <strong>%(range)s</strong> of the "
+"Federal Poverty Level."
+msgstr ""
+"Es probable que usted estaría en el nivel <strong>%(scale)s</strong> de la "
+"escala movil porque sus ingresos son <strong>%(range)s</strong> del Nivel "
+"Federal de Pobreza."
+
+#: app/templates/prescreening_results.html:83
+msgid "Service fees:"
+msgstr "Tarifas de servicio:"
+
+#: app/templates/prescreening_results.html:94
+msgid "of full price"
+msgstr "del precio entero"
+
+#: app/templates/prescreening_results.html:108
+msgid "Access Now provides service at no cost to the patient."
+msgstr "Access Now provee servicios sin costo al paciente."
+
+#: app/templates/prescreening_results.html:117
+msgid "Return to details for"
+msgstr "Regresar a los detalles de"
+
+#: app/templates/print.html:13
+msgid "Patient ID"
+msgstr "Identificación del Paciente"
+
+#: app/templates/print.html:14 app/templates/includes/patient_id.html:5
+msgid "Date of birth"
+msgstr "Fecha de nacimiento"
+
+#: app/templates/print.html:15
+#: app/templates/includes/patient_household_size.html:9
+#: app/templates/includes/patient_id.html:15
+msgid "SSN"
+msgstr "SSN"
+
+#: app/templates/search_new.html:4
+msgid "Find new patients"
+msgstr "Buscar pacientes nuevos"
+
+#: app/templates/search_new.html:7
+msgid "Search for patients"
+msgstr "Buscar pacientes"
+
+#: app/templates/search_new.html:9
+msgid "Search by name or date of birth."
+msgstr "Buscar por nombre o fecha de nacimiento"
+
+#: app/templates/search_new.html:14
+#: app/templates/includes/patient_household_size.html:8
+#: app/templates/includes/patient_profile.html:6
+msgid "DOB"
+msgstr "Fec de Nac"
+
+#: app/templates/search_new.html:16
+msgid "Associated with"
+msgstr "Asociado con"
+
+#: app/templates/service_profile.html:12
+msgid "Location(s)"
+msgstr "Sitio(s)"
+
+#: app/templates/service_profile.html:39
+#, python-format
+msgid "Users at %(service)s"
+msgstr "Usuarios de %(service)s"
+
+#: app/templates/service_profile.html:44
+#: app/templates/includes/patient_emergency_contact.html:6
+#: app/templates/includes/patient_household_size.html:7
+msgid "Name"
+msgstr "Nombre"
+
+#: app/templates/service_profile.html:45
+msgid "Phone"
+msgstr "Teléfono"
+
+#: app/templates/service_profile.html:46
+#: app/templates/includes/email_subform.html:4
+msgid "Email"
+msgstr "Email"
+
+#: app/templates/includes/employer_subform.html:23
+#: app/templates/includes/patient_employment_info.html:54
+msgid "Patient"
+msgstr "Paciente"
+
+#: app/templates/includes/employer_subform.html:24
+#: app/templates/includes/patient_employment_info.html:55
+msgid "Spouse"
+msgstr "Esposo/a"
+
+#: app/templates/includes/nav.html:6
+msgid "Toggle navigation"
+msgstr "Cambia navigación"
+
+#: app/templates/includes/nav.html:17
+msgid "Pre-Screener"
+msgstr "Miniprueba"
+
+#: app/templates/includes/nav.html:19
+msgid "View Your Patients"
+msgstr "Ver Sus Pacientes"
+
+#: app/templates/includes/nav.html:20
+msgid "Find Patient in Network"
+msgstr "Buscar Paciente de Otro Proveedor"
+
+#: app/templates/includes/nav.html:21
+msgid "Create Patient"
+msgstr "Crear Paciente"
+
+#: app/templates/includes/nav.html:22
+msgid "Logout"
+msgstr "Cerrar sesión"
+
+#: app/templates/includes/nav.html:24
+msgid "Login"
+msgstr "Inicia sesión"
+
+#: app/templates/includes/patient_addresses.html:2
+msgid "Addresses"
+msgstr "Direcciones"
+
+#: app/templates/includes/patient_addresses.html:9
+#: app/templates/includes/patient_addresses.html:27
+msgid "Address"
+msgstr "Dirección"
+
+#: app/templates/includes/patient_addresses.html:10
+#: app/templates/includes/patient_docs.html:7
+#: app/templates/includes/patient_phone_numbers.html:10
+msgid "Description"
+msgstr "Descripción"
+
+#: app/templates/includes/patient_addresses.html:12
+#: app/templates/includes/patient_docs.html:10
+#: app/templates/includes/patient_emergency_contact.html:10
+#: app/templates/includes/patient_household_size.html:12
+#: app/templates/includes/patient_income_sources.html:9
+msgid "Delete"
+msgstr "Eliminar"
+
+#: app/templates/includes/patient_addresses.html:29
+msgid "City"
+msgstr "Ciudad"
+
+#: app/templates/includes/patient_addresses.html:30
+msgid "State"
+msgstr "Estado"
+
+#: app/templates/includes/patient_addresses.html:31
+msgid "ZIP"
+msgstr "Código postal"
+
+#: app/templates/includes/patient_addresses.html:72
+msgid "Add an address"
+msgstr "Añadir una dirección"
+
+#: app/templates/includes/patient_docs.html:6
+msgid "Preview"
+msgstr "Previsualización"
+
+#: app/templates/includes/patient_docs.html:8
+msgid "Uploaded"
+msgstr "Subido"
+
+#: app/templates/includes/patient_docs.html:21
+#, python-format
+msgid "preview of %(title)s"
+msgstr "Previsualización de %(title)s"
+
+#: app/templates/includes/patient_docs.html:73
+msgid "Add a document"
+msgstr "Añadir un documento"
+
+#: app/templates/includes/patient_emergency_contact.html:7
+#: app/templates/includes/patient_employment_info.html:35
+msgid "Phone Number"
+msgstr "Número de Teléfono"
+
+#: app/templates/includes/patient_emergency_contact.html:8
+#: app/templates/includes/patient_household_size.html:10
+msgid "Relationship"
+msgstr "Relación"
+
+#: app/templates/includes/patient_emergency_contact.html:70
+msgid "Add an emergency contact"
+msgstr "Añadir un contacto de emergencia"
+
+#: app/templates/includes/patient_employment_info.html:2
+msgid "Employment Status"
+msgstr "Situación Laboral"
+
+#: app/templates/includes/patient_employment_info.html:16
+msgid "Spouse's employment status"
+msgstr "Situación laboral del cónyuge"
+
+#: app/templates/includes/patient_employment_info.html:29
+msgid "Employers"
+msgstr "Empleadores"
+
+#: app/templates/includes/patient_employment_info.html:34
+msgid "Employer Name"
+msgstr "Nombre del empleador"
+
+#: app/templates/includes/patient_employment_info.html:36
+msgid "Whose job?"
+msgstr "Empleo del …"
+
+#: app/templates/includes/patient_employment_info.html:72
+msgid "Add an employer"
+msgstr "Añadir un empleador"
+
+#: app/templates/includes/patient_gender.html:4
+msgid "Gender"
+msgstr "Género"
+
+#: app/templates/includes/patient_gender.html:7
+msgid "No Answer"
+msgstr "No respuesta"
+
+#: app/templates/includes/patient_gender.html:16
+msgid "Transgender"
+msgstr "Transgénero"
+
+#: app/templates/includes/patient_household_size.html:94
+msgid "Add a person"
+msgstr "Añadir una persona"
+
+#: app/templates/includes/patient_housing.html:3
+msgid "Living situation"
+msgstr "Situación de vivienda"
+
+#: app/templates/includes/patient_housing.html:15
+msgid "Please specify other living situation"
+msgstr "Especifique otra situación de vivienda"
+
+#: app/templates/includes/patient_income_sources.html:6
+msgid "Source"
+msgstr "Fuente"
+
+#: app/templates/includes/patient_income_sources.html:7
+msgid "$/mo."
+msgstr "$/mes"
+
+#: app/templates/includes/patient_income_sources.html:62
+msgid "Add a source of income"
+msgstr "Añadir otra fuente de ingreso"
+
+#: app/templates/includes/patient_insurance_info.html:3
+msgid "When and where did you last receive healthcare services?"
+msgstr "Cuando y dónde fue la ultima vez que usted recibió servicios médicos?"
+
+#: app/templates/includes/patient_insurance_info.html:8
+msgid "Do you have insurance or a card to help you cover medical costs?"
+msgstr "Tiene usted seguros o una tarjeta que le ayude con costos médicos?"
+
+#: app/templates/includes/patient_insurance_info.html:17
+msgid "Coverage Type"
+msgstr "Tipo de Cobertura"
+
+#: app/templates/includes/patient_insurance_info.html:29
+msgid "Please specify other coverage type"
+msgstr "Especifique otro tipo de cobertura"
+
+#: app/templates/includes/patient_language.html:2
+msgid "Language"
+msgstr "Idioma"
+
+#: app/templates/includes/patient_language.html:14
+msgid "Please specify other language"
+msgstr "Especifique otro idioma"
+
+#: app/templates/includes/patient_marriage.html:2
+msgid "Marital status"
+msgstr "Estado civil"
+
+#: app/templates/includes/patient_name.html:2
+msgid "Full Legal Name"
+msgstr "Nombre Legal Completo"
+
+#: app/templates/includes/patient_nav.html:4
+msgid "Prescreen this patient"
+msgstr "Miniprueba con este paciente"
+
+#: app/templates/includes/patient_nav.html:9
+msgid "Delete patient"
+msgstr "Eliminar paciente"
+
+#: app/templates/includes/patient_nav.html:26
+msgid "Print this patient"
+msgstr "Imprimir este paciente"
+
+#: app/templates/includes/patient_nav.html:33
+msgid "View Edit History"
+msgstr "Ver registros de edición"
+
+#: app/templates/includes/patient_nav.html:40
+msgid "Share Patient"
+msgstr "Compartir Paciente"
+
+#: app/templates/includes/patient_phone_numbers.html:2
+msgid "Phone Numbers"
+msgstr "Números de Telefono"
+
+#: app/templates/includes/patient_phone_numbers.html:9
+msgid "Number"
+msgstr "Número"
+
+#: app/templates/includes/patient_phone_numbers.html:48
+msgid "Add a phone number"
+msgstr "Añadir un número de teléfono"
+
+#: app/templates/includes/patient_profile.html:11
+msgid "Estimated FPL"
+msgstr "Nivel Federal de Pobreza Estimado"
+
+#: app/templates/includes/patient_race_ethnicity.html:4
+msgid "Race"
+msgstr "Raza"
+
+#: app/templates/includes/patient_race_ethnicity.html:16
+msgid "Please specify other race"
+msgstr "Especifique otra raza"
+
+#: app/templates/includes/patient_race_ethnicity.html:21
+msgid "Ethnicity"
+msgstr "Etnicidad"
+
+#: app/templates/includes/patient_student_status.html:2
+msgid "Student Status"
+msgstr "Estudiante"
+
+#: app/templates/includes/patient_student_status.html:5
+msgid "Not a student"
+msgstr "No es estudiante"
+
+#: app/templates/includes/patient_veteran.html:2
+msgid "Are you a <strong>veteran</strong> of the United States?"
+msgstr "Es usted un <strong>veterano</strong> de los Estados Unidos?"
+
+#~ msgid "Access Now"
+#~ msgstr "Accesso Ahora"

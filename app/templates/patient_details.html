@@ -10,7 +10,7 @@
         {% include "includes/patient_nav.html" %}
 
     {% else %}
-        <h2>Add New Patient</h2>
+    <h2>{{ _("Add New Patient") }}</h2>
     {% endif %}
 
     <form enctype="multipart/form-data" action="" method="post" id="patient_details_form" class="print">
@@ -20,13 +20,13 @@
 
       <!--contact info-->
       <div class="expander">
-          <div class="expander-title">Phone, Email, Address</div>
+        <div class="expander-title">{{ _("Phone, Email, Address") }}</div>
           <div class="expander-content">{% include "includes/patient_contact_info.html" %}</div>
       </div>
 
       <!--contact info-->
       <div class="expander">
-          <div class="expander-title">Emergency Contacts</div>
+        <div class="expander-title">{{ _("Emergency Contacts") }}</div>
           <div class="expander-content">
             {% include "includes/patient_emergency_contact.html" %}
           </div>
@@ -34,7 +34,7 @@
 
       <!--household-->
       <div class="expander">
-          <div class="expander-title">Household Size{% if patient.household_members %}: 
+        <div class="expander-title">{{ _("Household Size") }}{% if patient.household_members %}: 
         {{ patient.household_members.count() + 1 }}
       {% endif %}
           </div>
@@ -43,8 +43,8 @@
 
       <!--income-->
       <div class="expander">
-          <div class="expander-title">Household Income{% if patient.total_annual_income %}:
-      ${{(patient.total_annual_income / 12) | int}}/month
+        <div class="expander-title">{{ _("Household Income") }}{% if patient.total_annual_income %}:
+          ${{(patient.total_annual_income / 12) | int}}/{{ _("month") }}
     {% endif %}
           </div>
           <div class="expander-content">{% include "includes/patient_income_sources.html" %}</div>
@@ -52,32 +52,32 @@
 
       <!--documents-->
       <div class="expander">
-        <div class="expander-title">Document Uploads
+        <div class="expander-title">{{ _("Document Uploads") }}
           {% if patient.document_images %} ({{patient.document_images.count()}}) {% endif %}</div>
           <div class="expander-content">{% include "includes/patient_docs.html" %}</div>
       </div>
 
       <!--demographics-->
       <div class="expander">
-          <div class="expander-title">Demographic Questions</div>
+        <div class="expander-title">{{ _("Demographic Questions") }}</div>
           <div class="expander-content">{% include "includes/patient_demographic_info.html" %}</div>
       </div>
 
       <!--employment-->
       <div class="expander">
-          <div class="expander-title">Employment Information</div>
+        <div class="expander-title">{{ _("Employment Information") }}</div>
           <div class="expander-content">{% include "includes/patient_employment_info.html" %}</div>
       </div>
 
       <!--insurance-->
       <div class="expander">
-          <div class="expander-title">Insurance Information</div>
+        <div class="expander-title">{{ _("Insurance Information") }}</div>
           <div class="expander-content">{% include "includes/patient_insurance_info.html" %}</div>
       </div>
 
       <button type="submit" class="btn btn-primary">
         <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-        {% if patient %} Save patient info {% else %} Save new patient info {% endif %}
+        {% if patient %} {{ _("Save patient info") }} {% else %} {{ _("Save new patient info") }} {% endif %}
       </button>
 
     </form>

@@ -4,12 +4,12 @@
     <thead>
       <tr>
         <th>#</th>
-        <th>Name</th>
-        <th>DOB</th>
-        <th>SSN</th>
-        <th>Relationship</th>
-        <th>Edit</th>
-        <th>Delete</th>
+        <th>{{ _("Name") }}</th>
+        <th>{{ _("DOB") }}</th>
+        <th>{{ _("SSN") }}</th>
+        <th>{{ _("Relationship") }}</th>
+        <th>{{ _("Edit") }}</th>
+        <th>{{ _("Delete") }}</th>
       </tr>
     </thead>
 
@@ -91,9 +91,6 @@
     onclick="addNewInputRow($('#household_member_table'), $('#household_member_input'))"
   >
     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-    Add a person
+    {{ _("Add a person") }}
   </button>
 </div>
-
-
-
