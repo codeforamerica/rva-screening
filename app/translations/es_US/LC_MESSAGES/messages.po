@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-06-17 15:15-0700\n"
-"PO-Revision-Date: 2015-06-17 15:16-0800\n"
+"POT-Creation-Date: 2015-06-19 12:24-0700\n"
+"PO-Revision-Date: 2015-06-19 12:25-0800\n"
 "Last-Translator: \n"
 "Language-Team: es_US <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -217,6 +217,10 @@ msgstr "Bon Secours CareCard"
 #: app/templates/auth_logout-success.html:7
 msgid "You have logged out."
 msgstr "Usted ha desconectado"
+
+#: app/templates/base.html:1
+msgid "lang=\"en\""
+msgstr "lang=“es”"
 
 #: app/templates/consent.html:5
 msgid "Almost there!"

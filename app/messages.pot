@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-06-17 15:15-0700\n"
+"POT-Creation-Date: 2015-06-19 12:24-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -213,6 +213,10 @@ msgstr ""
 
 #: app/templates/auth_logout-success.html:7
 msgid "You have logged out."
+msgstr ""
+
+#: app/templates/base.html:1
+msgid "lang=\"en\""
 msgstr ""
 
 #: app/templates/consent.html:5
