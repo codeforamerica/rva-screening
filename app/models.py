@@ -1,4 +1,5 @@
 from app import db
+from sqlalchemy.dialects.postgresql import ARRAY
 
 class Patient(db.Model):
   # Basic ID
@@ -184,6 +185,41 @@ class PatientServicePermission(db.Model):
   id = db.Column(db.Integer, primary_key=True)
   patient_id = db.Column(db.Integer, db.ForeignKey("patient.id"))
   service_id = db.Column(db.Integer, db.ForeignKey("service.id"))
+
+class Question(db.Model):
+  id = db.Column(db.Integer, primary_key=True)
+  question_text = db.Column(db.String(256))
+  question_type = db.Column(db.String(16))
+  depends_on = db.Column(db.Integer, db.ForeignKey("question.id"))
+  comparator = db.Column(db.String(16))
+  comparison_value = db.Column(ARRAY(db.String(32)))
+
+class QuestionTranslation(db.Model):
+  id = db.Column(db.Integer, primary_key=True)
+  language_code = db.Column(db.String(16))
+  question_text = db.Column(db.String(256))
+
+class QuestionOption(db.Model):
+  id = db.Column(db.Integer, primary_key=True)
+  option_text = db.Column(db.String(64))
+  question_id = db.Column(db.Integer, db.ForeignKey("question.id"))
+
+class QuestionOptionTranslation(db.Model):
+  id = db.Column(db.Integer, primary_key=True)
+  language_code = db.Column(db.String(16))
+  option_text = db.Column(db.String(64))
+
+class QuestionService(db.Model):
+  id = db.Column(db.Integer, primary_key=True)
+  question_id = db.Column(db.Integer, db.ForeignKey("question.id"))
+  service_id = db.Column(db.Integer, db.ForeignKey("service.id"))
+  required_yn = db.Column(db.String(1))
+
+class PatientAnswer(db.Model):
+  id = db.Column(db.Integer, primary_key=True)
+  question_id = db.Column(db.Integer, db.ForeignKey("question.id"))
+  question_option_id = db.Column(db.Integer, db.ForeignKey("question.id"))
+  value = db.Column(db.String(256))
 
 class User(db.Model):
   id = db.Column(db.Integer, primary_key=True)
