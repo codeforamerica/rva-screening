@@ -6,7 +6,7 @@ class Config(object):
     IS_PRODUCTION = os.environ.get('IS_PRODUCTION', False)
     PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL', 'mysql://root:password@localhost/rva_screening')
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL', 'postgres://root:password@localhost/rva_screening')
 
     UPLOAD_FOLDER = 'var/uploads/documentimages'
     MAX_CONTENT_LENGTH = 16 * 1024 * 1024
