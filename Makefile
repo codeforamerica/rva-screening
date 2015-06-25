@@ -7,6 +7,12 @@ run:
 	foreman run python run.py \
 		--env=.env
 
+correr:
+	gulp & 
+	BABEL_DEFAULT_LOCALE='es_US' \
+	foreman run python run.py \
+		--env=.env
+
 new_db:
 	rm -rf ./migrations
 	python db.py db init
