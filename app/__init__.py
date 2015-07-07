@@ -1,4 +1,5 @@
 import os
+import logging
 from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.login import LoginManager
@@ -22,6 +23,10 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
+logger = logging.getLogger('werkzeug')
+handler = logging.FileHandler('access.log')
+logger.addHandler(handler)
+app.logger.addHandler(handler)
 
 @app.context_processor
 def inject_template_constants():

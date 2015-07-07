@@ -11,6 +11,9 @@ activate
 migrations
 app/static/
 
+# logging
+access.log
+
 # npm
 node_modules
 npm-debug.log
