@@ -1,5 +1,15 @@
+install:
+	npm install
+	pip install -r ./requirements.txt
+
 run:
 	gulp & 
+	foreman run python run.py \
+		--env=.env
+
+correr:
+	gulp & 
+	BABEL_DEFAULT_LOCALE='es_US' \
 	foreman run python run.py \
 		--env=.env
 

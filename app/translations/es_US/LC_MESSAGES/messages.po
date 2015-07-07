@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2015-06-19 12:24-0700\n"
-"PO-Revision-Date: 2015-06-19 12:25-0800\n"
+"PO-Revision-Date: 2015-06-25 08:54-0800\n"
 "Last-Translator: \n"
 "Language-Team: es_US <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -93,7 +93,7 @@ msgstr "Vive temporalmente con familiares o amigos"
 
 #: app/template_constants.py:50
 msgid "Is in Transitional housing for the homeless"
-msgstr "Vivienda de transición para los sin hogares"
+msgstr "Vivienda de transición para personas sin hogar"
 
 #: app/template_constants.py:51
 msgid "Emergency Shelter"
@@ -216,7 +216,7 @@ msgstr "Bon Secours CareCard"
 
 #: app/templates/auth_logout-success.html:7
 msgid "You have logged out."
-msgstr "Usted ha desconectado"
+msgstr "Usted se ha desconectado"
 
 #: app/templates/base.html:1
 msgid "lang=\"en\""
@@ -231,7 +231,7 @@ msgid ""
 "In order to view this patient's information we need to make sure you have "
 "consent from them."
 msgstr ""
-"Para acceder a la información del paciente, afirma que usted ya ha obtenido "
+"Para acceder a la información del paciente, usted afirma que ya ha obtenido "
 "el consentimiento del paciente"
 
 #: app/templates/consent.html:8
@@ -256,7 +256,7 @@ msgstr "de"
 
 #: app/templates/index.html:35 app/templates/includes/patient_nav.html:19
 msgid "Details"
-msgstr "Detailles"
+msgstr "Detalles"
 
 #: app/templates/login.html:6
 msgid "Email address"
@@ -276,12 +276,12 @@ msgstr "Iniciar sesión"
 
 #: app/templates/new_prescreening.html:4
 msgid "Which services would you like to check your eligibility for?"
-msgstr "Para cuál servicios quiere usted probar su eligibilidad?"
+msgstr "Para cuál servicios quiere usted probar su elegibilidad?"
 
 #: app/templates/new_prescreening.html:17
 #: app/templates/prescreening_basic.html:48
 msgid "Check eligibility"
-msgstr "Probar eiligibilidad"
+msgstr "Probar elegibilidad"
 
 #: app/templates/patient_details.html:13 app/templates/search_new.html:13
 msgid "Add New Patient"
@@ -333,13 +333,15 @@ msgstr "Guardar nuevo paciente"
 
 #: app/templates/patient_share.html:11
 msgid "Who would you like to share this information with?"
-msgstr "Con quién le gustaría compartir esta información?"
+msgstr "¿Con quién le gustaría compartir esta información?"
 
 #: app/templates/patient_share.html:15
 msgid ""
 "CrossOver Healthcare Ministry provides quality and compassionate health "
 "care to the uninsured in the greater Richmond Metropolitan area."
 msgstr ""
+"“CrossOver Healthcare Ministry” le provee un servicio de salud compasivo y "
+"de calidad a las personas no aseguradas en Área Metropolitana de Richmond."
 
 #: app/templates/patient_share.html:16 app/templates/patient_share.html:21
 #: app/templates/patient_share.html:26 app/templates/patient_share.html:31
@@ -352,6 +354,10 @@ msgid ""
 "are available on a same day/next day basis. They accept most insurances and "
 "in addition offer a sliding scale fee for uninsured patients."
 msgstr ""
+"El Daily Planet le ofrece una amplia variedad de servicios de salud para "
+"todas las edades. Es posible obtener una cita médica el mismo día o al día "
+"siguiente. Ellos aceptan la mayoría de los seguros y además ofrecen tabla "
+"con todos los deducibles para pacientes no asegurados."
 
 #: app/templates/patient_share.html:25
 msgid ""
@@ -374,19 +380,19 @@ msgstr "Ay, algo se ha roto!"
 
 #: app/templates/prescreening_basic.html:8
 msgid "What is your household size?"
-msgstr "Qué es su tamaño de hogar?"
+msgstr "¿Cuál es tamaño de su hogar?"
 
 #: app/templates/prescreening_basic.html:15
 msgid "What is your monthly household income?"
-msgstr "Qué son sus ingresos mensual de hogar?"
+msgstr "¿Cual es el ingreso mensual de su hogar?"
 
 #: app/templates/prescreening_basic.html:22
 msgid "Do you have health insurance?"
-msgstr "Tiene usted seguro de salud?"
+msgstr "¿Tiene usted seguro de salud?"
 
 #: app/templates/prescreening_basic.html:36
 msgid "Are you eligible for Medicare/Medicaid?"
-msgstr "Está usted eligible para Medicare/Medicaid?"
+msgstr "¿Es usted elegible para Medicare/Medicaid?"
 
 #: app/templates/prescreening_results.html:4
 msgid "Patient Information"
@@ -441,7 +447,7 @@ msgstr "Más sobre"
 #: app/templates/prescreening_results.html:53
 #, python-format
 msgid "Income below %(percent)s%% of the Federal Poverty Level"
-msgstr "Ingreses menos que %(percent)s%% del Nivel Federal de Probreza"
+msgstr "Ingresos menos del %(percent)s%% del Nivel Federal de Probreza"
 
 #: app/templates/prescreening_results.html:64
 msgid "Uninsured"
@@ -458,8 +464,8 @@ msgid ""
 "sliding scale because your income is <strong>%(range)s</strong> of the "
 "Federal Poverty Level."
 msgstr ""
-"Es probable que usted estaría en el nivel <strong>%(scale)s</strong> de la "
-"escala movil porque sus ingresos son <strong>%(range)s</strong> del Nivel "
+"Es probable que usted estará en el nivel <strong>%(scale)s</strong> de la "
+"escala móvil porque sus ingresos son <strong>%(range)s</strong> del Nivel "
 "Federal de Pobreza."
 
 #: app/templates/prescreening_results.html:83
@@ -708,11 +714,13 @@ msgstr "Añadir otra fuente de ingreso"
 
 #: app/templates/includes/patient_insurance_info.html:3
 msgid "When and where did you last receive healthcare services?"
-msgstr "Cuando y dónde fue la ultima vez que usted recibió servicios médicos?"
+msgstr ""
+"¿Cuándo y dónde fue la ultima vez que usted recibió servicios médicos?"
 
 #: app/templates/includes/patient_insurance_info.html:8
 msgid "Do you have insurance or a card to help you cover medical costs?"
-msgstr "Tiene usted seguros o una tarjeta que le ayude con costos médicos?"
+msgstr ""
+"¿Tiene usted algún seguro o una tarjeta que le ayude con costos médicos?"
 
 #: app/templates/includes/patient_insurance_info.html:17
 msgid "Coverage Type"
@@ -760,7 +768,7 @@ msgstr "Compartir Paciente"
 
 #: app/templates/includes/patient_phone_numbers.html:2
 msgid "Phone Numbers"
-msgstr "Números de Telefono"
+msgstr "Números de Teléfono"
 
 #: app/templates/includes/patient_phone_numbers.html:9
 msgid "Number"
@@ -796,7 +804,7 @@ msgstr "No es estudiante"
 
 #: app/templates/includes/patient_veteran.html:2
 msgid "Are you a <strong>veteran</strong> of the United States?"
-msgstr "Es usted un <strong>veterano</strong> de los Estados Unidos?"
+msgstr "¿Fue usted miembro de las fuerzas armadas en el pasado?"
 
 #~ msgid "Access Now"
 #~ msgstr "Accesso Ahora"
