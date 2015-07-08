@@ -38,7 +38,7 @@
             {% else %}
               {{ _("You are likely not eligible for") }} <strong>{{ service.name }}</strong>.
             {% endif %}
-            <a class="btn btn-default btn-sm pull-right-desktop" href="{{ url_for('service', service_id=service.id) }}"> {{ _("More about") }} <strong>{{ service.name }}</strong> <span class="glyphicon glyphicon-chevron-right"></span></a>
+            <a class="btn btn-default btn-sm pull-right-desktop" href="{{ url_for('screener.service', service_id=service.id) }}"> {{ _("More about") }} <strong>{{ service.name }}</strong> <span class="glyphicon glyphicon-chevron-right"></span></a>
         </div>
         <div class="prescreen-service-info row">
             <div class="col-sm-4">
@@ -113,14 +113,14 @@
     {% endfor %}
 
     {% if patient %}
-    	<a href="{{ url_for('save_prescreening_updates', patientid=patient.id) }}">
+    	<a href="{{ url_for('screener.save_prescreening_updates', patientid=patient.id) }}">
         {{ _("Return to details for") }} {{ patient }}.
     	</a>
 
  {#<!--    {% else %}
-    	<p>Would you save this information into a new patient record?</p>
-    	<a type="button" class="btn btn-success" href="{{ url_for('new_patient') }}">Yes</a>
-    	<a type="button" class="btn btn-default" href="{{ url_for('index') }}">No thanks</a> -->
+        <p>Would you save this information into a new patient record?</p>
+        <a type="button" class="btn btn-success" href="{{ url_for('screener.new_patient') }}">Yes</a>
+        <a type="button" class="btn btn-default" href="{{ url_for('screener.index') }}">No thanks</a> -->
  #}
     {% endif %}
 {% endblock %}

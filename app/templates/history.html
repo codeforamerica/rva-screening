@@ -22,12 +22,12 @@
             <tr>
               <td>{{entry.action_timestamp.strftime('%m-%d-%Y %H:%M:%S')}}</td>
               <td>
-                <a href="{{ url_for('user', user_id=entry.app_user_id) }}">
+                <a href="{{ url_for('screener.user', user_id=entry.app_user_id) }}">
                   {{entry.app_user.full_name}}
                 </a>
               </td>
               <td>
-                <a href="{{ url_for('service', service_id=entry.app_user.service.id) }}">
+                <a href="{{ url_for('screener.service', service_id=entry.app_user.service.id) }}">
                   {{entry.app_user.service.name}}
                 </a>
               </td>
@@ -35,7 +35,7 @@
                 {% if entry.table_name == 'patient_service_permission' %}
                   <td>Added access for 
                     <a href="{{ url_for(
-                      'service',
+                      'screener.service',
                       service_id=entry.row_data['service_id']
                     ) }}">
                       {{ services[entry.row_data['service_id']|int].name}}

@@ -13,6 +13,19 @@ correr:
 	foreman run python run.py \
 		--env=.env
 
+test:
+	nosetests tests/ \
+		-sv \
+		--with-coverage \
+		--cover-package=app \
+		--cover-erase 
+
+test_travis:
+	psql -c 'drop database if exists screener_test;' -U postgres
+	psql -c 'create database screener_test;' -U postgres
+	make new_db
+	make test
+
 new_db:
 	rm -rf ./migrations
 	python db.py db init

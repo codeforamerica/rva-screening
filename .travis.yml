@@ -1,0 +1,10 @@
+language: python
+python:
+    - '2.7'
+install: pip install -r requirements.txt
+script: make test_travis
+addons:
+    postgresql: 9.3
+notifications:
+  slack:
+    secure: N9hxW8rGBPCcB8wQfB3zaje59hHq7WlYzupnZg76koy79AgrU6ySy7Oh88/TqaW0c02zZaZCUuVFhbpBWhZDCOXieAy0hGVmDd9p4hXzlBCLDUf9ItcTxqoCET5I6Agsrl64F+q6eb6gXnwriggcADkvYmkWIrKFBQLec0orUwE=
