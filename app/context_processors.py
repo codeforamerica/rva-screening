@@ -18,3 +18,7 @@ def inject_example_data():
     """
     from app import example_data
     return dict(EXAMPLE=example_data)
+
+def inject_template_constants():
+    from app import template_constants
+    return dict(CONSTANTS=template_constants)

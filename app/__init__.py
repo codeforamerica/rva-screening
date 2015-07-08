@@ -29,9 +29,14 @@ def register_extensions(app):
     login_manager.login_view = 'login'
 
 def register_context_processors(app):
-    from app.context_processors import inject_static_url, inject_example_data
+    from app.context_processors import (
+        inject_static_url,
+        inject_example_data,
+        inject_template_constants
+    )
     app.context_processor(inject_static_url)
     app.context_processor(inject_example_data)
+    app.context_processor(inject_template_constants)
 
 db = SQLAlchemy()
 bcrypt = Bcrypt()
