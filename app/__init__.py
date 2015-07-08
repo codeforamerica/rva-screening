@@ -24,6 +24,7 @@ def register_blueprints(app):
 def register_extensions(app):
     db.init_app(app)
     bcrypt.init_app(app)
+    babel.init_app(app)
     login_manager.init_app(app)
     login_manager.login_view = 'login'
 
@@ -34,6 +35,7 @@ def register_context_processors(app):
 
 db = SQLAlchemy()
 bcrypt = Bcrypt()
+babel = Babel()
 login_manager = LoginManager()
 
 from app import views, models
