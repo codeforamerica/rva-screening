@@ -1,13 +1,13 @@
-import time, os, base64, hmac, urllib
-from flask import Blueprint, render_template, request,flash, redirect, url_for, g, send_from_directory, session, current_app
-from app import db, bcrypt
-from app.models import Patient, PhoneNumber, Address, EmergencyContact, Insurance, HouseholdMember, IncomeSource, Employer, DocumentImage, Service, User, PatientServicePermission
-import datetime
+import datetime, time, os, base64, hmac, urllib
+from flask import Blueprint, render_template, request, flash, redirect, url_for, g, send_from_directory, session, current_app
 from flask.ext.login import login_user, logout_user, current_user, login_required
-from app import login_manager
+from app import db, bcrypt, login_manager
+from app.models import *
 from app.utils import upload_file, send_document_image
-from sqlalchemy import func
 from hashlib import sha1
+from itertools import chain
+from sqlalchemy import func, and_, or_
+from sqlalchemy.orm import subqueryload
 
 screener = Blueprint('screener', __name__, url_prefix='')
 
@@ -54,7 +54,7 @@ CROSSOVER_FEES = (
 @screener.route("/login", methods=["GET", "POST"])
 def login():
   if request.method == 'POST':
-    user = User.query.filter(User.email == request.form['email']).first()
+    user = AppUser.query.filter(AppUser.email == request.form['email']).first()
     if user:
       if bcrypt.check_password_hash(user.password.encode('utf8'), request.form['password']):
         user.authenticated = True
@@ -77,7 +77,7 @@ def logout():
 
 @login_manager.user_loader
 def load_user(email):
-  return User.query.filter(User.email == email).first()
+  return AppUser.query.filter(AppUser.email == email).first()
 
 @screener.before_request
 def before_request():
@@ -96,8 +96,8 @@ def new_patient():
         form[key] = None
     patient = Patient(**form)
 
-    db.session.add(patient)
     many_to_one_patient_updates(patient, request.form, request.files)
+    db.session.add(patient)
     db.session.commit()
 
     return redirect(url_for('screener.patient_details', id=patient.id))
@@ -578,7 +578,49 @@ def template_prototyping():
 @login_required
 def patient_history(patient_id):
   patient = Patient.query.get(patient_id)
-  return render_template('history.html', patient=patient)
+
+  history = ActionLog.query.\
+    filter(or_(
+      and_(ActionLog.row_id==patient_id, ActionLog.table_name=='patient'),
+      and_(ActionLog.row_id.in_([p.id for p in patient.phone_numbers]), ActionLog.table_name=='phone_number'),
+      and_(ActionLog.row_id.in_([p.id for p in patient.addresses]), ActionLog.table_name=='address'),
+      and_(ActionLog.row_id.in_([p.id for p in patient.emergency_contacts]), ActionLog.table_name=='emergency_contact'),
+      and_(ActionLog.row_id.in_([p.id for p in patient.employers]), ActionLog.table_name=='employer'),
+      and_(ActionLog.row_id.in_([p.id for p in patient.document_images]), ActionLog.table_name=='document_image'),
+      and_(ActionLog.row_id.in_([p.id for p in patient.income_sources]), ActionLog.table_name=='income_source'),
+      and_(ActionLog.row_id.in_([p.id for p in patient.household_members]), ActionLog.table_name=='household_member'),
+      and_(ActionLog.row_id.in_([p.id for p in patient.patient_service_permissions]), ActionLog.table_name=='patient_service_permission')
+    )).\
+    order_by(ActionLog.action_timestamp.desc())
+  # Filter out history entries that are only last modified/last modified by changes
+  history = [i for i in history if not (
+    i.changed_fields
+    and set(i.changed_fields).issubset(['last_modified', 'last_modified_by'])
+  )]
+
+  services = dict((x.id, x) for x in Service.query.all())
+
+  readable_names = dict(
+    (column.name, column.info) for column in
+      chain(
+        Patient.__table__.columns,
+        PhoneNumber.__table__.columns,
+        Address.__table__.columns,
+        EmergencyContact.__table__.columns,
+        HouseholdMember.__table__.columns,
+        IncomeSource.__table__.columns,
+        Employer.__table__.columns,
+        DocumentImage.__table__.columns
+      )
+  )
+
+  return render_template(
+    'history.html',
+    patient=patient,
+    history=history,
+    services=services,
+    readable_names=readable_names
+  )
 
 # SHARE PATIENT DETAILS
 # @param patient id
@@ -592,15 +634,33 @@ def patient_share(patient_id):
 @screener.route('/user/<user_id>')
 @login_required
 def user(user_id):
-  user = User.query.get(user_id)
+  user = AppUser.query.get(user_id)
   return render_template('user_profile.html', user=user)
 
 # SERVICE PROFILE
 @screener.route('/service/<service_id>')
 @login_required
 def service(service_id):
-  service = Service.query.get(service_id)
+  service = translate_object(
+    Service.query.get(service_id),
+    current_app.config['BABEL_DEFAULT_LOCALE']
+  )
   return render_template('service_profile.html', service=service)
+
+def translate_object(obj, language_code):
+  translations = next(
+    (lang for lang in obj.translations if lang.language_code == language_code),
+    None
+  ) 
+  if translations is not None:
+    for key, value in translations.__dict__.iteritems():
+      if (
+        value is not None 
+        and not key.startswith('_')
+        and hasattr(obj, key)
+      ):
+        setattr(obj, key, getattr(translations, key))
+  return obj
 
 @screener.route('/')
 @login_required

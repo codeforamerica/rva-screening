@@ -1,4 +1,5 @@
 import os
+import logging
 from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.login import LoginManager
@@ -23,16 +24,23 @@ def register_blueprints(app):
 def register_extensions(app):
     db.init_app(app)
     bcrypt.init_app(app)
+    babel.init_app(app)
     login_manager.init_app(app)
     login_manager.login_view = 'login'
 
 def register_context_processors(app):
-    from app.context_processors import inject_static_url, inject_example_data
+    from app.context_processors import (
+        inject_static_url,
+        inject_example_data,
+        inject_template_constants
+    )
     app.context_processor(inject_static_url)
     app.context_processor(inject_example_data)
+    app.context_processor(inject_template_constants)
 
 db = SQLAlchemy()
 bcrypt = Bcrypt()
+babel = Babel()
 login_manager = LoginManager()
 
 from app import views, models

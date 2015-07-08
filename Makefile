@@ -31,12 +31,16 @@ new_db:
 	python db.py db init
 	python db.py db migrate
 	python db.py db upgrade
+	psql -d rva-screening -a -f app/audit_triggers.sql
 
 migrate:
 	python db.py db migrate
 
 upgrade:
 	python db.py db upgrade
+
+add_triggers:
+	psql -d rva-screening -a -f app/audit_triggers.sql
 
 deploy_static:
 	gulp build
