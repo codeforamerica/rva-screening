@@ -49,7 +49,7 @@
 
             {% for user in service.users %}
             <tr>
-              <td><a href="{{ url_for('user', user_id=user.id) }}"><strong>{{ user.full_name }}</strong></a></td>
+              <td><a href="{{ url_for('service.user', user_id=user.id) }}"><strong>{{ user.full_name }}</strong></a></td>
               <td><a href="{{ user.phone }}">{{ user.phone_number }}</a></td>
               <td><a href="{{ user.email }}">{{ user.email }}</a></td>
             </tr>

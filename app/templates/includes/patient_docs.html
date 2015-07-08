@@ -21,7 +21,7 @@
     <img src="https://github.com/codeforamerica/rva-screening/blob/templating/images/w2.jpg?raw=true" alt="{{ _("preview of %(title)s", title=doc.title ) }}">
         </td>
         <td class="patient_doc_title">
-          <a href="{{ url_for('document_image', image_id=doc.id) }}" class="read-only">
+          <a href="{{ url_for('screener.document_image', image_id=doc.id) }}" class="read-only">
             {{doc.description}}
           </a>
           <input type="text" class="hidden-input" name="document_image_description" value="{{doc.description}}">

@@ -5,7 +5,7 @@
 
     <!-- <div class="panel panel-default">
       <div class="panel-body">
-        <strong>Looking for a new patient?</strong> You can <a href="{{ url_for('search_new') }}">search for patients</a> that already exist in the network. If they don't have their own profile, you can <a href="{{ url_for('new_patient') }}">create a new patient</a>.
+        <strong>Looking for a new patient?</strong> You can <a href="{{ url_for('screener.search_new') }}">search for patients</a> that already exist in the network. If they don't have their own profile, you can <a href="{{ url_for('screener.new_patient') }}">create a new patient</a>.
       </div>
     </div> -->
 
@@ -32,10 +32,11 @@
           <p class="patient-dob">DOB: {{ patient.dob }}</p>
           <div class="completion-wrapper"><div class="completion high" style="width:{{ loop.index }}9%"></div></div><div class="completion-percentage">{{ loop.index }}9% {{ _("completion") }}</div>
           <p class="patient-lastedit left">{{ _("Last edited by") }}: <a href="#">____</a> {{ _("at") }} <a href="#">Richmond Resource Center</a></p>
-          <a class="btn btn-default btn-sm right" href="{{ url_for('patient_details', id=patient.id) }}">{{ _("Details") }} <span class="glyphicon glyphicon-chevron-right"></span></a>
+          <a class="btn btn-default btn-sm right" href="{{ url_for('screener.patient_details', id=patient.id) }}">{{ _("Details") }} <span class="glyphicon glyphicon-chevron-right"></span></a>
         </li>
         {% endfor %}
       </ul>
     <!-- /search -->
     
 {% endblock %}    
+

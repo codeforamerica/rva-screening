@@ -1,6 +1,9 @@
 # mac system files
 .DS_Store
 
+# testing
+.coverage
+
 # configuration files
 .env*
 

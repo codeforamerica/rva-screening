@@ -10,10 +10,10 @@
 
       {% for patient in patients %}
         <li class="patient-list-item col-sm-6">
-        <h3 class="patient-name">{{ patient.full_name or patient.first_name }} <a class="btn btn-default" href="{{ url_for('consent', patient_id=patient.id) }}">{{ _("Add New Patient") }}</a></h3>
-        <p class="patient-dob">{{ _("DOB") }}: {{patient.dob}}</p>
+          <h3 class="patient-name">{{ patient.full_name or patient.first_name }} <a class="btn btn-default" href="{{ url_for('screener.consent', patient_id=patient.id) }}">{{ _("Add New Patient") }}</a></h3>
+          <p class="patient-dob">{{ _("DOB") }}: {{patient.dob}}</p>
           <p class="patient-lastedit">
-          {{ _("Associated with") }}
+            {{ _("Associated with") }}
             {% for service in patient.services %}
               <a href="#">{{service.name}}</a>{% if not loop.last %}, {% endif %} 
             {% endfor %}
@@ -23,4 +23,4 @@
 
     <!-- /search -->
   </body>
-{% endblock %}    
+{% endblock %}

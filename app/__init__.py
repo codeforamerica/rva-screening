@@ -5,39 +5,34 @@ from flask.ext.login import LoginManager
 from flask.ext.bcrypt import Bcrypt
 from flask.ext.babel import Babel
 from werkzeug import secure_filename
-from config import Config
+from config import Config, ProdConfig
 
-app = Flask(__name__, static_url_path='')
+def create_app(config=ProdConfig):
+    app = Flask(__name__, static_url_path='')
+    app.config.from_object(config)
+    app.debug = app.config['DEBUG']
+    register_blueprints(app)
+    register_extensions(app)
+    register_context_processors(app)
+    return app
 
-app.config.from_object(Config)
-app.secret_key = app.config['SECRET_KEY']
-# unless we are in a production environment, turn on debug
-app.debug = app.config['SCREENER_ENVIRONMENT'] != 'prod'
+def register_blueprints(app):
+    from app.views import screener
+    app.register_blueprint(screener)
 
-db = SQLAlchemy(app)
-bcrypt = Bcrypt(app)
-babel = Babel(app)
+def register_extensions(app):
+    db.init_app(app)
+    bcrypt.init_app(app)
+    login_manager.init_app(app)
+    login_manager.login_view = 'login'
 
+def register_context_processors(app):
+    from app.context_processors import inject_static_url, inject_example_data
+    app.context_processor(inject_static_url)
+    app.context_processor(inject_example_data)
+
+db = SQLAlchemy()
+bcrypt = Bcrypt()
 login_manager = LoginManager()
-login_manager.init_app(app)
-login_manager.login_view = 'login'
-
-
-@app.context_processor
-def inject_template_constants():
-    """Adds variables to template context.
-    """
-    from app import example_data, template_constants
-    # get static url
-    static_url = os.environ.get('STATIC_URL', app.static_url_path)
-    if not static_url.endswith('/'):
-        static_url += '/'
-    # add static_url, CONSTANTS, & EXAMPLE
-    return dict(
-        static_url=static_url,
-        CONSTANTS=template_constants,
-        EXAMPLE=example_data
-    )
 
 from app import views, models
-
