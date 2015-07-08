@@ -1,38 +1,19 @@
 {% extends "base.html" %}
 {% block content %}
 
-    <h3>Which services would you like to check your eligibility for?</h3>
+<h3>{{ _("Which services would you like to check your eligibility for?") }}</h3>
 
     <form method="post">
     
-      <div class="checkbox">
-        <label>
-          <input type="checkbox" class="text" value="resource_centers" name="services" checked="true">
-          Resource centers
-        </label>
-      </div>
+      {% for service in services %}
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" class="text" value="{{service.id}}" name="services" checked="true">
+            {{service.name}}
+          </label>
+        </div>
+      {% endfor %}
 
-      <div class="checkbox">
-        <label>
-          <input type="checkbox" class="text" value="cross_over" name="services" checked="true">
-          Cross Over
-        </label>
-      </div>
-
-      <div class="checkbox">
-        <label>
-          <input type="checkbox" class="text" value="daily_planet" name="services" checked="true">
-          Daily Planet
-        </label>
-      </div>
-
-      <div class="checkbox">
-        <label>
-          <input type="checkbox" class="text" value="access_now" name="services" checked="true">
-          Access Now
-        </label>
-      </div>
-
-      <button class="btn btn-primary"  type="submit">Check eligibility</button>       
+      <button class="btn btn-primary"  type="submit">{{ _("Check eligibility") }}</button>       
     </form>
 {% endblock %}

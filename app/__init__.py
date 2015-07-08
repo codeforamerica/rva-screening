@@ -3,6 +3,7 @@ from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.login import LoginManager
 from flask.ext.bcrypt import Bcrypt
+from flask.ext.babel import Babel
 from werkzeug import secure_filename
 from config import Config, ProdConfig
 
@@ -30,10 +31,8 @@ def register_context_processors(app):
     app.context_processor(inject_static_url)
     app.context_processor(inject_example_data)
 
-
 db = SQLAlchemy()
 bcrypt = Bcrypt()
 login_manager = LoginManager()
-
 
 from app import views, models

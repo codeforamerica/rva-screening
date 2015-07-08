@@ -20,8 +20,8 @@
     <div class="read-only">{% if employer %}{{ employer.employee }}{% endif %}</div>
     <div class="hidden-input">
       <select class="hidden-input form-control" name="employer_employee">
-        <option class="hidden-input" value="Patient"{% if not employer or not employer.employee or employer.employee == 'Patient' %} selected{% endif %}>Patient</option>
-        <option class="hidden-input" value="Spouse"{% if employer and employer.employee == 'Spouse' %} selected{% endif %}>Spouse</option>
+        <option class="hidden-input" value="Patient"{% if not employer or not employer.employee or employer.employee == 'Patient' %} selected{% endif %}>{{ _("Patient") }}</option>
+        <option class="hidden-input" value="Spouse"{% if employer and employer.employee == 'Spouse' %} selected{% endif %}>{{ _("Spouse") }}</option>
       </select>
     </div>
   </td>

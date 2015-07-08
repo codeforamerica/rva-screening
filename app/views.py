@@ -1,7 +1,7 @@
 import time, os, base64, hmac, urllib
 from flask import Blueprint, render_template, request,flash, redirect, url_for, g, send_from_directory, session, current_app
 from app import db, bcrypt
-from app.models import Patient, PhoneNumber, Address, EmergencyContact, Insurance, HouseholdMember, IncomeSource, Employer, DocumentImage, Service, User
+from app.models import Patient, PhoneNumber, Address, EmergencyContact, Insurance, HouseholdMember, IncomeSource, Employer, DocumentImage, Service, User, PatientServicePermission
 import datetime
 from flask.ext.login import login_user, logout_user, current_user, login_required
 from app import login_manager
@@ -131,6 +131,11 @@ def patient_details(id):
     db.session.commit()
     return redirect(url_for('screener.patient_details', id=patient.id))
   else:
+    # If the user's service doesn't have permission to see this patient yet,
+    # redirect to consent page
+    if current_user.service_id not in [service.id for service in patient.services]:
+      return redirect(url_for('screener.consent', patient_id = patient.id))
+
     patient.total_annual_income = sum(
       source.annual_amount for source in patient.income_sources
     )
@@ -141,6 +146,12 @@ def patient_details(id):
     return render_template('patient_details.html', patient=patient)
 
 def many_to_one_patient_updates(patient, form, files):
+  # If it's a new patient, they should initially be visible only to the service
+  # that created the entry
+  if len(patient.services) == 0:
+    service = Service.query.get(current_user.service_id)
+    patient.services.append(service)
+
   # Phone numbers
   phone_number_rows = [
     {'id': id, 'phone_number': phone_number, 'description': description, 'primary_yn': primary_yn}
@@ -407,12 +418,13 @@ def get_image(filename):
 @login_required
 def new_prescreening(patient_id):
   if request.method == 'POST':
-    session['services'] = request.form.getlist('services')
+    session['service_ids'] = request.form.getlist('services')
     return redirect(url_for('screener.prescreening_basic'))
   if patient_id is not None:
     session.clear()
     session['patient_id'] = patient_id
-  return render_template('new_prescreening.html')
+  services = Service.query.all()
+  return render_template('new_prescreening.html', services=services)
 
 @screener.route('/prescreening_basic', methods=['POST', 'GET'])
 @login_required
@@ -430,101 +442,74 @@ def prescreening_basic():
     else:
       return render_template('prescreening_basic.html')
 
-def calculate_pre_screen_results():
-  fpl = calculate_fpl(session['household_size'], int(session['household_income']) * 12)
+def calculate_pre_screen_results(fpl):
   service_results = []
-  for service in session['services']:
-    if service == 'daily_planet':
-      sliding_scale = daily_planet_pre_screen(fpl)
-      service_results.append({
-        'name': 'Daily Planet',
-        'eligible': True,
-        'sliding_scale': sliding_scale,
-        'sliding_scale_fees': DAILY_PLANET_FEES[sliding_scale]
-      })
-    if service == 'resource_centers':
-      service_results.append({
-        'name': 'RCHD resource centers',
-        'eligible': True,
-        'sliding_scale': resource_center_pre_screen(fpl)
-      })
-    if service == 'cross_over':
-      service_results.append({
-        'name': 'CrossOver',
-        'eligible': cross_over_pre_screen(
-          fpl,
-          session['has_health_insurance'],
-          session['is_eligible_for_medicaid']
-        ),
-        'sliding_scale': 0,
-        'general_fees': CROSSOVER_FEES
-      })
-    if service == 'access_now':
-      service_results.append({
-        'name': 'Access Now',
-        'eligible': access_now_pre_screen(
-          fpl,
-          session['has_health_insurance'],
-          session['is_eligible_for_medicaid']
-        ),
-        'sliding_scale': 0
-      })
+  for service_id in session['service_ids']:
+    service = Service.query.get(service_id)
+
+    if (service.fpl_cutoff and fpl > service.fpl_cutoff):
+      eligible = False
+      fpl_eligible = False
+    elif ((service.uninsured_only_yn == 'Y' and session['has_health_insurance'] == 'yes') or
+      (service.medicaid_ineligible_only_yn == 'Y' and session['is_eligible_for_medicaid'] == 'yes')):
+      eligible = False
+      fpl_eligible = True
+    else:
+      eligible = True
+      fpl_eligible = True
+
+    sliding_scale_name = None
+    sliding_scale_range = None
+    sliding_scale_fees = None
+    for sliding_scale in service.sliding_scales:
+      if ((sliding_scale.fpl_low <= fpl < sliding_scale.fpl_high)
+        or (sliding_scale.fpl_low <= fpl and sliding_scale.fpl_high is None)):
+        sliding_scale_name = sliding_scale.scale_name
+        sliding_scale_fees = sliding_scale.sliding_scale_fees
+        if sliding_scale.fpl_high:
+          sliding_scale_range = 'between %d%% and %d%%' % (sliding_scale.fpl_low, sliding_scale.fpl_high)
+        else:
+          sliding_scale_range = 'over %d%%' % sliding_scale.fpl_low
+
+    service_results.append({
+      'name': service.name,
+      'eligible': eligible,
+      'fpl_cutoff': service.fpl_cutoff,
+      'fpl_eligible': fpl_eligible,
+      'uninsured_only_yn': service.uninsured_only_yn,
+      'medicaid_ineligible_only_yn': service.medicaid_ineligible_only_yn,
+      'residence_requirement_yn': service.residence_requirement_yn,
+      'time_in_area_requirement_yn': service.time_in_area_requirement_yn,
+      'sliding_scale': sliding_scale_name,
+      'sliding_scale_range': sliding_scale_range,
+      'sliding_scale_fees': sliding_scale_fees,
+      'id': service.id
+    })
+
   return service_results
-
-def daily_planet_pre_screen(fpl):
-  if fpl <= 100:
-    sliding_scale = 'Nominal'
-  elif 100 < fpl <= 125:
-    sliding_scale = 'Slide A'
-  elif 125 < fpl <= 150:
-    sliding_scale = 'Slide B'
-  elif 150 <fpl <= 200:
-    sliding_scale = 'Slide C'
-  else:
-    sliding_scale = 'Full fee'
-  return sliding_scale
-
-def resource_center_pre_screen(fpl):
-  if fpl <= 100:
-    sliding_scale = 'Nominal'
-  elif 100 < fpl <= 125:
-    sliding_scale = 'A'
-  elif 125 < fpl <= 150:
-    sliding_scale = 'B'
-  elif 150 <fpl <= 200:
-    sliding_scale = 'C'
-  else:
-    sliding_scale = 'Full fee'
-  return sliding_scale
-
-def cross_over_pre_screen(fpl, has_health_insurance, is_eligible_for_medicaid):
-  if fpl <= 200 and has_health_insurance == 'no' and is_eligible_for_medicaid == 'no':
-    return True
-  else:
-    return False
-
-def access_now_pre_screen(fpl, has_health_insurance, is_eligible_for_medicaid):
-  if fpl <= 200 and has_health_insurance == 'no' and is_eligible_for_medicaid == 'no':
-    return True
-  else:
-    return False
 
 @screener.route('/prescreening_results')
 @login_required
 def prescreening_results():
   if 'services' in session:
     services = session['services']
-  if 'patient_id' in session and session['patient_id']:
-    return render_template(
-      'prescreening_results.html',
-      services = calculate_pre_screen_results(),
-      patient_id = session['patient_id']
-    )
-  else:
-    return render_template(
-      'prescreening_results.html',
-      services = calculate_pre_screen_results()
-    )
+  # if 'patient_id' in session and session['patient_id']:
+  #   return render_template(
+  #     'prescreening_results.html',
+  #     services = calculate_pre_screen_results(),
+  #     patient_id = session['patient_id']
+  #   )
+  # else:
+  fpl = calculate_fpl(session['household_size'], int(session['household_income']) * 12)
+  return render_template(
+    'prescreening_results.html',
+    services = calculate_pre_screen_results(fpl),
+    household_size = session['household_size'],
+    household_income = int(session['household_income']) * 12,
+    fpl = fpl,
+    has_health_insurance = session['has_health_insurance'],
+    is_eligible_for_medicaid = session['is_eligible_for_medicaid']
+  )
 
 @screener.route('/save_prescreening_updates')
 @login_required
@@ -543,6 +528,7 @@ def save_prescreening_updates():
 @login_required
 def search_new():
   patients = Patient.query.all()
+  patients = Patient.query.filter(~Patient.services.any(Service.id == current_user.service_id))
   return render_template('search_new.html', patients=patients)
 
 # PRINT PATIENT DETAILS
@@ -563,14 +549,22 @@ def patient_print(patient_id):
 # to check if the user has permission to view the patient. When that
 # functionality is added we should delete the patient_details_new.html
 # template
-@screener.route('/consent/')
+@screener.route('/consent/<patient_id>')
 @login_required
-def consent():
-  # this is temporary!
-  patients = Patient.query.all()
-  first = patients[0]
-  print first.id
-  return render_template('consent.html', patient=first)
+def consent(patient_id):
+  patient = Patient.query.get(patient_id)
+  return render_template('consent.html', patient=patient)
+
+@screener.route('/consent_given/<patient_id>')
+@login_required
+def consent_given(patient_id):
+  service_permission = PatientServicePermission(
+    patient_id = patient_id,
+    service_id = current_user.service_id
+  )
+  db.session.add(service_permission)
+  db.session.commit()
+  return redirect(url_for('screener.patient_details', id = patient_id))
 
 # TEMPLATE PROTOTYPING
 # This is a dev-only route for prototyping fragments of other templates without touching
@@ -594,9 +588,24 @@ def patient_share(patient_id):
   patient = Patient.query.get(patient_id)
   return render_template('patient_share.html', patient=patient)
 
-@screener.route('/' )
+# USER PROFILE
+@screener.route('/user/<user_id>')
+@login_required
+def user(user_id):
+  user = User.query.get(user_id)
+  return render_template('user_profile.html', user=user)
+
+# SERVICE PROFILE
+@screener.route('/service/<service_id>')
+@login_required
+def service(service_id):
+  service = Service.query.get(service_id)
+  return render_template('service_profile.html', service=service)
+
+@screener.route('/')
 @login_required
 def index():
   session.clear()
-  patients = Patient.query.all()
+  #patients = Patient.query.all()
+  patients = Patient.query.filter(Patient.services.any(Service.id == current_user.service_id))
   return render_template('index.html', patients=patients)

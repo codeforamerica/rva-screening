@@ -13,13 +13,47 @@ body {
 .push-right { /* used mostly with icons */
   margin-right:.5em;
 }
+.push-left {
+  margin-left:1em;
+}
+.pull-right-desktop {
+  @media screen and (min-width: 768px) {
+    float:right;
+  }
+}
+
+/* STYLE MIXINS
+ *
+ *
+ */
+@mixin block {
+  background:white;
+  padding:1em;
+  margin-bottom:10px;
+  position:relative;
+}
 
 
 /* MENU
  *
  *
  */
-.navbar {}
+.navbar {
+  border:none;
+  .nav {
+    box-sizing:border-box;  
+    -moz-box-sizing:border-box; 
+    -webkit-box-sizing:border-box;
+  }
+  li {
+    box-sizing:border-box;  
+    -moz-box-sizing:border-box; 
+    -webkit-box-sizing:border-box;
+    &.current {
+      background-color:#353535;
+    }
+  }
+}
 .nav a {}
 
 .patient-nav {
@@ -167,11 +201,132 @@ body {
   }
 }
 
+.patient-profile {
+  margin-bottom:5px;
+  @media screen and (max-width: 992px) {
+    h2 {
+      font-size:1.5em;
+    }
+    .fpl {
+      font-size:1em;
+    }
+    .patient-image {
+      float:left;
+      margin-right:5px;
+      max-width:100px;
+    }
+  }
+}
+
 
 /* PRE-SCREENING
  *
  *
  */
+@mixin title {
+  text-transform:uppercase;
+  letter-spacing:.1em;
+}
+.prescreen-title {
+  text-transform: uppercase;
+  margin-top:2em;
+}
+.prescreen-user-info {
+  margin-bottom:1em;
+  background:white;
+  padding:1em;
+  
+  .prescreen-user-info-item {
+    text-align:center;
+
+    @media screen and (min-width: 768px) {
+      &.first {
+        text-align:right;
+        border-right:1px solid #c0c0c0;
+      }
+    }
+    &.first {
+      h2 {
+        color:#0074D9;
+      }
+    }
+    
+    p {
+      @include title;
+      font-size:.8em;
+      color:#c0c0c0;
+      margin:0;
+      padding:0;
+    }
+
+    h2 {
+      color:#333;
+      text-transform:uppercase;
+      font-weight:900;
+      font-size:1.3em;
+      letter-spacing:.1em;
+      margin:0;
+      padding:0;
+    }
+  }
+
+  .prescreen-fpl {
+    border:1px solid #c0c0c0;
+    font-size:1.5em;
+    font-weight:300;
+    padding:1em;
+    strong {
+      // color:#333;
+    }
+  }
+}
+
+.prescreen-service {
+  background:white;
+  margin-bottom:1em;
+  
+  .prescreen-service-title {
+    padding:.5em;
+    font-size:1.5em;
+    font-weight:300;
+    border-bottom:1px solid #c0c0c0;
+  }
+
+  &.eligible {
+    border-left:5px solid #2ECC40;
+    .prescreen-service-title {
+      color:#2ECC40;
+    }
+  }
+
+  &.not-eligible {
+    border-left:5px solid #AAAAAA;
+    .prescreen-service-title {
+      color:#AAAAAA;
+    }
+  }
+
+  .prescreen-service-info {
+    padding:1em;
+  }
+
+  .prescreen-service-items {
+    .item {
+      padding:.6em 1em;
+      font-size:.9em;
+      &:nth-child(2n-1) {
+        background-color:#f6f6f6;
+      }
+      @include title;
+      .item-price {
+        font-size:1.2em;
+        color:#3D9970;
+      }
+    }
+  }
+}
+
+
 .pre-screeners {}
 .pre-screener-option {
   padding:1.2em;

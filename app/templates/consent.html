@@ -2,10 +2,10 @@
 {% block content %}
 
   <div class="panel panel-primary">
-    <div class="panel-heading"><h4>Almost there!</h4></div>
+    <div class="panel-heading"><h4>{{ _("Almost there!") }}</h4></div>
     <div class="panel-body">
-      <p>In order to view this patient's information we need to make sure you have consent from them.</p>
-      <a class="btn btn-success" href="{{ url_for('screener.patient_details', id=patient.id) }}" id="consent-button"><span class="glyphicon glyphicon-ok-circle"></span> CONSENT GIVEN</a>
+      <p>{{ _("In order to view this patient's information we need to make sure you have consent from them.") }}</p>
+      <a class="btn btn-success" href="{{ url_for('screener.consent_given', patient_id=patient.id) }}" id="consent-button"><span class="glyphicon glyphicon-ok-circle"></span> {{_("CONSENT GIVEN") }}</a>
     </div>
   </div>
 

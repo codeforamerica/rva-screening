@@ -1,0 +1,18 @@
+<div class="patient-profile col-md-3 clearfix">
+
+  <img class="patient-image img-responsive" src="http://wanna.work/images/default-avatar.jpg">
+  
+  <h2>{{ patient.full_name or patient.first_name }}</h2>
+  {% if patient.dob %}<p>{{ _("DOB") }}: {{ patient.dob }}</p>{% endif %}
+
+  {% if patient.fpl_percentage %}
+  <div class="fpl form-group">
+    <label class="fpl-label">
+      {{ _("Estimated FPL") }}:</label>
+    <span class="fpl-figure">
+      {{ '%0.2f'| format(patient.fpl_percentage|float) }}</span><span class="fpl-percent-symbol">%
+    </span>
+  </div>
+  {% endif %}
+
+</div>

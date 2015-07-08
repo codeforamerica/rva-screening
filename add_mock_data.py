@@ -138,10 +138,12 @@ def save_lots_of_patients_and_things(db, num_patients=50):
                 db.session.add(obj)
         db.session.commit()
 
-
-if __name__ == '__main__':
+def run():
     with app.app_context():
         db.metadata.create_all(db.engine)
         save_lots_of_patients_and_things(db)
+
+if __name__ == '__main__':
+    run()
 
 

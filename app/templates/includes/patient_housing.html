@@ -1,10 +1,10 @@
 
   <div class="form-group">
-    <label for="housing_status">Living situation</label>
+    <label for="housing_status">{{ _("Living situation") }}</label>
     <select class="form-control has_other" name="housing_status">
       {% with %}
       {% set default_choice=("", "") %}
-      {% set choices=[("REN", "Renting"), ("OWN", "Owns home (self or family)"), ("SOM", "Lives with someone"), ("TEM", "Lives temporarily with family or friends"), ("TRA", "Is in Transitional housing for the homeless"), ("EMR", "Emergency Shelter"), ("STR", "On the street (car, encampment, abandoned building)"), ("other", "Other")] %}
+      {% set choices=CONSTANTS.HOUSING_STATUS_CHOICES %}
       {% set test_value=patient.housing_status %}
       {% include "includes/choices.html" %}
       {% endwith %}
@@ -12,7 +12,7 @@
   </div>
 
   <div class="form-group {% if not patient.housing_status == "Other" %} hidden{% endif %}">
-    <label for="housing_status_other">Please specify other living situation</label>
+    <label for="housing_status_other">{{ _("Please specify other living situation") }}</label>
     <input type="text" class="form-control" name="housing_status_other" id="housing_status_other">
   </div>
 

@@ -3,24 +3,25 @@
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-        <span class="sr-only">Toggle navigation</span>
+        <span class="sr-only">{{ _("Toggle navigation") }}</span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">Screener</a>
+      <a class="navbar-brand" href="/">Screener</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="{{ url_for('screener.new_prescreening') }}"><span class="glyphicon glyphicon-pencil push-right" aria-hidden="true"></span>Pre-Screener</a></li>
+        <li class="{% if request.path == url_for('screener.new_prescreening') %}current{% endif %}"><a href="{{ url_for('screener.new_prescreening') }}"><span class="glyphicon glyphicon-pencil push-right" aria-hidden="true"></span>{{ _("Pre-Screener") }}</a></li>
         {% if g.user.is_authenticated() %}
-        <li><a href="{{ url_for('screener.index') }}"><span class="glyphicon glyphicon-search push-right" aria-hidden="true"></span>Browse Patients</a></li>
-        <li><a href="{{ url_for('screener.new_patient') }}"><span class="glyphicon glyphicon-plus push-right" aria-hidden="true"></span>Add Patient</a></li>
-        <li><a href="{{ url_for('screener.logout') }}"><span class="glyphicon glyphicon-log-out push-right" aria-hidden="true"></span>Logout</a></li>
+          <li class="{% if request.path == url_for('screener.index') %}current{% endif %}"><a href="{{ url_for('screener.index') }}"><span class="glyphicon glyphicon-eye-open push-right" aria-hidden="true"></span>{{ _("View Your Patients") }}</a></li>
+          <li class="{% if request.path == url_for('screener.search_new') %}current{% endif %}"><a href="{{ url_for('screener.search_new') }}"><span class="glyphicon glyphicon-globe push-right" aria-hidden="true"></span>{{ _("Find Patient in Network") }}</a></li>
+          <li class="{% if request.path == url_for('screener.new_patient') %}current{% endif %}"><a href="{{ url_for('screener.new_patient') }}"><span class="glyphicon glyphicon-plus push-right" aria-hidden="true"></span>{{ _("Create Patient") }}</a></li>
+          <li><a href="{{ url_for('screener.logout') }}"><span class="glyphicon glyphicon-log-out push-right" aria-hidden="true"></span>{{ _("Logout") }}</a></li>
         {% else %}
-        <li><a href="{{ url_for('screener.login') }}"><span class="glyphicon glyphicon-log-in push-right" aria-hidden="true"></span>Login</a></li>
+          <li><a href="{{ url_for('screener.login') }}"><span class="glyphicon glyphicon-log-in push-right" aria-hidden="true"></span>{{ _("Login") }}</a></li>
         {% endif %}
 
       </ul>

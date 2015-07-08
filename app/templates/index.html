@@ -1,15 +1,20 @@
 {% extends "base.html" %}
 {% block content %}
-  <body>
 
-    <a href="{{ url_for('screener.search_new') }}" class="btn btn-success right"><span class="glyphicon glyphicon-eye-open"></span> Search new patients</a>
+<!--     <a href="{{ url_for('search_new') }}" class="btn btn-success right"><span class="glyphicon glyphicon-eye-open"></span> Search new patients</a> -->
+
+    <!-- <div class="panel panel-default">
+      <div class="panel-body">
+        <strong>Looking for a new patient?</strong> You can <a href="{{ url_for('screener.search_new') }}">search for patients</a> that already exist in the network. If they don't have their own profile, you can <a href="{{ url_for('screener.new_patient') }}">create a new patient</a>.
+      </div>
+    </div> -->
 
     <h1>RVA Screener</h1>
 
     <!-- search -->
     <div id="patient-search">
       <div class="form-group">
-        <input type="text" class="search form-control" placeholder="Search your patients..."/>
+        <input type="text" class="search form-control" placeholder="{{ _("Search your patients...") }}"/>
       </div>
 
       <ul class="list">
@@ -25,13 +30,13 @@
         <li class="patient-list-item clearfix col-sm-6 {% if loop.index < 3 %}new{% endif %} {% if loop.index == 3 %}recent{% endif %}">
           <h3 class="patient-name">{{ patient.full_name or patient.first_name }}</h3>
           <p class="patient-dob">DOB: {{ patient.dob }}</p>
-          <div class="completion-wrapper"><div class="completion high" style="width:{{ loop.index }}9%"></div></div><div class="completion-percentage">{{ loop.index }}9% completion</div>
-          <p class="patient-lastedit left">Last edited by: <a href="#">____</a> at <a href="#">Richmond Resource Center</a></p>
-          <a class="btn btn-default btn-sm right" href="{{ url_for('screener.patient_details', id=patient.id) }}">Details <span class="glyphicon glyphicon-chevron-right"></span></a>
+          <div class="completion-wrapper"><div class="completion high" style="width:{{ loop.index }}9%"></div></div><div class="completion-percentage">{{ loop.index }}9% {{ _("completion") }}</div>
+          <p class="patient-lastedit left">{{ _("Last edited by") }}: <a href="#">____</a> {{ _("at") }} <a href="#">Richmond Resource Center</a></p>
+          <a class="btn btn-default btn-sm right" href="{{ url_for('screener.patient_details', id=patient.id) }}">{{ _("Details") }} <span class="glyphicon glyphicon-chevron-right"></span></a>
         </li>
         {% endfor %}
       </ul>
     <!-- /search -->
+    
+{% endblock %}    
 
-  </body>
-{% endblock %}
