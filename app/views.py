@@ -1,5 +1,15 @@
 import datetime, time, os, base64, hmac, urllib
-from flask import Blueprint, render_template, request, flash, redirect, url_for, g, send_from_directory, session, current_app
+from flask import (
+  Blueprint,
+  render_template,
+  request,
+  redirect,
+  url_for,
+  g,
+  send_from_directory,
+  session,
+  current_app
+)
 from flask.ext.login import login_user, logout_user, current_user, login_required
 from app import db, bcrypt, login_manager
 from app.models import *
@@ -10,46 +20,6 @@ from sqlalchemy import func, and_, or_
 from sqlalchemy.orm import subqueryload
 
 screener = Blueprint('screener', __name__, url_prefix='')
-
-DAILY_PLANET_FEES = {
-  'Nominal': (
-    ('Dental services', 30),
-    ('Medical services', 10),
-    ('Mental health services, initial visit of calendar month', 10),
-    ('Mental health services, other visits', 5)
-  ),
-  'Slide A': (
-    ('Dental services', '45% of full fee'),
-    ('Medical services', 15),
-    ('Mental health services, initial visit of calendar month', 15),
-    ('Mental health services, second visit of calendar month', 10),
-    ('Mental health services, other visits', 5)
-  ),
-  'Slide B': (
-    ('Dental services', '55% of full fee'),
-    ('Medical services', 20),
-    ('Mental health services, initial visit of calendar month', 20),
-    ('Mental health services, second visit of calendar month', 15),
-    ('Mental health services, other visits', 5)
-  ),
-  'Slide C': (
-    ('Dental services', '65% of full fee'),
-    ('Medical services', 30),
-    ('Mental health services, initial visit of calendar month', 30),
-    ('Mental health services, second visit of calendar month', 25),
-    ('Mental health services, other visits', 5)
-  ),
-  'Full fee': ()
-}
-CROSSOVER_FEES = (
-  ('Medications', 4),
-  ('Nurse/Labs', 10),
-  ('Vaccine clinic', 10),
-  ('Medical visit/mental health', 15),
-  ('Eye', 15),
-  ('Same day appointments', 20),
-  ('Dental', 25)
-)
 
 @screener.route("/login", methods=["GET", "POST"])
 def login():
@@ -62,6 +32,8 @@ def login():
         db.session.commit()
         login_user(user, remember=True)
         return redirect(url_for('screener.index'))
+      else:
+        return redirect(url_for('screener.login'))
   else:
     return render_template("login.html")
 
@@ -73,7 +45,7 @@ def logout():
   db.session.add(user)
   db.session.commit()
   logout_user()
-  return redirect(url_for('screener.index'))
+  return redirect(url_for('screener.login'))
 
 @login_manager.user_loader
 def load_user(email):
@@ -634,6 +606,8 @@ def patient_share(patient_id):
 @screener.route('/user/<user_id>')
 @login_required
 def user(user_id):
+  print "USER ID"
+  print user_id
   user = AppUser.query.get(user_id)
   return render_template('user_profile.html', user=user)
 
@@ -666,6 +640,5 @@ def translate_object(obj, language_code):
 @login_required
 def index():
   session.clear()
-  #patients = Patient.query.all()
   patients = Patient.query.filter(Patient.services.any(Service.id == current_user.service_id))
   return render_template('index.html', patients=patients)

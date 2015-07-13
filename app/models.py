@@ -261,11 +261,11 @@ class PatientServicePermission(BasicTable, db.Model):
 @event.listens_for(BasicTable, 'before_insert', propagate=True)
 def before_insert(mapper, connection, instance):
   instance.created = datetime.datetime.utcnow()
-  instance.created_by_id = current_user.id
+  instance.created_by_id = current_user.id if hasattr(current_user, 'id') else None
 
 @event.listens_for(BasicTable, 'before_update', propagate=True)
 def before_update(mapper, connection, instance):
   instance.last_modified = datetime.datetime.utcnow()
-  instance.last_modified_by_id = current_user.id
+  instance.last_modified_by_id = current_user.id if hasattr(current_user, 'id') else None
 
 

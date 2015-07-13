@@ -34,3 +34,4 @@ class TestConfig(Config):
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL',
             'postgresql://localhost/screener_test')
 
+
