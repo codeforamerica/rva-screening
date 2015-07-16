@@ -1,27 +1,14 @@
 <div class="patient_gender_trans_group">
 
   <div class="form-group gender">
-    <label for="gender">{{ _("Gender") }}</label>
-    <select class="form-control" name="gender">
-      {% with %}
-      {% set default_choice=("", _("No Answer")) %}
-      {% set choices=CONSTANTS.GENDER_CHOICES %}
-      {% set test_value=patient.gender %}
-      {% include "includes/choices.html" %}
-      {% endwith %}
-    </select>
+    {{ form.gender.label }}
+    {{ form.gender(class="form-control") }}
   </div>
 
   <div class="form-group transgender">
-    <label for="transgender">{{ _("Transgender") }}</label>
-    <select class="form-control" name="transgender">
-      {% with %}
-      {% set default_choice=("", "") %}
-      {% set choices=CONSTANTS.TRANSGENDER_CHOICES %}
-      {% set test_value=patient.transgender %}
-      {% include "includes/choices.html" %}
-      {% endwith %}
-    </select>
+    {{ form.transgender.label }}
+    {{ form.transgender(class="form-control") }}
   </div>
+
 </div>
 

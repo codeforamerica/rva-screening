@@ -1,16 +1,9 @@
   <div class="form-group language">
-    <label for="language">{{ _("Language") }}</label>
-    <select class="form-control has_other" name="languages">
-      {% with  %}
-      {% set default_choice=("", "") %}
-      {% set choices=CONSTANTS.LANGUAGE_CHOICES %}
-      {% set test_value=patient.languages %}
-      {% include "includes/choices.html" %}
-      {% endwith %}
-    </select>
+    {{ form.languages.label }}
+    {{ form.languages(rows=5, class="form-control has_other") }}
   </div>
 
-  <div class="form-group {% if not patient.language == "Other" %} hidden{% endif %}">
-    <label for="language_other">{{ _("Please specify other language") }}</label>
-    <input type="text" class="form-control" name="language_other" id="language_other">
+  <div class="form-group {% if form.languages.data and ('Other' in form.languages.data) %} hidden {% endif %}">
+    {{ form.languages_other.label }}
+    {{ form.languages_other(class="form-control") }}
   </div>

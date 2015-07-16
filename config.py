@@ -31,6 +31,7 @@ class DevConfig(Config):
 class TestConfig(Config):
     DEBUG = True
     TESTING = True
+    WTF_CSRF_ENABLED = False
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL',
             'postgresql://localhost/screener_test')
 

@@ -1,8 +1,4 @@
-  <div class="form-group">
-    <label for="is_veteran">{{ _("Are you a <strong>veteran</strong> of the United States?") }}</label>
-    <select class="form-control" name="veteran_yn">
-      {% with attribute=patient.veteran_yn %}
-      {% include "includes/select_yn.html" %}
-      {% endwith %}
-    </select>
-  </div>
+<div class="form-group">
+	{{ form.veteran_yn.label }}
+	{{ form.veteran_yn(class="form-control") }}
+</div>

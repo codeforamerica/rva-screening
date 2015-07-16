@@ -1,21 +1,25 @@
-  {% include "includes/patient_name.html" %}
+{% include "includes/patient_name.html" %}
 
-  <div class="dob_ssn_group">
-      <div class="form-group dob">
-        <label for="dob">{{ _("Date of birth") }}</label>
-        <input type="date" class="form-control"  
-          max="2200-01-01" 
-          min="1899-01-01" 
-          name="dob" 
-          id="dob"
-          {% if patient.dob %} value="{{patient.dob}}"{% endif %}>
-      </div>
-
-      <div class="form-group ssn">
-        <label for="ssn">{{ _("SSN") }}</label>
-        <input type="text" class="form-control" name="ssn" id="ssn" placeholder="555-55-5555" pattern="\d{3}-?\d{2}-?\d{4}"{% if patient.ssn %} value="{{patient.ssn}}"{% endif %}>
-      </div>
+<div class="dob_ssn_group">
+  <div class="form-group dob">
+    {{ form.dob.label }}
+    {{ form.dob(
+      class="form-control",
+      type="date",
+      max="2200-01-01",
+      min="1899-01-01"
+    ) }}
   </div>
+
+  <div class="form-group ssn">
+    {{ form.ssn.label }}
+    {{ form.ssn(
+      class="form-control",
+      placeholder="555-55-5555",
+      pattern="\d{3}-?\d{2}-?\d{4}"
+    ) }}
+  </div>
+</div>
 
 
 

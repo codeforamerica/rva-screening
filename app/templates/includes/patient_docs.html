@@ -11,23 +11,19 @@
       </tr>
     </thead>
 
-    {% if patient.document_images %}
-
-    {% for doc in patient.document_images %}
+    {% for entry in form.document_images %}
       <tr class="patient_doc">
         <td class="patient_doc_thumbnail">
-          <input class="hidden" value="{{doc.id}}" name="document_image_id">
-    <!--    <img src="{{doc.thumbnail_url}}" alt="preview of {{doc.title}}"> -->
-    <img src="https://github.com/codeforamerica/rva-screening/blob/templating/images/w2.jpg?raw=true" alt="{{ _("preview of %(title)s", title=doc.title ) }}">
+          <img src="https://github.com/codeforamerica/rva-screening/blob/templating/images/w2.jpg?raw=true" alt="{{ _("preview of %(description)s", description=entry.file_description.data) }}">
         </td>
-        <td class="patient_doc_title">
-          <a href="{{ url_for('screener.document_image', image_id=doc.id) }}" class="read-only">
-            {{doc.description}}
+        <td class="patient_doc_description">
+          <a href="{{ url_for('screener.document_image', image_id=entry['id'].data) }}" class="read-only">
+            {{entry.file_description.data}}
           </a>
-          <input type="text" class="hidden-input" name="document_image_description" value="{{doc.description}}">
+          {{ entry.file_description(class="hidden-input") }}
         </td>
         <td class="patient_doc_uploaded">
-          {{doc.created | default("May 10, 2015")}} by {{ doc.createdby | default("jsmith")}}
+          {{ entry.created.data.strftime('%m-%d-%Y %H:%M:%S') }} by <a href="{{ url_for('screener.user', user_id=entry.created_by.data.id) }}">{{ entry.created_by.data.full_name }}</a>
         </td>
         <td class="patient_doc_edit">
           <span
@@ -46,28 +42,25 @@
       </tr>
     {% endfor %}
 
-    {% endif %}
-
-    <tr id="document_image_input">
-      <td>
-        <input type="file" name="document_image_file">
-      </td>
-      <td>
-        <input type="text" id ="document_image_description" name="document_image_description">
-      </td>
-    </tr>
-
+    {% with %}
+      {% set entry = form.document_images.append_entry() %}
+      <tr class="patient_doc">
+        <td>
+          {{ entry.file_name }}
+        </td>
+        <td>
+          {{ entry.file_description }}
+        </td>
+      </tr>
+    {% endwith %}
   </table>
-
 </div>
-
-
 
 <div class="form-group add_patient_doc">
   <button
     type="button"
     class="btn btn-primary"
-    onclick="addNewInputRow($('#document_image_table'), $('#document_image_input'))"
+    onclick="addNewInputRow($('#document_image_table'), $('.patient_doc').last())"
   >
     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
     {{ _("Add a document") }}

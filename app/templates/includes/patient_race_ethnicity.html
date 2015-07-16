@@ -1,32 +1,18 @@
 <div class="patient_race_ethnicity_group">
 
   <div class="form-group race">
-    <label for="race">{{ _("Race") }}</label>
-    <select class="form-control has_other" name="race">
-      {% with %}
-      {% set default_choice=("", "") %}
-      {% set choices=CONSTANTS.RACE_CHOICES %}
-      {% set test_value=patient.race %}
-      {% include "includes/choices.html" %}
-      {% endwith %}
-    </select>
+    {{ form.race.label }}
+    {{ form.race(class="form-control has_other") }}
   </div>
 
-  <div class="form-group {% if not patient.race == "Other" %} hidden{% endif %}">
-    <label for="race_other">{{ _("Please specify other race") }}</label>
-    <input type="text" class="form-control" name="race_other" id="race_other">
+  <div class="form-group {% if form.race.data != "Other" %} hidden {% endif %}">
+    {{ form.race_other.label }}
+    {{ form.race_other(class="form-control") }}
   </div>
 
   <div class="form-group ethnicity">
-    <label for="ethnicity">{{ _("Ethnicity") }}</label>
-    <select class="form-control" name="ethnicity">
-      {% with  %}
-      {% set default_choice=("", "") %}
-      {% set choices=CONSTANTS.ETHNICITY_CHOICES %}
-      {% set test_value=patient.ethnicity %}
-      {% include "includes/choices.html" %}
-      {% endwith %}
-    </select>
+    {{ form.ethnicity.label }}
+    {{ form.ethnicity(class="form-control") }}
   </div>
 
 </div>

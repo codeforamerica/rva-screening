@@ -9,6 +9,7 @@
         {% include "includes/patient_nav.html" %}
 
         <table class="table">
+
           <thead>
             <tr>
               <th>Date</th>
@@ -34,10 +35,7 @@
               {% if entry.action == 'I' %}
                 {% if entry.table_name == 'patient_service_permission' %}
                   <td>Added access for 
-                    <a href="{{ url_for(
-                      'screener.service',
-                      service_id=entry.row_data['service_id']
-                    ) }}">
+                    <a href="{{ url_for('screener.service', service_id=entry.row_data['service_id']) }}">
                       {{ services[entry.row_data['service_id']|int].name}}
                     </a>
                   </td>

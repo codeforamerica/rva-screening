@@ -15,71 +15,71 @@
 
     <tr class="hh_member patient">
       <td class="hh_member_number">1</td>
-      <td class="hh_member_full_name">{{patient.full_name or patient.first_name or 'Patient'}}</td>
-      <td class="hh_member_dob">{{patient.dob or ''}}</td>
-      <td class="hh_member_ssn">{{patient.ssn or ''}}</td>
+      <td class="hh_member_full_name">{{ form.full_name.data or 'Patient' }}</td>
+      <td class="hh_member_dob">{{ form.dob.data or '' }}</td>
+      <td class="hh_member_ssn">{{ form.ssn.data or '' }}</td>
       <td class="hh_member_relation">Self</td>
       <td class="hh_member_edit">
       </td>
     </tr>
 
-    {% if patient.household_members %}
-      {% for member in patient.household_members %}
-        <tr class="hh_member">
-          <td class="hh_member_number">
-            <input class="hidden" value="{{member.id}}" name="household_member_id">
-            {{ loop.index + 1}}
-          </td>
-          <td class="hh_member_full_name">
-            <div class="read-only">{{member.full_name}}</div>
-            <input class="form-control hidden-input" type="text" name="household_member_full_name" value="{{member.full_name}}"/>
-          </td>
-          <td class="hh_member_dob">
-            <div class="read-only">{{member.dob}}</div>
-            <input class="form-control hidden-input" type="date" name="household_member_dob" value="{{member.dob}}"/>
-          </td>
-          <td class="hh_member_ssn">
-            <div class="read-only">{{member.ssn}}</div>
-            <input class="form-control hidden-input" type="text" name="household_member_ssn" value="{{member.ssn}}"/>
-          </td>
-          <td class="hh_member_relation">
-            <div class="read-only">{{member.relationship}}</div>
-            <input class="form-control hidden-input" type="text" name="household_member_relation" value="{{member.relationship}}"/>
-          </td>
-          <td class="hh_member_edit">
-            <span
-              class="glyphicon glyphicon-pencil"
-              aria-hidden="true"
-              onclick="showHiddenFields()"
-            ></span>
-          </td>
-          <td class="hh_member_edit">
-            <span
-              class="glyphicon glyphicon-remove"
-              aria-hidden="true"
-              onclick="hideRow()"
-            ></span>
-          </td>
-        </tr>
-      {% endfor %}
-    {% endif %}
+    {% for entry in form.household_members %}
+      <tr class="hh_member">
+        <td class="hh_member_number">
+          {{ loop.index + 1}}
+        </td>
+        <td class="hh_member_full_name">
+          <div class="read-only">{{ entry.full_name.data }}</div>
+          {{ entry.full_name(class="form-control hidden-input") }}
+        </td>
+        <td class="hh_member_dob">
+          <div class="read-only">{{ entry.dob.data }}</div>
+          {{ entry.dob(type="date", class="form-control hidden-input") }}
+        </td>
+        <td class="hh_member_ssn">
+          <div class="read-only">{{ entry.ssn.data }}</div>
+          {{ entry.ssn(class="form-control hidden-input") }}
+        </td>
+        <td class="hh_member_relationship">
+          <div class="read-only">{{ entry.relationship.data }}</div>
+          {{ entry.relationship(class="form-control hidden-input") }}
+        </td>
+        <td class="hh_member_edit">
+          <span
+            class="glyphicon glyphicon-pencil"
+            aria-hidden="true"
+            onclick="showHiddenFields()"
+          ></span>
+        </td>
+        <td class="hh_member_edit">
+          <span
+            class="glyphicon glyphicon-remove"
+            aria-hidden="true"
+            onclick="hideRow()"
+          ></span>
+        </td>
+      </tr>
+    {% endfor %}
 
-    <tr class="hh_member" id="household_member_input">
-      <td class="hh_member_number"></td>
-      <td class="hh_member_full_name">
-        <input class="form-control" type="text" name="household_member_full_name"/>
-      </td>
-      <td class="hh_member_age">
-        <input class="form-control" type="date" name="household_member_dob"/>
-      </td>
-      <td class="hh_member_ssn">
-        <input class="form-control" type="text" name="household_member_ssn"/>
-      </td>
-      <td class="hh_member_relation">
-        <input class="form-control" type="text" name="household_member_relation"/>
-      </td>
-      <td class="hh_member_edit"></td>
-    </tr>
+    {% with %}
+      {% set entry = form.household_members.append_entry() %}
+      <tr class="hh_member" id="household_member_input">
+        <td class="hh_member_number"></td>
+        <td class="hh_member_full_name">
+          {{ entry.full_name(class="form-control") }}
+        </td>
+        <td class="hh_member_dob">
+          {{ entry.dob(type="date", class="form-control") }}
+        </td>
+        <td class="hh_member_ssn">
+          {{ entry.ssn(class="form-control") }}
+        </td>
+        <td class="hh_member_relationship">
+          {{ entry.relationship(class="form-control") }}
+        </td>
+        <td class="hh_member_edit"></td>
+      </tr>
+    {% endwith %}
 
   </table>
 </div>
@@ -88,7 +88,7 @@
   <button
     type="button"
     class="btn btn-primary"
-    onclick="addNewInputRow($('#household_member_table'), $('#household_member_input'))"
+    onclick="addNewInputRow($('#household_member_table'), $('.hh_member').last())"
   >
     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
     {{ _("Add a person") }}

@@ -1,3 +1,0 @@
-{% if default_choice %}<option class='default-choice' value="{{default_choice.0}}"{% if test_value == default_choice.0 or not test_value %} selected{% endif %}>{{default_choice.1}}</option>{% endif %}
-{% for key, value in choices %}<option value="{{key}}"{% if test_value == key %} selected{% endif %}>{{value}}</option>
-{% endfor %}

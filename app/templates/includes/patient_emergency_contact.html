@@ -11,51 +11,50 @@
       </tr>
     </thead>
 
-    {% if patient.emergency_contacts %}
-      {% for contact in patient.emergency_contacts %}
-        <tr class="emergency_contact">
-          <input class="hidden" value="{{contact.id}}" name="emergency_contact_id"/>
-          <td>
-            <div class="read-only">{{contact.name}}</div>
-            <input type="text" class="form-control hidden-input" name="emergency_contact_name" value="{{contact.name}}"/>
-          </td>
-          <td>
-            <div class="read-only">{{contact.phone_number}}</div>
-            <input type="tel" class="form-control hidden-input" name="emergency_contact_phone_number" value="{{contact.phone_number}}"/>
-          </td>
-          <td>
-            <div class="read-only">{{contact.relationship}}</div>
-            <input class="form-control hidden-input" type="text" name="emergency_contact_relationship" value="{{contact.relationship}}"/>
-          </td>
-          <td class="emergency_contact_edit">
-            <span
-              class="glyphicon glyphicon-pencil"
-              aria-hidden="true"
-              onclick="showHiddenFields()"
-            ></span>
-          </td>
-          <td class="emergency_contact_delete">
-            <span
-              class="glyphicon glyphicon-remove"
-              aria-hidden="true"
-              onclick="hideRow()"
-            ></span>
-        </tr>
-      {% endfor %}
-    {% endif %}
+    {% for entry in form.emergency_contacts %}
+      <tr class="emergency_contact">
+        <td>
+          <div class="read-only">{{ entry.full_name.data }}</div>
+          {{ entry.full_name(class="form-control hidden-input") }}
+        </td>
+        <td>
+          <div class="read-only">{{ entry.phone_number.data }}</div>
+          {{ entry.phone_number(type="tel", class="form-control hidden-input")}}
+        </td>
+        <td>
+          <div class="read-only">{{ entry.relationship.data }}</div>
+          {{ entry.relationship(class="form-control hidden-input") }}
+        </td>
+        <td class="emergency_contact_edit">
+          <span
+            class="glyphicon glyphicon-pencil"
+            aria-hidden="true"
+            onclick="showHiddenFields()"
+          ></span>
+        </td>
+        <td class="emergency_contact_delete">
+          <span
+            class="glyphicon glyphicon-remove"
+            aria-hidden="true"
+            onclick="hideRow()"
+          ></span>
+      </tr>
+    {% endfor %}
 
-    <tr class="emergency_contact" id="emergency_contact_input">
-      <td>
-        <input type="text" class="form-control" name="emergency_contact_name"/>
-      </td>
-      <td>
-        <input type="tel" class="form-control" name="emergency_contact_phone_number"/>
-      </td>
-      <td>
-        <input class="form-control" type="text" name="emergency_contact_relationship"/>
-      </td>
-      <td></td>
-    </tr>
+    {% with %}
+      {% set entry = form.emergency_contacts.append_entry() %}
+      <tr class="emergency_contact" id="emergency_contact_input">
+        <td>
+          {{ entry.full_name(class="form-control") }}
+        </td>
+        <td>
+          {{ entry.phone_number(type="tel", class="form-control")}}
+        </td>
+        <td>
+          {{ entry.relationship(class="form-control") }}
+        </td>
+      </tr>
+    {% endwith %}
 
   </table>
 </div>
@@ -64,7 +63,7 @@
   <button
     type="button"
     class="btn btn-primary"
-    onclick="addNewInputRow($('#emergency_contact_table'), $('#emergency_contact_input'))"
+    onclick="addNewInputRow($('#emergency_contact_table'), $('.emergency_contact').last())"
   >
     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
     {{ _("Add an emergency contact") }}

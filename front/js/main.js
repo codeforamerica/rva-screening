@@ -119,6 +119,7 @@ AppController.prototype.initSearch = function ( id, options ) {
 
 
 function addNewInputRow($table, $input_row) {
+  debugger;
   $new_row = $input_row.clone();
   $new_row.each(function() {
     $(this).find(':input').val('');

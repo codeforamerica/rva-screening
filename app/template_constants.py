@@ -1,15 +1,17 @@
 from flask.ext.babel import gettext as _
 
-YN_CHOICES = [("Y", _("Yes")), ("N", _("No"))]
-YNN_CHOICES = [("Y", _("Yes")), ("N", _("No")), ("", _("Not Sure"))]
+YN_CHOICES = [("", ""), ("Y", _("Yes")), ("N", _("No"))]
+YNN_CHOICES = [("", ""), ("Y", _("Yes")), ("N", _("No")), ("", _("Not Sure"))]
 
-GENDER_CHOICES = [("F", _("Female")), ("M", _("Male"))]
+GENDER_CHOICES = [("", _('No Answer')), ("F", _("Female")), ("M", _("Male"))]
 TRANSGENDER_CHOICES = [
+        ("",    ""),
         ("No",  _("Not transgender")),
         ("FTM", _("Female to Male")),
         ("MTF", _("Male to Female"))]
 
 LANGUAGE_CHOICES = [
+        ("",      ""),
         ("EN",    _("English")),
         ("ES",    _("Spanish")),
         ("AR",    _("Arabic")),
@@ -43,6 +45,7 @@ STATE_CHOICES =[ ("AL", "AL - Alabama"), ("AK", "AK - Alaska"),
       ]
 
 HOUSING_STATUS_CHOICES = [
+        ("",      ""),
         ("REN",   _("Renting")),
         ("OWN",   _("Owns home (self or family)")),
         ("SOM",   _("Lives with someone")),
@@ -53,6 +56,7 @@ HOUSING_STATUS_CHOICES = [
         ("other", _("Other"))]
 
 EMPLOYMENT_STATUS_CHOICES = [
+        ("",    ""),
         ("FT",  _("Full-time")),
         ("PT",  _("Part-time")),
         ("SEA", _("Seasonal")),
@@ -62,7 +66,20 @@ EMPLOYMENT_STATUS_CHOICES = [
         ("UNE", _("Unemployed")),
         ]
 
+EMPLOYEE_CHOICES = [
+        ("Patient", _("Patient")),
+        ("Spouse",  _("Spouse"))
+        ]
+
+STUDENT_STATUS_CHOICES = [
+        ("",              ""),
+        ("Not a student", _("Not a student")),
+        ("Full-time",     _("Full-time")),
+        ("Part-time",     _("Part-time"))
+        ]
+
 MARITAL_STATUS_CHOICES = [
+        ("",    ""),
         ("SIM", _("Single")),
         ("MAR", _("Married")),
         ("DIV", _("Divorced")),
@@ -71,6 +88,7 @@ MARITAL_STATUS_CHOICES = [
         ("PAR", _("Partner"))]
 
 RACE_CHOICES = [
+        ("",      ""),
         ("AIAN",  _("American Indian/Alaskan Native")),
         ("A",     _("Asian")),
         ("AA",    _("Black or African-American")),
@@ -79,10 +97,12 @@ RACE_CHOICES = [
         ("other", _("Other"))]
 
 ETHNICITY_CHOICES = [
+        ("",    ""),
         ("HL",  _("Hispanic or Latino")),
         ("NHL", _("Not Hispanic or Latino"))]
 
 COVERAGE_TYPE_CHOICES = [
+        ("",      ""),
         ("PRIV",  _("Private Insurance")),
         ("MCAID", _("Medicaid")),
         ("MCARE", _("Medicare")),

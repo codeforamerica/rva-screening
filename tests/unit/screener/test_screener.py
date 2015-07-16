@@ -19,8 +19,8 @@ class TestScreener(BaseTestCase):
   def insert_test_user(self):
     service = self.get_test_service()
     app_user = AppUser(
-      email='richmond@codeforamerica.org',
-      password=bcrypt.generate_password_hash('password'),
+      email = 'richmond@codeforamerica.org',
+      password = bcrypt.generate_password_hash('password'),
       service = service
     )
     db.session.add(app_user)
@@ -72,6 +72,7 @@ class TestScreener(BaseTestCase):
     self.assertEquals(app_user.authenticated, False)
 
   def test_index(self):
+    # Check that the index page loads as expected
     response = self.login()
     response = self.client.get('/')
     self.assert200(response)
@@ -86,14 +87,15 @@ class TestScreener(BaseTestCase):
 
     # Check that a new patient saves
     response = self.client.post('/new_patient', data=dict(
-      first_name='John Richmond',
+      full_name='John Richmond',
       dob='1950-01-01',
-      ssn='111-11-1111'
+      ssn='111-11-1111',
+      gender=''
     ), follow_redirects=True)
 
     saved_patient = Patient.query.first()
     self.assertEquals(
-      saved_patient.first_name,
+      saved_patient.full_name,
       'John Richmond'
     )
     self.assertEquals(
@@ -112,20 +114,33 @@ class TestScreener(BaseTestCase):
     # Check that the patient details page loads for an existing patient
     self.login()
     patient = self.get_test_patient()
+
     response = self.client.get('/patient_details/{}'.format(patient.id))
     self.assert200(response)
     self.assert_template_used('patient_details.html')
 
     # Check that updates save
     response = self.client.post('/patient_details/{}'.format(patient.id), data=dict(
-      first_name='James Richmond',
+      full_name='James Richmond',
       dob='1950-12-12',
-      ssn='222-22-2222'
+      ssn='222-22-2222',
+      gender='',
+      transgender='',
+      race='',
+      ethnicity='',
+      coverage_type='',
+      student_status='',
+      employment_status='',
+      marital_status='',
+      housing_status='',
+      veteran_yn='',
+      insurance_status='',
+      spouse_employment_status='',
     ), follow_redirects=True)
 
     saved_patient = Patient.query.first()
     self.assertEquals(
-      saved_patient.first_name,
+      saved_patient.full_name,
       'James Richmond'
     )
     self.assertEquals(
@@ -145,14 +160,6 @@ class TestScreener(BaseTestCase):
     response = self.client.get('/new_prescreening')
     self.assert200(response)
     self.assert_template_used('new_prescreening.html')
-
-  # Test that prescreening returns the right results
-  def test_calculate_prescreening_results(self):
-    pass
-
-  # Test that the prescreening results page returns the right template
-  def test_prescreening_results(self):
-    pass
 
   def test_search_new(self):
     # Make sure the search patients page loads as expected
@@ -196,7 +203,5 @@ class TestScreener(BaseTestCase):
     self.assert200(response)
     self.assert_template_used('service_profile.html')
 
-  def test_translate_object(self):
-    pass
 
 
