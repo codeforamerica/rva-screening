@@ -1,32 +1,32 @@
 {% extends "base.html" %}
 {% block content %}
     
-<h4 class="prescreen-title">{{_('Patient Information')}} <a style="font-size:.6em;" href="#"><span class="glyphicon glyphicon-edit push-left"></span> {{_('Edit')}}</a></h4>
+<h4 class="prescreen-title">{{ _('Patient Information') }} <a style="font-size:.6em;" href="#"><span class="glyphicon glyphicon-edit push-left"></span> {{ _('Edit') }}</a></h4>
     
   <div class="prescreen-user-info clearfix">
     <div class="col-sm-3 prescreen-user-info-item first">
-      <p>{{_('Federal Poverty Level percentage')}}</p>
-        <h2>{{fpl | int}}%</h2>
+      <p>{{ _('Federal Poverty Level percentage') }}</p>
+        <h2>{{ fpl | int }}%</h2>
     </div>
     <div class="col-sm-3 prescreen-user-info-item">
-      <p>{{_('Annual household income')}}</p>
-        <h2>${{household_income}}</h2>
+      <p>{{ _('Annual household income') }}</p>
+        <h2>${{ household_income }}</h2>
     </div>
     <div class="col-sm-2 prescreen-user-info-item">
-      <p>{{_('Household size')}}</p>
-        <h2>{{household_size}}</h2>
+      <p>{{ _('Household size') }}</p>
+        <h2>{{ household_size }}</h2>
     </div>
     <div class="col-sm-2 prescreen-user-info-item">
-      <p>{{_('Has insurance')}}</p>
-        <h2>{{has_health_insurance}}</h2>
+      <p>{{ _('Has insurance') }}</p>
+        <h2>{{ has_health_insurance }}</h2>
     </div>
     <div class="col-sm-2 prescreen-user-info-item">
-      <p>{{_('Eligible for Medicaid')}}</p>
-        <h2>{{is_eligible_for_medicaid}}</h2>
+      <p>{{ _('Eligible for Medicaid') }}</p>
+        <h2>{{ is_eligible_for_medicaid }}</h2>
     </div>
   </div>
 
-  <h4 class="prescreen-title">{{_('Services')}}</h4>
+  <h4 class="prescreen-title">{{ _('Services') }}</h4>
     
   {% for service in services %}
     <div class="prescreen-service {% if service.eligible %}eligible{% else %}not-eligible{% endif %}"> 
@@ -87,9 +87,9 @@
                 <div class="prescreen-service-items">
                   {% for fee in service.sliding_scale_fees %}
                     {% if fee.price_absolute %}
-                      <div class="item">{{fee.name}}: <span class="item-price"><strong>${{fee.price_absolute}}</strong><span></div>
+                      <div class="item">{{ fee.name }}: <span class="item-price"><strong>${{ fee.price_absolute }}</strong><span></div>
                     {% else %}
-                      <div class="item">{{fee.name}}: <span class="item-price pull-right-desktop"><strong>{{fee.price_percentage}}%</strong><span> {{ _("of full price") }}</div>
+                      <div class="item">{{ fee.name }}: <span class="item-price pull-right-desktop"><strong>{{ fee.price_percentage  }}%</strong><span> {{ _("of full price") }}</div>
                     {% endif %}
                   {% endfor %}
                 </div>
@@ -98,7 +98,7 @@
 
           {% if service.eligible and service.general_fees %}
             {% for fee in service.general_fees %}
-              <p>{{fee[0]}}: ${{fee[1]}}</p>
+              <p>{{ fee[0]}}: ${{fee[1] }}</p>
             {% endfor %}
           {% endif %}
 

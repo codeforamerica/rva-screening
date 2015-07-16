@@ -14,7 +14,7 @@ from sqlalchemy.schema import (
 class BaseTestCase(TestCase):
 
   def create_app(self):
-    return _create_app(TestConfig)
+    return _create_app(config=TestConfig)
 
   def setUp(self):
     db.create_all()
