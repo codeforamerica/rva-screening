@@ -5,7 +5,6 @@ from flask_wtf import Form
 from flask_wtf.file import FileField, FileAllowed
 from wtforms import widgets, fields
 from wtforms import Form as NoCsrfForm
-from wtforms_components import PhoneNumberField
 from wtforms.validators import DataRequired, Email, ValidationError, Optional
 
 class PhoneNumberForm(NoCsrfForm):
