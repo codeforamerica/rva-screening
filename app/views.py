@@ -115,8 +115,8 @@ def update_patient(patient, form, files):
     ('household_members', HouseholdMember),
     ('employers', Employer)
   ]:
-    # If the last row from the form doesn't have any data, don't save it
     if form[field_name]:
+      # If the last row from the form doesn't have any data, don't save it
       if not bool([val for key, val in form[field_name][-1].data.iteritems() if (
         val != ''
         and val is not None
@@ -129,6 +129,26 @@ def update_patient(patient, form, files):
       if new_row_count > 0:
         for p in range(new_row_count):
           getattr(patient, field_name).append(class_name())
+
+      # If any existing rows have no data, delete them from patient object
+      for row in form[field_name]:
+        if not bool([val for key, val in row.data.iteritems() if (
+          val != ''
+          and val is not None
+          and key != 'id'
+          and not (key == 'state' and val == 'VA')
+        )]):
+          index = int(row.name[-1])
+          # Delete from patient object
+          db.session.delete(getattr(patient, field_name)[index])
+          # Deletion from form FieldList requires popping all entries
+          # after the one to be removed, then readding them
+          to_re_add = []
+          for _ in range(len(form[field_name].entries) - index):
+            to_re_add.append(form[field_name].pop_entry())
+          to_re_add.pop()
+          for row in to_re_add:
+            form[field_name].append_entry(data=row.data)
 
   # populate_obj won't work for file uploads; save them manually
   for entry in form.document_images:
