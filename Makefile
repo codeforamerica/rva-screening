@@ -20,11 +20,6 @@ test:
 		--cover-package=app \
 		--cover-erase 
 
-test_travis:
-	psql -c 'drop database if exists screener_test;' -U postgres
-	psql -c 'create database screener_test;' -U postgres
-	make test
-
 new_db:
 	rm -rf ./migrations
 	python db.py db init
