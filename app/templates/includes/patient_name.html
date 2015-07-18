@@ -1,7 +1,5 @@
 <div class="form-group full_name">
-  <label for="full_name">{{ _("Full Legal Name") }}</label>
-  <!--storing full legal name in first_name so that it doesn't break backend-->
-  <input type="text" class="form-control" name="first_name" id="full_name" 
-  {% if patient.full_name %}value="{{patient.full_name}}"{% elif patient.first_name %}value="{{patient.first_name}}"{% endif %}>
+	{{ form.full_name.label }}
+	{{ form.full_name(class="form-control") }}
 </div>
 

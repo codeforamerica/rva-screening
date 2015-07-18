@@ -5,6 +5,8 @@ from sqlalchemy import event, DDL, Table
 from sqlalchemy.dialects.postgresql import ARRAY, HSTORE
 from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy.orm import relationship, backref
+# from wtforms_alchemy import ModelForm, ModelFieldList
+# from wtforms.fields import FormField
 
 class BasicTable(object):
   created = db.Column(db.DateTime)
@@ -92,13 +94,16 @@ class Patient(BasicTable, db.Model):
   gender = db.Column(db.String(2), info='Gender')
   transgender = db.Column(db.String(3), info='Transgender')
   race = db.Column(db.String(16), info='Race')
+  race_other = db.Column(db.String(32), info='Race - Other')
   ethnicity = db.Column(db.String(32), info='Ethnicity')
   languages = db.Column(db.String(64), info='Languages spoken')
+  languages_other = db.Column(db.String(64), info='Languages - Other')
   has_interpreter_yn = db.Column(db.String(1), info='Has interpreter?')
   education_level = db.Column(db.String(16), info='Education level')
   marital_status = db.Column(db.String(16), info='Marital status')
   veteran_yn = db.Column(db.String(1), info='US veteran?')
   housing_status = db.Column(db.String(16), info='Housing status')
+  housing_status_other = db.Column(db.String(32), info='Housing status - Other')
   months_living_in_area = db.Column(db.Integer, info='Months living in area')
   temp_visa_yn = db.Column(db.String(1), info='Temporary visa?')
   has_transport_yn = db.Column(db.String(1), info='Has transportation?')
@@ -116,7 +121,8 @@ class Patient(BasicTable, db.Model):
   # Healthcare/coverage
   last_healthcare = db.Column(db.String(128), info='Last healthcare received')
   insurance_status = db.Column(db.String(32), info='Insurance status')
-  coverage_type = db.Column(db.String(32), info='Insurance coverage type')
+  coverage_type = db.Column(db.String(32), info='Coverage type')
+  coverage_type_other = db.Column(db.String(32), info='Coverage type - Other')
   has_prescription_coverage_yn = db.Column(db.String(1), info='Has prescription coverage?')
   has_pcp_yn = db.Column(db.String(1), info='Has primary care provider?')
   has_psychiatrist_yn = db.Column(db.String(1), info='Has psychiatrist?')
@@ -156,8 +162,12 @@ class PhoneNumber(BasicTable, db.Model):
   id = db.Column(db.Integer, primary_key=True)
   patient_id = db.Column(db.Integer, db.ForeignKey("patient.id"))
   phone_number = db.Column(db.String(32), info='Phone number')
-  description = db.Column(db.String(64), info='Description')
+  number_description = db.Column(db.String(64), info='Description')
   primary_yn = db.Column(db.String(1), info='Primary number?')
+
+# class PhoneNumberForm(ModelForm):
+#   class Meta:
+#     model = PhoneNumber
 
 class Address(BasicTable, db.Model):
   id = db.Column(db.Integer, primary_key=True)
@@ -166,43 +176,67 @@ class Address(BasicTable, db.Model):
   address2 = db.Column(db.String(64), info='Address 2')
   city = db.Column(db.String(64), info='City')
   state = db.Column(db.String(2), info='State')
-  zip = db.Column(db.String(10), info='ZIP')
-  description = db.Column(db.String(64), info='Description')
+  zip_code = db.Column(db.String(10), info='ZIP')
+  address_description = db.Column(db.String(64), info='Description')
+
+# class AddressForm(ModelForm):
+#   class Meta:
+#     model = Address
 
 class EmergencyContact(BasicTable, db.Model):
   id = db.Column(db.Integer, primary_key=True)
   patient_id = db.Column(db.Integer, db.ForeignKey("patient.id"))
-  name = db.Column(db.String(64), info='Full name')
+  full_name = db.Column(db.String(64), info='Full name')
   relationship = db.Column(db.String(64), info='Relationship to patient')
   phone_number = db.Column(db.String(32), info='Phone number')
 
+# class EmergencyContactForm(ModelForm):
+#   class Meta:
+#     model = EmergencyContact
+
 class HouseholdMember(BasicTable, db.Model):
   id = db.Column(db.Integer, primary_key=True)
-  patientid = db.Column(db.Integer, db.ForeignKey("patient.id"))
+  patient_id = db.Column(db.Integer, db.ForeignKey("patient.id"))
   full_name = db.Column(db.String(64), info='Full name')
   dob = db.Column(db.Date(), info='DOB')
   ssn = db.Column(db.String(11), info='SSN')
   relationship = db.Column(db.String(32), info='Relationship to patient')
 
+# class HouseholdMemberForm(ModelForm):
+#   class Meta:
+#     model = HouseholdMember
+
 class IncomeSource(BasicTable, db.Model):
   id = db.Column(db.Integer, primary_key=True)
-  patientid = db.Column(db.Integer, db.ForeignKey("patient.id"))
+  patient_id = db.Column(db.Integer, db.ForeignKey("patient.id"))
   source = db.Column(db.String(64), info='Source')
-  annual_amount = db.Column(db.Integer, info='Annual amount')
+  monthly_amount = db.Column(db.Integer, info='Monthly amount')
+
+# class IncomeSourceForm(ModelForm):
+#   class Meta:
+#     model = IncomeSource
 
 class Employer(BasicTable, db.Model):
   id = db.Column(db.Integer, primary_key=True)
-  patientid = db.Column(db.Integer, db.ForeignKey("patient.id"))
-  name = db.Column(db.String(64), info='Name')
+  patient_id = db.Column(db.Integer, db.ForeignKey("patient.id"))
+  employer_name = db.Column(db.String(64), info='Name')
   phone_number = db.Column(db.String(32), info='Phone number')
   employee = db.Column(db.String(16), info='Employee')
   start_date = db.Column(db.Date(), info='Start date')
+
+# class EmployerForm(ModelForm):
+#   class Meta:
+#     model = Employer
 
 class DocumentImage(BasicTable, db.Model):
   id = db.Column(db.Integer, primary_key=True)
   patient_id = db.Column(db.Integer, db.ForeignKey("patient.id"))
   file_name = db.Column(db.String(64))
-  description = db.Column(db.String(64), info='Description')
+  file_description = db.Column(db.String(64), info='Description')
+
+# class DocumentImageForm(ModelForm):
+#   class Meta:
+#     model = DocumentImage
 
 class Service(BasicTable, db.Model):
   id = db.Column(db.Integer, primary_key=True)
@@ -258,14 +292,26 @@ class PatientServicePermission(BasicTable, db.Model):
   patient_id = db.Column(db.Integer, db.ForeignKey("patient.id"))
   service_id = db.Column(db.Integer, db.ForeignKey("service.id"))
 
+# class PatientForm(ModelForm):
+#   class Meta:
+#     model = Patient
+
+#   phone_numbers = ModelFieldList(FormField(PhoneNumberForm))
+#   addresses = ModelFieldList(FormField(AddressForm))
+#   emergency_contacts = ModelFieldList(FormField(EmergencyContactForm))
+#   household_member = ModelFieldList(FormField(HouseholdMemberForm))
+#   income_sources = ModelFieldList(FormField(IncomeSourceForm))
+#   employers = ModelFieldList(FormField(EmployerForm))
+#   document_images = ModelFieldList(FormField(EmployerForm))
+
 @event.listens_for(BasicTable, 'before_insert', propagate=True)
 def before_insert(mapper, connection, instance):
   instance.created = datetime.datetime.utcnow()
-  instance.created_by_id = current_user.id
+  instance.created_by_id = current_user.id if hasattr(current_user, 'id') else None
 
 @event.listens_for(BasicTable, 'before_update', propagate=True)
 def before_update(mapper, connection, instance):
   instance.last_modified = datetime.datetime.utcnow()
-  instance.last_modified_by_id = current_user.id
+  instance.last_modified_by_id = current_user.id if hasattr(current_user, 'id') else None
 
 

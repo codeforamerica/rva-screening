@@ -6,14 +6,23 @@
   <div class="patient-content col-md-9">
 
     {% if patient and patient.id %}
-
         {% include "includes/patient_nav.html" %}
-
     {% else %}
-    <h2>{{ _("Add New Patient") }}</h2>
+      <h2>{{ _("Add New Patient") }}</h2>
     {% endif %}
 
     <form enctype="multipart/form-data" action="" method="post" id="patient_details_form" class="print">
+      {{ form.hidden_tag() }}
+
+      {% if form.errors %}
+        <ul class="errors">
+            {% for field_name, field_errors in form.errors|dictsort if field_errors %}
+                {% for error in field_errors %}
+                    <li>{{ form[field_name].label }}: {{ error }}</li>
+                {% endfor %}
+            {% endfor %}
+        </ul>
+      {% endif %}
 
       <!-- id info -->
       {% include "includes/patient_id.html" %}
@@ -21,7 +30,9 @@
       <!--contact info-->
       <div class="expander">
         <div class="expander-title">{{ _("Phone, Email, Address") }}</div>
-          <div class="expander-content">{% include "includes/patient_contact_info.html" %}</div>
+          <div class="expander-content">
+            {% include "includes/patient_contact_info.html" %}
+          </div>
       </div>
 
       <!--contact info-->
@@ -34,50 +45,73 @@
 
       <!--household-->
       <div class="expander">
-        <div class="expander-title">{{ _("Household Size") }}{% if patient.household_members %}: 
-        {{ patient.household_members.count() + 1 }}
-      {% endif %}
-          </div>
-          <div class="expander-content">{% include "includes/patient_household_size.html" %}</div>
+        <div class="expander-title">
+          {{ _("Household Size") }}
+          {% if patient.household_members %}: 
+            {{ patient.household_members.count() + 1 }}
+          {% endif %}
+        </div>
+        <div class="expander-content">
+          {% include "includes/patient_household_size.html" %}
+        </div>
       </div>
 
       <!--income-->
       <div class="expander">
-        <div class="expander-title">{{ _("Household Income") }}{% if patient.total_annual_income %}:
-          ${{(patient.total_annual_income / 12) | int}}/{{ _("month") }}
-    {% endif %}
-          </div>
-          <div class="expander-content">{% include "includes/patient_income_sources.html" %}</div>
+        <div class="expander-title">
+          {{ _("Household Income") }}
+          {% if patient.total_annual_income %}:
+            ${{(patient.total_annual_income / 12) | int}}/{{ _("month") }}
+          {% endif %}
+        </div>
+        <div class="expander-content">
+          {% include "includes/patient_income_sources.html" %}
+        </div>
       </div>
 
       <!--documents-->
       <div class="expander">
         <div class="expander-title">{{ _("Document Uploads") }}
-          {% if patient.document_images %} ({{patient.document_images.count()}}) {% endif %}</div>
-          <div class="expander-content">{% include "includes/patient_docs.html" %}</div>
+          {% if patient.document_images %}
+            ({{patient.document_images.count()}})
+          {% endif %}
+        </div>
+        <div class="expander-content">
+          {% include "includes/patient_docs.html" %}
+        </div>
       </div>
 
       <!--demographics-->
       <div class="expander">
         <div class="expander-title">{{ _("Demographic Questions") }}</div>
-          <div class="expander-content">{% include "includes/patient_demographic_info.html" %}</div>
+          <div class="expander-content">
+            {% include "includes/patient_demographic_info.html" %}
+          </div>
       </div>
 
       <!--employment-->
       <div class="expander">
         <div class="expander-title">{{ _("Employment Information") }}</div>
-          <div class="expander-content">{% include "includes/patient_employment_info.html" %}</div>
+          <div class="expander-content">
+            {% include "includes/patient_employment_info.html" %}
+          </div>
       </div>
 
       <!--insurance-->
       <div class="expander">
         <div class="expander-title">{{ _("Insurance Information") }}</div>
-          <div class="expander-content">{% include "includes/patient_insurance_info.html" %}</div>
+          <div class="expander-content">
+            {% include "includes/patient_insurance_info.html" %}
+          </div>
       </div>
 
       <button type="submit" class="btn btn-primary">
         <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-        {% if patient %} {{ _("Save patient info") }} {% else %} {{ _("Save new patient info") }} {% endif %}
+        {% if patient %}
+          {{ _("Save patient info") }}
+        {% else %}
+          {{ _("Save new patient info") }}
+        {% endif %}
       </button>
 
     </form>

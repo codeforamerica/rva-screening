@@ -12,16 +12,16 @@
         <h3>{{ _("Location(s)") }}</h3>
 
         {% for location in service.locations %}
-        <div class="location" 
-             data-name="{{ location.name }}" 
-             data-address="{{ location.address }}"
-             data-latitude="{{ location.latitude }}"
-             data-longitude="{{ location.longitude }}">
-          <p><strong>{{ location.name }}</strong></p>
-          <p><span class="glyphicon glyphicon-home"></span> {{ location.address }}</p>
-          <p><span class="glyphicon glyphicon-user"></span> <a href="#">{{location.contact_name}}</a></p>
-          <p><span class="glyphicon glyphicon-earphone"></span> <a href="tel:6666666666">{{location.phone_number}}</a></p>
-        </div>
+          <div class="location" 
+               data-name="{{ location.name }}" 
+               data-address="{{ location.address }}"
+               data-latitude="{{ location.latitude }}"
+               data-longitude="{{ location.longitude }}">
+            <p><strong>{{ location.name }}</strong></p>
+            <p><span class="glyphicon glyphicon-home"></span> {{ location.address }}</p>
+            <p><span class="glyphicon glyphicon-user"></span> <a href="#">{{location.contact_name}}</a></p>
+            <p><span class="glyphicon glyphicon-earphone"></span> <a href="tel:6666666666">{{location.phone_number}}</a></p>
+          </div>
         {% endfor %}        
       
       </div>
@@ -48,11 +48,11 @@
             </thead>
 
             {% for user in service.users %}
-            <tr>
-              <td><a href="{{ url_for('service.user', user_id=user.id) }}"><strong>{{ user.full_name }}</strong></a></td>
-              <td><a href="{{ user.phone }}">{{ user.phone_number }}</a></td>
-              <td><a href="{{ user.email }}">{{ user.email }}</a></td>
-            </tr>
+              <tr>
+                <td><a href="{{ url_for('screener.user', user_id=user.id) }}"><strong>{{ user.full_name }}</strong></a></td>
+                <td><a href="{{ user.phone }}">{{ user.phone_number }}</a></td>
+                <td><a href="{{ user.email }}">{{ user.email }}</a></td>
+              </tr>
             {% endfor %}
           </table>
         </div>

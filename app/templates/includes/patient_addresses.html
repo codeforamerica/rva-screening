@@ -13,60 +13,59 @@
     </tr>
   </thead>
 
-  {% if patient.addresses %}
+  {% for entry in form.addresses %}
+    <tr class="address">
+      <td class="address_address">
+        <address class="read-only">
+          {{ entry.address1.data }}, {{ entry.address2.data }}<br>
+          {{ entry.city.data }}, {{ entry.state.data }} {{ entry.zip_code.data }}
+        </address>
+        <div class="hidden-input">
+          {{ entry.address1.label }}: {{ entry.address1(class="form-control hidden-input") }}
+          {{ entry.address2(class="form-control hidden-input") }}
+          {{ entry.city.label}}: {{entry.city(class="form-control hidden-input") }}
+          {{ entry.state.label}}: {{entry.state(class="form-control hidden-input") }}
+          {{ entry.zip_code.label}}: {{entry.zip_code(class="form-control hidden-input") }}
+        </div>
+      </td>
+      <td>
+        <div class="read-only">
+          {{ entry.address_description.data }}
+        </div>
+        {{ entry.address_description(class="form-control hidden-input") }}
+      </td>
+      <td class="address_edit">        
+        <span class="glyphicon glyphicon-pencil" aria-hidden="true" onclick="showHiddenFields()"></span>
+      </td>
+      <td class="address_delete">
+        <span class="glyphicon glyphicon-remove" aria-hidden="true" onclick="hideRow()"></span>
+      </td>
+    </tr>
+  {% endfor %}
 
-    {% for address in patient.addresses %}
-      <tr class="address">
-        <td class="address_address">
-          <input class="hidden" value="{{address.id}}" name="address_id">
-          <address class="read-only">
-            {{address.address1}}{% if address.address2 %}, {{address.address2}}{% endif %}<br>
-            {{address.city}}, {{address.state}} {{address.zip}}
-          </address>
-          <div class="hidden-input">
-            {{ _("Address") }}: <input class="form-control hidden-input" type="text" name="address1" value="{{address.address1}}">
-            <input class="form-control hidden-input" type="text" name="address2" value="{{address.address2}}">
-            {{ _("City") }}: <input class="form-control hidden-input" type="text" name="city" value="{{address.city}}">
-            {{ _("State") }}: <input class="form-control hidden-input" type="text" name="state" value="{{address.state}}">
-            {{ _("ZIP") }}: <input class="form-control hidden-input" type="text" name="zip" value="{{address.zip}}">
-          </div>
-        </td>
-        <td>
-          <div class="read-only">{{address.description}}</div>
-          <input class="form-control hidden-input" type="text" name="address_description" value="{{address.description}}">
-        </td>
-        <td class="address_edit">
-          <span class="glyphicon glyphicon-pencil" aria-hidden="true" onclick="showHiddenFields()"></span>
-        </td>
-        <td class="address_delete">
-          <span class="glyphicon glyphicon-remove" aria-hidden="true" onclick="hideRow()"></span>
-        </td>
-      </tr>
-    {% endfor %}
-
-  {% endif %}
-
-  <tr class="address" id="address_input">
-    <td class="address_address">
-      Address: <input class="form-control" type="text" name="address1">
-      <input class="form-control" type="text" name="address2">
-      City: <input class="form-control" type="text" name="city">
-      State: <input class="form-control" type="text" name="state">
-      ZIP: <input class="form-control" type="text" name="zip">
-    </td>
-    <td class="address_type">
-      <input class="form-control" type="text" name="address_description">
-    </td>
-  </tr>
+  {% with %}
+    {% set entry = form.addresses.append_entry() %}
+    <tr class="address">
+      <td class="address_address">
+        {{ entry.address1.label }}: {{ entry.address1(class="form-control") }}
+        {{ entry.address2(class="form-control") }}
+        {{ entry.city.label}}: {{entry.city(class="form-control") }}
+        {{ entry.state.label}}: {{entry.state(class="form-control") }}
+        {{ entry.zip_code.label}}: {{entry.zip_code(class="form-control") }}
+      </td>
+      <td>
+        {{ entry.address_description(class="form-control") }}
+      </td>
+    </tr>
+  {% endwith %}
 
 </table>
-
 
 <div class="form-group add_address">
   <button
     type="button"
     class="btn btn-primary"
-    onclick="addNewInputRow($('#address_table'), $('#address_input'))"
+    onclick="addNewInputRow($('#address_table'), $('.address').last())"
   >
     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
     {{ _("Add an address") }}

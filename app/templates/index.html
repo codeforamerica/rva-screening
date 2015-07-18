@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 
-<!--     <a href="{{ url_for('search_new') }}" class="btn btn-success right"><span class="glyphicon glyphicon-eye-open"></span> Search new patients</a> -->
+<!--     <a href="{{ url_for('screener.search_new') }}" class="btn btn-success right"><span class="glyphicon glyphicon-eye-open"></span> Search new patients</a> -->
 
     <!-- <div class="panel panel-default">
       <div class="panel-body">
@@ -27,14 +27,22 @@
 
         TODO: calculate percent completion realistically, not randomly with the loop.index
         -->
-        <li class="patient-list-item clearfix col-sm-6 {% if loop.index < 3 %}new{% endif %} {% if loop.index == 3 %}recent{% endif %}">
-          <h3 class="patient-name">{{ patient.full_name or patient.first_name }}</h3>
-          <p class="patient-dob">DOB: {{ patient.dob }}</p>
-          <div class="completion-wrapper"><div class="completion high" style="width:{{ loop.index }}9%"></div></div><div class="completion-percentage">{{ loop.index }}9% {{ _("completion") }}</div>
-          <p class="patient-lastedit left">{{ _("Last edited by") }}: <a href="#">____</a> {{ _("at") }} <a href="#">Richmond Resource Center</a></p>
-          <a class="btn btn-default btn-sm right" href="{{ url_for('screener.patient_details', id=patient.id) }}">{{ _("Details") }} <span class="glyphicon glyphicon-chevron-right"></span></a>
-        </li>
+          <li class="patient-list-item clearfix col-sm-6 {% if loop.index < 3 %}new{% endif %} {% if loop.index == 3 %}recent{% endif %}">
+            <h3 class="patient-name">{{ patient.full_name or patient.first_name }}</h3>
+            <p class="patient-dob">DOB: {{ patient.dob }}</p>
+            <div class="completion-wrapper">
+              <div class="completion high" style="width:{{ loop.index }}9%"></div>
+            </div>
+            <div class="completion-percentage">{{ loop.index }}9% {{ _("completion") }}</div>
+            <p class="patient-lastedit left">
+              {{ _("Last edited by") }}: <a href="#">____</a> {{ _("at") }} <a href="#">Richmond Resource Center</a>
+            </p>
+            <a class="btn btn-default btn-sm right" href="{{ url_for('screener.patient_details', id=patient.id) }}">
+              {{ _("Details") }} <span class="glyphicon glyphicon-chevron-right"></span>
+            </a>
+          </li>
         {% endfor %}
+
       </ul>
     <!-- /search -->
     

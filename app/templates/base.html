@@ -1,19 +1,19 @@
 <html {{ _('lang="en"') }}>
-{% include "includes/head.html" %}
+  {% include "includes/head.html" %}
   <body>
-  {% include "includes/nav.html" %}
-  <div class="container">
-    {% block content %}{% endblock %}
-  </div>
+    {% include "includes/nav.html" %}
+    <div class="container">
+      {% block content %}{% endblock %}
+    </div>
     <script type="text/javascript" src="{{ static_url }}js/vendor.js"></script>
     <script type="text/javascript" src="{{ static_url }}js/main.js"></script>
     <script>
-    window.onload = init();
-    function init() {
-      window.App = new AppController({
-        foo: 'bar'
-      });
-    }
+      window.onload = init();
+      function init() {
+        window.App = new AppController({
+          foo: 'bar'
+        });
+      }
     </script>
   </body>
 </html>
