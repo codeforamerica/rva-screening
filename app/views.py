@@ -12,7 +12,7 @@ from flask import (
 )
 from flask.ext.login import login_user, logout_user, current_user, login_required
 from app import db, bcrypt, login_manager
-from app.forms import PatientForm
+from app.forms import PatientForm, PrescreenForm
 from app.models import *
 from app.utils import upload_file, send_document_image
 from hashlib import sha1
@@ -218,18 +218,19 @@ def new_prescreening(patient_id):
 @screener.route('/prescreening_basic', methods=['POST', 'GET'])
 @login_required
 def prescreening_basic():
-  if request.method == 'POST':
-    session['household_size'] = request.form['household_size']
-    session['household_income'] = request.form['household_income']
-    session['has_health_insurance'] = request.form['has_health_insurance']
-    session['is_eligible_for_medicaid'] = request.form['is_eligible_for_medicaid']
+  form = PrescreenForm()
+  if form.validate_on_submit():
+    session['household_size'] = form.household_size.data
+    session['household_income'] = form.household_income.data
+    session['has_health_insurance'] = form.has_health_insurance.data
+    session['is_eligible_for_medicaid'] = form.eligible_for_medicaid.data
     return redirect(url_for('screener.prescreening_results'))
   else:
     if session.get('patient_id'):
       patient = Patient.query.get(session['patient_id'])
-      return render_template('prescreening_basic.html', patient = patient)
+      return render_template('prescreening_basic.html', patient = patient, form=form)
     else:
-      return render_template('prescreening_basic.html')
+      return render_template('prescreening_basic.html', form=form)
 
 def calculate_pre_screen_results(fpl):
   service_results = []

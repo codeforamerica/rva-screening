@@ -7,6 +7,26 @@ from wtforms import widgets, fields
 from wtforms import Form as NoCsrfForm
 from wtforms.validators import DataRequired, Email, ValidationError, Optional
 
+class PrescreenForm(Form):
+  household_size = fields.IntegerField(
+    _('What is your household size?'),
+    validators=[]
+  )
+  household_income = fields.IntegerField(
+    _('What is your monthly household income?'),
+    validators=[]
+  )
+  has_health_insurance = fields.RadioField(
+    _('Do you have health insurance?'),
+    choices = CONSTANTS.YNN_NONULL_CHOICES,
+    default = "",
+  )
+  eligible_for_medicaid = fields.RadioField(
+    _('Are you eligible for Medicare/Medicaid?'),
+    choices = CONSTANTS.YNN_NONULL_CHOICES,
+    default = "",
+  ) 
+
 class PhoneNumberForm(NoCsrfForm):
   phone_number = fields.TextField(_('Phone number'))
   number_description = fields.TextField(_('Description'))

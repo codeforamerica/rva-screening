@@ -2,6 +2,7 @@ from flask.ext.babel import gettext as _
 
 YN_CHOICES = [("", ""), ("Y", _("Yes")), ("N", _("No"))]
 YNN_CHOICES = [("", ""), ("Y", _("Yes")), ("N", _("No")), ("", _("Not Sure"))]
+YNN_NONULL_CHOICES = [("Y", _("Yes")), ("N", _("No")), ("", _("Not Sure"))]
 
 GENDER_CHOICES = [("", _('No Answer')), ("F", _("Female")), ("M", _("Male"))]
 TRANSGENDER_CHOICES = [
@@ -112,4 +113,3 @@ COVERAGE_TYPE_CHOICES = [
         ("BSCC",  _("Bon Secours CareCard")),
         ("OTHER", _("Other")),
         ]
-
