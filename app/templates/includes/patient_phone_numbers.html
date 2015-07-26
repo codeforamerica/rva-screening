@@ -14,7 +14,11 @@
   {% for entry in form.phone_numbers %}
     <tr class="phone_number">
       <td class="phone_number_number">
-        {{ entry.phone_number(class="form-control") }}
+        {{ entry.phone_number(
+          class="form-control",
+          placeholder="(555) 555-5555",
+          pattern="\(\d{3}\) ?\d{3}-?\d{4}"
+        ) }}
       </td>
       <td class="phone_number_name">
         {{ entry.number_description(class="form-control")}}

@@ -1,11 +1,28 @@
+import re
 from app import template_constants as CONSTANTS
 from flask import current_app, request
 from flask.ext.babel import gettext as _
 from flask_wtf import Form
 from flask_wtf.file import FileField, FileAllowed
-from wtforms import widgets, fields
+from wtforms import widgets, fields, validators
 from wtforms import Form as NoCsrfForm
 from wtforms.validators import DataRequired, Email, ValidationError, Optional
+
+ALL_INTEGERS = re.compile('[^\d.]')
+def validate_digit_count(form, field, count):
+    # Strips out non-integer characters, checks whether number of digits
+    # matches expectation
+    if field.data:
+        value = re.sub(ALL_INTEGERS, '', field.data)
+        return len(value) == count or len(value) == 0
+
+def validate_ssn(form, field):
+  if validate_digit_count(form, field, 9) is False:
+    raise ValidationError('Social security number should be 9 digits.')
+
+def validate_phone_number(form, field):
+  if validate_digit_count(form, field, 10) is False:
+    raise ValidationError('Phone number should be 10 digits.')
 
 class PrescreenForm(Form):
   household_size = fields.IntegerField(
@@ -28,39 +45,73 @@ class PrescreenForm(Form):
   ) 
 
 class PhoneNumberForm(NoCsrfForm):
-  phone_number = fields.TextField(_('Phone number'))
-  number_description = fields.TextField(_('Description'))
+  phone_number = fields.TextField(
+    _('Phone number'),
+    [Optional(), validators.Length(max=32), validate_phone_number]
+  )
+  number_description = fields.TextField(
+    _('Description'),
+    [Optional(), validators.Length(max=64)]
+  )
 
 class AddressForm(NoCsrfForm):
-  address1 = fields.TextField(_('Address'))
-  address2 = fields.TextField()
-  city = fields.TextField(_('City'))
+  address1 = fields.TextField(_('Address'), [Optional(), validators.Length(max=64)])
+  address2 = fields.TextField([Optional(), validators.Length(max=64)])
+  city = fields.TextField(_('City'), [Optional(), validators.Length(max=64)])
   state = fields.SelectField(
     _('State'),
     choices = CONSTANTS.STATE_CHOICES,
     default = "VA",
   )
-  zip_code = fields.TextField(_('ZIP'))
-  address_description = fields.TextField(_('What kind of address is this?'))
+  zip_code = fields.TextField(_('ZIP'), [Optional(), validators.Length(max=10)])
+  address_description = fields.TextField(
+    _('What kind of address is this?'),
+    [Optional(), validators.Length(max=64)]
+  )
 
 class EmergencyContactForm(NoCsrfForm):
-  full_name = fields.TextField(_('Name'))
-  relationship = fields.TextField(_('Relationship to patient'))
-  phone_number = fields.TextField(_('Phone number'))
+  full_name = fields.TextField(_('Name'), [Optional(), validators.Length(max=64)])
+  relationship = fields.TextField(
+    _('Relationship to patient'),
+    [Optional(), validators.Length(max=64)]
+  )
+  phone_number = fields.TextField(
+    _('Phone number'),
+    [Optional(), validators.Length(max=32), validate_phone_number]
+  )
 
 class HouseholdMemberForm(NoCsrfForm):
-  full_name = fields.TextField(_('Full name'))
-  dob = fields.DateField(_('Date of birth'), validators=[Optional()])
-  ssn = fields.TextField(_('Social security number'))
-  relationship = fields.TextField(_('Relationship to patient'))
+  full_name = fields.TextField(
+    _('Full name'),
+    [Optional(), validators.Length(max=64)]
+  )
+  dob = fields.DateField(
+    _('Date of birth'),
+    validators=[Optional()]
+  )
+  ssn = fields.TextField(
+    _('Social security number'),
+    [Optional(), validators.Length(max=11), validate_ssn]
+  )
+  relationship = fields.TextField(
+    _('Relationship to patient'),
+    [Optional(), validators.Length(max=32)]
+  )
 
 class IncomeSourceForm(NoCsrfForm):
+  source = fields.TextField(_('Source'), [Optional(), validators.Length(max=64)])
   monthly_amount = fields.DecimalField(_('Monthly amount'), validators=[Optional()])
-  source = fields.TextField(_('Source'))
+
 
 class EmployerForm(NoCsrfForm):
-  employer_name = fields.TextField(_('Employer name'))
-  phone_number = fields.TextField(_('Phone number'))
+  employer_name = fields.TextField(
+    _('Employer name'),
+    [Optional(), validators.Length(max=64)]
+  )
+  phone_number = fields.TextField(
+    _('Phone number'),
+    [Optional(), validators.Length(max=32), validate_phone_number]
+  )
   employee = fields.SelectField(
     _('Whose job?'),
     choices = CONSTANTS.EMPLOYEE_CHOICES,
@@ -78,19 +129,30 @@ class DocumentImageForm(NoCsrfForm):
       'Allowed file types are .jpg, .png, and .pdf'
     )]
   )
-  file_description = fields.TextField(_('Description'))
+  file_description = fields.TextField(
+    _('Description'),
+    [Optional(), validators.Length(max=64)]
+  )
 
 class PatientForm(Form):
   ### Basic ID
-  full_name = fields.TextField(_('Full legal name'), validators=[DataRequired()])
+  full_name = fields.TextField(
+    _('Full legal name'),
+    validators=[DataRequired(), validators.Length(max=128)])
   first_name = fields.TextField(_('First name'))
   middle_name = fields.TextField(_('Middle name'))
   last_name = fields.TextField(_('Last name'))
   dob = fields.DateField(_('Date of birth'))
-  ssn = fields.TextField(_('Social security number'))
+  ssn = fields.TextField(
+    _('Social security number'),
+    [Optional(), validators.Length(max=11), validate_ssn]
+  )
 
   ### Contact
-  email = fields.TextField(_('Email address'), validators=[Optional(), Email()])
+  email = fields.TextField(
+    _('Email address'),
+    validators=[Optional(), Email(), validators.Length(max=64)]
+  )
   phone_numbers = fields.FieldList(fields.FormField(
     PhoneNumberForm
   ), min_entries=1)
@@ -117,7 +179,10 @@ class PatientForm(Form):
     choices = CONSTANTS.RACE_CHOICES,
     default = "",
   )
-  race_other = fields.TextField(_('Please specify other race'))
+  race_other = fields.TextField(
+    _('Please specify other race'),
+    [Optional(), validators.Length(max=32)]
+  )
   ethnicity = fields.SelectField(
     _('Ethnicity'),
     choices = CONSTANTS.ETHNICITY_CHOICES,
@@ -128,7 +193,10 @@ class PatientForm(Form):
     choices = CONSTANTS.LANGUAGE_CHOICES,
     default = "",
   )
-  languages_other = fields.TextField(_('Please specify other languages'))
+  languages_other = fields.TextField(
+    _('Please specify other languages'),
+    [Optional(), validators.Length(max=64)]
+  )
   # has_interpreter_yn = fields.BooleanField(_(''))
   # has_interpreter_yn = db.Column(db.String(1), info='Has interpreter?')
   # education_level = db.Column(db.String(16), info='Education level')
@@ -147,7 +215,10 @@ class PatientForm(Form):
     choices = CONSTANTS.HOUSING_STATUS_CHOICES,
     default = "",
   )
-  housing_status_other = fields.TextField(_('Please specify other living situation'))
+  housing_status_other = fields.TextField(
+    _('Please specify other living situation'),
+    [Optional(), validators.Length(max=32)]
+  )
   # housing_status = db.Column(db.String(16), info='Housing status')
   # months_living_in_area = db.Column(db.Integer, info='Months living in area')
   # temp_visa_yn = db.Column(db.String(1), info='Temporary visa?')
@@ -179,7 +250,10 @@ class PatientForm(Form):
   ))
 
   ### Healthcare/coverage
-  last_healthcare = fields.TextField(_('When and where did you last receive healthcare services?'))
+  last_healthcare = fields.TextField(
+    _('When and where did you last receive healthcare services?'),
+    [Optional(), validators.Length(max=128)]
+  )
   insurance_status = fields.SelectField(
     _('Do you have insurance or a card to help you cover medical costs?'),
     choices = CONSTANTS.YN_CHOICES,
@@ -190,7 +264,10 @@ class PatientForm(Form):
     choices = CONSTANTS.COVERAGE_TYPE_CHOICES,
     default = "",
   )
-  coverage_type_other = fields.TextField(_('Please specify other coverage type'))
+  coverage_type_other = fields.TextField(
+    _('Please specify other coverage type'),
+    [Optional(), validators.Length(max=32)]
+  )
   # has_prescription_coverage_yn
   # has_pcp_yn
   # has_psychiatrist_yn

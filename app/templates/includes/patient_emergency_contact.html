@@ -19,7 +19,12 @@
         </td>
         <td>
           <div class="read-only">{{ entry.phone_number.data }}</div>
-          {{ entry.phone_number(type="tel", class="form-control hidden-input")}}
+          {{ entry.phone_number(
+            type="tel",
+            class="form-control hidden-input",
+            placeholder="(555) 555-5555",
+            pattern="\(\d{3}\) ?\d{3}-?\d{4}"
+          ) }}
         </td>
         <td>
           <div class="read-only">{{ entry.relationship.data }}</div>
@@ -48,7 +53,12 @@
           {{ entry.full_name(class="form-control") }}
         </td>
         <td>
-          {{ entry.phone_number(type="tel", class="form-control")}}
+          {{ entry.phone_number(
+            type="tel",
+            class="form-control",
+            placeholder="(555) 555-5555",
+            pattern="\(\d{3}\) ?\d{3}-?\d{4}"
+          ) }}
         </td>
         <td>
           {{ entry.relationship(class="form-control") }}
