@@ -38,7 +38,11 @@
         </td>
         <td class="hh_member_ssn">
           <div class="read-only">{{ entry.ssn.data }}</div>
-          {{ entry.ssn(class="form-control hidden-input") }}
+          {{ entry.ssn(
+            class="form-control hidden-input",
+            placeholder="555-55-5555",
+            pattern="\d{3}-?\d{2}-?\d{4}"
+          ) }}
         </td>
         <td class="hh_member_relationship">
           <div class="read-only">{{ entry.relationship.data }}</div>
@@ -72,7 +76,11 @@
           {{ entry.dob(type="date", class="form-control") }}
         </td>
         <td class="hh_member_ssn">
-          {{ entry.ssn(class="form-control") }}
+          {{ entry.ssn(
+            class="form-control",
+            placeholder="555-55-5555",
+            pattern="\d{3}-?\d{2}-?\d{4}"
+          ) }}
         </td>
         <td class="hh_member_relationship">
           {{ entry.relationship(class="form-control") }}

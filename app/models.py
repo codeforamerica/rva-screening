@@ -5,8 +5,6 @@ from sqlalchemy import event, DDL, Table
 from sqlalchemy.dialects.postgresql import ARRAY, HSTORE
 from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy.orm import relationship, backref
-# from wtforms_alchemy import ModelForm, ModelFieldList
-# from wtforms.fields import FormField
 
 class BasicTable(object):
   created = db.Column(db.DateTime)
@@ -40,6 +38,7 @@ class BasicTable(object):
       foreign_keys=lambda: cls.last_modified_by_id
     )
 
+
 class ActionLog(db.Model):
   id = db.Column(db.Integer, primary_key=True)
   transaction_id = db.Column(db.Integer)
@@ -51,6 +50,7 @@ class ActionLog(db.Model):
   action = db.Column(db.String(1))
   row_data = db.Column(HSTORE)
   changed_fields = db.Column(HSTORE)
+
 
 class AppUser(BasicTable, db.Model):
   id = db.Column(db.Integer, primary_key=True)
@@ -72,6 +72,7 @@ class AppUser(BasicTable, db.Model):
 
   def get_id(self):
     return self.email
+
 
 class Patient(BasicTable, db.Model):
   id = db.Column(db.Integer, primary_key=True)
@@ -158,6 +159,7 @@ class Patient(BasicTable, db.Model):
   def __init__(self, **fields):
     self.__dict__.update(fields)
 
+
 class PhoneNumber(BasicTable, db.Model):
   id = db.Column(db.Integer, primary_key=True)
   patient_id = db.Column(db.Integer, db.ForeignKey("patient.id"))
@@ -165,9 +167,6 @@ class PhoneNumber(BasicTable, db.Model):
   number_description = db.Column(db.String(64), info='Description')
   primary_yn = db.Column(db.String(1), info='Primary number?')
 
-# class PhoneNumberForm(ModelForm):
-#   class Meta:
-#     model = PhoneNumber
 
 class Address(BasicTable, db.Model):
   id = db.Column(db.Integer, primary_key=True)
@@ -179,9 +178,6 @@ class Address(BasicTable, db.Model):
   zip_code = db.Column(db.String(10), info='ZIP')
   address_description = db.Column(db.String(64), info='Description')
 
-# class AddressForm(ModelForm):
-#   class Meta:
-#     model = Address
 
 class EmergencyContact(BasicTable, db.Model):
   id = db.Column(db.Integer, primary_key=True)
@@ -190,9 +186,6 @@ class EmergencyContact(BasicTable, db.Model):
   relationship = db.Column(db.String(64), info='Relationship to patient')
   phone_number = db.Column(db.String(32), info='Phone number')
 
-# class EmergencyContactForm(ModelForm):
-#   class Meta:
-#     model = EmergencyContact
 
 class HouseholdMember(BasicTable, db.Model):
   id = db.Column(db.Integer, primary_key=True)
@@ -202,9 +195,6 @@ class HouseholdMember(BasicTable, db.Model):
   ssn = db.Column(db.String(11), info='SSN')
   relationship = db.Column(db.String(32), info='Relationship to patient')
 
-# class HouseholdMemberForm(ModelForm):
-#   class Meta:
-#     model = HouseholdMember
 
 class IncomeSource(BasicTable, db.Model):
   id = db.Column(db.Integer, primary_key=True)
@@ -212,9 +202,6 @@ class IncomeSource(BasicTable, db.Model):
   source = db.Column(db.String(64), info='Source')
   monthly_amount = db.Column(db.Integer, info='Monthly amount')
 
-# class IncomeSourceForm(ModelForm):
-#   class Meta:
-#     model = IncomeSource
 
 class Employer(BasicTable, db.Model):
   id = db.Column(db.Integer, primary_key=True)
@@ -224,9 +211,6 @@ class Employer(BasicTable, db.Model):
   employee = db.Column(db.String(16), info='Employee')
   start_date = db.Column(db.Date(), info='Start date')
 
-# class EmployerForm(ModelForm):
-#   class Meta:
-#     model = Employer
 
 class DocumentImage(BasicTable, db.Model):
   id = db.Column(db.Integer, primary_key=True)
@@ -234,9 +218,6 @@ class DocumentImage(BasicTable, db.Model):
   file_name = db.Column(db.String(64))
   file_description = db.Column(db.String(64), info='Description')
 
-# class DocumentImageForm(ModelForm):
-#   class Meta:
-#     model = DocumentImage
 
 class Service(BasicTable, db.Model):
   id = db.Column(db.Integer, primary_key=True)
@@ -256,11 +237,13 @@ class Service(BasicTable, db.Model):
   users = db.relationship('AppUser', primaryjoin='Service.id==AppUser.service_id', backref='service')
   translations = db.relationship('ServiceTranslation', backref='service', lazy='dynamic')
 
+
 class ServiceTranslation(db.Model):
   id = db.Column(db.Integer, primary_key=True)
   service_id = db.Column(db.Integer, db.ForeignKey("service.id"))
   language_code = db.Column(db.String(16))
   description = db.Column(db.Text)
+
 
 class ServiceLocation(BasicTable, db.Model):
   id = db.Column(db.Integer, primary_key=True)
@@ -272,6 +255,7 @@ class ServiceLocation(BasicTable, db.Model):
   latitude = db.Column(db.Float)
   longitude = db.Column(db.Float)
 
+
 class SlidingScale(BasicTable, db.Model):
   id = db.Column(db.Integer, primary_key=True)
   service_id = db.Column(db.Integer, db.ForeignKey("service.id"))
@@ -280,6 +264,7 @@ class SlidingScale(BasicTable, db.Model):
   fpl_high = db.Column(db.Float)
   sliding_scale_fees = db.relationship('SlidingScaleFee', backref='slidingscale', lazy='dynamic')
 
+
 class SlidingScaleFee(BasicTable, db.Model):
   id = db.Column(db.Integer, primary_key=True)
   sliding_scale_id = db.Column(db.Integer, db.ForeignKey("sliding_scale.id"))
@@ -287,22 +272,12 @@ class SlidingScaleFee(BasicTable, db.Model):
   price_absolute = db.Column(db.Integer)
   price_percentage = db.Column(db.Integer)
 
+
 class PatientServicePermission(BasicTable, db.Model):
   id = db.Column(db.Integer, primary_key=True)
   patient_id = db.Column(db.Integer, db.ForeignKey("patient.id"))
   service_id = db.Column(db.Integer, db.ForeignKey("service.id"))
 
-# class PatientForm(ModelForm):
-#   class Meta:
-#     model = Patient
-
-#   phone_numbers = ModelFieldList(FormField(PhoneNumberForm))
-#   addresses = ModelFieldList(FormField(AddressForm))
-#   emergency_contacts = ModelFieldList(FormField(EmergencyContactForm))
-#   household_member = ModelFieldList(FormField(HouseholdMemberForm))
-#   income_sources = ModelFieldList(FormField(IncomeSourceForm))
-#   employers = ModelFieldList(FormField(EmployerForm))
-#   document_images = ModelFieldList(FormField(EmployerForm))
 
 @event.listens_for(BasicTable, 'before_insert', propagate=True)
 def before_insert(mapper, connection, instance):

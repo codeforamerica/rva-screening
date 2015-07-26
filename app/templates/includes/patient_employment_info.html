@@ -34,7 +34,12 @@
           <td>
             <div class="read-only">{{ entry.phone_number.data }}</div>
             <div class="hidden-input">
-              {{ entry.phone_number(type="tel", class="form-control hidden-input") }}
+              {{ entry.phone_number(
+                type="tel",
+                class="form-control hidden-input",
+                placeholder="(555) 555-5555",
+                pattern="\(\d{3}\) ?\d{3}-?\d{4}"
+              ) }}
             </div>
           </td>
           <td>
@@ -65,7 +70,12 @@
             {{ entry.employer_name(class="form-control") }}
           </td>
           <td>
-            {{ entry.phone_number(type="tel", class="form-control") }}
+            {{ entry.phone_number(
+              type="tel",
+              class="form-control",
+              placeholder="(555) 555-5555",
+              pattern="\(\d{3}\) ?\d{3}-?\d{4}"
+            ) }}
           </td>
           <td>
             {{ entry.employee(class="form-control") }}
