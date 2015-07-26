@@ -13,7 +13,6 @@ var Search = function ( options ) {
     var valueDob = $('#field_search_patient_dob').val();
     var valueSsn = $('#field_search_patient_ssn').val();
     var res = JSON.search( patients, '//*[contains(name, "'+valueName+'") or contains(dob, "'+valueDob+'") or contains(ssn, "'+valueSsn+'")]' );
-    console.log(res.length, patients.total);
     var results = {
       patients: res,
       none: [
@@ -22,6 +21,7 @@ var Search = function ( options ) {
         }
       ]
     };
+    console.log(results);
     if (res.length > patients.total) {
       var html = "";
     } else if (!res.length) {

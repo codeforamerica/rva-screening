@@ -6,6 +6,7 @@
 window.Maps = window.Maps || {};
 var Maps = function ( options ) {
   console.info('Maps initialized :)');
+  console.log($('#service-map'));
   if ($('#service-map').length) {
 
     // temporary fake locations
@@ -17,6 +18,8 @@ var Maps = function ( options ) {
     this.id = 'service-map';
 
     var _this = this;
+
+    console.log($('.location').length);
     
     if (!$('.location').length) {
       console.error('Maps: No locations specified. See https://github.com/codeforamerica/rva-screening-ui-prototypes/wiki/Maps');
