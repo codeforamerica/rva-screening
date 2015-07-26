@@ -1,0 +1,22 @@
+.prescreen_service {
+  // border: 1px solid $color-lightgray;
+  background: $color-lightgray;
+  border: .5em solid white;
+}
+
+.prescreen_service_content {
+  padding: 1em;
+  // border: 1px solid $color-lightgray; 
+}
+
+.prescreen_service_title {
+  display: inline-block;
+  font-size: 1.2em;
+  font-weight: 900;
+  margin: 0em;
+}
+
+.prescreen_service_text {
+  margin: 0;
+  font-size: .9em;
+}

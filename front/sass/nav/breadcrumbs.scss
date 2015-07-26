@@ -1,0 +1,36 @@
+$breadcrumbs-padding: 2em;
+
+$breadcrumb-color: $color-darkgray;
+$breadcrumb-font-size: 0.9em;
+
+
+.breadcrumbs {
+  width: 45%;
+  text-align: left;
+  display: inline-block;
+  padding: $breadcrumbs-padding;
+  font-size: $breadcrumb-font-size;
+  &.breadcrumbs_patient {}
+}
+
+.crumb {
+  color: $breadcrumb-color;
+  &:before {
+    @extend %icon;
+    content:"\f105";
+    margin: auto 0.5em;
+    color: $color-gray;
+  }
+  &:hover {
+    color: $color-blue;
+  }
+  &.crumb_home {
+    &:before {
+      content:"";
+      margin: 0;
+    }
+  }
+  &.crumb_current {
+    color: $color-black;
+  }
+}

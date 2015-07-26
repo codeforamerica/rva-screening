@@ -1,0 +1,75 @@
+// .filter {
+//   margin: 1em 0;
+//   padding-bottom: 1em;
+//   border-bottom: 1px solid darken($sidebar-background-color, 7);
+// }
+
+// .filter_hide {
+//   display:none !important;
+// }
+
+// .filter_button {
+//   display:block;
+//   width: 100%;
+//   text-align: left;
+//   border: none;
+//   padding: .6em;
+//   margin-bottom: 0.3em;
+//   font-size: 0.8em;
+//   text-transform: uppercase;
+//   cursor: pointer;
+//   &:hover {
+//     font-weight: 900;
+//   }
+//   &:before {
+//     @extend %icon;
+//     content:"\f10c";
+//     margin-right: 0.5em;
+//   }
+// }
+// .filter_button_active {
+//   font-weight: 900;
+//   &:before {
+//     @extend %icon;
+//     content:"\f111";
+//   }
+// }
+
+.filter {
+  padding: 1em;
+  display: block;
+  width: 100%;
+  border: none;
+  border-bottom: 2px solid #fff;
+  background-color: transparent;
+  font-size: 0.9em;
+  text-align: left;
+  position: relative;
+  &:hover {
+    background: #e5e5e5;
+    cursor: pointer;
+  }
+  &.filter_active {
+    background-color: $color-fuscia;
+    color: $color-white;
+    &:before {
+      content: " ";
+      position: absolute;
+      top: 39%;
+      left: 100%;
+      border-left: $filter-arrow-dimension solid $color-fuscia;
+      border-top: $filter-arrow-dimension solid transparent;
+      border-bottom: $filter-arrow-dimension solid transparent;
+    }
+  }
+}
+.statistic_number {
+  display: block;
+  font-size: 2em;
+  font-weight: 900;
+  // color: $stat-number-text-color;
+}
+.statistic_text {
+  font-size: 0.9em;
+  font-weight: 100;
+}
