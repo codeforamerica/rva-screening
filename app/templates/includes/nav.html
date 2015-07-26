@@ -2,15 +2,23 @@
   <div class="nav_logo">SCREENER</div>
   <div class="nav_menu">
     <ul class="nav_menu_list">
-      <li class="menu_list_item"><a href="#">Prescreen</a></li>
-      <li class="menu_list_item"><a href="#">View Your Patients</a></li>
-      <li class="menu_list_item"><a href="#">Find Patient In Your Network</a></li>
-      <li class="menu_list_item"><a href="#">Create Patient</a></li>
+      <li class="menu_list_item {% if request.path == url_for('screener.new_prescreening') %}current{% endif %}"><a href="{{ url_for('screener.new_prescreening') }}"><i class="fa fa-pencil"></i> {{ _("Pre-Screener") }}</a></li>
+      {% if g.user.is_authenticated() %}
+      <li class="menu_list_item {% if request.path == url_for('screener.index') %}current{% endif %}"><a href="{{ url_for('screener.index') }}"><i class="fa fa-search"></i> {{ _("Search Patients") }}</a></li>
+      <!-- <li class="menu_list_item {% if request.path == url_for('screener.search_new') %}current{% endif %}"><a href="{{ url_for('screener.search_new') }}">{{ _("Find Patient in Network") }}</a></li> -->
+      <!-- <li class="menu_list_item {% if request.path == url_for('screener.new_patient') %}current{% endif %}"><a href="{{ url_for('screener.new_patient') }}">Create Patient</a></li> -->
+      {% endif %}
     </ul>
   </div>
+  
   <div class="nav_user">
-    <a href="#" class="nav_user_profile">sam</a> / <a href="#">logout</a>
+    {% if g.user.is_authenticated() %}
+    <a href="#" class="nav_user_profile">sam</a> / <a href="{{ url_for('screener.logout') }}">{{ _("Logout") }}</a>
+    {% else %}
+    <li><a href="{{ url_for('screener.login') }}"><span class="glyphicon glyphicon-log-in push-right" aria-hidden="true"></span>{{ _("Login") }}</a></li>
+    {% endif %}
   </div>
+  
 </nav>
 
 <button class="button button_nav" id="nav_button"><i class="fa fa-ellipsis-v"></i></button>
