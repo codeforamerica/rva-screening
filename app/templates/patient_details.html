@@ -1,9 +1,15 @@
 {% extends "base.html" %}
 {% block content %}
 
-  {% include "includes/patient_profile.html" %}
+<div class="container">
 
-  <div class="patient-content col-md-9">
+  <div class="patient-content block_3">
+
+    {% include "includes/patient_profile.html" %}
+
+  </div>
+
+  <div class="block_9">
 
     {% if patient and patient.id %}
         {% include "includes/patient_nav.html" %}
@@ -115,7 +121,7 @@
       </button>
 
     </form>
-
   </div>
+</div>
 
 {% endblock %}

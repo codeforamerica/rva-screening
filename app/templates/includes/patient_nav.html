@@ -11,7 +11,21 @@
 </div>
 
 <br>
-<ul class="patient-nav nav nav-tabs">
+
+<nav class="nav_tabs">
+
+  <div class="tabs">
+    <a class="tab {% if request.path == url_for('screener.patient_details', id=patient.id) %}tab_active{% endif %}" href="{{ url_for('screener.patient_details', id=patient.id) }}"><i class="fa fa-list"></i> Details</a>
+    <a class="tab {% if request.path == url_for('screener.patient_history', patient_id=patient.id) %}tab_active{% endif %}" href="{{ url_for('screener.patient_history', patient_id=patient.id) }}"><i class="fa fa-history"></i> Edit History</a>
+  </div>
+
+  <select class="tabs_dropdown" onchange="location = this.options[this.selectedIndex].value;">
+    <option value="/details">Details</option>
+    <option value="/history">History</option>
+  </select>
+  
+</nav>
+<!-- <ul class="patient-nav nav nav-tabs">
 
   <li role="presentation" {% if request.path == url_for('screener.patient_details', id=patient.id) %}class="active"{% endif %}>
     <a href="{{ url_for('screener.patient_details', id=patient.id) }}">
@@ -40,4 +54,4 @@
       {{ _("Share Patient") }}
     </a>
   </li>
-</ul>
+</ul> -->

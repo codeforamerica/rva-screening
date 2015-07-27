@@ -26,7 +26,6 @@ body.menu_open {
   // styling
   @include transition();
   background-color: $nav-background-color;
-  text-transform: uppercase;
   @media (min-width: $break) {
     position:relative;
     top: 0; left: 0;
@@ -46,11 +45,13 @@ body.menu_open {
 // logo space located within the .nav element
 .nav_logo {
   padding: 0.5em 10px;
-  font-weight: 900;
+  font-weight: 100;
+  color: darken($color-fuscia, 20);
+  letter-spacing: -2px;
   font-size: 1.6em; // temporary
   @media (min-width: $break) {
     float: left;
-    padding: 0;
+    padding: 5px;
   }
 }
 

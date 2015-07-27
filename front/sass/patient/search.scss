@@ -1,7 +1,8 @@
 .section_search {
   padding: 3em 0;
-  // background-color: $section_search_background_color;
-  border-bottom: 1px solid $color-gray;
+  background-color: $section_search_background_color;
+  // border-bottom: 1px solid $color-gray;
+  box-shadow: 0 0 4px 0px rgba(0,0,0,0.6)
 }
 
 .patient_search_form {

@@ -24,7 +24,7 @@
 .field_input {
   width: 100%;
   &:focus {
-    // outline: solid 1px $color-black;
+    outline: solid 1px $color-blue;
   }
 
   &.field_input_verified,
