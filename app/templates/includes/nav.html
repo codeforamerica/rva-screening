@@ -13,9 +13,9 @@
   
   <div class="nav_user">
     {% if g.user.is_authenticated() %}
-    <a href="#" class="nav_user_profile">sam</a> / <a href="{{ url_for('screener.logout') }}">{{ _("Logout") }}</a>
+    <a href="#" class="nav_user_profile">{{g.user.email}}</a> / <a href="{{ url_for('screener.logout') }}">{{ _("Logout") }}</a>
     {% else %}
-    <li><a href="{{ url_for('screener.login') }}"><span class="glyphicon glyphicon-log-in push-right" aria-hidden="true"></span>{{ _("Login") }}</a></li>
+    <a href="{{ url_for('screener.login') }}">{{ _("Login") }} <i class="fa fa-unlock-alt"></i></a>
     {% endif %}
   </div>
   

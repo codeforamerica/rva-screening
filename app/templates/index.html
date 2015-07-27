@@ -5,10 +5,7 @@
     
   <div class="container">
 
-    <div class="block_3 sidebar">
-      <!-- <div class="filter" id="filter"></div> -->
-
-      
+    <div class="block_3 sidebar">      
       <button data-list="0" class="filter filter_statistic filter_active">
         <span class="statistic_number">145</span>
         <span class="statistic_text"><strong>Total patients</strong> at Richmond Resource Centers.</span>
@@ -36,8 +33,6 @@
     </div>
 
     <div class="block_9 block_padding">
-      <h4>Viewing patients at <strong>Richmond Resource Center</strong></h4>
-
       <ul id="list-0" class="list list_table list_filter list_filter_active">
         {% for patient in patients %}
           
@@ -71,381 +66,34 @@
           /END ORIGINAL LOOP -->
         {% endfor %}
       </ul>
-
-      <!-- <ul id="list-0" class="list list_table list_filter list_filter_active">
-        <li class="list_row">
-          <a href="#">
-            <span class="list_row_item list_row_name ">Patient Name</span>
-            <span class="list_row_item list_row_dob">DOB: 10/12/1981</span>
-            <span class="list_row_item list_row_edits">Richmond Resource Center</span>
-          </a>
-        </li>
-
-        <li class="list_row">
-          <a href="#">
-            <span class="list_row_item list_row_name">Patient Name</span>
-            <span class="list_row_item list_row_dob">DOB: 10/12/1981</span>
-            <span class="list_row_item list_row_edits">Richmond Resource Center</span>
-          </a>
-        </li>
-        <li class="list_row">
-          <a href="#">
-            <span class="list_row_item list_row_name">Patient Name</span>
-            <span class="list_row_item list_row_dob">DOB: 10/12/1981</span>
-            <span class="list_row_item list_row_edits">Richmond Resource Center</span>
-          </a>
-        </li>
-        <li class="list_row">
-          <a href="#">
-            <span class="list_row_item list_row_name">Patient Name</span>
-            <span class="list_row_item list_row_dob">DOB: 10/12/1981</span>
-            <span class="list_row_item list_row_edits">Richmond Resource Center</span>
-          </a>
-        </li>
-        <li class="list_row">
-          <a href="#">
-            <span class="list_row_item list_row_name">Patient Name</span>
-            <span class="list_row_item list_row_dob">DOB: 10/12/1981</span>
-            <span class="list_row_item list_row_edits">Richmond Resource Center</span>
-          </a>
-        </li>
-        <li class="list_row">
-          <a href="#">
-            <span class="list_row_item list_row_name">Patient Name</span>
-            <span class="list_row_item list_row_dob">DOB: 10/12/1981</span>
-            <span class="list_row_item list_row_edits">Richmond Resource Center</span>
-          </a>
-        </li>
-        <li class="list_row">
-          <a href="#">
-            <span class="list_row_item list_row_name">Patient Name</span>
-            <span class="list_row_item list_row_dob">DOB: 10/12/1981</span>
-            <span class="list_row_item list_row_edits">Richmond Resource Center</span>
-          </a>
-        </li>
-        <li class="list_row">
-          <a href="#">
-            <span class="list_row_item list_row_name">Patient Name</span>
-            <span class="list_row_item list_row_dob">DOB: 10/12/1981</span>
-            <span class="list_row_item list_row_edits">Richmond Resource Center</span>
-          </a>
-        </li>
-        <li class="list_row">
-          <a href="#">
-            <span class="list_row_item list_row_name">Patient Name</span>
-            <span class="list_row_item list_row_dob">DOB: 10/12/1981</span>
-            <span class="list_row_item list_row_edits">Richmond Resource Center</span>
-          </a>
-        </li>
-        <li class="list_row">
-          <a href="#">
-            <span class="list_row_item list_row_name">Patient Name</span>
-            <span class="list_row_item list_row_dob">DOB: 10/12/1981</span>
-            <span class="list_row_item list_row_edits">Richmond Resource Center</span>
-          </a>
-        </li>
-        <li class="list_row">
-          <a href="#">
-            <span class="list_row_item list_row_name">Patient Name</span>
-            <span class="list_row_item list_row_dob">DOB: 10/12/1981</span>
-            <span class="list_row_item list_row_edits">Richmond Resource Center</span>
-          </a>
-        </li>
-        <li class="list_row">
-          <a href="#">
-            <span class="list_row_item list_row_name">Patient Name</span>
-            <span class="list_row_item list_row_dob">DOB: 10/12/1981</span>
-            <span class="list_row_item list_row_edits">Richmond Resource Center</span>
-          </a>
-        </li>
-        <li class="list_row">
-          <a href="#">
-            <span class="list_row_item list_row_name">Patient Name</span>
-            <span class="list_row_item list_row_dob">DOB: 10/12/1981</span>
-            <span class="list_row_item list_row_edits">Richmond Resource Center</span>
-          </a>
-        </li>
-        <li class="list_row">
-          <a href="#">
-            <span class="list_row_item list_row_name">Patient Name</span>
-            <span class="list_row_item list_row_dob">DOB: 10/12/1981</span>
-            <span class="list_row_item list_row_edits">Richmond Resource Center</span>
-          </a>
-        </li>
-        <li class="list_row">
-          <a href="#">
-            <span class="list_row_item list_row_name">Patient Name</span>
-            <span class="list_row_item list_row_dob">DOB: 10/12/1981</span>
-            <span class="list_row_item list_row_edits">Richmond Resource Center</span>
-          </a>
-        </li>
-        <li class="list_row">
-          <a href="#">
-            <span class="list_row_item list_row_name">Patient Name</span>
-            <span class="list_row_item list_row_dob">DOB: 10/12/1981</span>
-            <span class="list_row_item list_row_edits">Richmond Resource Center</span>
-          </a>
-        </li>
-        <li class="list_row">
-          <a href="#">
-            <span class="list_row_item list_row_name">Patient Name</span>
-            <span class="list_row_item list_row_dob">DOB: 10/12/1981</span>
-            <span class="list_row_item list_row_edits">Richmond Resource Center</span>
-          </a>
-        </li>
-        <li class="list_row">
-          <a href="#">
-            <span class="list_row_item list_row_name">Patient Name</span>
-            <span class="list_row_item list_row_dob">DOB: 10/12/1981</span>
-            <span class="list_row_item list_row_edits">Richmond Resource Center</span>
-          </a>
-        </li>
-        <li class="list_row">
-          <a href="#">
-            <span class="list_row_item list_row_name">Patient Name</span>
-            <span class="list_row_item list_row_dob">DOB: 10/12/1981</span>
-            <span class="list_row_item list_row_edits">Richmond Resource Center</span>
-          </a>
-        </li>
-        <li class="list_row">
-          <a href="#">
-            <span class="list_row_item list_row_name">Patient Name that happens to be really long!</span>
-            <span class="list_row_item list_row_dob">DOB: 10/12/1981</span>
-            <span class="list_row_item list_row_edits">Richmond Resource Center</span>
-          </a>
-        </li>
-        <li class="list_row">
-          <a href="#">
-            <span class="list_row_item list_row_name">Patient Name</span>
-            <span class="list_row_item list_row_dob">DOB: 10/12/1981</span>
-            <span class="list_row_item list_row_edits">Richmond Resource Center</span>
-          </a>
-        </li>
-        <li class="list_row">
-          <a href="#">
-            <span class="list_row_item list_row_name">Patient Name</span>
-            <span class="list_row_item list_row_dob">DOB: 10/12/1981</span>
-            <span class="list_row_item list_row_edits">Richmond Resource Center</span>
-          </a>
-        </li>
-        <li class="list_row">
-          <a href="#">
-            <span class="list_row_item list_row_name">Patient Name</span>
-            <span class="list_row_item list_row_dob">DOB: 10/12/1981</span>
-            <span class="list_row_item list_row_edits">Richmond Resource Center</span>
-          </a>
-        </li>
-        <li class="list_row">
-          <a href="#">
-            <span class="list_row_item list_row_name">Patient Name</span>
-            <span class="list_row_item list_row_dob">DOB: 10/12/1981</span>
-            <span class="list_row_item list_row_edits">Richmond Resource Center</span>
-          </a>
-        </li>  
-      </ul>
-
-      <ul id="list-1" class="list list_table list_filter">
-        <li class="list_row">
-          <a href="#">
-            <span class="list_row_item list_row_name ">Patient Name</span>
-            <span class="list_row_item list_row_dob">DOB: 10/12/1981</span>
-            <span class="list_row_item list_row_edits">Richmond Resource Center</span>
-          </a>
-        </li>
-        <li class="list_row">
-          <a href="#">
-            <span class="list_row_item list_row_name ">Patient Name</span>
-            <span class="list_row_item list_row_dob">DOB: 10/12/1981</span>
-            <span class="list_row_item list_row_edits">Richmond Resource Center</span>
-          </a>
-        </li>
-        <li class="list_row">
-          <a href="#">
-            <span class="list_row_item list_row_name ">Patient Name</span>
-            <span class="list_row_item list_row_dob">DOB: 10/12/1981</span>
-            <span class="list_row_item list_row_edits">Richmond Resource Center</span>
-          </a>
-        </li>
-        <li class="list_row">
-          <a href="#">
-            <span class="list_row_item list_row_name ">Patient Name</span>
-            <span class="list_row_item list_row_dob">DOB: 10/12/1981</span>
-            <span class="list_row_item list_row_edits">Richmond Resource Center</span>
-          </a>
-        </li>
-        <li class="list_row">
-          <a href="#">
-            <span class="list_row_item list_row_name ">Patient Name</span>
-            <span class="list_row_item list_row_dob">DOB: 10/12/1981</span>
-            <span class="list_row_item list_row_edits">Richmond Resource Center</span>
-          </a>
-        </li>
-        <li class="list_row">
-          <a href="#">
-            <span class="list_row_item list_row_name ">Patient Name</span>
-            <span class="list_row_item list_row_dob">DOB: 10/12/1981</span>
-            <span class="list_row_item list_row_edits">Richmond Resource Center</span>
-          </a>
-        </li>
-        <li class="list_row">
-          <a href="#">
-            <span class="list_row_item list_row_name ">Patient Name</span>
-            <span class="list_row_item list_row_dob">DOB: 10/12/1981</span>
-            <span class="list_row_item list_row_edits">Richmond Resource Center</span>
-          </a>
-        </li>
-        <li class="list_row">
-          <a href="#">
-            <span class="list_row_item list_row_name ">Patient Name</span>
-            <span class="list_row_item list_row_dob">DOB: 10/12/1981</span>
-            <span class="list_row_item list_row_edits">Richmond Resource Center</span>
-          </a>
-        </li>
-      </ul>
-
-      <ul id="list-2" class="list list_table list_filter">
-        <li class="list_row">
-          <a href="#">
-            <span class="list_row_item list_row_name ">Patient Name</span>
-            <span class="list_row_item list_row_dob">DOB: 10/12/1981</span>
-            <span class="list_row_item list_row_edits">Richmond Resource Center</span>
-          </a>
-        </li>
-        <li class="list_row">
-          <a href="#">
-            <span class="list_row_item list_row_name ">Patient Name</span>
-            <span class="list_row_item list_row_dob">DOB: 10/12/1981</span>
-            <span class="list_row_item list_row_edits">Richmond Resource Center</span>
-          </a>
-        </li>
-        <li class="list_row">
-          <a href="#">
-            <span class="list_row_item list_row_name ">Patient Name</span>
-            <span class="list_row_item list_row_dob">DOB: 10/12/1981</span>
-            <span class="list_row_item list_row_edits">Richmond Resource Center</span>
-          </a>
-        </li>
-      </ul>
-
-      <ul id="list-3" class="list list_table list_filter">
-        <li class="list_row">
-          <a href="#">
-            <span class="list_row_item list_row_name ">Patient Name</span>
-            <span class="list_row_item list_row_dob">DOB: 10/12/1981</span>
-            <span class="list_row_item list_row_edits">Richmond Resource Center</span>
-          </a>
-        </li>
-        <li class="list_row">
-          <a href="#">
-            <span class="list_row_item list_row_name ">Patient Name</span>
-            <span class="list_row_item list_row_dob">DOB: 10/12/1981</span>
-            <span class="list_row_item list_row_edits">Richmond Resource Center</span>
-          </a>
-        </li>
-        <li class="list_row">
-          <a href="#">
-            <span class="list_row_item list_row_name ">Patient Name</span>
-            <span class="list_row_item list_row_dob">DOB: 10/12/1981</span>
-            <span class="list_row_item list_row_edits">Richmond Resource Center</span>
-          </a>
-        </li>
-        <li class="list_row">
-          <a href="#">
-            <span class="list_row_item list_row_name ">Patient Name</span>
-            <span class="list_row_item list_row_dob">DOB: 10/12/1981</span>
-            <span class="list_row_item list_row_edits">Richmond Resource Center</span>
-          </a>
-        </li>
-        <li class="list_row">
-          <a href="#">
-            <span class="list_row_item list_row_name ">Patient Name</span>
-            <span class="list_row_item list_row_dob">DOB: 10/12/1981</span>
-            <span class="list_row_item list_row_edits">Richmond Resource Center</span>
-          </a>
-        </li>
-        <li class="list_row">
-          <a href="#">
-            <span class="list_row_item list_row_name ">Patient Name</span>
-            <span class="list_row_item list_row_dob">DOB: 10/12/1981</span>
-            <span class="list_row_item list_row_edits">Richmond Resource Center</span>
-          </a>
-        </li>
-        <li class="list_row">
-          <a href="#">
-            <span class="list_row_item list_row_name ">Patient Name</span>
-            <span class="list_row_item list_row_dob">DOB: 10/12/1981</span>
-            <span class="list_row_item list_row_edits">Richmond Resource Center</span>
-          </a>
-        </li>
-        <li class="list_row">
-          <a href="#">
-            <span class="list_row_item list_row_name ">Patient Name</span>
-            <span class="list_row_item list_row_dob">DOB: 10/12/1981</span>
-            <span class="list_row_item list_row_edits">Richmond Resource Center</span>
-          </a>
-        </li>
-        <li class="list_row">
-          <a href="#">
-            <span class="list_row_item list_row_name ">Patient Name</span>
-            <span class="list_row_item list_row_dob">DOB: 10/12/1981</span>
-            <span class="list_row_item list_row_edits">Richmond Resource Center</span>
-          </a>
-        </li>
-        <li class="list_row">
-          <a href="#">
-            <span class="list_row_item list_row_name ">Patient Name</span>
-            <span class="list_row_item list_row_dob">DOB: 10/12/1981</span>
-            <span class="list_row_item list_row_edits">Richmond Resource Center</span>
-          </a>
-        </li>
-        <li class="list_row">
-          <a href="#">
-            <span class="list_row_item list_row_name ">Patient Name</span>
-            <span class="list_row_item list_row_dob">DOB: 10/12/1981</span>
-            <span class="list_row_item list_row_edits">Richmond Resource Center</span>
-          </a>
-        </li>
-        <li class="list_row">
-          <a href="#">
-            <span class="list_row_item list_row_name ">Patient Name</span>
-            <span class="list_row_item list_row_dob">DOB: 10/12/1981</span>
-            <span class="list_row_item list_row_edits">Richmond Resource Center</span>
-          </a>
-        </li>
-        <li class="list_row">
-          <a href="#">
-            <span class="list_row_item list_row_name ">Patient Name</span>
-            <span class="list_row_item list_row_dob">DOB: 10/12/1981</span>
-            <span class="list_row_item list_row_edits">Richmond Resource Center</span>
-          </a>
-        </li>
-        <li class="list_row">
-          <a href="#">
-            <span class="list_row_item list_row_name ">Patient Name</span>
-            <span class="list_row_item list_row_dob">DOB: 10/12/1981</span>
-            <span class="list_row_item list_row_edits">Richmond Resource Center</span>
-          </a>
-        </li>
-      </ul>
-
-      <ul id="list-4" class="list list_table list_filter">
-        <li class="list_row">
-          <a href="#">
-            <span class="list_row_item list_row_name ">Patient Name</span>
-            <span class="list_row_item list_row_dob">DOB: 10/12/1981</span>
-            <span class="list_row_item list_row_edits">Richmond Resource Center</span>
-          </a>
-        </li>
-      </ul> -->
     </div>
-
   </div>
-
-
-
 {% endblock %}
 
 {% block script %}
+<script>
+  /*
+  ** TEMPORARY SEARCH RESULTS
+  ** used in /front/js/search.js
+  **
+  */
+  window.temp = null;
+  window.tempSearchData = {
+    total: 0,
+    list: []
+  };
+
+  {% for patient in patients %}
+  temp = {
+    name: '{{ patient.full_name or patient.first_name }}',
+    dob: '{{ patient.dob }}',
+    ssn: '{{ patient.ssn }}'
+  };
+  tempSearchData.list.push(temp);
+  tempSearchData.total++;
+  {% endfor %}
+</script>
+
 <script type="defiant/xsl-template">
   <xsl:template name="search_results_list">
     <ul class="list list_table">

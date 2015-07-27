@@ -1,6 +1,7 @@
 /*
 **  SEARCH
-**  If #search exists, load patients as a large JSON for Defiant.js
+**  If #search exists, load tempSearchData as a large JSON for Defiant.js
+**  `tempSearchData` is currently being created in index.html as a global variable
 **
 */
 window.Search = window.Search || {};
@@ -12,7 +13,7 @@ var Search = function ( options ) {
     var valueName = $('#field_search_patient_name').val();
     var valueDob = $('#field_search_patient_dob').val();
     var valueSsn = $('#field_search_patient_ssn').val();
-    var res = JSON.search( patients, '//*[contains(name, "'+valueName+'") or contains(dob, "'+valueDob+'") or contains(ssn, "'+valueSsn+'")]' );
+    var res = JSON.search( tempSearchData, '//*[contains(name, "'+valueName+'") or contains(dob, "'+valueDob+'") or contains(ssn, "'+valueSsn+'")]' );
     var results = {
       patients: res,
       none: [
@@ -22,7 +23,7 @@ var Search = function ( options ) {
       ]
     };
     console.log(results);
-    if (res.length > patients.total) {
+    if (res.length > tempSearchData.total) {
       var html = "";
     } else if (!res.length) {
       var html = Defiant.render('search_noresults', results);
@@ -41,43 +42,3 @@ var Search = function ( options ) {
     $('#list-'+id).addClass('list_filter_active');
   });
 }
-
-/*
-**  PATIENT DATA USED FOR SEARCH
-**
-*/
-window.patients = {
-  total: 10,
-  list: [
-    {
-      name: 'Sam Matthews',
-      dob: '02/09/1989',
-      ssn: '469-23-9973'
-    },
-    {
-      name: 'Sarah Johnson',
-      dob: '02/09/1989',
-      ssn: '469-23-9973'
-    },
-    {
-      name: 'Cotton Awesome',
-      dob: '02/09/1989',
-      ssn: '469-23-9973'
-    },
-    {
-      name: 'Super Duper',
-      dob: '02/09/1989',
-      ssn: '222-33-4444'
-    },
-    {
-      name: 'John Matthews',
-      dob: '02/09/1989',
-      ssn: '469-23-9973'
-    },
-    {
-      name: 'Sam Johnson',
-      dob: '02/09/1989',
-      ssn: '469-23-9973'
-    }
-  ]
-};
