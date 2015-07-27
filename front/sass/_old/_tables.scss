@@ -1,0 +1,8 @@
+.table-wrapper {
+  width: 100%;
+  overflow-x: scroll;
+  @media screen and (max-width: 768px) {
+    background:white;
+    border-right:1px solid #999;
+  }
+}

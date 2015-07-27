@@ -1,0 +1,53 @@
+.nav_tabs {
+  margin: $tab-container-margin;
+  .tabs {
+    @include clearfix();
+    margin-left: $tab-margin;
+    .tab {
+      float: left;
+      cursor: pointer;
+      padding: $tab-padding;
+      position: relative;
+      text-transform: uppercase;
+      margin-right: $tab-margin;
+      font-size: $tab-font-size;
+      border: $tab-border;
+      background: $tab-background-color;
+      border-top-left-radius: $tab-border-radius;
+      border-top-right-radius: $tab-border-radius;
+      &:first-child {
+        &:before {
+          @extend %tab_meta_border;
+          right: 100%;
+        }
+      }
+      &:hover {
+        background-color: $tab-hover-color;
+      }
+      &.tab_active {
+        background-color: $tab-background-color;
+        border-bottom: $tab-active-border;
+      }
+      &:after {
+        @extend %tab_meta_border;
+        left: 100%;
+      }
+    } 
+    @media (max-width: $break) {
+      display: none;
+    }
+  }
+  .tabs_dropdown { // mobile select menu
+    @extend %dropdown_reset;
+    padding: $tab-padding;
+    font-size: $tab-font-size;
+    text-transform: uppercase;
+    width: 100%;
+    background-color: $tab-background-color;
+    border: $tab-border;
+    @media (min-width: $break) {
+      display: none;
+    }
+  }
+}
+

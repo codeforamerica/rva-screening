@@ -1,0 +1,417 @@
+body {
+  padding:0;
+  margin:0;
+  background:#f6f6f6;
+}
+.glyphicon { line-height: inherit; }
+
+
+/* HELPERS
+ *
+ *
+ */
+.push-right { /* used mostly with icons */
+  margin-right:.5em;
+}
+.push-left {
+  margin-left:1em;
+}
+.pull-right-desktop {
+  @media screen and (min-width: 768px) {
+    float:right;
+  }
+}
+
+/* STYLE MIXINS
+ *
+ *
+ */
+@mixin block {
+  background:white;
+  padding:1em;
+  margin-bottom:10px;
+  position:relative;
+}
+
+
+/* MENU
+ *
+ *
+ */
+.navbar {
+  border:none;
+  .nav {
+    box-sizing:border-box;  
+    -moz-box-sizing:border-box; 
+    -webkit-box-sizing:border-box;
+  }
+  li {
+    box-sizing:border-box;  
+    -moz-box-sizing:border-box; 
+    -webkit-box-sizing:border-box;
+    &.current {
+      background-color:#353535;
+    }
+  }
+}
+.nav a {}
+
+.patient-nav {
+  margin-bottom:1em;
+  li {
+    &.active {
+      a {
+        background:#f6f6f6;
+      }
+    }
+  }
+}
+
+/* SERVICE & SHARE INFORMATION
+ *
+ *
+ */
+.service {
+  margin-bottom:3em;
+}
+
+.share-button {
+  text-transform:uppercase;
+  letter-spacing:.1em;
+  &.shared {
+    background:#2ECC40;
+    color: white;
+    &:after {
+      font-family: "Glyphicons Halflings";
+      content: "\e013";
+      margin-left: 10px;
+    }
+  }
+}
+
+/* LOGIN LANDING
+ *
+ *
+ */
+#patient-search {
+  .list {
+    margin:0 0 2em;
+    padding:0;
+    list-style-type: none;
+  }
+}
+
+@mixin pli-flag($text, $color) {
+  text-transform: uppercase;
+  color:white;
+  font-size:0.75em;
+  font-weight:900;
+  border-radius:2px;
+  padding:.2em .5em;
+  letter-spacing:.1em;
+  position: absolute;
+  top:10px;
+  right:10px;
+  background-color:$color;
+  content:$text;
+}
+
+.patient-list-item { 
+  background:white;
+  padding:.1em 1em 1em;
+  margin-bottom:10px;
+  position:relative;
+
+  @media screen and (min-width: 768px) {
+    &:nth-child(2n-1) {
+      border-right:10px solid #f6f6f6;
+    }
+  }
+  
+  &.recent {
+    &:before {
+      @include pli-flag("recently updated", #4D1B7B);
+    }
+  }
+
+  &.new {
+    &:before {
+      @include pli-flag("new patient", #2ECC40);
+    }
+  }
+
+  .patient-dob {
+    color:#999;
+  }
+  .completion-wrapper {
+    width:200px;
+    height:8px;
+    border:1px solid #e5e5e5;
+    border-radius:3px;
+    overflow:hidden;
+    position:relative;
+    .completion {
+      position: absolute;
+      height:100%;
+      width:50%;
+      &.high { background-color:#3D9970; }
+      &.med { background-color:#2ECC40; }
+      &.low { background-color:#FF4136; }
+    }
+  }
+  .completion-percentage {
+    font-size:.85em;
+    color:#c0c0c0;
+    margin-bottom:10px;
+  }
+}
+
+.patient-list-item-id {
+  font-weight:100;
+  letter-spacing: .05em;
+  color:#c0c0c0;
+}
+
+.alert.small {
+  padding:0 .3em;
+  margin-bottom:0;
+}
+.push-left {
+  margin-left:.5em;
+}
+.push-right {
+  margin-right:.5em;
+}
+
+
+/* PATIENT DETAILS
+ *
+ *
+ */
+.patient-details-wrapper {
+  opacity:.3;
+  &.show {
+    opacity:1;
+    .hide-block {
+      display:block;
+    }
+  }
+  .hide-block {
+    display:none;
+  }
+}
+
+.patient-profile {
+  margin-bottom:5px;
+  @media screen and (max-width: 992px) {
+    h2 {
+      font-size:1.5em;
+    }
+    .fpl {
+      font-size:1em;
+    }
+    .patient-image {
+      float:left;
+      margin-right:5px;
+      max-width:100px;
+    }
+  }
+}
+
+
+/* PRE-SCREENING
+ *
+ *
+ */
+@mixin title {
+  text-transform:uppercase;
+  letter-spacing:.1em;
+}
+.prescreen-title {
+  text-transform: uppercase;
+  margin-top:2em;
+}
+.prescreen-user-info {
+  margin-bottom:1em;
+  background:white;
+  padding:1em;
+  
+  .prescreen-user-info-item {
+    text-align:center;
+
+    @media screen and (min-width: 768px) {
+      &.first {
+        text-align:right;
+        border-right:1px solid #c0c0c0;
+      }
+    }
+    &.first {
+      h2 {
+        color:#0074D9;
+      }
+    }
+    
+    p {
+      @include title;
+      font-size:.8em;
+      color:#c0c0c0;
+      margin:0;
+      padding:0;
+    }
+
+    h2 {
+      color:#333;
+      text-transform:uppercase;
+      font-weight:900;
+      font-size:1.3em;
+      letter-spacing:.1em;
+      margin:0;
+      padding:0;
+    }
+  }
+
+  .prescreen-fpl {
+    border:1px solid #c0c0c0;
+    font-size:1.5em;
+    font-weight:300;
+    padding:1em;
+    strong {
+      // color:#333;
+    }
+  }
+}
+
+.prescreen-service {
+  background:white;
+  margin-bottom:1em;
+  
+  .prescreen-service-title {
+    padding:.5em;
+    font-size:1.5em;
+    font-weight:300;
+    border-bottom:1px solid #c0c0c0;
+  }
+
+  &.eligible {
+    border-left:5px solid #2ECC40;
+    .prescreen-service-title {
+      color:#2ECC40;
+    }
+  }
+
+  &.not-eligible {
+    border-left:5px solid #AAAAAA;
+    .prescreen-service-title {
+      color:#AAAAAA;
+    }
+  }
+
+  .prescreen-service-info {
+    padding:1em;
+  }
+
+  .prescreen-service-items {
+    .item {
+      padding:.6em 1em;
+      font-size:.9em;
+      &:nth-child(2n-1) {
+        background-color:#f6f6f6;
+      }
+      @include title;
+      .item-price {
+        font-size:1.2em;
+        color:#3D9970;
+      }
+    }
+  }
+}
+
+
+.pre-screeners {}
+.pre-screener-option {
+  padding:1.2em;
+  color:#fff;
+  background:#333;
+  margin-bottom:1em;
+  text-transform: uppercase;
+  font-weight:300;
+  letter-spacing: .1em;
+}
+.pre-screener-option .glyphicon {
+  float:right;
+}
+.pre-screener-option:nth-child(2n) {
+  background-color:#e5e5e5;
+}
+
+.prescreen-form .form-group {
+  margin-bottom:3em;
+}
+
+.service-pre-screen-result {
+  margin-bottom: 5em;
+}
+
+
+/* PATIENT DETAILS
+ *
+ *
+ */
+
+/* Lable styles for emphasis
+*/
+label { font-weight: 300; }
+label strong { font-weight: 900; }
+
+.fpl { font-size: 2rem; font-weight: 500; }
+.fpl-figure { font-size: 1.15em; }
+.fpl-percent-symbol{ font-size: 0.8em; position: relative; top: -0.5rem; }
+
+ul.documents { list-style-type: none; padding-left: 0; }
+
+.patient-options { overflow: auto; }
+.left{ float: left; }
+.right{ float: right; }
+.hidden-input { display: none; disabled: true; }
+
+.patient_doc_thumbnail img {
+  width: 4rem;
+}
+
+/*[___] [___]*/
+.dob_ssn_group { overflow: auto; }
+.dob { float: left; width: 45%; }
+.ssn { float: right; width: 45%; }
+
+/* Phone numbers */
+.main_phone input { font-weight: bold; }
+.phone_number_number { max-width: 8em; }
+/* Addresses */
+.address_type { max-width: 5em; }
+/* Emergency Contact relation & Phone */
+.emergency_contact_relation_phone_group { overflow: auto; }
+.emergency_contact_relation { float: left; width: 60% }
+.emergency_contact_phone { float: right; width: 35%; }
+
+/* Gender Transgender */
+.patient_gender_trans_group { overflow: auto; }
+.gender { float: left; width: 45% }
+.transgender { float: right; width: 45%; }
+
+/* HOUSEHOLD SIZE
+ */
+tr.hh_member.patient {
+  color: #888;
+}
+
+.hh_member_subform {
+  overflow: auto;
+}
+.hh_member_dob {
+  float: left;
+  width: 43%;
+}
+.hh_member_relationship_to_patient {
+  float: right;
+  width: 53%;
+}

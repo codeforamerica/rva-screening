@@ -1,0 +1,63 @@
+/* * * * * * * * 
+**
+** MIXINS
+**
+** * * * * * * */
+
+// clearfix
+@mixin clearfix() {
+  &:before,
+  &:after {
+    content:" ";
+    display:table;
+  }
+  &:after {
+    clear:both;
+  }
+  *zoom:1;
+}
+.cf {
+  @include clearfix();
+}
+
+.pull_left {
+  float: left;
+}
+
+// resetting lists
+@mixin list_reset() {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+// box sizing
+@mixin bbox($option: border-box) {
+  -webkit-box-sizing: $option;
+     -moz-box-sizing: $option; 
+          box-sizing: $option;  
+}
+
+// transition
+@mixin transition($time: .2s) {
+  -webkit-transition: $time;
+     -moz-transition: $time;
+      -ms-transition: $time;
+       -o-transition: $time;
+          transition: $time;
+}
+
+
+/* * * * * * * * 
+**
+** INCLUDES
+**
+** * * * * * * */
+
+/* @extends %icon;
+** For working with :before and :after pseudo selectors 
+** and adding icons to the content. 
+*/
+%icon {
+  font-family: "FontAwesome";
+}

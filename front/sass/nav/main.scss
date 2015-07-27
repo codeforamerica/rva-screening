@@ -1,0 +1,121 @@
+/*
+** MAIN NAVIGATION
+** This is a header navigation on desktop and a 
+** swipe-enabled sidebar on mobile.
+*/
+
+
+nav {} // DO NOT STYLE :)
+body.menu_open {
+  overflow:hidden;
+  .nav {
+    left: 0;
+  }
+}
+
+// the nav wrapper, element, and all around chill dude
+.nav {
+  // sidebar positioning
+  position:fixed;
+  left: -$nav-sidebar-width;
+  width: $nav-sidebar-width;
+  top: 0;
+  bottom: 0;
+  z-index: 10;
+
+  // styling
+  @include transition();
+  background-color: $nav-background-color;
+  @media (min-width: $break) {
+    position:relative;
+    top: 0; left: 0;
+    bottom: auto;
+    width: 100%;
+    text-align: right;
+  }
+}
+
+.button_nav {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  @media (min-width: $break) {
+    display: none;
+  }
+}
+
+// logo space located within the .nav element
+.nav_logo {
+  padding: 0.5em 10px;
+  font-weight: 100;
+  color: darken($color-fuscia, 20);
+  letter-spacing: -2px;
+  font-size: 1.6em; // temporary
+  @media (min-width: $break) {
+    float: left;
+    padding: 5px;
+  }
+}
+
+// main menu space located within the .nav
+.nav_menu {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+// unordered list located within the .nav_menu
+.nav_menu_list {
+  @include list_reset();
+  @media (min-width: $break) {
+  }
+}
+
+// list item located within the .nav_menu_list
+.menu_list_item {
+  font-size: 0.85em;
+  letter-spacing: .1em;
+  font-weight: 100;
+  border-bottom: $nav-item-border;
+  a {
+    display: block;
+    padding: 10px;
+    color: $color-white;
+    @media (min-width: $break) {
+      display: inline-block;
+    }
+  }
+  &:nth-child(1) {
+    border-top: $nav-item-border;
+  }
+  @media (min-width: $break) {
+    display: inline-block;
+    border: none;
+    &:nth-child(1) {
+      border: none;
+    }
+    a {
+      padding: 1em;
+      &:hover {
+        background-color: darken($nav-background-color, 10);
+      }
+    }
+  }
+}
+
+// user-related navigation items located within the .nav
+.nav_user {
+  overflow: hidden; // temporary. What do we do with long usernames?
+  text-align: right;
+  padding: 1em;
+  color: $color-black;
+  a { color: $color-black; }
+  @media (min-width: $break) {
+    display: inline-block;
+    vertical-align: middle;
+    padding: 1em;
+    font-size: .7em;
+  }
+}
+.nav_user_profile {
+  font-weight: 900;
+}

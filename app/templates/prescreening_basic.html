@@ -1,7 +1,16 @@
 {% extends "base.html" %}
 {% block content %}
-<hr>
-    <form method="post" class="prescreen-form">
+<div class="container">
+  <form method="post" class="prescreen-form">
+    <div class="block_3 block_padding">
+      <h4>{{ _('Prescreener') }}</h4>
+      <a class="filter" href="{{ url_for('screener.new_prescreening') }}">1. Select Services</a>
+      <button type="submit" class="filter filter_active" href="">2. General Information</button>
+      <button type="submit" class="filter" href="">3. Results</button>
+    </div>
+
+    <div class="block_9">
+      
       {{ form.hidden_tag() }}
 
       {% if form.errors %}
@@ -13,6 +22,8 @@
             {% endfor %}
         </ul>
       {% endif %}
+
+      <h3>{{ _("Please provide answers to the following questions.") }}</h3>
 
       <!--household size-->
       <div class="form-group">
@@ -38,7 +49,11 @@
         {{ form.eligible_for_medicaid() }}
       </div>
 
-      <button class="btn btn-primary" type="submit">{{_('Check eligibility')}}</button>       
+      <button class="button button_green"  type="submit">
+        {{ _("Check eligibility") }} <i class="fa fa-chevron-right"></i>
+      </button>       
 
-    </form>
+    </div>
+  </form>
+</div>
 {% endblock %}

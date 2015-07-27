@@ -1,0 +1,298 @@
+// a label for a field or a multifield
+.field_label {
+  color: $field-label-color;
+  font-size: 0.9em;
+  font-weight: 800;
+}
+
+// flags are short pieces of text that explain something about the field
+.field_flag {
+  font-size: 0.8em;
+  color: $field_flag_color;
+  vertical-align: top;
+}
+
+// help text for a field or multifield
+.field_helptext {
+  display: block;
+  font-size: 0.8em;
+  color: $color-gray;
+  max-width: inherit;
+}
+
+// an individual input element in a field
+.field_input {
+  width: 100%;
+  &:focus {
+    outline: solid 1px $color-blue;
+  }
+
+  &.field_input_verified,
+  &.field_input_invalid {
+    + .field_verification {
+      position: absolute;
+      right: 11px;
+      bottom: 12px;
+      &:before {
+        @extend %icon;
+      }
+    }
+  }
+  &.field_input_verified {
+    + .field_verification {
+      &:before {
+        content:"\f00c";
+        color: $color-green;
+      }
+    }
+  }
+  &.field_input_invalid {
+    border: 1px solid $color-red;
+    + .field_verification {
+      &:before {
+        content:"\f00d";
+        color: $color-red;
+      }
+    }
+  }
+}
+
+// an individual select element in a field
+.field_select {
+  @extend %dropdown_reset;
+  &:before {}
+}
+
+.field_input,
+.field_select {
+  background-color: $color-white;
+  display: block;
+  padding: 0 0.5em;
+  height: 2em; // i think this is legit?
+  border: 1px solid $field-border-color;
+  font-size: 0.9em;
+  font-weight: 100;
+  color: $color-black;
+  @include bbox;
+  width: 100%;
+  @media (min-width: $break) {}
+  .field_input_large {
+    padding: .7em 1em;
+    border-radius: 5px;
+    border: 1px solid #e5e5e5;
+    font-size: 1.23em;
+  }
+}
+
+// search field styles
+.patient_search_form {
+  .field_label {
+    font-weight: 500;
+  }
+  .field_input {
+    padding: .4em .5em;
+    font-size: 1.6em;
+  }
+}
+
+.field_search_patient_name {
+  width: 100%;
+}
+.field_search_patient_dob,
+.field_search_patient_ssn {
+  width: 50%;
+  .field_label {
+    color: $search_input_optional_color;
+  }
+  .field_input {
+    border: 1px solid $search_input_optional_color;
+    color: lighten($color-black, 50);
+  }
+}
+
+.field_dob { width: 12em; }
+.field_ssn { width: 9em; }
+
+@media (min-width: $break) {
+  .field_first_name {}
+  .field_middle_name {}
+  .field_last_name {}
+
+  .field_phone_number { width: $width-third; }
+  .field_phone_number_description { width: $width-twothird; }
+
+  .field_address1 {}
+  .field_gender {}
+
+  // expanded search fields
+  .field_search_patient_name {
+    width: 100 - ($search_input_optional_width * 2);
+  }
+  .field_search_patient_dob,
+  .field_search_patient_ssn {
+    width: $search_input_optional_width;
+  }
+
+}
+
+
+@mixin checkbox($bg-color: $color-black, $default: #e5e5e5, $text-color: $color-lightgray) {
+  cursor: pointer;
+
+  // hidden defaults - THIS IS IMPORTANT!
+  input[type="checkbox"] {
+    opacity: 0;
+    display: none;
+  }
+
+  .field_checkbox_content {
+    background-color: $default;
+    .field_checkbox_content_title {
+      color: darken($default, 50);
+    }
+    .field_checkbox_content_text {
+      color: darken($default, 50);
+    }
+    &:hover {
+      background-color: darken($default, 10);
+      color: darken($default, 20);
+    }
+  }
+  input[type="checkbox"]:checked ~ .field_checkbox_content {
+    background: $bg-color;
+    &:hover {
+      background-color: lighten($bg-color, 10);
+    }
+    .field_checkbox_content_title {
+      color: $text-color;
+    }
+    .field_checkbox_content_text {
+      color: $text-color;
+    }
+  }
+
+  input[type="checkbox"]:disabled ~ .field_checkbox_content {
+    &:hover {
+      background-color: $checkbox-disabled-background;
+      color: darken($default, 50);
+    }
+  }
+
+  // default styles
+  .field_checkbox_content {
+    display: inline-block;
+    vertical-align: top;
+    font-size: $checkbox-title-font-size;
+    margin-bottom: .3em;
+    .field_checkbox_content_title {
+      padding: $checkbox-padding;
+      display: block;
+      &:before {
+        @extend %icon;
+        width: 20px;
+        display: inline-block;
+        content: "\f096";
+      }
+    }
+    .field_checkbox_content_text {
+      padding: 0 ($checkbox-padding + 0.2em) ($checkbox-padding + 0.2em);
+      display: block;
+      font-size: $checkbox-text-font-size;
+      a {
+        text-decoration: underline;
+        color: $color-darkgray;
+      }
+    }
+  }
+
+  // checked button
+  input[type="checkbox"]:checked ~ .field_checkbox_content {
+    .field_checkbox_content_title {
+      &:before {
+        content: "\f046";
+      }
+    }
+    .field_checkbox_content_text {
+      a {
+        color: $color-white;
+      }
+    }
+  }
+
+  // disabled button
+  input[type="checkbox"]:disabled ~ .field_checkbox_content {
+    opacity: 0.5;
+    cursor: default;
+    .field_checkbox_content_title,
+    .field_checkbox_content_text {
+      text-decoration: line-through;
+    }
+  }
+}
+
+// working checkbox examples
+.field_checkbox {
+  @include checkbox();
+  // button with extra content
+  &.checkbox_extra {
+    .field_checkbox_content {
+      width: $checkbox-content-width;
+    }
+  }
+
+  &.checkbox_small {
+    font-size: .7em;
+  }
+
+  &.checkbox_simple {
+    .field_checkbox_content {
+      .field_checkbox_content_title {
+        &:before {
+          width: .9em !important;
+        }
+      }
+    }
+  }
+
+  // different colors
+  &.checkbox_blue {
+    @include checkbox($color-blue);
+  }
+  &.checkbox_red {
+    @include checkbox($color-fuscia);
+  }
+  &.checkbox_green {
+    @include checkbox($color-green);
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

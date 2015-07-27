@@ -10,8 +10,9 @@ var inputClearingFunctions = [
 ];
 
 var AppController = function ( options ) {
-  console.info('App initialized :)');
+  console.info('APP INITIALIZED :)');
   this.options = options || {};
+
   addEventListeners();
   function addEventListeners() {
     /*
@@ -61,6 +62,44 @@ var AppController = function ( options ) {
     convertForPrint();
   }
 
+  /*
+  **  SEARCH FIELD CHECK
+  **  If #patient-search exists, initialize the search
+  **
+  */
+  if ($('#service-map').length) {
+
+    // temporary fake locations
+    var locations = [];
+    $('.location').each(function(){
+      var newLocation = {};
+      newLocation.coordinates = [parseFloat($(this).attr('data-latitude')), parseFloat($(this).attr('data-longitude'))];
+      newLocation.address = $(this).attr('data-address');
+      locations.push(newLocation);
+    });
+
+    L.mapbox.accessToken = 'pk.eyJ1Ijoic3ZtYXR0aGV3cyIsImEiOiJVMUlUR0xrIn0.NweS_AttjswtN5wRuWCSNA';
+    var map = L.mapbox.map('service-map', 'svmatthews.lidab7g5');
+
+    var markers = L.mapbox.featureLayer();
+    locations.forEach(addMarker);
+    function addMarker(location) {
+      var content = location.address;
+
+      var marker = L.marker(location.coordinates, {
+        icon: L.mapbox.marker.icon({
+          'marker-size': 'large',
+          'marker-symbol': 'star',
+          'marker-color': '#333'
+        })
+      }).bindPopup(content).addTo(markers);
+    }
+    markers.addTo(map);
+    map.fitBounds(markers.getBounds());
+
+
+  }
+
 };
 
 
@@ -82,9 +121,7 @@ AppController.prototype.initSearch = function ( id, options ) {
 function addNewInputRow($table, $input_row) {
   $new_row = $input_row.clone();
   $new_row.each(function() {
-    $(this).attr('id', '');
-    var input = $(this).find(':input');
-    input.val('');
+    $(this).find(':input').val('');
   });
   $table.append($new_row);
   return;
@@ -131,5 +168,4 @@ function sharePatientInfo( btn ) {
   $(btn).addClass('shared');
   $(btn).text('information sent');
 }
-
 

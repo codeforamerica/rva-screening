@@ -1,23 +1,46 @@
 {% extends "base.html" %}
 {% block content %}
 
-<h3>{{ _("Which services would you like to check your eligibility for?") }}</h3>
+<div class="container">
 
     <form method="post">
+
+      <div class="block_3 block_padding">
+        <h4>{{ _('Prescreener') }}</h4>
+        <button type="submit" class="filter filter_active" href="">1. Select Services</button>
+        <button type="submit" class="filter" href="">2. General Information</button>
+        <button type="submit" class="filter" href="">3. Results</button>
+      </div>
+
+      <div class="block_9">
+        <h3>{{ _("Which services would you like to check your eligibility for?") }}</h3>
     
-      {% for service in services %}
-        <div class="checkbox">
-          <label>
+        {% for service in services %}
+          <label class="field_checkbox checkbox_extra checkbox_blue">
             <input type="checkbox" class="text" value="{{service.id}}" name="services" checked="true">
-            {{service.name}}
+            <span class="field_checkbox_content">
+              <span class="field_checkbox_content_title">{{service.name}}</span>
+              <span class="field_checkbox_content_text">Lorem ipsum dolor sit amet, consectetur <a href="#">adipisicing</a> elit, sed do eiusmod</span>
+            </span>
           </label>
-        </div>
-      {% endfor %}
 
-      <button class="btn btn-primary"  type="submit">
-        {{ _("Check eligibility") }}
-      </button> 
+          <!-- ORIGINAL CHECKBOX
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" class="text" value="{{service.id}}" name="services" checked="true">
+              {{service.name}}
+            </label>
+          </div>
+          /END ORIGINAL CHECKBOX -->
+        {% endfor %}
+        <br> 
+        <button class="button button_green"  type="submit">
+          {{ _("Check eligibility") }} <i class="fa fa-chevron-right"></i>
+        </button>
 
+      </div>
     </form>
+  </div>
+</div>
 
 {% endblock %}

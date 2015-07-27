@@ -1,0 +1,20 @@
+.print-card {
+  width: 10cm;
+  height: 5cm;
+  border-radius:.3cm;
+  border:1px solid black;
+  span {
+    font-family: "Courier New", Courier, monospace;
+  }
+  .print-patient_address {
+    margin-top:1em;
+  }
+}
+
+@media print {
+  @page { margin: 2cm; }
+  body { width: 100%; margin: 0; }
+  * { visibility: hidden; height: 0px;}
+  .print,
+  .print * { visibility: visible; height: auto;}
+}

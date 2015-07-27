@@ -1,0 +1,11 @@
+.sidebar {
+  @media (min-width: $break) {}
+  background-color: $sidebar-background-color;
+}
+
+.sidebar_title {
+  display: block;
+  font-size: 1.1em;
+  margin: 1em 0 .3em;
+  color: $sidebar-title-color;
+}
