@@ -156,6 +156,8 @@ class Patient(BasicTable, db.Model):
   patient_service_permissions = db.relationship('PatientServicePermission', backref='patient', lazy='dynamic')
   services = db.relationship('Service', secondary='patient_service_permission')
 
+  referrals = db.relationship('PatientReferral', backref='patient', lazy='dynamic')
+
   def __init__(self, **fields):
     self.__dict__.update(fields)
 
