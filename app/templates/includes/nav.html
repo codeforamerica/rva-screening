@@ -2,8 +2,8 @@
   <div class="nav_logo">Richmond, VA</div>
   <div class="nav_menu">
     <ul class="nav_menu_list">
-      <li class="menu_list_item {% if request.path == url_for('screener.new_prescreening') %}current{% endif %}"><a href="{{ url_for('screener.new_prescreening') }}"><i class="fa fa-pencil"></i> {{ _("Pre-Screener") }}</a></li>
       {% if g.user.is_authenticated() %}
+      <li class="menu_list_item {% if request.path == url_for('screener.new_prescreening') %}current{% endif %}"><a href="{{ url_for('screener.new_prescreening') }}"><i class="fa fa-pencil"></i> {{ _("Pre-Screener") }}</a></li>
       <li class="menu_list_item {% if request.path == url_for('screener.index') %}current{% endif %}"><a href="{{ url_for('screener.index') }}"><i class="fa fa-search"></i> {{ _("Search Patients") }}</a></li>
       <!-- <li class="menu_list_item {% if request.path == url_for('screener.search_new') %}current{% endif %}"><a href="{{ url_for('screener.search_new') }}">{{ _("Find Patient in Network") }}</a></li> -->
       <!-- <li class="menu_list_item {% if request.path == url_for('screener.new_patient') %}current{% endif %}"><a href="{{ url_for('screener.new_patient') }}">Create Patient</a></li> -->
