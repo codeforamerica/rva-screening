@@ -1,19 +1,50 @@
 {% extends "base.html" %}
 {% block content %}
-  <form method="post">
+  <div class="outer login_form_bkg">
+    <div class="inner">
+      <div class="login_form">
+        <form method="post">
 
-    <div class="form-group">
-      <label for="email">{{ _("Email address") }}</label>
-      <input type="email" class="form-control" name="email" id="email" placeholder="{{ _("you@example.com") }}">
+          <label class="form_field form_field_large field_login_email">
+            <span class="field_label">
+              {{ _("Email address") }}
+            </span>
+            <input type="email" 
+              class="field_input" 
+              name="email"
+              id="email"
+              placeholder="{{ _('you@example.com') }}"
+              >
+            <span class="field_verification"></span>
+          </label>
+
+          <label class="form_field form_field_large field_login_password">
+            <span class="field_label">
+              {{ _("Password") }}
+            </span>
+            <input type="password" 
+              class="field_input" 
+              name="password"
+              id="password"
+              >
+            <span class="field_verification"></span>
+          </label>
+
+          <!-- <div class="form-group">
+            <label for="email">{{ _("Email address") }}</label>
+            <input type="email" class="form-control" name="email" id="email" placeholder="{{ _("you@example.com") }}">
+          </div>
+
+          <div class="form-group">
+            <label for="password">{{ _("Password") }}</label>
+            <input type="password" class="form-control" name="password" id="password">
+            <a href="auth_password-forgot.html">Forgot your password?</a>
+          </div> -->
+
+          <button class="button button_blue" type="submit">{{ _("Log in") }}</button>       
+
+        </form>
+      </div>
     </div>
-
-    <div class="form-group">
-      <label for="password">{{ _("Password") }}</label>
-      <input type="password" class="form-control" name="password" id="password">
-      <!--<a href="auth_password-forgot.html">Forgot your password?</a>-->
-    </div>
-
-    <button class="btn btn-primary" type="submit">{{ _("Log in") }}</button>       
-
-  </form>
+  </div>
 {% endblock %}

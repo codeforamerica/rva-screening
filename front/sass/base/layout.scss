@@ -1,0 +1,109 @@
+// main container element
+// TODO: specifically set the widths for this one
+.container {
+  @include clearfix();
+  margin:auto;
+  padding: 0 1em;
+  overflow-x: hidden; // for testing
+  @media (min-width: $break) {
+    width: $break - 2em;
+  }
+  @media (min-width: $break-large) {
+    width: $break-large - 2em;
+  }
+}
+
+// vert/horizontal centering helpers
+.outer {
+  top: 0;
+  display: table;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+.inner {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+// login form
+.login_form {
+  margin: auto;
+  max-width: 350px;
+  .form_field {
+    padding: 0;
+    margin-bottom: 1em;
+  }
+}
+
+.login_form_bkg {
+  background-image: url("/img/3230755445_0dfa545f2f_o.jpg"); // Taber Andrew Bain, Flickr - https://flic.kr/p/5Vut36
+  -webkit-background-size: cover; 
+     -moz-background-size: cover; 
+       -o-background-size: cover; 
+          background-size: cover;
+  background-position: center center;
+  .inner {
+    background-color: rgba(255,255,255,0.6);
+  }
+}
+
+
+// sections within the page, currently only used
+// for setting a background color to .section_search
+.section {}
+.section_search {}
+.section_patient_listings {}
+.section_patient_details {}
+
+
+// block sections, to be used within .containers
+// all exist on a 12 unit grid and are relative in 
+// size to the container element
+@mixin width($num) {
+  width: 100% * ($num / 12)
+}
+
+.row {
+  @include clearfix();
+}
+
+.block_1,
+.block_2,
+.block_3,
+.block_4,
+.block_5,
+.block_6,
+.block_7,
+.block_8,
+.block_9,
+.block_10,
+.block_11,
+.block_12 {
+  display: block;
+  @include bbox();
+  @media (min-width: $break) {
+    float: left;
+  }
+  &.block_right {
+    float: right;
+  }
+  &.block_padding {
+    padding: 1px 1.5em;
+  }
+}
+
+@media (min-width: $break) {
+  .block_1 { @include width(1); }
+  .block_2 { @include width(2); }
+  .block_3 { @include width(3); }
+  .block_4 { @include width(4); }
+  .block_5 { @include width(5); }
+  .block_6 { @include width(6); }
+  .block_7 { @include width(7); }
+  .block_8 { @include width(8); }
+  .block_9 { @include width(9); }
+  .block_10 { @include width(10); }
+  .block_11 { @include width(11); }
+  .block_12 { @include width(12); }
+}

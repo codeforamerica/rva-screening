@@ -1,0 +1,14 @@
+.service {
+  img {
+    width:100%;
+    height:auto;
+  }
+}
+
+.location {
+  @include block;
+}
+
+.location-map {
+  min-height:300px;
+}

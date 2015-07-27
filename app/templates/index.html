@@ -1,32 +1,54 @@
 {% extends "base.html" %}
 {% block content %}
 
-<!--     <a href="{{ url_for('screener.search_new') }}" class="btn btn-success right"><span class="glyphicon glyphicon-eye-open"></span> Search new patients</a> -->
+  {% include "includes/search_form.html" %}
+    
+  <div class="container">
 
-    <!-- <div class="panel panel-default">
-      <div class="panel-body">
-        <strong>Looking for a new patient?</strong> You can <a href="{{ url_for('screener.search_new') }}">search for patients</a> that already exist in the network. If they don't have their own profile, you can <a href="{{ url_for('screener.new_patient') }}">create a new patient</a>.
-      </div>
-    </div> -->
+    <div class="block_3 sidebar">      
+      <button data-list="0" class="filter filter_statistic filter_active">
+        <span class="statistic_number">145</span>
+        <span class="statistic_text"><strong>Total patients</strong> at Richmond Resource Centers.</span>
+      </button>
 
-    <h1>RVA Screener</h1>
+      <button data-list="1" class="filter filter_statistic">
+        <span class="statistic_number">8</span>
+        <span class="statistic_text">Patients have been updated <strong>today</strong>.</span>
+      </button>
 
-    <!-- search -->
-    <div id="patient-search">
-      <div class="form-group">
-        <input type="text" class="search form-control" placeholder="{{ _("Search your patients...") }}"/>
-      </div>
+      <button data-list="2" class="filter filter_statistic">
+        <span class="statistic_number">13</span>
+        <span class="statistic_text"><strong>New patients</strong> in the last week.</span>
+      </button>
 
-      <ul class="list">
+      <button data-list="3" class="filter filter_statistic">
+        <span class="statistic_number">21</span>
+        <span class="statistic_text">Patients have visited <strong>other clinics</strong> in the past month.</span>
+      </button>
 
+      <button data-list="4" class="filter filter_statistic">
+        <span class="statistic_number">54</span>
+        <span class="statistic_text">Patients <strong>haven't been updated</strong> in over a year.</span>
+      </button>
+    </div>
+
+    <div class="block_9 block_padding">
+      <ul id="list-0" class="list list_table list_filter list_filter_active">
         {% for patient in patients %}
-        <!--
-        TODO: add "new" and "recent" classes based on actual database timestamps.
-        Using the index count is a hack just to show the visuals and does not work
-        as expected!
+          
+          <!--
+          TODO: Add classes to .list_row based on filters to the left of list
+          -->
 
-        TODO: calculate percent completion realistically, not randomly with the loop.index
-        -->
+          <li class="list_row">
+            <a href="{{ url_for('screener.patient_details', id=patient.id) }}">
+              <span class="list_row_item list_row_name ">{{ patient.full_name or patient.first_name }}</span>
+              <span class="list_row_item list_row_dob">DOB: {{ patient.dob }}</span>
+              <span class="list_row_item list_row_edits">{{ _("Last edited by") }}: ___ {{ _("at") }} Richmond Resource Center</span>
+            </a>
+          </li>
+
+          <!-- ORIGINAL LOOP
           <li class="patient-list-item clearfix col-sm-6 {% if loop.index < 3 %}new{% endif %} {% if loop.index == 3 %}recent{% endif %}">
             <h3 class="patient-name">{{ patient.full_name or patient.first_name }}</h3>
             <p class="patient-dob">DOB: {{ patient.dob }}</p>
@@ -40,11 +62,75 @@
             <a class="btn btn-default btn-sm right" href="{{ url_for('screener.patient_details', id=patient.id) }}">
               {{ _("Details") }} <span class="glyphicon glyphicon-chevron-right"></span>
             </a>
-          </li>
+          </li> 
+          /END ORIGINAL LOOP -->
         {% endfor %}
-
       </ul>
-    <!-- /search -->
-    
-{% endblock %}    
+    </div>
+  </div>
+{% endblock %}
 
+{% block script %}
+<script>
+  /*
+  ** TEMPORARY SEARCH RESULTS
+  ** used in /front/js/search.js
+  **
+  */
+  window.temp = null;
+  window.tempSearchData = {
+    total: 0,
+    list: []
+  };
+
+  {% for patient in patients %}
+  temp = {
+    name: '{{ patient.full_name or patient.first_name }}',
+    dob: '{{ patient.dob }}',
+    ssn: '{{ patient.ssn }}',
+    url: '{{ url_for('screener.patient_details', id=patient.id) }}'
+  };
+  tempSearchData.list.push(temp);
+  tempSearchData.total++;
+  {% endfor %}
+</script>
+
+<script type="defiant/xsl-template">
+  <xsl:template name="search_results_list">
+    <ul class="list list_table">
+      <xsl:for-each select="//patients">
+        <li class="list_row" >
+          <a>
+            <xsl:attribute name="href">
+              <xsl:value-of select="url"/>
+            </xsl:attribute>
+            <span class="list_row_item list_row_name"><xsl:value-of select="name"/></span>
+            <span class="list_row_item list_row_dob"><xsl:value-of select="dob"/></span>
+            <span class="list_row_item list_row_edits">Richmond Resource Center</span>
+          </a>
+        </li>
+      </xsl:for-each>
+
+      <xsl:for-each select="//none">
+        <li class="list_row list_row_addnew">
+          <a href="#">
+            <i class="fa fa-plus"></i> Not the right <strong><xsl:value-of select="name"/></strong>? Add them as a new patient.
+          </a>
+        </li>
+      </xsl:for-each>
+
+    </ul>
+  </xsl:template>
+
+  <xsl:template name="search_noresults">
+    <xsl:for-each select="//none">
+      <div class="no_results">
+        <p><i class="fa fa-exclamation-circle"></i> No patients matched <strong><xsl:value-of select="name"/></strong></p>
+        <a href="#" class="button button_blue button_fat button_add">
+          Create a new patient record with <xsl:value-of select="name"/>
+        </a>
+      </div>
+    </xsl:for-each>
+  </xsl:template>
+</script>
+{% endblock %}

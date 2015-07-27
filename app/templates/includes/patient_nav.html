@@ -11,7 +11,28 @@
 </div>
 
 <br>
-<ul class="patient-nav nav nav-tabs">
+
+<nav class="nav_tabs">
+
+  <div class="tabs">
+    <a class="tab {% if request.path == url_for('screener.patient_details', id=patient.id) %}tab_active{% endif %}" href="{{ url_for('screener.patient_details', id=patient.id) }}"><i class="fa fa-list"></i> {{ _("Details") }}</a>
+
+    <a class="tab {% if request.path == url_for('screener.patient_print', patient_id=patient.id) %}tab_active{% endif %}" href="{{ url_for('screener.patient_print', patient_id=patient.id) }}"><i class="fa fa-history"></i> {{ _("Print this patient") }}</a>
+
+    <a class="tab {% if request.path == url_for('screener.patient_history', patient_id=patient.id) %}tab_active{% endif %}" href="{{ url_for('screener.patient_history', patient_id=patient.id) }}"><i class="fa fa-history"></i> {{ _("View Edit History") }}</a>
+
+    <a class="tab {% if request.path == url_for('screener.patient_share', patient_id=patient.id) %}tab_active{% endif %}" href="{{ url_for('screener.patient_share', patient_id=patient.id) }}"><i class="fa fa-share"></i> {{ _("Share Patient") }}</a>
+  </div>
+
+  <select class="tabs_dropdown" onchange="location = this.options[this.selectedIndex].value;">
+    <option value="{{ url_for('screener.patient_details', id=patient.id) }}">{{ _("Details") }}</option>
+    <option value="{{ url_for('screener.patient_print', patient_id=patient.id) }}">{{ _("Print this patient") }}</option>
+    <option value="{{ url_for('screener.patient_history', patient_id=patient.id) }}">{{ _("View Edit History") }}</option>
+    <option value="{{ url_for('screener.patient_share', patient_id=patient.id) }}">{{ _("Share Patient") }}</option>
+  </select>
+  
+</nav>
+<!-- <ul class="patient-nav nav nav-tabs">
 
   <li role="presentation" {% if request.path == url_for('screener.patient_details', id=patient.id) %}class="active"{% endif %}>
     <a href="{{ url_for('screener.patient_details', id=patient.id) }}">
@@ -40,4 +61,4 @@
       {{ _("Share Patient") }}
     </a>
   </li>
-</ul>
+</ul> -->

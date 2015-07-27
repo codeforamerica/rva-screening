@@ -1,0 +1,141 @@
+// left-hand column in prescreening results
+.prescreen_patient {
+  padding: 1em;
+  border: 1px solid lighten($color-gray, 10);
+  .prescreen_patient_item {
+    p {
+      font-size: 0.8em;
+      margin: 0;
+      color: $color-darkgray;
+    }
+    h2 {
+      font-size: 1.2em;
+      margin: 0 auto 0.6em;
+      color: $color-blue;
+    }
+  }
+}
+
+$prescreen-service-background-color: $color-lightgray;
+$prescreen-service-border-width: 30px;
+.prescreen_service {
+  border: 1px solid lighten($color-gray, 10);
+  border-left: $prescreen-service-border-width solid lighten($color-gray, 10);
+  margin-top: 1em;
+  position: relative;
+  &:before {
+    text-align: center;
+    width: $prescreen-service-border-width;
+    position: absolute;
+    top: $prescreen-service-border-width / 4;
+    left: -$prescreen-service-border-width;
+    color: $color-white;
+    @extend %icon;
+  }
+  &.prescreen_service_eligibile {
+    border: 1px solid lighten($color-green, 10);
+    border-left: 30px solid lighten($color-green, 10);
+    &:before {
+      content:"\f00c";
+    }
+  }
+  &.prescreen_service_noteligibile {
+    &:before {
+      content:"\f00d";
+    } 
+  }
+
+  .prescreen_service_title {
+    padding: 1em;
+    color: $color-black;
+    background: $color-lightgray;
+    border-bottom: 1px solid darken($color-lightgray, 5);
+  }
+
+  .prescreen_service_content {
+    padding: 0.2em 1em;
+    color: $color-darkgray;
+    font-size: 0.9em;
+    line-height: 1.4em;
+  }
+
+  .prescreen_service_item {
+    padding: 0.3em;
+    &:nth-child(2n-1) {
+      background: $color-lightgray;
+    }
+  }
+  .prescreen_service_item_price {
+    float: right;
+  }
+}
+// .prescreen_service {
+//   background: $prescreen-service-background-color;
+//   margin-bottom:1em;
+  
+//   // .prescreen-service-title {
+//   //   padding:.5em;
+//   //   font-size:1.5em;
+//   //   font-weight:300;
+//   //   // border-bottom:1px solid #c0c0c0;
+//   // }
+
+//   &.eligible {
+//     border-left:5px solid #2ECC40;
+//     .prescreen-service-title {
+//       color:#2ECC40;
+//     }
+//   }
+
+//   &.not-eligible {
+//     border-left:5px solid #AAAAAA;
+//     .prescreen-service-title {
+//       color:#AAAAAA;
+//     }
+//   }
+
+//   .prescreen-service-info {
+//     padding:1em;
+//   }
+
+//   .prescreen-service-items {
+//     .item {
+//       padding:.6em 1em;
+//       font-size:.9em;
+//       &:nth-child(2n-1) {
+//         background-color:#f6f6f6;
+//       }
+//       @include title;
+//       .item-price {
+//         font-size:1.2em;
+//         color:#3D9970;
+//       }
+//     }
+//   }
+// }
+
+
+// .pre-screeners {}
+// .pre-screener-option {
+//   padding:1.2em;
+//   color:#fff;
+//   background:#333;
+//   margin-bottom:1em;
+//   text-transform: uppercase;
+//   font-weight:300;
+//   letter-spacing: .1em;
+// }
+// .pre-screener-option .glyphicon {
+//   float:right;
+// }
+// .pre-screener-option:nth-child(2n) {
+//   background-color:#e5e5e5;
+// }
+
+// .prescreen-form .form-group {
+//   margin-bottom:3em;
+// }
+
+// .service-pre-screen-result {
+//   margin-bottom: 5em;
+// }

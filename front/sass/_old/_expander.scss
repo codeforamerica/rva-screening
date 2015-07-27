@@ -1,0 +1,35 @@
+.expander {
+  cursor:pointer;
+  margin-bottom:1px;
+
+  .expander-title {
+    padding:1em;
+    color:white;
+    background:#333;
+    &:before {
+      font-family: "Glyphicons Halflings";
+      content:"\e114";
+      margin-right:10px
+    }
+  }
+  .expander-content {
+    display:none;
+    background-color:#e5e5e5;
+    padding:5px 15px;
+  }
+
+  &.open {
+    .expander-title {
+      &:before {
+        content:"\e113";
+      }
+    }
+    .expander-content {
+      margin-bottom:15px;
+    }
+  }
+}
+
+.expander-content > div:first-child {
+    margin-top: 1em;
+}

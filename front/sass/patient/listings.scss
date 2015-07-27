@@ -1,0 +1,134 @@
+/*
+** LISTS / PATIENT LISTS / SEARCH RESULTS
+** Any time we show search results they use these
+** styles. Currently only used for showing patients
+** that exist in the database.
+*/
+
+$list-padding: 5px;
+$list-padding-large: 1em;
+
+.list {
+  @include list_reset();
+  &.list_filter {
+    display: none;
+    &.list_filter_active {
+      display: block;
+    }
+  }
+}
+
+.list_table {
+  margin-top: 3em;
+  .list_table_title {
+    font-size: 1.2em;
+    font-weight: 900;
+    display:block;
+    margin-bottom: .5em;
+    &.list_table_title_sm {
+      font-size: 1em;
+    }
+  }
+
+  &.list_padding_large {
+    .list_row {
+      a {
+        padding: $list-padding-large $list-padding;
+      }
+    }
+  }
+}
+
+.list_row {
+  position: relative;
+  @include bbox();
+  @include clearfix();
+  display: block;
+  width: 100%;
+  border-bottom: 1px solid #e5e5e5;
+  &:first-child {
+    border-top: 1px solid #e5e5e5;
+  }
+  a {
+    display:block;
+    @include clearfix();
+    padding: $list-padding;
+  }
+  .list_row_item {
+    display:block;
+    @media (min-width: $break) {
+      float:left;
+      vertical-align: top;
+    }
+  }
+
+  &:hover {
+    background-color: $color-lightgray;
+  }
+
+  &.list_row_new,
+  &.list_row_warning,
+  &.list_row_updated {
+    &:before {
+      font-family: "FontAwesome";
+      font-size: 0.8em;
+      @media (min-width: $break) {
+        position:absolute;
+        left: -22px;
+        top: 11px;
+      }
+    }
+  }
+  &.list_row_new {
+    border-left: 5px solid lighten($ui-new, 20);
+  }
+  &.list_row_warning {
+    border-left: 5px solid lighten($ui-alert, 20);
+  }
+  &.list_row_updated {
+    border-left: 5px solid lighten($ui-success, 20);
+  }
+  &.list_row_outside_network {
+    opacity: 0.3;
+  }
+  &.list_row_addnew {
+    a {
+      color: $color-gray;  
+      .fa {
+        color: $ui-success;
+      }
+    }
+  }
+}
+
+.list_row_name {
+  // font-weight: 700;
+  color: $color-fuscia;
+
+  @media (min-width: $break) {
+    width: 35%;
+  }
+}
+
+.list_row_dob {
+  font-weight: 100;
+  color: $color-gray;
+  font-family: monospace;
+  // @media (min-width: $break) {
+  //   width: 20%;
+  // }
+}
+
+.list_row_edits {
+  color: $color-black;
+  font-size: 0.9em;
+  @media (min-width: $break) {
+    text-align: right;
+    width: 43%;
+  }
+}
+
+// showing up-to-date statistics
+// not sure where these styles should go presently
+
+
