@@ -41,10 +41,11 @@
   width: 100%;
   border: none;
   border-bottom: 2px solid #fff;
-  background-color: transparent;
+  background-color: $color-lightgray;
   font-size: 0.9em;
   text-align: left;
   position: relative;
+  color: $color-black;
   &:hover {
     background: #e5e5e5;
     cursor: pointer;

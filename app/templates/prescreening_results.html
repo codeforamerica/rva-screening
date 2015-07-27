@@ -2,45 +2,51 @@
 {% block content %}
 
 <div class="container">
-  
-  <h4 class="prescreen-title">{{ _('Patient Information') }} <a style="font-size:.6em;" href="#"><span class="glyphicon glyphicon-edit push-left"></span> {{ _('Edit') }}</a></h4>
-      
-    <div class="prescreen-user-info cf row">
-      <div class="block_3 block_padding prescreen-user-info-item first">
-        <p>{{ _('Federal Poverty Level percentage') }}</p>
-          <h2>{{ fpl | int }}%</h2>
-      </div>
-      <div class="block_3 prescreen-user-info-item">
-        <p>{{ _('Annual household income') }}</p>
-          <h2>${{ household_income }}</h2>
-      </div>
-      <div class="block_2 prescreen-user-info-item">
-        <p>{{ _('Household size') }}</p>
-          <h2>{{ household_size }}</h2>
-      </div>
-      <div class="block_2 prescreen-user-info-item">
-        <p>{{ _('Has insurance') }}</p>
-          <h2>{{ has_health_insurance }}</h2>
-      </div>
-      <div class="block_2 prescreen-user-info-item">
-        <p>{{ _('Eligible for Medicaid') }}</p>
-          <h2>{{ is_eligible_for_medicaid }}</h2>
-      </div>
-    </div>
 
-    <h4 class="prescreen-title">{{ _('Services') }}</h4>
+  <div class="block_3 block_padding">
+    <h4>{{ _('Prescreener') }}</h4>
+    <a class="filter" href="{{ url_for('screener.new_prescreening') }}">1. Select Services</a>
+    <a class="filter" href="{{ url_for('screener.prescreening_basic') }}">2. General Information</a>
+    <button type="submit" class="filter filter_active" href="">3. Results</button>
+
+    <h4>{{ _('Patient Information') }}</h4>
+    <div class="prescreen_patient">
+      <div class="prescreen_patient_item">
+        <p>{{ _('Federal Poverty Level percentage') }}</p>
+        <h2>{{ fpl | int }}%</h2>
+      </div>
+      <div class="prescreen_patient_item">
+        <p>{{ _('Annual household income') }}</p>
+        <h2>${{ household_income }}</h2>
+      </div>
+      <div class="prescreen_patient_item">
+        <p>{{ _('Household size') }}</p>
+        <h2>{{ household_size }}</h2>
+      </div>
+      <div class="prescreen_patient_item">
+        <p>{{ _('Has insurance') }}</p>
+        <h2>{{ has_health_insurance }}</h2>
+      </div>
+      <div class="prescreen_patient_item">
+        <p>{{ _('Eligible for Medicaid') }}</p>
+        <h2>{{ is_eligible_for_medicaid }}</h2>
+      </div>
+    </div>    
+  </div>
+  
+  <div class="block_9">
+    <h3>{{ _('Services') }}</h3>
       
     {% for service in services %}
-      <div class="prescreen-service {% if service.eligible %}eligible{% else %}not-eligible{% endif %}"> 
-        <div class="prescreen-service-title">
+      <div class="prescreen_service {% if service.eligible %}prescreen_service_eligibile{% else %}prescreen_service_noteligibile{% endif %}"> 
+        <div class="prescreen_service_title">
           {% if service.eligible %}
             {{ _("You are likely eligible for") }} <strong>{{ service.name }}</strong>.
           {% else %}
             {{ _("You are likely not eligible for") }} <strong>{{ service.name }}</strong>.
           {% endif %}
-          <a class="btn btn-default btn-sm pull-right-desktop" href="{{ url_for('screener.service', service_id=service.id) }}"> {{ _("More about") }} <strong>{{ service.name }}</strong> <span class="glyphicon glyphicon-chevron-right"></span></a>
         </div>
-        <div class="prescreen-service-info row">
+        <div class="prescreen_service_content row">
           <div class="col-sm-4">
             {% if service.fpl_cutoff %}
               <div>
@@ -89,9 +95,9 @@
                   <div class="prescreen-service-items">
                     {% for fee in service.sliding_scale_fees %}
                       {% if fee.price_absolute %}
-                        <div class="item">{{ fee.name }}: <span class="item-price"><strong>${{ fee.price_absolute }}</strong><span></div>
+                        <div class="prescreen_service_item">{{ fee.name }}: <span class="prescreen_service_item_price"><strong>${{ fee.price_absolute }}</strong><span></div>
                       {% else %}
-                        <div class="item">{{ fee.name }}: <span class="item-price pull-right-desktop"><strong>{{ fee.price_percentage  }}%</strong><span> {{ _("of full price") }}</div>
+                        <div class="prescreen_service_item">{{ fee.name }}: <span class="prescreen_service_item_price"><strong>{{ fee.price_percentage  }}%</strong><span> {{ _("of full price") }}</div>
                       {% endif %}
                     {% endfor %}
                   </div>
@@ -108,6 +114,7 @@
               {{ _("Access Now provides service at no cost to the patient.") }}
             {% endif %}
           </div>
+          <a class="button button_blue button_small" href="{{ url_for('screener.service', service_id=service.id) }}"> {{ _("More about") }}{{ service.name }} <i class="fa fa-chevron-right"></i></a>
         </div><!-- .prescreen-service-info -->
       </div><!-- .prescreen-service -->
     {% endfor %}
@@ -123,6 +130,8 @@
           <a type="button" class="btn btn-default" href="{{ url_for('screener.index') }}">No thanks</a> -->
    #}
     {% endif %}
+    </div>
+
 </div>
 {% endblock %}
 

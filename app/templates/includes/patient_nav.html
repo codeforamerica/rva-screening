@@ -15,7 +15,7 @@
 <nav class="nav_tabs">
 
   <div class="tabs">
-    <a class="tab {% if request.path == url_for('screener.patient_details', id=patient.id) %}tab_active{% endif %}" href="{{ url_for('screener.patient_details', id=patient.id) }}"><i class="fa fa-list"></i> Details</a>
+    <a class="tab {% if request.path == url_for('screener.patient_details', id=patient.id) %}tab_active{% endif %}" href="{{ url_for('screener.patient_details', id=patient.id) }}"><i class="fa fa-list"></i> {{ _("Details") }}</a>
 
     <a class="tab {% if request.path == url_for('screener.patient_print', patient_id=patient.id) %}tab_active{% endif %}" href="{{ url_for('screener.patient_print', patient_id=patient.id) }}"><i class="fa fa-history"></i> {{ _("Print this patient") }}</a>
 
@@ -25,8 +25,10 @@
   </div>
 
   <select class="tabs_dropdown" onchange="location = this.options[this.selectedIndex].value;">
-    <option value="/details">Details</option>
-    <option value="/history">History</option>
+    <option value="{{ url_for('screener.patient_details', id=patient.id) }}">{{ _("Details") }}</option>
+    <option value="{{ url_for('screener.patient_print', patient_id=patient.id) }}">{{ _("Print this patient") }}</option>
+    <option value="{{ url_for('screener.patient_history', patient_id=patient.id) }}">{{ _("View Edit History") }}</option>
+    <option value="{{ url_for('screener.patient_share', patient_id=patient.id) }}">{{ _("Share Patient") }}</option>
   </select>
   
 </nav>
