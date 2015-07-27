@@ -2,10 +2,11 @@
 import sys
 
 from flask import current_app
-from app import app
+from app import create_app
 from app.models import db, Service, SlidingScale, SlidingScaleFee
 
 def main():
+    app = create_app()
     with app.app_context():
         db.metadata.create_all(db.engine)
 
