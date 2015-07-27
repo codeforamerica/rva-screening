@@ -15,6 +15,7 @@
 
 // vert/horizontal centering helpers
 .outer {
+  top: 0;
   display: table;
   position: absolute;
   width: 100%;
@@ -23,6 +24,28 @@
 .inner {
   display: table-cell;
   vertical-align: middle;
+}
+
+// login form
+.login_form {
+  margin: auto;
+  max-width: 350px;
+  .form_field {
+    padding: 0;
+    margin-bottom: 1em;
+  }
+}
+
+.login_form_bkg {
+  background-image: url("/img/3230755445_0dfa545f2f_o.jpg"); // Taber Andrew Bain, Flickr - https://flic.kr/p/5Vut36
+  -webkit-background-size: cover; 
+     -moz-background-size: cover; 
+       -o-background-size: cover; 
+          background-size: cover;
+  background-position: center center;
+  .inner {
+    background-color: rgba(255,255,255,0.6);
+  }
 }
 
 
