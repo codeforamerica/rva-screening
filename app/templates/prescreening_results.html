@@ -1,125 +1,128 @@
 {% extends "base.html" %}
 {% block content %}
-    
-<h4 class="prescreen-title">{{ _('Patient Information') }} <a style="font-size:.6em;" href="#"><span class="glyphicon glyphicon-edit push-left"></span> {{ _('Edit') }}</a></h4>
-    
-  <div class="prescreen-user-info clearfix">
-    <div class="col-sm-3 prescreen-user-info-item first">
-      <p>{{ _('Federal Poverty Level percentage') }}</p>
-        <h2>{{ fpl | int }}%</h2>
-    </div>
-    <div class="col-sm-3 prescreen-user-info-item">
-      <p>{{ _('Annual household income') }}</p>
-        <h2>${{ household_income }}</h2>
-    </div>
-    <div class="col-sm-2 prescreen-user-info-item">
-      <p>{{ _('Household size') }}</p>
-        <h2>{{ household_size }}</h2>
-    </div>
-    <div class="col-sm-2 prescreen-user-info-item">
-      <p>{{ _('Has insurance') }}</p>
-        <h2>{{ has_health_insurance }}</h2>
-    </div>
-    <div class="col-sm-2 prescreen-user-info-item">
-      <p>{{ _('Eligible for Medicaid') }}</p>
-        <h2>{{ is_eligible_for_medicaid }}</h2>
-    </div>
-  </div>
 
-  <h4 class="prescreen-title">{{ _('Services') }}</h4>
-    
-  {% for service in services %}
-    <div class="prescreen-service {% if service.eligible %}eligible{% else %}not-eligible{% endif %}"> 
-      <div class="prescreen-service-title">
-        {% if service.eligible %}
-          {{ _("You are likely eligible for") }} <strong>{{ service.name }}</strong>.
-        {% else %}
-          {{ _("You are likely not eligible for") }} <strong>{{ service.name }}</strong>.
-        {% endif %}
-        <a class="btn btn-default btn-sm pull-right-desktop" href="{{ url_for('screener.service', service_id=service.id) }}"> {{ _("More about") }} <strong>{{ service.name }}</strong> <span class="glyphicon glyphicon-chevron-right"></span></a>
+<div class="container">
+  
+  <h4 class="prescreen-title">{{ _('Patient Information') }} <a style="font-size:.6em;" href="#"><span class="glyphicon glyphicon-edit push-left"></span> {{ _('Edit') }}</a></h4>
+      
+    <div class="prescreen-user-info cf row">
+      <div class="block_3 block_padding prescreen-user-info-item first">
+        <p>{{ _('Federal Poverty Level percentage') }}</p>
+          <h2>{{ fpl | int }}%</h2>
       </div>
-      <div class="prescreen-service-info row">
-        <div class="col-sm-4">
-          {% if service.fpl_cutoff %}
-            <div>
-              {% if service.fpl_eligible %}
-                <span class="glyphicon glyphicon-ok push-right"></span>
-              {% else %}
-                <span class="glyphicon glyphicon-remove push-right"></span>
-              {% endif %}
+      <div class="block_3 prescreen-user-info-item">
+        <p>{{ _('Annual household income') }}</p>
+          <h2>${{ household_income }}</h2>
+      </div>
+      <div class="block_2 prescreen-user-info-item">
+        <p>{{ _('Household size') }}</p>
+          <h2>{{ household_size }}</h2>
+      </div>
+      <div class="block_2 prescreen-user-info-item">
+        <p>{{ _('Has insurance') }}</p>
+          <h2>{{ has_health_insurance }}</h2>
+      </div>
+      <div class="block_2 prescreen-user-info-item">
+        <p>{{ _('Eligible for Medicaid') }}</p>
+          <h2>{{ is_eligible_for_medicaid }}</h2>
+      </div>
+    </div>
 
-              {{ _("Income below %(percent)s%% of the Federal Poverty Level", percent=service.fpl_cutoff) }}
-            </div>
+    <h4 class="prescreen-title">{{ _('Services') }}</h4>
+      
+    {% for service in services %}
+      <div class="prescreen-service {% if service.eligible %}eligible{% else %}not-eligible{% endif %}"> 
+        <div class="prescreen-service-title">
+          {% if service.eligible %}
+            {{ _("You are likely eligible for") }} <strong>{{ service.name }}</strong>.
+          {% else %}
+            {{ _("You are likely not eligible for") }} <strong>{{ service.name }}</strong>.
           {% endif %}
+          <a class="btn btn-default btn-sm pull-right-desktop" href="{{ url_for('screener.service', service_id=service.id) }}"> {{ _("More about") }} <strong>{{ service.name }}</strong> <span class="glyphicon glyphicon-chevron-right"></span></a>
+        </div>
+        <div class="prescreen-service-info row">
+          <div class="col-sm-4">
+            {% if service.fpl_cutoff %}
+              <div>
+                {% if service.fpl_eligible %}
+                  <span class="glyphicon glyphicon-ok push-right"></span>
+                {% else %}
+                  <span class="glyphicon glyphicon-remove push-right"></span>
+                {% endif %}
 
-          {% if service.uninsured_only_yn == 'Y' %}
-            <div>
-              {% if has_health_insurance == 'no' %}
-                <span class="glyphicon glyphicon-ok push-right"></span>
-              {% else %}
-                <span class="glyphicon glyphicon-remove push-right"></span>
-              {% endif %}
-              {{ _("Uninsured") }}
-            </div>
-          {% endif %}
-
-          {% if service.medicaid_ineligible_only_yn == 'Y' %}
-            <div>
-              {% if is_eligible_for_medicaid == 'no' %}
-                <span class="glyphicon glyphicon-ok push-right"></span>
-              {% else %}
-                <span class="glyphicon glyphicon-remove push-right"></span>
-              {% endif %}
-              {{ _("Not eligible for Medicaid") }}
-            </div>
-          {% endif %}
-              
-          {% if service.eligible and service.sliding_scale %}
-            {% if service.sliding_scale != 'All' %}
-              <p>{{ _("You're likely to fall in the <strong>%(scale)s</strong> section of the sliding scale because your income is <strong>%(range)s</strong> of the Federal Poverty Level.", scale=service.sliding_scale, range=service.sliding_scale_range) }}</p>
-            {% else %}
-              <p>{{ _("Service fees:") }}</p>
+                {{ _("Income below %(percent)s%% of the Federal Poverty Level", percent=service.fpl_cutoff) }}
+              </div>
             {% endif %}
-            <!-- this looks weird, but it's intentional! -->
-        </div>
-        <div class="col-sm-8">
-              {% if service.sliding_scale != 'Full fee' %}
-                <div class="prescreen-service-items">
-                  {% for fee in service.sliding_scale_fees %}
-                    {% if fee.price_absolute %}
-                      <div class="item">{{ fee.name }}: <span class="item-price"><strong>${{ fee.price_absolute }}</strong><span></div>
-                    {% else %}
-                      <div class="item">{{ fee.name }}: <span class="item-price pull-right-desktop"><strong>{{ fee.price_percentage  }}%</strong><span> {{ _("of full price") }}</div>
-                    {% endif %}
-                  {% endfor %}
-                </div>
+
+            {% if service.uninsured_only_yn == 'Y' %}
+              <div>
+                {% if has_health_insurance == 'no' %}
+                  <span class="glyphicon glyphicon-ok push-right"></span>
+                {% else %}
+                  <span class="glyphicon glyphicon-remove push-right"></span>
+                {% endif %}
+                {{ _("Uninsured") }}
+              </div>
+            {% endif %}
+
+            {% if service.medicaid_ineligible_only_yn == 'Y' %}
+              <div>
+                {% if is_eligible_for_medicaid == 'no' %}
+                  <span class="glyphicon glyphicon-ok push-right"></span>
+                {% else %}
+                  <span class="glyphicon glyphicon-remove push-right"></span>
+                {% endif %}
+                {{ _("Not eligible for Medicaid") }}
+              </div>
+            {% endif %}
+                
+            {% if service.eligible and service.sliding_scale %}
+              {% if service.sliding_scale != 'All' %}
+                <p>{{ _("You're likely to fall in the <strong>%(scale)s</strong> section of the sliding scale because your income is <strong>%(range)s</strong> of the Federal Poverty Level.", scale=service.sliding_scale, range=service.sliding_scale_range) }}</p>
+              {% else %}
+                <p>{{ _("Service fees:") }}</p>
               {% endif %}
-          {% endif %}
+              <!-- this looks weird, but it's intentional! -->
+          </div>
+          <div class="col-sm-8">
+                {% if service.sliding_scale != 'Full fee' %}
+                  <div class="prescreen-service-items">
+                    {% for fee in service.sliding_scale_fees %}
+                      {% if fee.price_absolute %}
+                        <div class="item">{{ fee.name }}: <span class="item-price"><strong>${{ fee.price_absolute }}</strong><span></div>
+                      {% else %}
+                        <div class="item">{{ fee.name }}: <span class="item-price pull-right-desktop"><strong>{{ fee.price_percentage  }}%</strong><span> {{ _("of full price") }}</div>
+                      {% endif %}
+                    {% endfor %}
+                  </div>
+                {% endif %}
+            {% endif %}
 
-          {% if service.eligible and service.general_fees %}
-            {% for fee in service.general_fees %}
-              <p>{{ fee[0]}}: ${{fee[1] }}</p>
-            {% endfor %}
-          {% endif %}
+            {% if service.eligible and service.general_fees %}
+              {% for fee in service.general_fees %}
+                <p>{{ fee[0]}}: ${{fee[1] }}</p>
+              {% endfor %}
+            {% endif %}
 
-          {% if service.eligible and service.name == 'Access Now' %}
-            {{ _("Access Now provides service at no cost to the patient.") }}
-          {% endif %}
-        </div>
-      </div><!-- .prescreen-service-info -->
-    </div><!-- .prescreen-service -->
-  {% endfor %}
+            {% if service.eligible and service.name == 'Access Now' %}
+              {{ _("Access Now provides service at no cost to the patient.") }}
+            {% endif %}
+          </div>
+        </div><!-- .prescreen-service-info -->
+      </div><!-- .prescreen-service -->
+    {% endfor %}
 
-  {% if patient %}
-  	<a href="{{ url_for('screener.save_prescreening_updates', patientid=patient.id) }}">
-      {{ _("Return to details for") }} {{ patient }}.
-  	</a>
+    {% if patient %}
+    	<a href="{{ url_for('screener.save_prescreening_updates', patientid=patient.id) }}">
+        {{ _("Return to details for") }} {{ patient }}.
+    	</a>
 
- {#<!--    {% else %}
-        <p>Would you save this information into a new patient record?</p>
-        <a type="button" class="btn btn-success" href="{{ url_for('screener.new_patient') }}">Yes</a>
-        <a type="button" class="btn btn-default" href="{{ url_for('screener.index') }}">No thanks</a> -->
- #}
-  {% endif %}
+   {#<!--    {% else %}
+          <p>Would you save this information into a new patient record?</p>
+          <a type="button" class="btn btn-success" href="{{ url_for('screener.new_patient') }}">Yes</a>
+          <a type="button" class="btn btn-default" href="{{ url_for('screener.index') }}">No thanks</a> -->
+   #}
+    {% endif %}
+</div>
 {% endblock %}
 

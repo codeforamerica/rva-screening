@@ -16,7 +16,12 @@
 
   <div class="tabs">
     <a class="tab {% if request.path == url_for('screener.patient_details', id=patient.id) %}tab_active{% endif %}" href="{{ url_for('screener.patient_details', id=patient.id) }}"><i class="fa fa-list"></i> Details</a>
-    <a class="tab {% if request.path == url_for('screener.patient_history', patient_id=patient.id) %}tab_active{% endif %}" href="{{ url_for('screener.patient_history', patient_id=patient.id) }}"><i class="fa fa-history"></i> Edit History</a>
+
+    <a class="tab {% if request.path == url_for('screener.patient_print', patient_id=patient.id) %}tab_active{% endif %}" href="{{ url_for('screener.patient_print', patient_id=patient.id) }}"><i class="fa fa-history"></i> {{ _("Print this patient") }}</a>
+
+    <a class="tab {% if request.path == url_for('screener.patient_history', patient_id=patient.id) %}tab_active{% endif %}" href="{{ url_for('screener.patient_history', patient_id=patient.id) }}"><i class="fa fa-history"></i> {{ _("View Edit History") }}</a>
+
+    <a class="tab {% if request.path == url_for('screener.patient_share', patient_id=patient.id) %}tab_active{% endif %}" href="{{ url_for('screener.patient_share', patient_id=patient.id) }}"><i class="fa fa-share"></i> {{ _("Share Patient") }}</a>
   </div>
 
   <select class="tabs_dropdown" onchange="location = this.options[this.selectedIndex].value;">

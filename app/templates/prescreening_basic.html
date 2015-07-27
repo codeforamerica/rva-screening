@@ -1,44 +1,45 @@
 {% extends "base.html" %}
 {% block content %}
-<hr>
-    <form method="post" class="prescreen-form">
-      {{ form.hidden_tag() }}
+<div class="container">
+  <form method="post" class="prescreen-form">
+    {{ form.hidden_tag() }}
 
-      {% if form.errors %}
-        <ul class="errors">
-            {% for field_name, field_errors in form.errors|dictsort if field_errors %}
-                {% for error in field_errors %}
-                    <li>{{ form[field_name].label }}: {{ error }}</li>
-                {% endfor %}
-            {% endfor %}
-        </ul>
-      {% endif %}
+    {% if form.errors %}
+      <ul class="errors">
+          {% for field_name, field_errors in form.errors|dictsort if field_errors %}
+              {% for error in field_errors %}
+                  <li>{{ form[field_name].label }}: {{ error }}</li>
+              {% endfor %}
+          {% endfor %}
+      </ul>
+    {% endif %}
 
-      <!--household size-->
-      <div class="form-group">
-        {{ form.household_size.label }}
-        {{ form.household_size(class="form-control") }}
-      </div>
+    <!--household size-->
+    <div class="form-group">
+      {{ form.household_size.label }}
+      {{ form.household_size(class="form-control") }}
+    </div>
 
-      <!--household income-->
-      <div class="form-group">
-        {{ form.household_income.label }}
-        {{ form.household_income(class="form-control") }}
-      </div>
+    <!--household income-->
+    <div class="form-group">
+      {{ form.household_income.label }}
+      {{ form.household_income(class="form-control") }}
+    </div>
 
-      <!-- do you have health insurance? -->
-      <div class="form-group">
-        {{ form.has_health_insurance.label }}
-        {{ form.has_health_insurance()}}
-      </div>
+    <!-- do you have health insurance? -->
+    <div class="form-group">
+      {{ form.has_health_insurance.label }}
+      {{ form.has_health_insurance()}}
+    </div>
 
-      <!-- are you eligible for medicare/medicaid? -->
-      <div class="form-group">
-        {{ form.eligible_for_medicaid.label }}
-        {{ form.eligible_for_medicaid() }}
-      </div>
+    <!-- are you eligible for medicare/medicaid? -->
+    <div class="form-group">
+      {{ form.eligible_for_medicaid.label }}
+      {{ form.eligible_for_medicaid() }}
+    </div>
 
-      <button class="btn btn-primary" type="submit">{{_('Check eligibility')}}</button>       
+    <button class="btn btn-primary" type="submit">{{_('Check eligibility')}}</button>       
 
-    </form>
+  </form>
+</div>
 {% endblock %}
