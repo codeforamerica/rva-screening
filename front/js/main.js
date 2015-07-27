@@ -61,6 +61,42 @@ var AppController = function ( options ) {
     convertForPrint();
   }
 
+  /*
+  **  PATIENT DETAILS / UNIQUE QUESTIONS FILTERS
+  **  Shows/hides service-specific questions on the page based on
+  **  checkbox values
+  **
+  **  TODO: move into filters.js
+  **
+  */
+  var serviceFilters = $('.patient_details_filter .field_checkbox input[type="checkbox"]');
+  var allUniqueQuestions = $('.q_unique');
+  serviceFilters.on('change', function(e) {
+    var checked = [];
+
+    // get all checked filters
+    serviceFilters.each(function(){
+      if($(this).is(':checked')) {
+        checked.push($(this).attr('name'));
+      }
+    });
+
+    // hide all question fields
+    allUniqueQuestions.hide();
+
+    // now bring them back if they match the checked
+    // boxes on the filters
+    allUniqueQuestions.each(function(){
+      var q = $(this);
+      for (var c = 0; c < checked.length; c++) {
+        if (q.hasClass(checked[c])) {
+          q.show();
+        }
+      }
+    });
+
+  });
+
 };
 
 

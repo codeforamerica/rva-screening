@@ -1,4 +1,31 @@
 {% extends "patient_template.html" %}
+
+{% block patient_sidebar %}
+<h4>Service-specific questions</h4>
+<div class="patient_details_filter">
+  <label class="field_checkbox checkbox_small checkbox_blue">
+    <input type="checkbox" name="q_dp">
+    <span class="field_checkbox_content">
+      <span class="field_checkbox_content_title">Daily Planet</span>
+    </span>
+  </label>
+
+  <label class="field_checkbox checkbox_small checkbox_blue">
+    <input type="checkbox" name="q_cross">
+    <span class="field_checkbox_content">
+      <span class="field_checkbox_content_title">Crossover</span>
+    </span>
+  </label>
+
+  <label class="field_checkbox checkbox_small checkbox_blue">
+    <input type="checkbox" name="q_vcu">
+    <span class="field_checkbox_content">
+      <span class="field_checkbox_content_title">VCU</span>
+    </span>
+  </label>
+</div>
+{% endblock %}
+
 {% block patient_content %}
 
 <form enctype="multipart/form-data" action="" method="post" id="patient_details_form" class="print">
@@ -21,6 +48,29 @@
   <div class="expander">
     <div class="expander-title">{{ _("Phone, Email, Address") }}</div>
       <div class="expander-content">
+
+        <!-- testing unique questions -->
+        <div class="form-group q_unique q_dp">
+          <label for="ssn">TEST QUESTION - Daily Planet Question</label>
+          <input class="form-control" id="ssn" name="ssn" pattern="\d{3}-?\d{2}-?\d{4}" placeholder="555-55-5555" type="text" value="222-22-2222">
+        </div>
+
+        <div class="form-group q_unique q_vcu">
+          <label for="ssn">TEST QUESTION - VCU Question</label>
+          <input class="form-control" id="ssn" name="ssn" pattern="\d{3}-?\d{2}-?\d{4}" placeholder="555-55-5555" type="text" value="222-22-2222">
+        </div>
+
+        <div class="form-group q_unique q_cross">
+          <label for="ssn">TEST QUESTION - Crossover</label>
+          <input class="form-control" id="ssn" name="ssn" pattern="\d{3}-?\d{2}-?\d{4}" placeholder="555-55-5555" type="text" value="222-22-2222">
+        </div>
+
+        <div class="form-group q_unique q_cross q_vcu">
+          <label for="ssn">TEST QUESTION - VCU & Crossover</label>
+          <input class="form-control" id="ssn" name="ssn" pattern="\d{3}-?\d{2}-?\d{4}" placeholder="555-55-5555" type="text" value="222-22-2222">
+        </div>
+        <!-- /end testing unique questions -->
+
         {% include "includes/patient_contact_info.html" %}
       </div>
   </div>

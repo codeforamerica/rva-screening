@@ -17,7 +17,7 @@
   <div class="tabs">
     <a class="tab {% if request.path == url_for('screener.patient_details', id=patient.id) %}tab_active{% endif %}" href="{{ url_for('screener.patient_details', id=patient.id) }}"><i class="fa fa-list"></i> {{ _("Details") }}</a>
 
-    <a class="tab {% if request.path == url_for('screener.patient_print', patient_id=patient.id) %}tab_active{% endif %}" href="{{ url_for('screener.patient_print', patient_id=patient.id) }}"><i class="fa fa-history"></i> {{ _("Print this patient") }}</a>
+    <a class="tab {% if request.path == url_for('screener.patient_print', patient_id=patient.id) %}tab_active{% endif %}" href="{{ url_for('screener.patient_print', patient_id=patient.id) }}"><i class="fa fa-print"></i> {{ _("Print this patient") }}</a>
 
     <a class="tab {% if request.path == url_for('screener.patient_history', patient_id=patient.id) %}tab_active{% endif %}" href="{{ url_for('screener.patient_history', patient_id=patient.id) }}"><i class="fa fa-history"></i> {{ _("View Edit History") }}</a>
 
