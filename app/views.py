@@ -8,7 +8,8 @@ from flask import (
   g,
   send_from_directory,
   session,
-  current_app
+  current_app,
+  jsonify
 )
 from flask.ext.login import login_user, logout_user, current_user, login_required
 from app import db, bcrypt, login_manager
@@ -94,8 +95,8 @@ def patient_details(id):
     if request.method == 'GET':
       # If the user's service doesn't have permission to see this patient yet,
       # redirect to consent page
-      if current_user.service_id not in [service.id for service in patient.services]:
-        return redirect(url_for('screener.consent', patient_id = patient.id))
+      #if current_user.service_id not in [service.id for service in patient.services]:
+      #  return redirect(url_for('screener.consent', patient_id = patient.id))
 
       patient.total_annual_income = sum(
         source.monthly_amount * 12 for source in patient.income_sources if source.monthly_amount
@@ -330,16 +331,6 @@ def patient_print(patient_id):
   form = PatientForm(obj=patient)
   return render_template('patient_details.html', patient=patient, form=form)
 
-# PATIENT DETAILS (NEW)
-#
-# this is a temporary route that shows what viewing a new patient
-# will look like. When the page loads, it will have an alert asking
-# for consent
-#
-# TODO: this will essentially be part of the patient_details route
-# to check if the user has permission to view the patient. When that
-# functionality is added we should delete the patient_details_new.html
-# template
 @screener.route('/consent/<patient_id>')
 @login_required
 def consent(patient_id):
@@ -356,6 +347,19 @@ def consent_given(patient_id):
   db.session.add(service_permission)
   db.session.commit()
   return redirect(url_for('screener.patient_details', id = patient_id))
+
+@screener.route('/add_referral', methods=["POST"])
+@login_required
+def add_referral():
+  referral = PatientReferral(
+    patient_id = request.form['patient_id'],
+    from_app_user_id = request.form['app_user_id'],
+    to_service_id = request.form['service_id'],
+    status = 'SENT'
+  )
+  db.session.add(referral)
+  db.session.commit()
+  return jsonify()
 
 # TEMPLATE PROTOTYPING
 # This is a dev-only route for prototyping fragments of other templates without touching
@@ -419,7 +423,13 @@ def patient_history(patient_id):
 @login_required
 def patient_share(patient_id):
   patient = Patient.query.get(patient_id)
-  return render_template('patient_share.html', patient=patient)
+  services = Service.query.all()
+  return render_template(
+    'patient_share.html',
+    patient = patient,
+    services = services,
+    current_user = current_user
+  )
 
 # USER PROFILE
 @screener.route('/user/<user_id>')
@@ -459,5 +469,6 @@ def translate_object(obj, language_code):
 @login_required
 def index():
   session.clear()
-  patients = Patient.query.filter(Patient.services.any(Service.id == current_user.service_id))
+  #patients = Patient.query.filter(Patient.services.any(Service.id == current_user.service_id))
+  patients = Patient.query.all()
   return render_template('index.html', patients=patients)

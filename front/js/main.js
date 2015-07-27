@@ -164,8 +164,14 @@ function convertForPrint() {
 **  the text within the button.
 **
 */
-function sharePatientInfo( btn ) {
-  $(btn).addClass('shared');
-  $(btn).text('information sent');
+function sharePatientInfo( btn, patient_id, app_user_id, service_id ) {
+  $.post('/add_referral', {
+    patient_id: patient_id,
+    app_user_id: app_user_id,
+    service_id: service_id
+  }).done(function() {
+    $(btn).addClass('shared');
+    $(btn).text('referral sent');
+  });
 }
 

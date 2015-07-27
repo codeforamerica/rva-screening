@@ -219,6 +219,15 @@ class DocumentImage(BasicTable, db.Model):
   file_description = db.Column(db.String(64), info='Description')
 
 
+class PatientReferral(BasicTable, db.Model):
+  id = db.Column(db.Integer, primary_key=True)
+  patient_id = db.Column(db.Integer, db.ForeignKey("patient.id"))
+  from_app_user_id = db.Column(db.Integer, db.ForeignKey("app_user.id"))
+  to_service_id = db.Column(db.Integer, db.ForeignKey("service.id"))
+  status = db.Column(db.String(9), info='Status')
+  notes = db.Column(db.Text, info='Notes')
+
+
 class Service(BasicTable, db.Model):
   id = db.Column(db.Integer, primary_key=True)
   name = db.Column(db.String(64))
