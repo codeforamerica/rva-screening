@@ -87,7 +87,8 @@
   temp = {
     name: '{{ patient.full_name or patient.first_name }}',
     dob: '{{ patient.dob }}',
-    ssn: '{{ patient.ssn }}'
+    ssn: '{{ patient.ssn }}',
+    url: '{{ url_for('screener.patient_details', id=patient.id) }}'
   };
   tempSearchData.list.push(temp);
   tempSearchData.total++;
@@ -98,8 +99,11 @@
   <xsl:template name="search_results_list">
     <ul class="list list_table">
       <xsl:for-each select="//patients">
-        <li class="list_row">
-          <a href="#">
+        <li class="list_row" >
+          <a>
+            <xsl:attribute name="href">
+              <xsl:value-of select="url"/>
+            </xsl:attribute>
             <span class="list_row_item list_row_name"><xsl:value-of select="name"/></span>
             <span class="list_row_item list_row_dob"><xsl:value-of select="dob"/></span>
             <span class="list_row_item list_row_edits">Richmond Resource Center</span>

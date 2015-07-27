@@ -101,6 +101,7 @@ body.menu_open {
 
 // user-related navigation items located within the .nav
 .nav_user {
+  overflow: hidden; // temporary. What do we do with long usernames?
   text-align: right;
   padding: 1em;
   color: $color-black;
