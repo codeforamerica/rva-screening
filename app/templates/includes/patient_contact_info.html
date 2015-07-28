@@ -1,6 +1,7 @@
   {% include "includes/patient_phone_numbers.html" %}
-
   {% include "includes/patient_emails.html" %}
-
   {% include "includes/patient_addresses.html" %}
-
+  <div class="form-group q_an">
+    {{ form.has_transport_yn.label }}
+    {{ form.has_transport_yn(class="form-control") }}
+  </div>

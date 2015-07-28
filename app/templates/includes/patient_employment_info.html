@@ -97,4 +97,29 @@
   </div>
 </div>
 
+<div class="form-group q_an">
+  <label>{{ _("How long have you been unemployed?") }}</label>
+  {{ form.years_unemployed.label }}
+  {{ form.years_unemployed(class="form-control") }}
+  {{ form.months_unemployed.label }}
+  {{ form.months_unemployed(class="form-control") }}
+</div>
+
+<div class="form-group q_an">
+  <label>{{ _("How long has your spouse been unemployed?") }}</label>
+  {{ form.spouse_years_unemployed.label }}
+  {{ form.spouse_years_unemployed(class="form-control") }}
+  {{ form.spouse_months_unemployed.label }}
+  {{ form.spouse_months_unemployed(class="form-control") }}
+</div>
+
+
+<div class="form-group q_an">
+  {{ form.years_at_current_employer.label }}
+  {{ form.years_at_current_employer(class="form-control") }}
+</div>
+<div class="form-group q_an">
+  {{ form.spouse_years_at_current_employer.label }}
+  {{ form.spouse_years_at_current_employer(class="form-control") }}
+</div>
 
