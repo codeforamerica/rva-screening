@@ -134,7 +134,7 @@ function sharePatientInfo( btn, patient_id, app_user_id, service_id ) {
     service_id: service_id
   }).done(function() {
     $(btn).addClass('shared');
-    $(btn).text('referral sent');
+    $(btn).text('Referral sent!');
   });
 }
 
