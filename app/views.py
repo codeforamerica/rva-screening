@@ -36,6 +36,8 @@ def login():
         return redirect(url_for('screener.index'))
       else:
         return redirect(url_for('screener.login'))
+    else:
+      return redirect(url_for('screener.login'))
   else:
     return render_template("login.html")
 
@@ -470,5 +472,27 @@ def translate_object(obj, language_code):
 def index():
   session.clear()
   #patients = Patient.query.filter(Patient.services.any(Service.id == current_user.service_id))
-  patients = Patient.query.all()
-  return render_template('index.html', patients=patients)
+  all_patients = Patient.query.all()
+  recently_updated = Patient.query.filter(or_(
+    Patient.last_modified > datetime.date.today() - datetime.timedelta(days=7),
+    Patient.created > datetime.date.today() - datetime.timedelta(days=7)
+  ))
+  open_referrals = Patient.query.filter(
+    Patient.referrals.any(and_(
+      PatientReferral.to_service_id == current_user.service_id,
+      PatientReferral.status in ['SENT', 'RECEIVED']
+    ))
+  )
+  your_referrals = Patient.query.filter(
+    Patient.referrals.any(
+      PatientReferral.from_app_user_id == current_user.id
+    )
+  )
+
+  return render_template(
+    'index.html',
+    all_patients = all_patients,
+    recently_updated = recently_updated,
+    open_referrals = open_referrals,
+    your_referrals = your_referrals
+  )
