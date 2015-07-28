@@ -1,3 +1,4 @@
+{% from "form_field_macros.html" import render_field %}
 <table class="table table-condensed income_sources" id="income_source_table">
 
   <thead>
@@ -61,13 +62,7 @@
     </button>
 </div>
 
-<div class="form-group q_an">
-  {{ form.how_food_and_shelter.label }}
-  {{ form.how_food_and_shelter(class="form-control") }}
-</div>
-<div class="form-group q_an">
-  {{ form.how_other_expenses.label }}
-  {{ form.how_other_expenses(class="form-control") }}
-</div>
+  {{ render_field(form.how_food_and_shelter, ['an']) }}
+  {{ render_field(form.how_other_expenses, ['an']) }}
 
 
