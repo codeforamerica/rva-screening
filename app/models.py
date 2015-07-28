@@ -133,6 +133,7 @@ class Patient(BasicTable, db.Model):
   coverage_type = db.Column(db.String(32), info=_('Coverage type'))
   coverage_type_other = db.Column(db.String(32), info=_('Coverage type - Other'))
   has_prescription_coverage_yn = db.Column(db.String(1), info=_('Has prescription coverage?'))
+  has_vcc = db.Column(db.String(1), info=_('Has VCC Card?'))
   has_pcp_yn = db.Column(db.String(1), info=_('Has primary care provider?'))
   has_psychiatrist_yn = db.Column(db.String(1), info=_('Has psychiatrist?'))
   wants_psychiatrist_yn = db.Column(db.String(1), info=_('Wants psychiatrist?'))

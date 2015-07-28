@@ -303,7 +303,11 @@ class PatientForm(Form):
     _('Do you have prescription drug coverage?'),
     choices = CONSTANTS.YNN_NONULL_CHOICES
   )
-
+  has_vcc = fields.SelectField(
+    _("Do you have a VCC Card?"),
+    choices = CONSTANTS.YN_CHOICES,
+    default = ""
+  )
   # has_pcp_yn
   # has_psychiatrist_yn
   # wants_psychiatrist_yn
