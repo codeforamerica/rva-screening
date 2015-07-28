@@ -1,0 +1,23 @@
+// typically an unordered-list
+.success {
+  @include list_reset();
+  margin: 1em 0;
+  padding: 0.8em 1em;
+  border-radius: 0.3em;
+  border: 1px solid $color-green;
+  background: lighten($color-green, 38);
+  li {
+    font-size: 0.8em;
+    line-height: 2em;
+    &:before {
+      @extend %icon;
+      content:"\f058";
+      color: $color-green;
+      margin-right: 5px;
+    }
+    label {
+      font-weight: 700;
+      margin: 0;
+    }
+  }
+} 

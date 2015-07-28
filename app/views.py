@@ -15,7 +15,7 @@ from flask.ext.login import login_user, logout_user, current_user, login_require
 from app import db, bcrypt, login_manager
 from app.forms import PatientForm, PrescreenForm
 from app.models import *
-from app.utils import upload_file, send_document_image
+from app.utils import upload_file, send_document_image, calculate_fpl
 from hashlib import sha1
 from itertools import chain
 from sqlalchemy import func, and_, or_
@@ -92,22 +92,17 @@ def patient_details(id):
   if request.method == 'POST' and form.validate_on_submit():
     update_patient(patient, form, request.files)
     db.session.commit()
-    return redirect(url_for('screener.patient_details', id=patient.id))
+    patient.update_stats()
+    return render_template('patient_details.html', patient=patient, form=form, save_message=True)
   else:
     if request.method == 'GET':
       # If the user's service doesn't have permission to see this patient yet,
       # redirect to consent page
       #if current_user.service_id not in [service.id for service in patient.services]:
       #  return redirect(url_for('screener.consent', patient_id = patient.id))
+      patient.update_stats()
 
-      patient.total_annual_income = sum(
-        source.monthly_amount * 12 for source in patient.income_sources if source.monthly_amount
-      )
-      patient.fpl_percentage = calculate_fpl(
-        patient.household_members.count() + 1,
-        patient.total_annual_income
-      )
-    return render_template('patient_details.html', patient=patient, form=form)
+    return render_template('patient_details.html', patient=patient, form=form, save_message=False)
 
 def update_patient(patient, form, files):
   for field_name, class_name in [
@@ -168,15 +163,12 @@ def update_patient(patient, form, files):
         patient.document_images.append(document_image)
         db.session.add(document_image)
         break
-  del form.document_images
+  for entry in form.document_images:
+    form.document_images.pop_entry()
 
   form.populate_obj(patient)
 
   return
-
-def calculate_fpl(household_size, annual_income):
-  fpl = 5200 * int(household_size) + 9520
-  return float(annual_income) / fpl * 100
 
 @screener.route('/delete/<id>', methods=['POST', 'GET'])
 @login_required
