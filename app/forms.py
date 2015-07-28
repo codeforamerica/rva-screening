@@ -24,6 +24,24 @@ def validate_phone_number(form, field):
   if validate_digit_count(form, field, 10) is False:
     raise ValidationError('Phone number should be 10 digits.')
 
+class ScreeningResultForm(Form):
+  eligible_yn = fields.RadioField(
+    _('Is this patient eligible for care at your organization?'),
+    choices = CONSTANTS.YN_NONULL_CHOICES,
+    default = "N",
+  )
+  sliding_scale_id = fields.SelectField(
+    _('Sliding Scale'),
+    default = ""
+  )
+  notes = fields.TextField(
+    _('Notes'),
+    [Optional(), validators.Length(max=1000)]
+  )
+  submit = fields.SubmitField(
+    _('Submit')
+  )
+
 class PrescreenForm(Form):
   household_size = fields.IntegerField(
     _('What is your household size?'),
