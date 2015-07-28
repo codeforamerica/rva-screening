@@ -1,14 +1,8 @@
-<div class="form-group employment_status">
-  {{ form.employment_status.label }}
-  {{ form.employment_status(class="form-control") }}
-</div>
+{% from "form_field_macros.html" import render_field %}
 
-{% include "includes/patient_student_status.html" %}
-
-<div class="form-group spouse_employment_status">
-  {{ form.spouse_employment_status.label }}
-  {{ form.spouse_employment_status(class="form-control") }}
-</div>
+  {{ render_field(form.employment_status) }}
+  {{ render_field(form.student_status) }}
+  {{ render_field(form.spouse_employment_status) }}
 
 <div class="employers">
   <h4>{{ _("Employers") }}</h4>
@@ -97,6 +91,7 @@
   </div>
 </div>
 
+
 <div class="form-group q_an">
   <label>{{ _("How long have you been unemployed?") }}</label>
   {{ form.years_unemployed.label }}
@@ -113,13 +108,6 @@
   {{ form.spouse_months_unemployed(class="form-control") }}
 </div>
 
-
-<div class="form-group q_an">
-  {{ form.years_at_current_employer.label }}
-  {{ form.years_at_current_employer(class="form-control") }}
-</div>
-<div class="form-group q_an">
-  {{ form.spouse_years_at_current_employer.label }}
-  {{ form.spouse_years_at_current_employer(class="form-control") }}
-</div>
+  {{ render_field(form.years_at_current_employer, ['an']) }}
+  {{ render_field(form.spouse_years_at_current_employer, ['an']) }}
 
