@@ -1,23 +1,26 @@
-<div class="form-group last_healthcare">
-  {{ form.last_healthcare.label }}
-  {{ form.last_healthcare(class="form-control") }}
-</div>
+{% from "form_field_macros.html" import render_field %}
 
-<div class="form-group insurance_status">
-  {{ form.insurance_status.label }}
-  {{ form.insurance_status(class="form-control") }}
-</div>
-
-<div class="form-group coverage_type">
-  {{ form.coverage_type.label }}
-  {{ form.coverage_type(class="form-control") }}
-</div>
+{{ render_field(form.last_healthcare) }}
+{{ render_field(form.insurance_status) }}
+{{ render_field(form.coverage_type) }}
 
 <div class="form-group {% if form.coverage_type.data != "Other" %} hidden {% endif %}">
   {{ form.coverage_type_other.label }}
   {{ form.coverage_type_other(class="form-control") }}
 </div>
 
+{{ render_field(form.has_prescription_coverage_yn, ['an']) }}
+{{ render_field(form.has_vcc, ['an']) }}
+{{ render_field(form.eligible_insurance_types, ['an']) }}
 
+{{ render_field(form.applied_for_vets_benefits_yn, ['an']) }}
+{{ render_field(form.eligible_for_vets_benefits_yn, ['an']) }}
 
+{{ render_field(form.applied_for_medicaid_yn, ['an']) }}
+{{ render_field(form.medicaid_date_effective, ['an']) }}
+{{ render_field(form.applied_for_ssd_yn, ['an']) }}
+{{ render_field(form.ssd_date_effective, ['an']) }}
+
+{{ render_field(form.care_due_to_accident_yn, ['an']) }}
+{{ render_field(form.accident_work_related_yn, ['an']) }}
 

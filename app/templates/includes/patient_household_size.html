@@ -1,3 +1,4 @@
+{% from "form_field_macros.html" import render_field %}
 <div class="table-wrapper">
   <table class="table table-condensed hh_members" id="household_member_table">
 
@@ -102,3 +103,6 @@
     {{ _("Add a person") }}
   </button>
 </div>
+
+  {{ render_field(form.filed_taxes_yn, ['an']) }}
+  {{ render_field(form.claimed_as_dependent_yn, ['an']) }}
