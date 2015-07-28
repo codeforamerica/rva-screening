@@ -1,8 +1,9 @@
 // a label for a field or a multifield
 .field_label {
+  display: block;
   color: $field-label-color;
   font-size: 0.9em;
-  font-weight: 800;
+  margin-bottom: 0.3em;
 }
 
 // flags are short pieces of text that explain something about the field
@@ -110,8 +111,8 @@
   }
 }
 
-.field_dob { width: 12em; }
-.field_ssn { width: 9em; }
+.field_dob .field_input { width: 12em; }
+.field_ssn .field_input { width: 9em; }
 
 @media (min-width: $break) {
   .field_first_name {}
@@ -267,14 +268,29 @@
 }
 
 
-.q_cross,
-.q_vcu,
-.q_dp,
-.q_an {
+.q_unique {
   position: relative;
   padding: 1em;
   background-color: darken($color-lightgray, 5);
-  border-top: 3px solid $color-white;
+  &:before {
+    position: absolute;
+    top:0;
+    font-size: 10px;
+    padding: 3px 0;
+    text-align: center;
+    background: darken($color-lightgray, 5);
+    left: -24px;
+    width: 24px;
+    font-weight: 700;
+    color: $color-darkgray;
+    &:hover {
+    }
+  }
+}
+.q_an {
+  &:before {
+    content: "AN";
+  }
 }
 
 

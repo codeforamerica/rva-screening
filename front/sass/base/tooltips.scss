@@ -1,29 +1,60 @@
+// @mixin tip($top, $width: 200px, ) {
+//   &:hover {
+//     &:before {
+//       top: -10px;
+//       width: 200px;
+//       left: 25px;
+//     }
+//     &:after {
+//       top: 1px;
+//       left: 23px;
+//       margin-left: -6px;
+//       border-top: 8px solid transparent;
+//       border-right: 8px solid rgba(0, 0, 0, 0.8);
+//       border-bottom: 8px solid transparent;
+//     }
+//   }
+// }
+
 .tooltip {
   position: relative;
   color: $color-blue;
   font-weight: 100;
-  font-size: 0.9em;
+
+  // general tooltip styles
   &:hover {
     &:before {
+      position: absolute;
       border-radius: 2px;
       content: attr(value);
-      position: absolute;
-      top: -10px;
-      width: 200px;
-      padding: 10px;
-      left: 25px;
+      font-size: 12px;
       color: #fff;
+      padding: 10px;
       background-color: rgba(0, 0, 0, 0.8);
+      z-index: 10;
     }
     &:after {
       position: absolute;
       content: " ";
-      top: 1px;
-      left: 23px;
-      margin-left: -6px;
-      border-top: 8px solid transparent;
-      border-right: 8px solid rgba(0, 0, 0, 0.8);
-      border-bottom: 8px solid transparent;
+      z-index: 10;
+    }
+  }
+
+  // tooltip to the right
+  &.tooltip_right {
+    &:hover {
+      &:before {
+        top: -9px;
+        width: 200px;
+        right: -210px;
+      }
+      &:after {
+        right: -10px;
+        top: 3px;
+        border-top: 6px solid transparent;
+        border-right: 6px solid rgba(0, 0, 0, 0.8);
+        border-bottom: 6px solid transparent;
+      }
     }
   }
 }

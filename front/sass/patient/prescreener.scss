@@ -1,23 +1,6 @@
-// left-hand column in prescreening results
-.prescreen_patient {
-  padding: 1em;
-  border: 1px solid lighten($color-gray, 10);
-  .prescreen_patient_item {
-    p {
-      font-size: 0.8em;
-      margin: 0;
-      color: $color-darkgray;
-    }
-    h2 {
-      font-size: 1.2em;
-      margin: 0 auto 0.6em;
-      color: $color-blue;
-    }
-  }
-}
-
 $prescreen-service-background-color: $color-lightgray;
 $prescreen-service-border-width: 30px;
+
 .prescreen_service {
   border: 1px solid lighten($color-gray, 10);
   border-left: $prescreen-service-border-width solid lighten($color-gray, 10);
