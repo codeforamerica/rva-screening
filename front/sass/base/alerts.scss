@@ -1,0 +1,37 @@
+@mixin alert($color, $content) {
+  border: 1px solid $color;
+  background: lighten($color, 38);
+  li {
+    &:before {
+      content: $content;
+      color: $color;
+    }
+  }
+}
+
+// typically an unordered-list
+.alert_list {
+  @include list_reset();
+  margin: 1em 0;
+  padding: 0.8em 1em;
+  border-radius: 0.3em;
+  li {
+    font-size: 0.8em;
+    line-height: 2em;
+    &:before {
+      @extend %icon;
+      margin-right: 5px;
+    }
+    label {
+      font-weight: 700;
+      margin: 0;
+    }
+  }
+
+  &.alert_error {
+    @include alert($color-red, "\f06a");
+  }
+  &.alert_success {
+    @include alert($color-brightgreen, "\f058");
+  }
+} 

@@ -39,7 +39,7 @@
   {{ form.hidden_tag() }}
 
   {% if form.errors %}
-    <ul class="errors">
+    <ul class="alert_list alert_error">
         {% for field_name, field_errors in form.errors|dictsort if field_errors %}
             {% for error in field_errors %}
                 <li>{{ form[field_name].label }}: {{ error }}</li>
@@ -47,7 +47,7 @@
         {% endfor %}
     </ul>
   {% elif save_message %}
-    <ul class="success">
+    <ul class="alert_list alert_success">
       <li>Update successful!</li>
     </ul>
   {% endif %}
