@@ -251,16 +251,21 @@ def prescreening_basic():
     else:
       return render_template('prescreening_basic.html', form=form)
 
-def calculate_pre_screen_results(fpl):
+def calculate_pre_screen_results(
+  fpl,
+  has_health_insurance,
+  is_eligible_for_medicaid,
+  service_ids
+):
   service_results = []
-  for service_id in session['service_ids']:
+  for service_id in service_ids:
     service = Service.query.get(service_id)
 
     if (service.fpl_cutoff and fpl > service.fpl_cutoff):
       eligible = False
       fpl_eligible = False
-    elif ((service.uninsured_only_yn == 'Y' and session['has_health_insurance'] == 'yes') or
-      (service.medicaid_ineligible_only_yn == 'Y' and session['is_eligible_for_medicaid'] == 'yes')):
+    elif ((service.uninsured_only_yn == 'Y' and has_health_insurance == 'yes') or
+      (service.medicaid_ineligible_only_yn == 'Y' and is_eligible_for_medicaid == 'yes')):
       eligible = False
       fpl_eligible = True
     else:
@@ -312,7 +317,12 @@ def prescreening_results():
   fpl = calculate_fpl(session['household_size'], int(session['household_income']) * 12)
   return render_template(
     'prescreening_results.html',
-    services = calculate_pre_screen_results(fpl),
+    services = calculate_pre_screen_results(
+      fpl = fpl,
+      has_health_insurance = session['has_health_insurance'],
+      is_eligible_for_medicaid = session['is_eligible_for_medicaid'],
+      service_ids = session['service_ids']
+    ),
     household_size = session['household_size'],
     household_income = int(session['household_income']) * 12,
     fpl = fpl,
@@ -442,11 +452,24 @@ def patient_history(patient_id):
 def patient_share(patient_id):
   patient = Patient.query.get(patient_id)
   services = Service.query.all()
+
   return render_template(
     'patient_share.html',
     patient = patient,
     services = services,
-    current_user = current_user
+    current_user = current_user,
+    prescreen_results = calculate_pre_screen_results(
+      fpl = patient.fpl_percentage,
+      has_health_insurance = patient.insurance_status,
+      is_eligible_for_medicaid = "",
+      service_ids = [s.id for s in services]
+    ),
+    household_size = patient.household_members.count() + 1,
+    household_income = patient.total_annual_income,
+    fpl = patient.fpl_percentage,
+    has_health_insurance = patient.insurance_status,
+    is_eligible_for_medicaid = "",
+    referral_buttons = True
   )
 
 # USER PROFILE
