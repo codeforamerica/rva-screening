@@ -158,6 +158,11 @@ class PatientForm(Form):
   addresses = fields.FieldList(fields.FormField(
     AddressForm
   ))
+  has_transport_yn = fields.SelectField(
+    _("Do you have transportation?"),
+    choices = CONSTANTS.YN_CHOICES,
+    default = "",
+  )
   emergency_contacts = fields.FieldList(fields.FormField(
     EmergencyContactForm
   ))
@@ -201,8 +206,10 @@ class PatientForm(Form):
     choices = CONSTANTS.YNNA_CHOICES,
     default = ""
   )
-
-  # education_level = db.Column(db.String(16), info='Education level')
+  education_level = fields.TextField(
+    _("What is your highest level of education?"),
+    [validators.Length(16)]
+  )
   marital_status = fields.SelectField(
     _('Marital status'),
     choices = CONSTANTS.MARITAL_STATUS_CHOICES,
@@ -255,13 +262,23 @@ class PatientForm(Form):
     choices = CONSTANTS.EMPLOYMENT_STATUS_CHOICES,
     default = "",
   )
-  # months_unemployed
+
+  # How long have you been unemployed?
+  years_unemployed = fields.IntegerField( _("Years"))
+  months_unemployed = fields.IntegerField( _("Months"))
+  spouse_years_unemployed = fields.IntegerField( _("Years"))
+  spouse_months_unemployed = fields.IntegerField( _("Months"))
   # employment_changes
-  # spouse_months_unemployed
   # spouse_employment_changes
   employers = fields.FieldList(fields.FormField(
     EmployerForm
   ))
+  years_at_current_employer = fields.IntegerField(
+    _("Years at current employer"),
+  )
+  spouse_years_at_current_employer = fields.IntegerField(
+    _("Spouse's years at current employer"),
+  )
 
   ### Healthcare/coverage
   last_healthcare = fields.TextField(
@@ -282,24 +299,60 @@ class PatientForm(Form):
     _('Please specify other coverage type'),
     [Optional(), validators.Length(max=32)]
   )
+  has_prescription_coverage_yn = fields.SelectField(
+    _('Do you have prescription drug coverage?'),
+    choices = CONSTANTS.YNN_NONULL_CHOICES
+  )
 
-  # has_prescription_coverage_yn
   # has_pcp_yn
   # has_psychiatrist_yn
   # wants_psychiatrist_yn
-  # eligible_insurance_types
-
-  # applied_for_vets_benefits_yn
-  # eligible_for_vets_benefits_yn
-  # applied_for_medicaid_yn
-  # denied_medicaid_yn
-  # medicaid_date_effective
-  # applied_for_ssd_yn
-  # ssd_date_effective
-
-  # care_due_to_accident_yn
-  # accident_work_related_yn
-  # recently_lost_insurance_yn
+  eligible_insurance_types = fields.SelectField(
+    _('Are you eligible for insurance coverage through one of the following?'),
+    choices = CONSTANTS.COVERAGE_ELIGIBILITY_CHOICES,
+    default = ""
+  )
+  applied_for_vets_benefits_yn = fields.SelectField(
+    _("Have you applied for veteran's benefits?"),
+    choices = CONSTANTS.YNNA_CHOICES,
+    default = ""
+  )
+  eligible_for_vets_benefits_yn = fields.SelectField(
+    _("Are you eligible for veteran's benefits?"),
+    choices = CONSTANTS.YNN_NONULL_CHOICES,
+    default = ""
+  )
+  applied_for_medicaid_yn = fields.SelectField(
+    _("Have you ever applied for Medicaid?"),
+    choices = CONSTANTS.YN_CHOICES,
+    default = ""
+  )
+  medicaid_date_effective = fields.DateField(
+    _("Medicaid date effective"),
+  )
+  applied_for_ssd_yn = fields.SelectField(
+    _("Have you ever applied for Social Security Disability?"),
+    choices = CONSTANTS.YN_CHOICES,
+    default = ""
+  )
+  ssd_date_effective = fields.DateField(
+    _("SSD date effective"),
+  )
+  care_due_to_accident_yn = fields.SelectField(
+    _("Is your healthcare the result of an accident?"),
+    choices = CONSTANTS.YN_CHOICES,
+    default = ""
+  )
+  accident_work_related_yn = fields.SelectField(
+    _("Was the accident work-related?"),
+    choices = CONSTANTS.YN_CHOICES,
+    default = ""
+  )
+  #recently_lost_insurance_yn = fields.SelectField(
+    #_("Have you lost your health benefits within the past year?"),
+    #choices = CONSTANTS.YN_CHOICES,
+    #default = ""
+  #)
 
   ### Income/finances
   document_images = fields.FieldList(fields.FormField(
@@ -313,8 +366,22 @@ class PatientForm(Form):
   ))
 
   # head_of_household_yn
-  # filed_taxes_yn
-  # claimed_as_dependent_yn
-  # how_food_and_shelter
-  # how_other_expenses
+  filed_taxes_yn = fields.SelectField(
+    _("Did you file taxes in the last year?"),
+    choices = CONSTANTS.YN_CHOICES,
+    default = ""
+  )
+  claimed_as_dependent_yn = fields.SelectField(
+    _("Did someone else claim you on their return?"),
+    choices = CONSTANTS.YNN_CHOICES,
+    default = ""
+  )
+  how_food_and_shelter = fields.TextField(
+    _('How do you provide food and shelter for yourself or your family?'),
+    [Optional(), validators.Length(max=128)]
+  )
+  how_other_expenses = fields.TextField(
+    _('How do you provide for other daily living expenses, such as bills or medications, for yourself or your family?'),
+    [Optional(), validators.Length(max=128)]
+  )
 

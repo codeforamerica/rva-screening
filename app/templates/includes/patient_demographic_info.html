@@ -5,3 +5,7 @@
   {% include "includes/patient_veteran.html" %}
   {% include "includes/patient_residency.html" %}
   {% include "includes/patient_housing.html" %}
+  <div class="form-group q_an">
+    {{ form.education_level.label }}
+    {{ form.education_level(class="form-control") }}
+  </div>

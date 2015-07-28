@@ -33,6 +33,10 @@ migrate:
 upgrade:
 	python db.py db upgrade
 
+db_update:
+	make migrate
+	make upgrade
+
 add_triggers:
 	psql -d rva-screening -a -f app/audit_triggers.sql
 

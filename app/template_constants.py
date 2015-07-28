@@ -103,6 +103,14 @@ ETHNICITY_CHOICES = [
         ("HL",  _("Hispanic or Latino")),
         ("NHL", _("Not Hispanic or Latino"))]
 
+COVERAGE_ELIGIBILITY_CHOICES = [
+        ("JOB", _("Job")),
+        ("PJOB", _("Parent's Job")),
+        ("SJOB", _("Spouse's Job")),
+        ("COB", _("COBRA")),
+        ("OTH", _("Other")),
+        ("NE", _("Not Eligible")),
+        ]
 COVERAGE_TYPE_CHOICES = [
         ("",      ""),
         ("PRIV",  _("Private Insurance")),

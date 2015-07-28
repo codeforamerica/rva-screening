@@ -116,12 +116,16 @@ class Patient(BasicTable, db.Model):
   # Employment
   student_status = db.Column(db.String(16), info=_('Are you currently a student?'))
   employment_status = db.Column(db.String(16), info=_('Employment status'))
+  years_unemployed = db.Column(db.Integer, info=_('Years unemployed'))
   months_unemployed = db.Column(db.Integer, info=_('Months unemployed'))
   employment_changes = db.Column(db.String(32), info=_('Employment changes'))
   spouse_employment_status = db.Column(db.String(16), info=_('Spouse\'s employment status'))
+  spouse_years_unemployed = db.Column(db.Integer, info=_('Spouse\'s years unemployed'))
   spouse_months_unemployed = db.Column(db.Integer, info=_('Spouse\'s months unemployed'))
   spouse_employment_changes = db.Column(db.String(16), info=_('Spouse\'s employment changes'))
   employers = db.relationship('Employer', backref='patient', lazy='dynamic')
+  years_at_current_employer = db.Column(db.Integer, info=('Years at current employer'))
+  spouse_years_at_current_employer = db.Column(db.Integer, info=('Spouse\'s years at current employer'))
 
   # Healthcare/coverage
   last_healthcare = db.Column(db.String(128), info=_('Last healthcare received'))
