@@ -13,7 +13,7 @@ from flask import (
 )
 from flask.ext.login import login_user, logout_user, current_user, login_required
 from app import db, bcrypt, login_manager
-from app.forms import PatientForm, PrescreenForm
+from app.forms import PatientForm, PrescreenForm, ScreeningResultForm
 from app.models import *
 from app.utils import upload_file, send_document_image
 from hashlib import sha1
@@ -99,6 +99,22 @@ def patient_details(id):
       # redirect to consent page
       #if current_user.service_id not in [service.id for service in patient.services]:
       #  return redirect(url_for('screener.consent', patient_id = patient.id))
+
+      # If this patient has a referral to the current organization in SENT status,
+      # update it to RECEIVED
+      referrals = PatientReferral.query.filter(and_(
+        PatientReferral.patient_id == patient.id,
+        PatientReferral.to_service_id == current_user.service.id
+      ))
+      sent_referrals = [
+        r for r in patient.referrals
+        if r.to_service_id == current_user.service_id
+        and r.in_sent_status()
+      ]
+      for referral in sent_referrals:
+        referral.mark_received()
+      if sent_referrals:
+        db.session.commit()
 
       patient.total_annual_income = sum(
         source.monthly_amount * 12 for source in patient.income_sources if source.monthly_amount
@@ -466,6 +482,41 @@ def translate_object(obj, language_code):
       ):
         setattr(obj, key, getattr(translations, key))
   return obj
+
+@screener.route('/patient_screening_history/<patient_id>', methods=['POST', 'GET'])
+@login_required
+def patient_screening_history(patient_id):
+  patient = Patient.query.get(patient_id)
+  form = ScreeningResultForm()
+  sliding_scale_options = SlidingScale.query.filter(
+    SlidingScale.service_id == current_user.service_id
+  )
+  # Add the current organization's sliding scale options to the dropdown
+  form.sliding_scale_id.choices = [
+    (option.id, option.scale_name) for option in sliding_scale_options
+  ] or [("", "N/A")]
+
+  if form.validate_on_submit():
+    screening_result = PatientScreeningResult()
+    screening_result.service_id = current_user.service_id
+    screening_result.eligible_yn = form.eligible_yn.data
+    screening_result.sliding_scale_id = form.sliding_scale_id.data or None
+    screening_result.notes = form.notes.data
+    patient.screening_results.append(screening_result)
+
+    # If the patient has an open referral to the current organization, mark
+    # as completed
+    open_referrals = [
+      r for r in patient.referrals
+      if r.to_service_id == current_user.service.id
+      and r.in_received_status()
+    ]
+    for referral in open_referrals:
+      referral.mark_completed()
+
+    db.session.commit()
+
+  return render_template('patient_screening_history.html', patient=patient, form=form)
 
 @screener.route('/')
 @login_required
