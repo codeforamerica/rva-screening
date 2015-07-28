@@ -4,6 +4,13 @@
 <h4>Service-specific questions</h4>
 <div class="patient_details_filter">
   <label class="field_checkbox checkbox_small checkbox_blue">
+    <input type="checkbox" name="q_an" checked="true">
+    <span class="field_checkbox_content">
+      <span class="field_checkbox_content_title">Access Now</span>
+    </span>
+  </label>
+
+  <!-- <label class="field_checkbox checkbox_small checkbox_blue">
     <input type="checkbox" name="q_dp">
     <span class="field_checkbox_content">
       <span class="field_checkbox_content_title">Daily Planet</span>
@@ -22,7 +29,7 @@
     <span class="field_checkbox_content">
       <span class="field_checkbox_content_title">VCU</span>
     </span>
-  </label>
+  </label> -->
 </div>
 {% endblock %}
 
@@ -50,23 +57,8 @@
       <div class="expander-content">
 
         <!-- testing unique questions -->
-        <div class="form-group q_unique q_dp">
-          <label for="ssn">TEST QUESTION - Daily Planet Question</label>
-          <input class="form-control" id="ssn" name="ssn" pattern="\d{3}-?\d{2}-?\d{4}" placeholder="555-55-5555" type="text" value="222-22-2222">
-        </div>
-
-        <div class="form-group q_unique q_vcu">
-          <label for="ssn">TEST QUESTION - VCU Question</label>
-          <input class="form-control" id="ssn" name="ssn" pattern="\d{3}-?\d{2}-?\d{4}" placeholder="555-55-5555" type="text" value="222-22-2222">
-        </div>
-
-        <div class="form-group q_unique q_cross">
-          <label for="ssn">TEST QUESTION - Crossover</label>
-          <input class="form-control" id="ssn" name="ssn" pattern="\d{3}-?\d{2}-?\d{4}" placeholder="555-55-5555" type="text" value="222-22-2222">
-        </div>
-
-        <div class="form-group q_unique q_cross q_vcu">
-          <label for="ssn">TEST QUESTION - VCU & Crossover</label>
+        <div class="form-group q_an">
+          <label for="ssn">TEST QUESTION - Access Now Question</label>
           <input class="form-control" id="ssn" name="ssn" pattern="\d{3}-?\d{2}-?\d{4}" placeholder="555-55-5555" type="text" value="222-22-2222">
         </div>
         <!-- /end testing unique questions -->

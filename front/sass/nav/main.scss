@@ -11,6 +11,11 @@ body.menu_open {
   .nav {
     left: 0;
   }
+  .button_nav {
+    &:before {
+      content:"\f00d";
+    }
+  }
 }
 
 // the nav wrapper, element, and all around chill dude
@@ -37,10 +42,25 @@ body.menu_open {
 
 .button_nav {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  // padding: 0.5em 0.7em;
+  width: 2em;
+  height: 2em;
+  right: 0;
+  text-align: center;
+  border: none;
+  font-size: 1.7em;
+  background: $color-fuscia;
   @media (min-width: $break) {
     display: none;
+  }
+  &:before {
+    @extend %icon;
+    color: $color-white;
+    content:"\f142";
+  }
+  &:focus {
+    background: darken($color-fuscia, 10);
+    outline: none;
   }
 }
 

@@ -70,31 +70,36 @@ var AppController = function ( options ) {
   **
   */
   var serviceFilters = $('.patient_details_filter .field_checkbox input[type="checkbox"]');
-  var allUniqueQuestions = $('.q_unique');
+  // var allUniqueQuestions = $('.q_unique');
   serviceFilters.on('change', function(e) {
-    var checked = [];
+    // var checked = [];
 
-    // get all checked filters
-    serviceFilters.each(function(){
-      if($(this).is(':checked')) {
-        checked.push($(this).attr('name'));
-      }
-    });
+    // // get all checked filters
+    // serviceFilters.each(function(){
+    //   if($(this).is(':checked')) {
+    //     checked.push($(this).attr('name'));
+    //   }
+    // });
 
-    // hide all question fields
-    allUniqueQuestions.hide();
+    // // hide all question fields
+    // allUniqueQuestions.hide();
 
-    // now bring them back if they match the checked
-    // boxes on the filters
-    allUniqueQuestions.each(function(){
-      var q = $(this);
-      for (var c = 0; c < checked.length; c++) {
-        if (q.hasClass(checked[c])) {
-          q.show();
-        }
-      }
-    });
-
+    // // now bring them back if they match the checked
+    // // boxes on the filters
+    // allUniqueQuestions.each(function(){
+    //   var q = $(this);
+    //   for (var c = 0; c < checked.length; c++) {
+    //     if (q.hasClass(checked[c])) {
+    //       q.show();
+    //     }
+    //   }
+    // });
+    var select = $('.'+$(this).attr('name'));
+    if ($(this).is(':checked')) {
+      select.show();
+    } else {
+      select.hide();
+    }
   });
 
 };
