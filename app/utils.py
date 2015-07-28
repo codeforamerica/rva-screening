@@ -46,3 +46,7 @@ def upload_file(file):
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1] in current_app.config.get('ALLOWED_EXTENSIONS')
+
+def calculate_fpl(household_size, annual_income):
+  fpl = 5200 * int(household_size) + 9520
+  return float(annual_income) / fpl * 100

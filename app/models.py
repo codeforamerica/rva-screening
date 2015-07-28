@@ -171,6 +171,14 @@ class Patient(BasicTable, db.Model):
   def __init__(self, **fields):
     self.__dict__.update(fields)
 
+  def update_stats(self):
+    self.total_annual_income = sum(
+      source.monthly_amount * 12 for source in self.income_sources if source.monthly_amount
+    )
+    self.fpl_percentage = (
+      float(self.total_annual_income) / 
+      (5200 * int(self.household_members.count() + 1) + 9520)) * 100
+
 
 class PhoneNumber(BasicTable, db.Model):
   id = db.Column(db.Integer, primary_key=True)
