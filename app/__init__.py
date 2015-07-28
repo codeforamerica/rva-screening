@@ -26,7 +26,7 @@ def register_extensions(app):
     bcrypt.init_app(app)
     babel.init_app(app)
     login_manager.init_app(app)
-    login_manager.login_view = 'login'
+    login_manager.login_view = '/login'
 
 def register_context_processors(app):
     from app.context_processors import (
