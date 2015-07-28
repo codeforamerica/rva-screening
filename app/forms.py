@@ -135,12 +135,15 @@ class DocumentImageForm(NoCsrfForm):
 
 class PatientForm(Form):
   ### Basic ID
+  # full_name will be deprecated soon
   full_name = fields.TextField(
     _('Full legal name'),
-    validators=[DataRequired(), validators.Length(max=128)])
-  first_name = fields.TextField(_('First name'), [validators.Length(max=64)])
+    validators=[Optional(), validators.Length(max=128)])
+  first_name = fields.TextField(_('First name'), [
+      DataRequired(), validators.Length(max=64)])
   middle_name = fields.TextField(_('Middle name'), [validators.Length(max=64)])
-  last_name = fields.TextField(_('Last name'), [validators.Length(max=64)])
+  last_name = fields.TextField(_('Last name'), [
+      DataRequired(), validators.Length(max=64)])
   dob = fields.DateField(_('Date of birth'))
   ssn = fields.TextField(
     _('Social security number'),
@@ -208,7 +211,7 @@ class PatientForm(Form):
   )
   education_level = fields.TextField(
     _("What is your highest level of education?"),
-    [validators.Length(16)]
+    [validators.Length(max=16)]
   )
   marital_status = fields.SelectField(
     _('Marital status'),
@@ -231,8 +234,8 @@ class PatientForm(Form):
   )
 
   # How long have you lived in the greater Richmond area?
-  years_living_in_area = fields.IntegerField( _("Years"))
-  months_living_in_area = fields.IntegerField( _("Months"))
+  years_living_in_area = fields.IntegerField( _("Years"), [Optional()])
+  months_living_in_area = fields.IntegerField( _("Months"), [Optional()])
   city_or_county_of_residence = fields.TextField(
     _('City or County of Residence'),
     [validators.Length(max=64)]
@@ -264,10 +267,10 @@ class PatientForm(Form):
   )
 
   # How long have you been unemployed?
-  years_unemployed = fields.IntegerField( _("Years"))
-  months_unemployed = fields.IntegerField( _("Months"))
-  spouse_years_unemployed = fields.IntegerField( _("Years"))
-  spouse_months_unemployed = fields.IntegerField( _("Months"))
+  years_unemployed = fields.IntegerField( _("Years"), [Optional()])
+  months_unemployed = fields.IntegerField( _("Months"), [Optional()])
+  spouse_years_unemployed = fields.IntegerField( _("Years"), [Optional()])
+  spouse_months_unemployed = fields.IntegerField( _("Months"), [Optional()])
   # employment_changes
   # spouse_employment_changes
   employers = fields.FieldList(fields.FormField(
@@ -275,9 +278,11 @@ class PatientForm(Form):
   ))
   years_at_current_employer = fields.IntegerField(
     _("Years at current employer"),
+    [Optional()],
   )
   spouse_years_at_current_employer = fields.IntegerField(
     _("Spouse's years at current employer"),
+    [Optional()],
   )
 
   ### Healthcare/coverage
@@ -333,6 +338,7 @@ class PatientForm(Form):
   )
   medicaid_date_effective = fields.DateField(
     _("Medicaid date effective"),
+    [Optional()]
   )
   applied_for_ssd_yn = fields.SelectField(
     _("Have you ever applied for Social Security Disability?"),
@@ -341,6 +347,7 @@ class PatientForm(Form):
   )
   ssd_date_effective = fields.DateField(
     _("SSD date effective"),
+    [Optional()],
   )
   care_due_to_accident_yn = fields.SelectField(
     _("Is your healthcare the result of an accident?"),
