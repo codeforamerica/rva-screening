@@ -1,0 +1,67 @@
+{% extends "patient_template.html" %}
+{% block patient_content %}
+
+<div>
+	<h3>{{ _("Referrals")}}</h3>
+	<div>{{ _("From") }}</div>
+	<div>{{ _("To") }}</div>
+	<div>{{ _("Status") }}</div>
+	<div>{{ _("Notes") }}</div>
+	{% for referral in patient.referrals %}
+		<div>
+			<div>{{ referral.from_app_user.full_name }} at {{ referral.created_by.service.name }}</div>
+			<div>{{ referral.to_service.name }}</div>
+			<div>{{ referral.status }}</div>
+			<div>{{ referral.notes or "" }}</div>
+		</div>
+	{% endfor %}
+</div>
+
+<div>
+	<h3>{{ _("Screening Results") }}</h3>
+	<div>{{ _("Organization") }}</div>
+	<div>{{ _("Eligible?") }}</div>
+	<div>{{ _("Sliding Scale") }}</div>
+	<div>{{ _("Notes") }}</div>
+	{% for result in patient.screening_results %}
+		<div>
+			<div>{{ result.service.name }}</div>
+			<div>{{ _("Yes") if result.eligible_yn == 'Y' else _("No") }}</div>
+			<div>{{ result.sliding_scale.name if result.sliding_scale else _("N/A")}}</div>
+			<div>{{ result.notes or "" }}</div>
+		</div>
+	{% endfor %}
+</div>
+
+<div>
+	<form method="post">
+	  {{ form.hidden_tag() }}
+
+	  {% if form.errors %}
+	    <ul class="errors">
+	      {% for field_name, field_errors in form.errors|dictsort if field_errors %}
+	        {% for error in field_errors %}
+	          <li>{{ form[field_name].label }}: {{ error }}</li>
+	        {% endfor %}
+	      {% endfor %}
+	    </ul>
+	  {% endif %}
+		<div>
+			{{ form.eligible_yn.label }}
+		  {{ form.eligible_yn() }}
+		</div>
+		<div>
+			{{ form.sliding_scale_id.label }}
+		  {{ form.sliding_scale_id() }}
+		</div>
+		<div>
+			{{ form.notes.label }}
+		  {{ form.notes() }}
+		</div>
+		<div>
+			{{ form.submit }}
+		</div>
+	</form>
+</div>
+
+{% endblock %}

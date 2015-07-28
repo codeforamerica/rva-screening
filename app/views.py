@@ -13,7 +13,7 @@ from flask import (
 )
 from flask.ext.login import login_user, logout_user, current_user, login_required
 from app import db, bcrypt, login_manager
-from app.forms import PatientForm, PrescreenForm
+from app.forms import PatientForm, PrescreenForm, ScreeningResultForm
 from app.models import *
 from app.utils import upload_file, send_document_image, calculate_fpl
 from hashlib import sha1
@@ -100,6 +100,23 @@ def patient_details(id):
       # redirect to consent page
       #if current_user.service_id not in [service.id for service in patient.services]:
       #  return redirect(url_for('screener.consent', patient_id = patient.id))
+
+      # If this patient has a referral to the current organization in SENT status,
+      # update it to RECEIVED
+      referrals = PatientReferral.query.filter(and_(
+        PatientReferral.patient_id == patient.id,
+        PatientReferral.to_service_id == current_user.service.id
+      ))
+      sent_referrals = [
+        r for r in patient.referrals
+        if r.to_service_id == current_user.service_id
+        and r.in_sent_status()
+      ]
+      for referral in sent_referrals:
+        referral.mark_received()
+      if sent_referrals:
+        db.session.commit()
+
       patient.update_stats()
 
     return render_template('patient_details.html', patient=patient, form=form, save_message=False)
@@ -227,16 +244,21 @@ def prescreening_basic():
     else:
       return render_template('prescreening_basic.html', form=form)
 
-def calculate_pre_screen_results(fpl):
+def calculate_pre_screen_results(
+  fpl,
+  has_health_insurance,
+  is_eligible_for_medicaid,
+  service_ids
+):
   service_results = []
-  for service_id in session['service_ids']:
+  for service_id in service_ids:
     service = Service.query.get(service_id)
 
     if (service.fpl_cutoff and fpl > service.fpl_cutoff):
       eligible = False
       fpl_eligible = False
-    elif ((service.uninsured_only_yn == 'Y' and session['has_health_insurance'] == 'yes') or
-      (service.medicaid_ineligible_only_yn == 'Y' and session['is_eligible_for_medicaid'] == 'yes')):
+    elif ((service.uninsured_only_yn == 'Y' and has_health_insurance == 'yes') or
+      (service.medicaid_ineligible_only_yn == 'Y' and is_eligible_for_medicaid == 'yes')):
       eligible = False
       fpl_eligible = True
     else:
@@ -288,7 +310,12 @@ def prescreening_results():
   fpl = calculate_fpl(session['household_size'], int(session['household_income']) * 12)
   return render_template(
     'prescreening_results.html',
-    services = calculate_pre_screen_results(fpl),
+    services = calculate_pre_screen_results(
+      fpl = fpl,
+      has_health_insurance = session['has_health_insurance'],
+      is_eligible_for_medicaid = session['is_eligible_for_medicaid'],
+      service_ids = session['service_ids']
+    ),
     household_size = session['household_size'],
     household_income = int(session['household_income']) * 12,
     fpl = fpl,
@@ -418,11 +445,24 @@ def patient_history(patient_id):
 def patient_share(patient_id):
   patient = Patient.query.get(patient_id)
   services = Service.query.all()
+
   return render_template(
     'patient_share.html',
     patient = patient,
     services = services,
-    current_user = current_user
+    current_user = current_user,
+    prescreen_results = calculate_pre_screen_results(
+      fpl = patient.fpl_percentage,
+      has_health_insurance = patient.insurance_status,
+      is_eligible_for_medicaid = "",
+      service_ids = [s.id for s in services]
+    ),
+    household_size = patient.household_members.count() + 1,
+    household_income = patient.total_annual_income,
+    fpl = patient.fpl_percentage,
+    has_health_insurance = patient.insurance_status,
+    is_eligible_for_medicaid = "",
+    referral_buttons = True
   )
 
 # USER PROFILE
@@ -458,6 +498,41 @@ def translate_object(obj, language_code):
       ):
         setattr(obj, key, getattr(translations, key))
   return obj
+
+@screener.route('/patient_screening_history/<patient_id>', methods=['POST', 'GET'])
+@login_required
+def patient_screening_history(patient_id):
+  patient = Patient.query.get(patient_id)
+  form = ScreeningResultForm()
+  sliding_scale_options = SlidingScale.query.filter(
+    SlidingScale.service_id == current_user.service_id
+  )
+  # Add the current organization's sliding scale options to the dropdown
+  form.sliding_scale_id.choices = [
+    (option.id, option.scale_name) for option in sliding_scale_options
+  ] or [("", "N/A")]
+
+  if form.validate_on_submit():
+    screening_result = PatientScreeningResult()
+    screening_result.service_id = current_user.service_id
+    screening_result.eligible_yn = form.eligible_yn.data
+    screening_result.sliding_scale_id = form.sliding_scale_id.data or None
+    screening_result.notes = form.notes.data
+    patient.screening_results.append(screening_result)
+
+    # If the patient has an open referral to the current organization, mark
+    # as completed
+    open_referrals = [
+      r for r in patient.referrals
+      if r.to_service_id == current_user.service.id
+      and r.in_received_status()
+    ]
+    for referral in open_referrals:
+      referral.mark_completed()
+
+    db.session.commit()
+
+  return render_template('patient_screening_history.html', patient=patient, form=form)
 
 @screener.route('/')
 @login_required

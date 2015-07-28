@@ -166,6 +166,7 @@ class Patient(BasicTable, db.Model):
   services = db.relationship('Service', secondary='patient_service_permission')
 
   referrals = db.relationship('PatientReferral', backref='patient', lazy='dynamic')
+  screening_results = db.relationship('PatientScreeningResult', backref='patient', lazy='dynamic')
 
   def __init__(self, **fields):
     self.__dict__.update(fields)
@@ -242,9 +243,37 @@ class PatientReferral(BasicTable, db.Model):
   id = db.Column(db.Integer, primary_key=True)
   patient_id = db.Column(db.Integer, db.ForeignKey("patient.id"))
   from_app_user_id = db.Column(db.Integer, db.ForeignKey("app_user.id"))
+  from_app_user = db.relationship("AppUser", foreign_keys='PatientReferral.from_app_user_id')
   to_service_id = db.Column(db.Integer, db.ForeignKey("service.id"))
-  status = db.Column(db.String(9), info=_('Status'))
-  notes = db.Column(db.Text, info=_('Notes'))
+  to_service = db.relationship("Service")
+  status = db.Column(db.String(9), info='Status')
+  notes = db.Column(db.Text, info='Notes')
+
+  def mark_sent(self):
+    self.status = 'SENT'
+
+  def in_sent_status(self):
+    return self.status == 'SENT'
+
+  def mark_received(self):
+    self.status = 'RECEIVED'
+
+  def in_received_status(self):
+    return self.status == 'RECEIVED'
+
+  def mark_completed(self):
+    self.status = 'COMPLETED'
+
+
+class PatientScreeningResult(BasicTable, db.Model):
+  id = db.Column(db.Integer, primary_key=True)
+  patient_id = db.Column(db.Integer, db.ForeignKey("patient.id"))
+  service_id = db.Column(db.Integer, db.ForeignKey("service.id"))
+  service = db.relationship("Service")
+  eligible_yn = db.Column(db.String(1))
+  sliding_scale_id = db.Column(db.Integer, db.ForeignKey("sliding_scale.id"))
+  sliding_scale = db.relationship("SlidingScale")
+  notes = db.Column(db.Text, info='Notes')
 
 
 class Service(BasicTable, db.Model):
