@@ -104,6 +104,7 @@ ETHNICITY_CHOICES = [
         ("NHL", _("Not Hispanic or Latino"))]
 
 COVERAGE_ELIGIBILITY_CHOICES = [
+        ("",    ""),
         ("JOB", _("Job")),
         ("PJOB", _("Parent's Job")),
         ("SJOB", _("Spouse's Job")),
