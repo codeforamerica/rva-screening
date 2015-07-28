@@ -273,23 +273,9 @@
 .q_an {
   position: relative;
   padding: 1em;
-  background-color: $color-lightgray;
+  background-color: darken($color-lightgray, 5);
+  border-top: 3px solid $color-white;
 }
-
-.q_an {
-  &:before {
-    border-left: 2px solid white;
-    border-bottom: 2px solid white;
-    content: "Access Now";
-    font-size: 0.8em;
-    padding: 0.2em 0.5em;
-    position: absolute;
-    right: 0;
-    top: 0;
-    color: $color-darkgray;
-  }
-}
-
 
 
 

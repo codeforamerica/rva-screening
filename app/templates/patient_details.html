@@ -52,24 +52,24 @@
   {% include "includes/patient_id.html" %}
 
   <!--contact info-->
-  <div class="expander">
-    <div class="expander-title">{{ _("Phone, Email, Address") }}</div>
+  <div class="form_section">
+    <div class="form_section_title form_section_contact">{{ _("Phone, Email, Address") }}</div>
       <div class="expander-content">
         {% include "includes/patient_contact_info.html" %}
       </div>
   </div>
 
   <!--contact info-->
-  <div class="expander">
-    <div class="expander-title">{{ _("Emergency Contacts") }}</div>
+  <div class="form_section">
+    <div class="form_section_title form_section_emergency">{{ _("Emergency Contacts") }}</div>
       <div class="expander-content">
         {% include "includes/patient_emergency_contact.html" %}
       </div>
   </div>
 
   <!--household-->
-  <div class="expander">
-    <div class="expander-title">
+  <div class="form_section">
+    <div class="form_section_title form_section_household">
       {{ _("Household Size") }}
       {% if patient.household_members %}: 
         {{ patient.household_members.count() + 1 }}
@@ -81,8 +81,8 @@
   </div>
 
   <!--income-->
-  <div class="expander">
-    <div class="expander-title">
+  <div class="form_section">
+    <div class="form_section_title form_section_income">
       {{ _("Household Income") }}
       {% if patient.total_annual_income %}:
         ${{(patient.total_annual_income / 12) | int}}/{{ _("month") }}
@@ -94,8 +94,8 @@
   </div>
 
   <!--documents-->
-  <div class="expander">
-    <div class="expander-title">{{ _("Document Uploads") }}
+  <div class="form_section">
+    <div class="form_section_title form_section_documents">{{ _("Document Uploads") }}
       {% if patient.document_images %}
         ({{patient.document_images.count()}})
       {% endif %}
@@ -106,24 +106,24 @@
   </div>
 
   <!--demographics-->
-  <div class="expander">
-    <div class="expander-title">{{ _("Demographic Questions") }}</div>
+  <div class="form_section">
+    <div class="form_section_title form_section_demographics">{{ _("Demographic Questions") }}</div>
       <div class="expander-content">
         {% include "includes/patient_demographic_info.html" %}
       </div>
   </div>
 
   <!--employment-->
-  <div class="expander">
-    <div class="expander-title">{{ _("Employment Information") }}</div>
+  <div class="form_section">
+    <div class="form_section_title form_section_employment">{{ _("Employment Information") }}</div>
       <div class="expander-content">
         {% include "includes/patient_employment_info.html" %}
       </div>
   </div>
 
   <!--insurance-->
-  <div class="expander">
-    <div class="expander-title">{{ _("Insurance Information") }}</div>
+  <div class="form_section">
+    <div class="form_section_title form_section_insurance">{{ _("Insurance Information") }}</div>
       <div class="expander-content">
         {% include "includes/patient_insurance_info.html" %}
       </div>

@@ -2,11 +2,44 @@
   // font-size: 1.5em;
 }
 
+@mixin fs_icon($content: " ") {
+  &:before {
+    content: $content;
+  }
+}
 // a wrapper for a full section of the form, such as "household size"
 .form_section {
   background-color: $color-lightgray; // placeholder
   margin-bottom: 5em;
-  padding: 1em;
+
+  .form_section_title {
+    border-top-left-radius: 0.2em;
+    border-bottom-left-radius: 0.2em;
+    margin-left: -1.6em;
+    position: relative;
+    background: $color-black;
+    color: $color-white;
+    padding: 0.4em 0.6em;
+    font-size: 1.3em;
+    font-weight: 900;
+
+    &:before {
+      color: $color-gray;
+      font-weight: 100;
+      font-size: 0.8em;
+      margin-right: 0.5em;
+      @extend %icon;
+    }
+
+    &.form_section_contact { @include fs_icon("\f095"); }
+    &.form_section_emergency { @include fs_icon("\f0a1"); }
+    &.form_section_household { @include fs_icon("\f0c0"); }
+    &.form_section_income { @include fs_icon("\f155"); }
+    &.form_section_documents { @include fs_icon("\f15c"); }
+    &.form_section_demographics { @include fs_icon("\f0ad"); }
+    &.form_section_employment { @include fs_icon("\f0ad"); }
+    &.form_section_insurance { @include fs_icon("\f0f1"); }
+  }
 }
 
 // a wrapping element for multiple fields that lie on one row
