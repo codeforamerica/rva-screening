@@ -232,6 +232,21 @@ class PatientReferral(BasicTable, db.Model):
   status = db.Column(db.String(9), info='Status')
   notes = db.Column(db.Text, info='Notes')
 
+  def mark_sent(self):
+    self.status = 'SENT'
+
+  def in_sent_status(self):
+    return self.status == 'SENT'
+
+  def mark_received(self):
+    self.status = 'RECEIVED'
+
+  def in_received_status(self):
+    return self.status == 'RECEIVED'
+
+  def mark_completed(self):
+    self.status = 'COMPLETED'
+
 
 class PatientScreeningResult(BasicTable, db.Model):
   id = db.Column(db.Integer, primary_key=True)

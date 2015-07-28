@@ -100,6 +100,22 @@ def patient_details(id):
       #if current_user.service_id not in [service.id for service in patient.services]:
       #  return redirect(url_for('screener.consent', patient_id = patient.id))
 
+      # If this patient has a referral to the current organization in SENT status,
+      # update it to RECEIVED
+      referrals = PatientReferral.query.filter(and_(
+        PatientReferral.patient_id == patient.id,
+        PatientReferral.to_service_id == current_user.service.id
+      ))
+      sent_referrals = [
+        r for r in patient.referrals
+        if r.to_service_id == current_user.service_id
+        and r.in_sent_status()
+      ]
+      for referral in sent_referrals:
+        referral.mark_received()
+      if sent_referrals:
+        db.session.commit()
+
       patient.total_annual_income = sum(
         source.monthly_amount * 12 for source in patient.income_sources if source.monthly_amount
       )
@@ -487,6 +503,17 @@ def patient_screening_history(patient_id):
     screening_result.sliding_scale_id = form.sliding_scale_id.data or None
     screening_result.notes = form.notes.data
     patient.screening_results.append(screening_result)
+
+    # If the patient has an open referral to the current organization, mark
+    # as completed
+    open_referrals = [
+      r for r in patient.referrals
+      if r.to_service_id == current_user.service.id
+      and r.in_received_status()
+    ]
+    for referral in open_referrals:
+      referral.mark_completed()
+
     db.session.commit()
 
   return render_template('patient_screening_history.html', patient=patient, form=form)
