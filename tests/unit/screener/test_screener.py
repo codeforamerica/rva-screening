@@ -52,7 +52,8 @@ class TestScreener(BaseTestCase):
   def insert_test_patient(self):
     service = self.get_test_service()
     patient = Patient(
-      first_name = 'John Richmond',
+      first_name = 'John',
+      last_name = 'Richmond',
       dob = '1950-01-01',
       ssn = '111-11-1111'
     )
@@ -87,16 +88,23 @@ class TestScreener(BaseTestCase):
 
     # Check that a new patient saves
     response = self.client.post('/new_patient', data=dict(
-      full_name='John Richmond',
+      first_name='John',
+      last_name='Richmond',
       dob='1950-01-01',
       ssn='111-11-1111',
-      gender=''
+      gender='',
+      has_prescription_coverage_yn='N',
+      eligible_for_vets_benefits_yn='N'
     ), follow_redirects=True)
 
     saved_patient = Patient.query.first()
     self.assertEquals(
-      saved_patient.full_name,
-      'John Richmond'
+      saved_patient.first_name,
+      'John'
+    )
+    self.assertEquals(
+      saved_patient.last_name,
+      'Richmond'
     )
     self.assertEquals(
       saved_patient.dob,
@@ -121,7 +129,8 @@ class TestScreener(BaseTestCase):
 
     # Check that updates save
     response = self.client.post('/patient_details/{}'.format(patient.id), data=dict(
-      full_name='James Richmond',
+      first_name='James',
+      last_name='Richmond',
       dob='1950-12-12',
       ssn='222-22-2222',
       gender='',
@@ -136,12 +145,30 @@ class TestScreener(BaseTestCase):
       veteran_yn='',
       insurance_status='',
       spouse_employment_status='',
+      has_prescription_coverage_yn='N',
+      eligible_for_vets_benefits_yn='N',
+      eligible_insurance_types='',
+      applied_for_ssd_yn='',
+      accident_work_related_yn='',
+      has_vcc='',
+      filed_taxes_yn='',
+      applied_for_medicaid_yn='',
+      has_interpreter_yn='',
+      applied_for_vets_benefits_yn='',
+      has_transport_yn='',
+      claimed_as_dependent_yn='',
+      temp_visa_yn='',
+      care_due_to_accident_yn=''
     ), follow_redirects=True)
 
     saved_patient = Patient.query.first()
     self.assertEquals(
-      saved_patient.full_name,
-      'James Richmond'
+      saved_patient.first_name,
+      'James'
+    )
+    self.assertEquals(
+      saved_patient.last_name,
+      'Richmond'
     )
     self.assertEquals(
       saved_patient.dob,
