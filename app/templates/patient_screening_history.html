@@ -2,6 +2,7 @@
 {% block patient_content %}
 
 <h3>{{ _("Referrals")}}</h3>
+<hr>
 <div class="history_referrals">
 	
 	<!-- <div>{{ _("From") }}</div>
@@ -9,33 +10,42 @@
 	<div>{{ _("Status") }}</div>
 	<div>{{ _("Notes") }}</div> -->
 	{% for referral in patient.referrals %}
-		<div class="history_referrals_item">
-			<div>{{ referral.from_app_user.full_name }} at {{ referral.created_by.service.name }}</div>
-			<div>{{ referral.to_service.name }}</div>
-			<div>{{ referral.status }}</div>
-			<div>{{ referral.notes or "" }}</div>
+		<div class="history_item history_referral history_item_{{ referral.status }} row">
+			<div class="block_2 history_date">
+				<span>{{ referral.created.strftime('%m/%d/%Y') }}</span>
+			</div>
+
+			<div class="block_9 history_content">
+				<h2 class="history_title history_title_referrals">{{ referral.created_by.service.name }}<i class="fa fa-chevron-right"></i>{{ referral.to_service.name }}</h2>
+				<p>{{ referral.from_app_user.full_name }}</p>
+				<p><strong>{{ _("Referral Status") }}:</strong> {{ referral.status }}</p>
+				{% if referral.notes %}
+				<p class="history_notes"><strong>{{ _("Notes") }}</strong><br>
+				{{ referral.notes or "" }}</p>
+				{% endif %}
+			</div>
 		</div>
 	{% endfor %}
 </div>
 
 
 <h3>{{ _("Screening Results") }}</h3>
+<hr>
 <div class="history_results">
 	{% for result in patient.screening_results %}
-		<div class="history_results_item {{ _('results_item_eligible') if result.eligible_yn == 'Y' else _('results_item_ineligible') }} row">
-			<div class="block_2 history_results_date">
-				<span>July 21st, 2015</span>
+		<div class="history_item history_screening {{ _('results_item_eligible') if result.eligible_yn == 'Y' else _('results_item_ineligible') }} row">
+			<div class="block_2 history_date">
+				<span>{{ result.created.strftime('%m/%d/%Y') }}</span>
 			</div>
 
-			<div class="block_9 history_results_content">
-				<h2 class="history_results_title">{{ result.service.name }}</h2>
-			
+			<div class="block_9 history_content">
+				<h2 class="history_title">{{ result.service.name }}</h2>
 				<p><strong>{{ _("Eligible?") }}</strong>: {{ _("Yes") if result.eligible_yn == 'Y' else _("No") }}</p>
-
 				<p><strong>{{ _("Sliding Scale") }}</strong>: {{ result.sliding_scale.name if result.sliding_scale else _("N/A")}}</p>
-
-				<p><strong>{{ _("Notes") }}</strong><br>
-				<div class="history_results_notes">{{ result.notes or "" }}</div></p>
+				{% if result.notes %}
+				<p class="history_notes"><strong>{{ _("Notes") }}</strong><br>
+				{{ result.notes or "" }}</p>
+				{% endif %}
 			</div>
 		</div>
 	{% endfor %}

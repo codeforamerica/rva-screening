@@ -2,41 +2,29 @@
 
 .history {}
 
-.history_referrals {
-  .history_referrals_item {}
+@mixin history_border($color) {
+  .history_content {
+    border-left: 3px solid $color;
+    &:before {
+      background: $color;
+    }
+  }
 }
 
-
-.history_results {
-  .history_results_item {
-    // class styles
-    &.results_item_eligible {
-      .history_results_content {
-        border-left: 3px solid $color-green;
-        &:before {
-          background: $color-green;
-        }
-      }
-    }
-    &.results_item_ineligible {
-      .history_results_content {
-        border-left: 3px solid $color-gray;
-        &:before {
-          background: $color-gray;
-        }
-      }
-    }
-  }
-
-  .history_results_date {
-    font-size: 0.9em;
+.history_item {
+  .history_date {
+    font-size: 0.8em;
     color: $color-darkgray;
+    @media (min-width: $break) {
+      text-align: right;
+      padding-right: 0.8em;
+    }
   }
-  
-  .history_results_content {
+  .history_content {
     position: relative;
     font-size: 0.9em;
     padding: 0 0.8em 1.5em;
+    border-left: 3px solid $color-lightgray;
     &:before {
       content: " ";
       position: absolute;
@@ -46,17 +34,45 @@
       height: 15px;
       border-radius: 50%;
       border: 3px solid $color-white;
+      background: $color-lightgray;
     }
   }
-  .history_results_title {
+  .history_title {
     margin: 0;
-
+    font-size: 1.1em;
+    .fa {
+      font-size: .7em;
+      margin: auto 0.5em;
+      color: $color-gray;
+    }
   }
-  .history_results_notes {}
+  .history_notes {
+    margin-top: 1em;
+    font-size: 0.9em;
+    color: #888;
+  }
   p {
     margin: 0.2em 0;
   }
 
+  &.history_referral {
+    .history_content {
+      padding-bottom: 1em;
+    }
+  }
+  &.history_screening {}
+
+  // data-specific classnames
+  &.results_item_eligible,
+  &.history_item_completed {
+    @include history_border($color-green);
+  }
+  &.results_item_ineligible {
+    @include history_border($color-gray);
+  }
+  &.history_item_sent {
+    @include history_border($color-blue);
+  }
 }
 
 
