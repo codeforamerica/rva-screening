@@ -1,0 +1,65 @@
+// patient referall/screening history
+
+.history {}
+
+.history_referrals {
+  .history_referrals_item {}
+}
+
+
+.history_results {
+  .history_results_item {
+    // class styles
+    &.results_item_eligible {
+      .history_results_content {
+        border-left: 3px solid $color-green;
+        &:before {
+          background: $color-green;
+        }
+      }
+    }
+    &.results_item_ineligible {
+      .history_results_content {
+        border-left: 3px solid $color-gray;
+        &:before {
+          background: $color-gray;
+        }
+      }
+    }
+  }
+
+  .history_results_date {
+    font-size: 0.9em;
+    color: $color-darkgray;
+  }
+  
+  .history_results_content {
+    position: relative;
+    font-size: 0.9em;
+    padding: 0 0.8em 1.5em;
+    &:before {
+      content: " ";
+      position: absolute;
+      left: -0.6em;
+      top: 0;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      border: 3px solid $color-white;
+    }
+  }
+  .history_results_title {
+    margin: 0;
+
+  }
+  .history_results_notes {}
+  p {
+    margin: 0.2em 0;
+  }
+
+}
+
+
+.history_results_form {
+  margin-top: 5em;
+}

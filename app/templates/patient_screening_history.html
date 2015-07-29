@@ -1,14 +1,15 @@
 {% extends "patient_template.html" %}
 {% block patient_content %}
 
-<div>
-	<h3>{{ _("Referrals")}}</h3>
-	<div>{{ _("From") }}</div>
+<h3>{{ _("Referrals")}}</h3>
+<div class="history_referrals">
+	
+	<!-- <div>{{ _("From") }}</div>
 	<div>{{ _("To") }}</div>
 	<div>{{ _("Status") }}</div>
-	<div>{{ _("Notes") }}</div>
+	<div>{{ _("Notes") }}</div> -->
 	{% for referral in patient.referrals %}
-		<div>
+		<div class="history_referrals_item">
 			<div>{{ referral.from_app_user.full_name }} at {{ referral.created_by.service.name }}</div>
 			<div>{{ referral.to_service.name }}</div>
 			<div>{{ referral.status }}</div>
@@ -17,23 +18,30 @@
 	{% endfor %}
 </div>
 
-<div>
-	<h3>{{ _("Screening Results") }}</h3>
-	<div>{{ _("Organization") }}</div>
-	<div>{{ _("Eligible?") }}</div>
-	<div>{{ _("Sliding Scale") }}</div>
-	<div>{{ _("Notes") }}</div>
+
+<h3>{{ _("Screening Results") }}</h3>
+<div class="history_results">
 	{% for result in patient.screening_results %}
-		<div>
-			<div>{{ result.service.name }}</div>
-			<div>{{ _("Yes") if result.eligible_yn == 'Y' else _("No") }}</div>
-			<div>{{ result.sliding_scale.name if result.sliding_scale else _("N/A")}}</div>
-			<div>{{ result.notes or "" }}</div>
+		<div class="history_results_item {{ _('results_item_eligible') if result.eligible_yn == 'Y' else _('results_item_ineligible') }} row">
+			<div class="block_2 history_results_date">
+				<span>July 21st, 2015</span>
+			</div>
+
+			<div class="block_9 history_results_content">
+				<h2 class="history_results_title">{{ result.service.name }}</h2>
+			
+				<p><strong>{{ _("Eligible?") }}</strong>: {{ _("Yes") if result.eligible_yn == 'Y' else _("No") }}</p>
+
+				<p><strong>{{ _("Sliding Scale") }}</strong>: {{ result.sliding_scale.name if result.sliding_scale else _("N/A")}}</p>
+
+				<p><strong>{{ _("Notes") }}</strong><br>
+				<div class="history_results_notes">{{ result.notes or "" }}</div></p>
+			</div>
 		</div>
 	{% endfor %}
 </div>
 
-<div>
+<div class="history_results_form">
 	<form method="post">
 	  {{ form.hidden_tag() }}
 

@@ -78,11 +78,12 @@
 
 // buttons in multifield (many-to-one) envrionments
 // TODO: turn into .button_add class
-.button_multiform_addrow {
-  @include button();
-  &:before {
-    content:"\f067";
-    font-family: "FontAwesome";
-    margin-right: .5em;
-  }
-}
+// .button_multiform_addrow {
+//   float: right;
+//   @include button();
+//   &:before {
+//     content:"\f067";
+//     font-family: "FontAwesome";
+//     margin-right: .5em;
+//   }
+// }
