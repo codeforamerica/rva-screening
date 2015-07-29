@@ -444,14 +444,14 @@ def patient_history(patient_id):
 @login_required
 def patient_share(patient_id):
   patient = Patient.query.get(patient_id)
+  patient.update_stats()
   services = Service.query.all()
 
   return render_template(
     'patient_share.html',
     patient = patient,
-    services = services,
     current_user = current_user,
-    prescreen_results = calculate_pre_screen_results(
+    services = calculate_pre_screen_results(
       fpl = patient.fpl_percentage,
       has_health_insurance = patient.insurance_status,
       is_eligible_for_medicaid = "",

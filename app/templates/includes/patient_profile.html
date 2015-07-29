@@ -2,13 +2,13 @@
 
   <img class="patient-image img-responsive" src="http://wanna.work/images/default-avatar.jpg">
   
-  <h2>{{ patient.full_name or patient.first_name }}</h2>
+  <h2>{{ patient.first_name or "" }} {{ patient.last_name or "" }}</h2>
 
   <div class="overview_patient">
     
     {% if patient.dob %}
     <div class="overview_patient_item tooltip tooltip_right" value="Date of birth">
-      <h2><i class="fa fa-birthday-cake"></i> {{ patient.dob }}</h2>
+      <h2><i class="fa fa-birthday-cake"></i> {{ patient.dob.strftime('%m/%d/%Y') }}</h2>
     </div><br>
     {% endif %}
 
