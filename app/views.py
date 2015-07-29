@@ -394,6 +394,7 @@ def template_prototyping():
 @login_required
 def patient_history(patient_id):
   patient = Patient.query.get(patient_id)
+  patient.update_stats()
 
   history = ActionLog.query.\
     filter(or_(
@@ -503,6 +504,7 @@ def translate_object(obj, language_code):
 @login_required
 def patient_screening_history(patient_id):
   patient = Patient.query.get(patient_id)
+  patient.update_stats()
   form = ScreeningResultForm()
   sliding_scale_options = SlidingScale.query.filter(
     SlidingScale.service_id == current_user.service_id
