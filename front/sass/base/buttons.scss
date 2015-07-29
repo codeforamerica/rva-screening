@@ -61,6 +61,10 @@
     @include icon_after("\f067");
   }
 
+  &.button_right {
+    float: right;
+  }
+
     
   &.button_red {
     @include button_color($color-red);
@@ -74,15 +78,7 @@
   &.button_green {
     @include button_color($color-green);
   }
-}
-
-// buttons in multifield (many-to-one) envrionments
-// TODO: turn into .button_add class
-.button_multiform_addrow {
-  @include button();
-  &:before {
-    content:"\f067";
-    font-family: "FontAwesome";
-    margin-right: .5em;
+  &.button_brightgreen {
+    @include button_color($color-brightgreen);
   }
 }

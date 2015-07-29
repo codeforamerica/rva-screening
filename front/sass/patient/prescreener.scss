@@ -5,6 +5,7 @@ $prescreen-service-border-width: 30px;
   border: 1px solid lighten($color-gray, 10);
   border-left: $prescreen-service-border-width solid lighten($color-gray, 10);
   margin-top: 1em;
+  padding-bottom: 0.7em;
   position: relative;
   &:before {
     text-align: center;
@@ -33,6 +34,13 @@ $prescreen-service-border-width: 30px;
     color: $color-black;
     background: $color-lightgray;
     border-bottom: 1px solid darken($color-lightgray, 5);
+    &:hover {
+      background: darken($color-lightgray, 5);
+    }
+    .prescreen_service_title_meta {
+      float: right;
+      font-size: 0.8em;
+    }
   }
 
   .prescreen_service_content {

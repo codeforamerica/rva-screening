@@ -34,7 +34,7 @@ class ScreeningResultForm(Form):
     _('Sliding Scale'),
     default = ""
   )
-  notes = fields.TextField(
+  notes = fields.TextAreaField(
     _('Notes'),
     [Optional(), validators.Length(max=1000)]
   )

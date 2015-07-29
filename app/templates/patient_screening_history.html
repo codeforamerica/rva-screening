@@ -1,67 +1,91 @@
 {% extends "patient_template.html" %}
 {% block patient_content %}
 
-<div>
-	<h3>{{ _("Referrals")}}</h3>
-	<div>{{ _("From") }}</div>
+<h3>{{ _("Referrals")}}</h3>
+<hr>
+<div class="history_referrals">
+	
+	<!-- <div>{{ _("From") }}</div>
 	<div>{{ _("To") }}</div>
 	<div>{{ _("Status") }}</div>
-	<div>{{ _("Notes") }}</div>
+	<div>{{ _("Notes") }}</div> -->
 	{% for referral in patient.referrals %}
-		<div>
-			<div>{{ referral.from_app_user.full_name }} at {{ referral.created_by.service.name }}</div>
-			<div>{{ referral.to_service.name }}</div>
-			<div>{{ referral.status }}</div>
-			<div>{{ referral.notes or "" }}</div>
+		<div class="history_item history_referral history_item_{{ referral.status }} row">
+			<div class="block_2 history_date">
+				<span>{{ referral.created.strftime('%m/%d/%Y') }}</span>
+			</div>
+
+			<div class="block_9 history_content">
+				<h2 class="history_title history_title_referrals">{{ referral.created_by.service.name }}<i class="fa fa-chevron-right"></i>{{ referral.to_service.name }}</h2>
+				<p>{{ referral.from_app_user.full_name }}</p>
+				<p><strong>{{ _("Referral Status") }}:</strong> {{ referral.status }}</p>
+				{% if referral.notes %}
+				<p class="history_notes"><strong>{{ _("Notes") }}</strong><br>
+				{{ referral.notes or "" }}</p>
+				{% endif %}
+			</div>
 		</div>
 	{% endfor %}
 </div>
 
-<div>
-	<h3>{{ _("Screening Results") }}</h3>
-	<div>{{ _("Organization") }}</div>
-	<div>{{ _("Eligible?") }}</div>
-	<div>{{ _("Sliding Scale") }}</div>
-	<div>{{ _("Notes") }}</div>
+
+<h3>{{ _("Screening Results") }}</h3>
+<hr>
+<div class="history_results">
 	{% for result in patient.screening_results %}
-		<div>
-			<div>{{ result.service.name }}</div>
-			<div>{{ _("Yes") if result.eligible_yn == 'Y' else _("No") }}</div>
-			<div>{{ result.sliding_scale.name if result.sliding_scale else _("N/A")}}</div>
-			<div>{{ result.notes or "" }}</div>
+		<div class="history_item history_screening {{ _('results_item_eligible') if result.eligible_yn == 'Y' else _('results_item_ineligible') }} row">
+			<div class="block_2 history_date">
+				<span>{{ result.created.strftime('%m/%d/%Y') }}</span>
+			</div>
+
+			<div class="block_9 history_content">
+				<h2 class="history_title">{{ result.service.name }}</h2>
+				<p><strong>{{ _("Eligible?") }}</strong>: {{ _("Yes") if result.eligible_yn == 'Y' else _("No") }}</p>
+				<p><strong>{{ _("Sliding Scale") }}</strong>: {{ result.sliding_scale.name if result.sliding_scale else _("N/A")}}</p>
+				{% if result.notes %}
+				<p class="history_notes"><strong>{{ _("Notes") }}</strong><br>
+				{{ result.notes or "" }}</p>
+				{% endif %}
+			</div>
 		</div>
 	{% endfor %}
-</div>
+	<div class="history_item history_form">
+		<div class="history_date block_2">
+			<span><i class="fa fa-plus"></i> Screening Result</span>
+		</div>
 
-<div>
-	<form method="post">
-	  {{ form.hidden_tag() }}
+		<div class="history_content block_9">
+			<form method="post">
+			  {{ form.hidden_tag() }}
 
-	  {% if form.errors %}
-	    <ul class="errors">
-	      {% for field_name, field_errors in form.errors|dictsort if field_errors %}
-	        {% for error in field_errors %}
-	          <li>{{ form[field_name].label }}: {{ error }}</li>
-	        {% endfor %}
-	      {% endfor %}
-	    </ul>
-	  {% endif %}
-		<div>
-			{{ form.eligible_yn.label }}
-		  {{ form.eligible_yn() }}
+			  {% if form.errors %}
+			    <ul class="alert_list alert_error">
+			      {% for field_name, field_errors in form.errors|dictsort if field_errors %}
+			        {% for error in field_errors %}
+			          <li>{{ form[field_name].label }}: {{ error }}</li>
+			        {% endfor %}
+			      {% endfor %}
+			    </ul>
+			  {% endif %}
+				<div>
+					{{ form.eligible_yn.label }}
+				  {{ form.eligible_yn() }}
+				</div>
+				<div>
+					{{ form.sliding_scale_id.label }}
+				  {{ form.sliding_scale_id() }}
+				</div>
+				<div>
+					{{ form.notes.label }}
+				  {{ form.notes() }}
+				</div>
+				<div>
+					{{ form.submit }}
+				</div>
+			</form>
 		</div>
-		<div>
-			{{ form.sliding_scale_id.label }}
-		  {{ form.sliding_scale_id() }}
-		</div>
-		<div>
-			{{ form.notes.label }}
-		  {{ form.notes() }}
-		</div>
-		<div>
-			{{ form.submit }}
-		</div>
-	</form>
+	</div>
+	
 </div>
 
 {% endblock %}

@@ -10,6 +10,12 @@ table {
   background-color: $color-lightgray;
   padding: 1em;
 }
+textarea {
+  display: block;
+  width: 100%;
+  min-height: 100px;
+  border: 1px solid $color-gray;
+}
 
 @mixin fs_icon($content: " ") {
   &:before {
