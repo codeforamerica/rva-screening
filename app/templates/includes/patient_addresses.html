@@ -1,6 +1,78 @@
-<h5>
+{% from "form_field_macros.html" import render_field %}
+
+<h1>
   {{ _("Addresses") }}
-</h5>
+</h1>
+
+<!-- multiform testing -->
+<div class="form_multiform_wrapper">
+
+  <!-- loop through each address and add a .form_multiform -->
+  {% for entry in form.addresses %}
+  <div class="form_multiform form_multiform_read">
+    
+    <div class="multiform_content">
+      
+      <div class="multiform_content_fields">
+        <div class="form_row">
+          {{ render_field(entry.address1) }}
+          {{ render_field(entry.address2) }}
+        </div>
+
+        <div class="form_row">
+          {{ render_field(entry.city) }}
+          {{ render_field(entry.state) }}
+          {{ render_field(entry.zip_code) }}
+        </div>
+        
+        {{ render_field(entry.address_description) }}
+      </div>
+
+      <div class="multiform_content_readonly">
+        <span class="multiform_item">{{ entry.address1.data }}</span>, <span class="multiform_item">{{ entry.address2.data }}</span><br>
+        <span class="multiform_item">{{ entry.city.data }}</span>, <span class="multiform_item">{{ entry.state.data }}</span> <span class="multiform_item" value="55115">{{ entry.zip_code.data }}</span><br>
+        <span class="multiform_item multiform_item_description" value="This is the description of the address">{{ entry.address_description.data }}</span>
+      </div>
+      
+    </div>
+    
+    <div class="multiform_controls">
+      <button type="button" class="button button_brightgreen button_inverse multiform_control multiform_control_edit"><i class="fa fa-pencil"></i></button>
+      <button type="button" class="button button_red button_inverse multiform_control multiform_control_remove"><i class="fa fa-trash"></i></button>
+    </div>
+  </div>
+  {% endfor %}
+  <!-- end address loop -->
+
+  <!-- now add the new form -->
+  <div class="form_multiform form_multiform_new" id="multiform_address">
+    
+    <div class="multiform_content">
+      
+      <div class="multiform_content_fields">
+
+      </div>
+      
+    </div>
+    
+    <div class="multiform_controls">
+      <button type="button" class="button button_brightgreen button_inverse multiform_control multiform_control_edit"><i class="fa fa-pencil"></i></button>
+      <button type="button" class="button button_red button_inverse multiform_control multiform_control_remove"><i class="fa fa-trash"></i></button>
+    </div>
+  </div>
+  <!-- the end of the new form -->
+
+  <!-- new form button -->
+  <div class="form_multiform form_multiform_add">
+    
+    <div class="multiform_content">
+      <button data-clone-id="multiform_address" class="button button_blue multiform_control_add"><i class="fa fa-plus"></i> Add a new address</button>
+    </div>
+    
+  </div>
+  <!-- end the add new form button -->
+  
+</div>
 
 <table class="table table-condensed addresses" id="address_table">
 

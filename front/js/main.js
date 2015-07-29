@@ -30,18 +30,36 @@ var AppController = function ( options ) {
     **  .form-list contains both .add-form-list-item and .form-list-item
     *   .form-list-item is the div to be added
     */
-    $('.add-form-list-item').on('click', function(){
-      var formClone = $(
-          $(this).siblings('.form-list-item')[0]
-        ).clone();
-      inputClearingFunctions.forEach(function(selectorFunctionPair){
-        console.log("selectorFunctionPair", selectorFunctionPair);
-        var selector = selectorFunctionPair[0];
-        var fn = selectorFunctionPair[1];
-        formClone.find(selector).each(fn);
-      });
-      formClone.insertBefore(this).removeClass('hidden');
+    $('.multiform_control_edit').on('click', function(e){
+      e.preventDefault();
+      var entry = $(this).parent().parent();
+      var entryForm = entry.find('multiform_content_fields');
+      var entryRead = entry.find('multiform_content_readonly');
+
+      if (entry.hasClass('form_multiform_read')) {
+        entry.removeClass('form_multiform_read');
+        entry.addClass('form_multiform_edit');
+      }
+
+      return;
     });
+
+    $('.multiform_control_remove').on('click', function(e){
+      e.preventDefault();
+      var entry = $(this).parent().parent();
+      entry.remove(); // removes from DOM, not from db until page save
+      return;
+    });
+
+    $('.multiform_control_add').on('click', function(e){
+      e.preventDefault();
+      var id = $(this).attr('data-clone-id');
+      var clone = $('#'+id).clone();
+      $('#'+id).after(clone);
+      // console.log(id, clone);
+      return;
+    });
+
   }
 
   /*

@@ -61,7 +61,6 @@ textarea {
 // a wrapping element for multiple fields that lie on one row
 .form_row {
   @include clearfix();
-  background-color: $color-lightgray;
   // margin-bottom: .5em;
   .form_field {
     float: left;
@@ -112,6 +111,7 @@ textarea {
 body { counter-reset: section; }
 .form_multiform_wrapper {
   margin-bottom: 3em;
+  border-bottom: 1px solid $color-gray;
 }
 
 // a wrapper for a set of many to one forms
@@ -121,22 +121,81 @@ body { counter-reset: section; }
 // a form that may be repeated based on the number of items
 // also called many-to-one form
 .form_multiform {
-  padding: 0.5em 2em 2em;
-  margin-bottom: 1em;
+  // padding: 0.5em 2em 2em;
   @include clearfix();
   position: relative;
   .form_field {
-    margin-top: -1px;
+    // margin-top: -1px;
+    border: none;
+    padding: 0.3em;
   }
-  padding-bottom: 0.5em; // placeholder
-  border-top: 1px solid #e5e5e5;
+  border-top: 1px solid $color-gray;
   &::before {
-    position: absolute;
+    padding: 0.8em 0.5em;
+    width: 50px;
+    text-align: right;
+    float: left;
     left: 0em;
     top: 0.2em;
     color: $color-gray;
-    counter-increment: section;               /* Increment the section counter*/
-    content: "" counter(section) " "; /* Display the counter */
+    counter-increment: section;
+    content: "" counter(section) " ";
+  }
+  &.form_multiform_read {
+    .multiform_content_fields {
+      display: none;
+    }
+  }
+  &.form_multiform_edit {
+    .multiform_content_fields {
+      display: block;
+    }
+    .multiform_content_readonly {
+      display: none;
+    }
+  }
+  &.form_multiform_add {
+    &:before {
+      @extend %icon;
+      content:"\f067";
+    }
+  }
+  .multiform_content {
+    width: 89%;
+    padding: 0.8em;
+    float: left;
+    min-height: 50px;
+    border-left: 1px solid $color-gray;
+    .multiform_content_readonly {}
+    .multiform_content_fields {}
+    .multiform_item {
+      // display: block;
+      
+      &.multiform_item_description {
+        font-size: 0.9em;
+        color: $color-darkgray;
+      }
+    }
+  }
+
+  .multiform_controls {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 30px;
+    .multiform_control {
+      border-radius: 0px;
+      margin: 0;
+      display: block;
+      width: 100%;
+      padding: 0.4em;
+      background: $color-lightgray;
+      border: none;
+      border-left: 2px solid $color-white;
+      border-bottom: 2px solid $color-white;
+      &.multiform_control_edit {}
+      &.multiform_control_remove {}
+    }
   }
 }
 
