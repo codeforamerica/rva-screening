@@ -21,18 +21,10 @@
         {{ entry.monthly_amount(class="form-control hidden-input")}}
       </td>
       <td class="income_source_edit">
-        <span
-          class="glyphicon glyphicon-pencil"
-          aria-hidden="true"
-          onclick="showHiddenFields()"
-        ></span>
+        <i class="fa fa-pencil" onclick="showHiddenFields()"></i>
       </td>
       <td class="income_source_delete">
-        <span
-          class="glyphicon glyphicon-remove"
-          aria-hidden="true"
-          onclick="hideRow()"
-        ></span>
+        <i class="fa fa-trash" onclick="hideRow()"></i>
       </td>
     </tr>
   {% endfor %}
