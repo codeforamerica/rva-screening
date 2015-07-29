@@ -76,7 +76,7 @@
         {% endif %}
       </div>
       {% if referral_buttons %}
-        <button class="button button_green button_small" 
+        <button class="{% if service.id in open_referral_service_ids %} shared {% endif %} button button_blue button_small" 
           onclick="sharePatientInfo(
             this,
             {{ patient.id }},
@@ -85,7 +85,11 @@
           )"
           class="btn btn-default btn-sm share-button"
         >
-          {{ _("Send Referral") }}
+          {% if service.id in open_referral_service_ids %}
+            {{ _("Referral sent!") }}
+          {% else %}
+            {{ _("Send Referral") }}
+          {% endif %}
           <span class="glyphicon glyphicon-share-alt"></span>
         </button>
       {% endif %}

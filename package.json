@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "postinstall": "gulp"
+  },
   "private": true,
   "devDependencies": {
     "bootstrap": "^3.3.4",
