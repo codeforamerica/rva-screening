@@ -39,7 +39,7 @@
   }
   .history_title {
     margin: 0;
-    font-size: 1.1em;
+    font-size: 1.3em;
     .fa {
       font-size: .7em;
       margin: auto 0.5em;
@@ -61,6 +61,11 @@
     }
   }
   &.history_screening {}
+  &.history_form {
+    margin-top: 2em;
+    padding-top: 1em;
+    border-top: 1px solid $color-lightgray;
+  }
 
   // data-specific classnames
   &.results_item_eligible,
