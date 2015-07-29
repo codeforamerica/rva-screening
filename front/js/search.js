@@ -32,13 +32,4 @@ var Search = function ( options ) {
     }
     $('#search_results').html(html);
   });
-
-  $('.filter').on('click', function(){
-    $('.filter').removeClass('filter_active');
-    $(this).addClass('filter_active');
-
-    $('.list_filter').removeClass('list_filter_active');
-    var id = $(this).attr('data-list');
-    $('#list-'+id).addClass('list_filter_active');
-  });
 }

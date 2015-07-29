@@ -1,11 +1,45 @@
 {% extends "patient_template.html" %}
+
+{% block patient_sidebar %}
+<h4>Service-specific questions</h4>
+<div class="patient_details_filter">
+  <label class="field_checkbox checkbox_small checkbox_blue">
+    <input type="checkbox" name="q_an" checked="true">
+    <span class="field_checkbox_content">
+      <span class="field_checkbox_content_title">Access Now</span>
+    </span>
+  </label>
+
+  <!-- <label class="field_checkbox checkbox_small checkbox_blue">
+    <input type="checkbox" name="q_dp">
+    <span class="field_checkbox_content">
+      <span class="field_checkbox_content_title">Daily Planet</span>
+    </span>
+  </label> -->
+
+  <!-- label class="field_checkbox checkbox_small checkbox_blue">
+    <input type="checkbox" name="q_cross">
+    <span class="field_checkbox_content">
+      <span class="field_checkbox_content_title">Crossover</span>
+    </span>
+  </label>
+
+  <label class="field_checkbox checkbox_small checkbox_blue">
+    <input type="checkbox" name="q_vcu">
+    <span class="field_checkbox_content">
+      <span class="field_checkbox_content_title">VCU</span>
+    </span>
+  </label> -->
+</div>
+{% endblock %}
+
 {% block patient_content %}
 
 <form enctype="multipart/form-data" action="" method="post" id="patient_details_form" class="print">
   {{ form.hidden_tag() }}
 
   {% if form.errors %}
-    <ul class="errors">
+    <ul class="alert_list alert_error">
         {% for field_name, field_errors in form.errors|dictsort if field_errors %}
             {% for error in field_errors %}
                 <li>{{ form[field_name].label }}: {{ error }}</li>
@@ -13,7 +47,7 @@
         {% endfor %}
     </ul>
   {% elif save_message %}
-    <ul class="success">
+    <ul class="alert_list alert_success">
       <li>Update successful!</li>
     </ul>
   {% endif %}
@@ -22,24 +56,24 @@
   {% include "includes/patient_id.html" %}
 
   <!--contact info-->
-  <div class="expander">
-    <div class="expander-title">{{ _("Phone, Email, Address") }}</div>
+  <div class="form_section">
+    <div class="form_section_title form_section_contact">{{ _("Phone, Email, Address") }}</div>
       <div class="expander-content">
         {% include "includes/patient_contact_info.html" %}
       </div>
   </div>
 
   <!--contact info-->
-  <div class="expander">
-    <div class="expander-title">{{ _("Emergency Contacts") }}</div>
+  <div class="form_section">
+    <div class="form_section_title form_section_emergency">{{ _("Emergency Contacts") }}</div>
       <div class="expander-content">
         {% include "includes/patient_emergency_contact.html" %}
       </div>
   </div>
 
   <!--household-->
-  <div class="expander">
-    <div class="expander-title">
+  <div class="form_section">
+    <div class="form_section_title form_section_household">
       {{ _("Household Size") }}
       {% if patient.household_members %}: 
         {{ patient.household_members.count() + 1 }}
@@ -51,8 +85,8 @@
   </div>
 
   <!--income-->
-  <div class="expander">
-    <div class="expander-title">
+  <div class="form_section">
+    <div class="form_section_title form_section_income">
       {{ _("Household Income") }}
       {% if patient.total_annual_income %}:
         ${{(patient.total_annual_income / 12) | int}}/{{ _("month") }}
@@ -64,8 +98,8 @@
   </div>
 
   <!--documents-->
-  <div class="expander">
-    <div class="expander-title">{{ _("Document Uploads") }}
+  <div class="form_section">
+    <div class="form_section_title form_section_documents">{{ _("Document Uploads") }}
       {% if patient.document_images %}
         ({{patient.document_images.count()}})
       {% endif %}
@@ -76,24 +110,24 @@
   </div>
 
   <!--demographics-->
-  <div class="expander">
-    <div class="expander-title">{{ _("Demographic Questions") }}</div>
+  <div class="form_section">
+    <div class="form_section_title form_section_demographics">{{ _("Demographic Questions") }}</div>
       <div class="expander-content">
         {% include "includes/patient_demographic_info.html" %}
       </div>
   </div>
 
   <!--employment-->
-  <div class="expander">
-    <div class="expander-title">{{ _("Employment Information") }}</div>
+  <div class="form_section">
+    <div class="form_section_title form_section_employment">{{ _("Employment Information") }}</div>
       <div class="expander-content">
         {% include "includes/patient_employment_info.html" %}
       </div>
   </div>
 
   <!--insurance-->
-  <div class="expander">
-    <div class="expander-title">{{ _("Insurance Information") }}</div>
+  <div class="form_section">
+    <div class="form_section_title form_section_insurance">{{ _("Insurance Information") }}</div>
       <div class="expander-content">
         {% include "includes/patient_insurance_info.html" %}
       </div>

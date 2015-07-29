@@ -2,17 +2,61 @@
   // font-size: 1.5em;
 }
 
+// temporary since we are still using some bootstrap
+label {
+  margin: 0;
+}
+table {
+  background-color: $color-lightgray;
+  padding: 1em;
+}
+
+@mixin fs_icon($content: " ") {
+  &:before {
+    content: $content;
+  }
+}
 // a wrapper for a full section of the form, such as "household size"
 .form_section {
-  background-color: $color-lightgray; // placeholder
-  margin-bottom: 5em;
-  padding: 1em;
+  margin-top: 3em;
+  background-color: $color-lightgray;
+
+  .form_section_title {
+    // border-top-left-radius: 0.2em;
+    // border-bottom-left-radius: 0.2em;
+    // margin-left: -1.6em;
+    position: relative;
+    background: $color-black;
+    color: $color-white;
+    padding: 0.4em 0.6em;
+    font-size: 1.3em;
+    font-weight: 600;
+    font-family: $font-header;
+
+    &:before {
+      color: $color-gray;
+      font-weight: 100;
+      font-size: 0.8em;
+      margin-right: 0.5em;
+      @extend %icon;
+    }
+
+    &.form_section_contact { @include fs_icon("\f095"); }
+    &.form_section_emergency { @include fs_icon("\f0a1"); }
+    &.form_section_household { @include fs_icon("\f0c0"); }
+    &.form_section_income { @include fs_icon("\f155"); }
+    &.form_section_documents { @include fs_icon("\f15c"); }
+    &.form_section_demographics { @include fs_icon("\f069"); }
+    &.form_section_employment { @include fs_icon("\f0ad"); }
+    &.form_section_insurance { @include fs_icon("\f0f1"); }
+  }
 }
 
 // a wrapping element for multiple fields that lie on one row
 .form_row {
   @include clearfix();
-  margin-bottom: .5em;
+  background-color: $color-lightgray;
+  // margin-bottom: .5em;
   .form_field {
     float: left;
     @include bbox();
@@ -32,9 +76,11 @@
 
 // a single input with associated label and help text
 .form_field {
+  border-bottom: 1px solid $color-white;
+  background-color: $color-lightgray;
   display: block;
-  margin-top: .2em;
-  padding: 0.3em;
+  // margin-top: .2em;
+  padding: 1em;
   position: relative;
   &.form_field_large {
     .field_input {

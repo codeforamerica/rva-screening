@@ -32,7 +32,7 @@ Menu.prototype.close = function() {
   var m = this;
   m.elem.className = 'nav';
   document.body.className = '';
-  m.button.className = 'button button_nav';
+  m.button.className = 'button_nav';
   m.swipeMenuState = !m.swipeMenuState;
 };
 

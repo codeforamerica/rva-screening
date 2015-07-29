@@ -1,40 +1,3 @@
-// .filter {
-//   margin: 1em 0;
-//   padding-bottom: 1em;
-//   border-bottom: 1px solid darken($sidebar-background-color, 7);
-// }
-
-// .filter_hide {
-//   display:none !important;
-// }
-
-// .filter_button {
-//   display:block;
-//   width: 100%;
-//   text-align: left;
-//   border: none;
-//   padding: .6em;
-//   margin-bottom: 0.3em;
-//   font-size: 0.8em;
-//   text-transform: uppercase;
-//   cursor: pointer;
-//   &:hover {
-//     font-weight: 900;
-//   }
-//   &:before {
-//     @extend %icon;
-//     content:"\f10c";
-//     margin-right: 0.5em;
-//   }
-// }
-// .filter_button_active {
-//   font-weight: 900;
-//   &:before {
-//     @extend %icon;
-//     content:"\f111";
-//   }
-// }
-
 .filter {
   padding: 1em;
   display: block;
@@ -64,6 +27,7 @@
     }
   }
 }
+
 .statistic_number {
   display: block;
   font-size: 2em;

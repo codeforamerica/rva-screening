@@ -3,19 +3,51 @@
   <img class="patient-image img-responsive" src="http://wanna.work/images/default-avatar.jpg">
   
   <h2>{{ patient.full_name or patient.first_name }}</h2>
-  {% if patient.dob %}
-    <p>{{ _("DOB") }}: {{ patient.dob }}</p>
-  {% endif %}
 
-  {% if patient.fpl_percentage %}
-    <div class="fpl form-group">
-      <label class="fpl-label">
-        {{ _("Estimated FPL") }}:
-      </label>
-      <span class="fpl-figure">
-        {{ '%0.2f'| format(patient.fpl_percentage|float) }}</span><span class="fpl-percent-symbol">%
-      </span>
+  <div class="overview_patient">
+    
+    {% if patient.dob %}
+    <div class="overview_patient_item tooltip tooltip_right" value="Date of birth">
+      <h2><i class="fa fa-birthday-cake"></i> {{ patient.dob }}</h2>
+    </div><br>
+    {% endif %}
+
+    {% if patient.fpl_percentage %}
+    <div class="overview_patient_item tooltip tooltip_right" value="Estimated FPL">
+      <h2><i class="fa">%</i> {{ '%0.2f'| format(patient.fpl_percentage|float) }}</h2>
+    </div><br>
+    {% endif %}
+
+    {% if patient.total_annual_income %}
+    <div class="overview_patient_item tooltip tooltip_right" value="Estimated monthly income">
+      <h2><i class="fa fa-usd"></i> {{(patient.total_annual_income / 12) | int}}/{{ _("month") }}</h2>
+    </div><br>
+    {% endif %}
+
+    {% if patient.household_members %}
+    <div class="overview_patient_item tooltip tooltip_right" value="Household size">
+      <h2><i class="fa fa-users"></i> {{ patient.household_members.count() + 1 }}</h2>
+    </div><br>
+    {% endif %}
+    
+    {% if patient.document_images %}
+    <div class="overview_patient_item tooltip tooltip_right" value="Document uploads">
+      <h2><i class="fa fa-file-text"></i> {{patient.document_images.count()}}</h2>
+    </div><br>
+    {% endif %}
+
+    <!-- <div class="overview_patient_item">
+      <p>{{ _('Household size') }}</p>
+      <h2>waka</h2>
     </div>
-  {% endif %}
+    <div class="overview_patient_item">
+      <p>{{ _('Has insurance') }}</p>
+      <h2>waka</h2>
+    </div>
+    <div class="overview_patient_item">
+      <p>{{ _('Eligible for Medicaid') }}</p>
+      <h2>waka</h2>
+    </div> -->
+  </div>    
 
 </div>
