@@ -133,8 +133,8 @@
       </div>
   </div>
 
-  <button type="submit" class="btn btn-primary">
-    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+  <button type="submit" class="button button_green">
+    <i class="fa fa-check"></i>
     {% if patient %}
       {{ _("Save patient info") }}
     {% else %}
@@ -143,5 +143,10 @@
   </button>
 
 </form>
+
+<a class="button button_red button_inverse delete-patient float_right" href="{{ url_for('screener.delete', id=patient.id) }}">
+  <i class="fa fa-trash"></i>
+  {{ _("Delete patient") }}
+</a>
 
 {% endblock %}
