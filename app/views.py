@@ -447,6 +447,10 @@ def patient_share(patient_id):
   patient = Patient.query.get(patient_id)
   patient.update_stats()
   services = Service.query.all()
+  open_referral_service_ids = [
+    r.to_service_id for r in patient.referrals
+    if (r.in_sent_status() or r.in_received_status())
+  ]
 
   return render_template(
     'patient_share.html',
@@ -463,7 +467,8 @@ def patient_share(patient_id):
     fpl = patient.fpl_percentage,
     has_health_insurance = patient.insurance_status,
     is_eligible_for_medicaid = "",
-    referral_buttons = True
+    referral_buttons = True,
+    open_referral_service_ids = open_referral_service_ids
   )
 
 # USER PROFILE
