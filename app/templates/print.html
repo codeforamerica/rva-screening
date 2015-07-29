@@ -9,7 +9,7 @@
       <div class="print">
         
         <div class="col-sm-12 print-card">
-          <h3>{{ patient.full_name }}</h3>
+          <h3>{{ patient.first_name or "" }} {{ patient.last_name or "" }}</h3>
           <p class="print-patient_id"><strong>{{ _("Patient ID") }}: <span>{{ patient.id }}24572034</span></strong></p>
           {{ _("Date of birth") }}: <strong>{{ patient.dob }}</strong><br>
           {{ _("SSN") }}: <strong>{{ patient.ssn }}</strong><br>
