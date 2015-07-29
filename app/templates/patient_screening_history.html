@@ -16,8 +16,10 @@
 			</div>
 
 			<div class="block_9 history_content">
-				<h2 class="history_title history_title_referrals">{{ referral.created_by.service.name }}<i class="fa fa-chevron-right"></i>{{ referral.to_service.name }}</h2>
-				<p>{{ referral.from_app_user.full_name }}</p>
+				<h2 class="history_title history_title_referrals">
+					<a href="{{ url_for('screener.service', service_id=referral.from_app_user.service.id) }}">{{ referral.from_app_user.service.name }}</a><i class="fa fa-chevron-right"></i><a href="{{ url_for('screener.service', service_id=referral.to_service.id) }}">{{ referral.to_service.name }}</a>
+				</h2>
+				<p><a href="{{ url_for('screener.user', user_id=referral.from_app_user.id) }}">{{ referral.from_app_user.full_name }}</a></p>
 				<p><strong>{{ _("Referral Status") }}:</strong> {{ referral.status }}</p>
 				{% if referral.notes %}
 				<p class="history_notes"><strong>{{ _("Notes") }}</strong><br>
