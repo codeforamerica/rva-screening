@@ -1,20 +1,21 @@
 {% for service in services %}
   <div class="prescreen_service {% if service.eligible %}prescreen_service_eligibile{% else %}prescreen_service_noteligibile{% endif %}"> 
-    <div class="prescreen_service_title">
+    <a href="{{ url_for('screener.service', service_id=service.id) }}"><div class="prescreen_service_title">
       {% if service.eligible %}
         {{ _("You are likely eligible for") }} <strong>{{ service.name }}</strong>.
       {% else %}
         {{ _("You are likely not eligible for") }} <strong>{{ service.name }}</strong>.
       {% endif %}
-    </div>
+      <span class="prescreen_service_title_meta float_right">{{ _("View service") }} <i class="fa fa-chevron-right"></i></span>
+    </div></a>
     <div class="prescreen_service_content row">
       <div class="col-sm-4">
         {% if service.fpl_cutoff %}
           <div>
             {% if service.fpl_eligible %}
-              <span class="glyphicon glyphicon-ok push-right"></span>
+              <i class="fa fa-check"></i> 
             {% else %}
-              <span class="glyphicon glyphicon-remove push-right"></span>
+              <i class="fa fa-times"></i> 
             {% endif %}
 
             {{ _("Income below %(percent)s%% of the Federal Poverty Level", percent=service.fpl_cutoff) }}
@@ -24,9 +25,9 @@
         {% if service.uninsured_only_yn == 'Y' %}
           <div>
             {% if has_health_insurance == 'no' %}
-              <span class="glyphicon glyphicon-ok push-right"></span>
+              <i class="fa fa-check"></i> 
             {% else %}
-              <span class="glyphicon glyphicon-remove push-right"></span>
+              <i class="fa fa-times"></i> 
             {% endif %}
             {{ _("Uninsured") }}
           </div>
@@ -35,9 +36,9 @@
         {% if service.medicaid_ineligible_only_yn == 'Y' %}
           <div>
             {% if is_eligible_for_medicaid == 'no' %}
-              <span class="glyphicon glyphicon-ok push-right"></span>
+              <i class="fa fa-check"></i> 
             {% else %}
-              <span class="glyphicon glyphicon-remove push-right"></span>
+              <i class="fa fa-times"></i> 
             {% endif %}
             {{ _("Not eligible for Medicaid") }}
           </div>
@@ -76,7 +77,7 @@
         {% endif %}
       </div>
       {% if referral_buttons %}
-        <button class="{% if service.id in open_referral_service_ids %} shared {% endif %} button button_blue button_small" 
+        <button class="{% if service.id in open_referral_service_ids %} shared {% endif %} button button_blue button_right button_small" 
           onclick="sharePatientInfo(
             this,
             {{ patient.id }},
@@ -86,14 +87,13 @@
           class="btn btn-default btn-sm share-button"
         >
           {% if service.id in open_referral_service_ids %}
-            {{ _("Referral sent!") }}
+            {{ _("Referral sent!") }} <i class="fa fa-check"></i>
           {% else %}
-            {{ _("Send Referral") }}
+            {{ _("Send Referral") }} <i class="fa fa-share"></i>
           {% endif %}
-          <span class="glyphicon glyphicon-share-alt"></span>
+           
         </button>
       {% endif %}
-      <a class="button button_blue button_small" href="{{ url_for('screener.service', service_id=service.id) }}"> {{ _("More about") }} {{ service.name }} <i class="fa fa-chevron-right"></i></a>
     </div><!-- .prescreen-service-info -->
   </div><!-- .prescreen-service -->
 {% endfor %}

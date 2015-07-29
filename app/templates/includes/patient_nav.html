@@ -1,16 +1,10 @@
 <div class="patient-options">
-  <a class="btn btn-primary" href="{{ url_for('screener.new_prescreening', patient_id=patient.id) }}">
-    <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
-    {{ _("Prescreen this patient") }}
-  </a>
 
-  <a class="btn btn-danger delete-patient right" href="{{ url_for('screener.delete', id=patient.id) }}">
+  <!-- <a class="btn btn-danger delete-patient right" href="{{ url_for('screener.delete', id=patient.id) }}">
     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
     {{ _("Delete patient") }}
-  </a>
+  </a> -->
 </div>
-
-<br>
 
 <nav class="nav_tabs">
 
