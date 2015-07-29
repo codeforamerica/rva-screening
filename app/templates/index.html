@@ -69,9 +69,9 @@
     list: []
   };
 
-  {% for patient in patients %}
+  {% for patient in all_patients %}
   temp = {
-    name: '{{ patient.full_name or patient.first_name }}',
+    name: '{{ patient.full_name or (patient.first_name ~ ' ' ~ patient.middle_name ~ ' ' ~ patient.last_name) }}',
     dob: '{{ patient.dob }}',
     ssn: '{{ patient.ssn }}',
     url: '{{ url_for('screener.patient_details', id=patient.id) }}'
