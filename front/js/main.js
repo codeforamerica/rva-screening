@@ -30,18 +30,44 @@ var AppController = function ( options ) {
     **  .form-list contains both .add-form-list-item and .form-list-item
     *   .form-list-item is the div to be added
     */
-    $('.add-form-list-item').on('click', function(){
-      var formClone = $(
-          $(this).siblings('.form-list-item')[0]
-        ).clone();
-      inputClearingFunctions.forEach(function(selectorFunctionPair){
-        console.log("selectorFunctionPair", selectorFunctionPair);
-        var selector = selectorFunctionPair[0];
-        var fn = selectorFunctionPair[1];
-        formClone.find(selector).each(fn);
-      });
-      formClone.insertBefore(this).removeClass('hidden');
+    $('.multiform_control_edit').on('click', function(e){
+      e.preventDefault();
+      var entry = $(this).parent().parent();
+      var entryForm = entry.find('.multiform_content_fields');
+      var entryRead = entry.find('.multiform_content_readonly');
+
+      if (entry.hasClass('form_multiform_read')) {
+        entry.removeClass('form_multiform_read');
+        entry.addClass('form_multiform_edit');
+      }
+
+      return;
     });
+
+    $('.multiform_control_remove').on('click', function(e){
+      e.preventDefault();
+      var entry = $(this).parent().parent();
+      var entryForm = entry.find('.multiform_content_fields');
+      entryForm.find('.field_input').each(function(){
+        $(this).attr('value', '');
+        if ($(this).attr('type') == 'date') {
+          $(this).attr('value', 'mm/dd/yyyy');
+        }
+      });
+      entry.hide();
+      // entry.remove(); // removes from DOM, not from db until page save
+      return;
+    });
+
+    $('.multiform_control_add').on('click', function(e){
+      e.preventDefault();
+      var id = $(this).attr('data-clone-id');
+      var clone = $('#'+id).clone();
+      $('#'+id).after(clone);
+      // console.log(id, clone);
+      return;
+    });
+
   }
 
   /*
@@ -78,36 +104,6 @@ AppController.prototype.initSearch = function ( id, options ) {
   this.search.list = new List(id, options);
 };
 
-
-function addNewInputRow($table, $input_row) {
-  $new_row = $input_row.clone();
-  $new_row.each(function() {
-    $(this).attr('id', '');
-    var input = $(this).find(':input');
-    input.val('');
-  });
-  $table.append($new_row);
-  return;
-}
-
-function hideRow() {
-  $(event.target).parent().siblings().each(
-    function() {
-      $(this).find(".hidden-input").attr('value', '');
-      $(this).find("input[type='date'].hidden-input").attr('value', 'mm/dd/yyyy');
-    }
-  );
-  $(event.target).parent().parent().hide();
-}
-
-function showHiddenFields() {
-  $(event.target).parent().siblings().each(
-    function() {
-      $(this).find(".hidden-input").show();
-      $(this).find(".read-only").hide();
-    }
-  );
-}
 
 function convertForPrint() {
   $('#patient_details_form').find(':input').not('.hidden-input').not('.hidden').replaceWith(function(){

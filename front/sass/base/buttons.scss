@@ -1,7 +1,7 @@
-@mixin button($bg-color: $color-lightgray, $text-color: $color-black, $radius: 0.2em, $padding: 0.5em 1em) {
+@mixin button($bg-color: $color-lightgray, $text-color: $color-black, $padding: 0.5em) {
   @include button_color($bg-color, $text-color);
   padding: $padding;
-  border-radius: $radius;
+  border-radius: 0px;
   color: $text-color;
   display: inline-block;
   border: none;

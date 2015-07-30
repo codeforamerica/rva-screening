@@ -1,40 +1,48 @@
-<h5>
-  {{ _("Phone Numbers") }}
-</h5>
+{% from "form_field_macros.html" import render_field %}
 
-<table class="table table-condensed phone_numbers" id="phone_number_table">
+<p class="form_multiform_title">{{ _("Phone Numbers") }}</p>
 
-  <thead>
-    <tr>
-      <th>{{ _("Number") }} <span class="tooltip" value="Phone number changed from 555-555-5555 to 665-555-5555 by Sam Matthews on 01/13/2015"><i class="fa fa-info-circle"></i></span></th>
-      <th>{{ _("Description") }}</th>
-    </tr>
-  </thead>
+<div class="form_multiform_wrapper">
 
   {% for entry in form.phone_numbers %}
-    <tr class="phone_number">
-      <td class="phone_number_number">
-        {{ entry.phone_number(
-          class="form-control",
-          placeholder="(555) 555-5555",
-          pattern="\(\d{3}\) ?\d{3}-?\d{4}"
-        ) }}
-      </td>
-      <td class="phone_number_name">
-        {{ entry.number_description(class="form-control")}}
-      </td>
-    </tr> 
+  <div class="form_multiform form_multiform_read">
+    <div class="multiform_content">
+      <div class="multiform_content_fields">
+          {{ render_field(entry.phone_number
+          ) }}
+          {{ render_field(entry.number_description) }}
+      </div>
+      <div class="multiform_content_readonly">
+        <span class="multiform_item">{{ entry.phone_number.data }}</span><br>
+        <span class="multiform_item multiform_item_description">{{ entry.number_description.data }}</span>
+      </div>
+    </div>
+    <div class="multiform_controls">
+      <button type="button" class="button button_brightgreen button_inverse multiform_control multiform_control_edit"><i class="fa fa-pencil"></i></button>
+      <button type="button" class="button button_red button_inverse multiform_control multiform_control_remove"><i class="fa fa-trash"></i></button>
+    </div>
+  </div>
   {% endfor %}
 
-</table>
+  {% with %}
+    {% set entry = form.phone_numbers.append_entry() %}
+  <div class="form_multiform form_multiform_new" id="multiform_phone_numbers">
+    <div class="multiform_content">
+      <div class="multiform_content_fields">
+        <div class="row">
+          {{ render_field(entry.phone_number, 
+                          class="block_3"
+          ) }}
+          {{ render_field(entry.number_description,
+                          class="block_9"
+          ) }}
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endwith %}
 
-<div class="form-group add_phone_number">
-    <button
-      type="button"
-      class="button button_add"
-      onclick="addNewInputRow($('#phone_number_table'), $('.phone_number').last())"
-    >
-      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-      {{ _("Add a phone number") }}
-    </button>
 </div>
+
+<button data-clone-id="multiform_phone_numbers" class="button button_red button_small multiform_control_add">Add new phone number <i class="fa fa-plus"></i></button>
+<div class="cf"></div>

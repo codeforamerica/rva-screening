@@ -6,10 +6,6 @@
 label {
   margin: 0;
 }
-table {
-  background-color: $color-lightgray;
-  padding: 1em;
-}
 textarea {
   display: block;
   width: 100%;
@@ -22,15 +18,13 @@ textarea {
     content: $content;
   }
 }
+
 // a wrapper for a full section of the form, such as "household size"
 .form_section {
   margin-top: 3em;
   background-color: $color-lightgray;
 
   .form_section_title {
-    // border-top-left-radius: 0.2em;
-    // border-bottom-left-radius: 0.2em;
-    // margin-left: -1.6em;
     position: relative;
     background: $color-black;
     color: $color-white;
@@ -61,7 +55,6 @@ textarea {
 // a wrapping element for multiple fields that lie on one row
 .form_row {
   @include clearfix();
-  background-color: $color-lightgray;
   // margin-bottom: .5em;
   .form_field {
     float: left;
@@ -109,42 +102,108 @@ textarea {
 
 // MULTI FORMS
 // aka many-to-one
-body { counter-reset: section; }
+
 .form_multiform_wrapper {
-  margin-bottom: 3em;
+  // margin-bottom: 3em;
+  border-bottom: 1px solid $color-gray;
 }
 
 // a wrapper for a set of many to one forms
 .form_multiform_collection {
+  counter-reset: section;
 }
-
 // a form that may be repeated based on the number of items
 // also called many-to-one form
+.form_multiform_title {
+  padding: 1em 0 0.2em 1em;
+  margin: 0;
+}
 .form_multiform {
-  padding: 0.5em 2em 2em;
-  margin-bottom: 1em;
+  // padding: 0.5em 2em 2em;
   @include clearfix();
+  counter-increment: section;
   position: relative;
   .form_field {
-    margin-top: -1px;
+    // margin-top: -1px;
+    border: none;
+    padding: 0.3em;
   }
-  padding-bottom: 0.5em; // placeholder
-  border-top: 1px solid #e5e5e5;
+  border-top: 1px solid $color-gray;
   &::before {
-    position: absolute;
-    left: 0em;
-    top: 0.2em;
+    padding: 0.8em 0.5em;
+    width: 50px;
+    text-align: right;
+    float: left;
+    width: 10%;
+    top: 0;
     color: $color-gray;
-    counter-increment: section;               /* Increment the section counter*/
-    content: "" counter(section) " "; /* Display the counter */
+    content: counters(section, " ");
+  }
+  &.form_multiform_read {
+    .multiform_content_fields {
+      display: none;
+    }
+  }
+  &.form_multiform_edit {
+    .multiform_content_fields {
+      display: block;
+    }
+    .multiform_content_readonly {
+      display: none;
+    }
+  }
+  &.form_multiform_new {
+    &:before {
+      @extend %icon;
+      content:"\f067";
+    }
+  }
+  &.form_multiform_self {
+    opacity: 0.5;
+  }
+  .multiform_content {
+    float: left;
+    width: 80%;
+    @media (min-width: $break) {
+      width: 90%;
+    }
+    top: 0;
+    padding: 0.8em;
+    min-height: 61px;
+    border-left: 1px solid $color-gray;
+    .multiform_content_readonly {}
+    .multiform_content_fields {}
+    .multiform_item {      
+      &.multiform_item_description {
+        font-size: 0.9em;
+        color: $color-darkgray;
+      }
+    }
+  }
+
+  .multiform_controls {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 30px;
+    .multiform_control {
+      margin: 0;
+      display: block;
+      width: 100%;
+      padding: 0.4em;
+      background: $color-lightgray;
+      border: none;
+      border-left: 2px solid $color-white;
+      border-bottom: 2px solid $color-white;
+      &.multiform_control_edit {}
+      &.multiform_control_remove {}
+    }
   }
 }
 
-.form_multiform_controls {
+.multiform_control_add {
+  margin: 0 0 1em;
   float: right;
-  font-size: 1.3em;
-  .form_multiform_remove { color: $color-fuscia; }
-  .form_multiform_edit { color: $color-green; }
 }
 
 .form_multiform_deactivated {
