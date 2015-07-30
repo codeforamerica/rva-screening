@@ -71,7 +71,7 @@
 
   {% for patient in all_patients %}
   temp = {
-    name: '{{ patient.full_name or (patient.first_name ~ ' ' ~ patient.middle_name ~ ' ' ~ patient.last_name) }}',
+    name: '{% if patient.middle_name %} {{ patient.first_name ~ ' ' ~ patient.middle_name ~ ' ' ~ patient.last_name }} {% else %} {{ patient.first_name ~ ' ' ~ patient.last_name }} {% endif %}',
     dob: '{{ patient.dob }}',
     ssn: '{{ patient.ssn }}',
     url: '{{ url_for('screener.patient_details', id=patient.id) }}'
