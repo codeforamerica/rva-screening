@@ -1,3 +1,14 @@
+$alert-margin: 1em 0;
+$alert-padding: 0.8em 1em;
+$alert-border-radius: 0.3em;
+$alert-font-size: 0.8em;
+$alert-line-height: 2em;
+$alert-before-margin-right: 5px;
+$alert-label-font-weight: 700;
+
+$alert-color-error: $color-red;
+$alert-color-success: $color-brightgreen;
+
 @mixin alert($color, $content) {
   border: 1px solid $color;
   background: lighten($color, 38);
@@ -12,24 +23,24 @@
 // typically an unordered-list
 .alert_list {
   @include list_reset();
-  margin: 1em 0;
-  padding: 0.8em 1em;
-  border-radius: 0.3em;
+  margin: $alert-margin;
+  padding: $alert-padding;
+  border-radius: $alert-border-radius;
   li {
-    font-size: 0.8em;
-    line-height: 2em;
+    font-size: $alert-font-size;
+    line-height: $alert-line-height;
     &:before {
       @extend %icon;
-      margin-right: 5px;
+      margin-right: $alert-before-margin-right;
     }
     label {
-      font-weight: 700;
+      font-weight: $alert-label-font-weight;
       margin: 0;
     }
   }
 
   &.alert_error {
-    @include alert($color-red, "\f06a");
+    @include alert($alert-color-error, "\f06a");
   }
   &.alert_success {
     @include alert($color-brightgreen, "\f058");

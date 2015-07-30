@@ -1,3 +1,9 @@
+$button-color-red: $color-red;
+$button-color-black: $color-black;
+$button-color-blue: $color-blue;
+$button-color-green: $color-green;
+$button-color-brightgreen: $color-brightgreen;
+
 @mixin button($bg-color: $color-lightgray, $text-color: $color-black, $padding: 0.5em) {
   @include button_color($bg-color, $text-color);
   padding: $padding;
@@ -67,18 +73,18 @@
 
     
   &.button_red {
-    @include button_color($color-red);
+    @include button_color($button-color-red);
   }
   &.button_black {
-    @include button_color($color-black);
+    @include button_color($button-color-black);
   }
   &.button_blue {
-    @include button_color($color-blue);
+    @include button_color($button-color-blue);
   }
   &.button_green {
-    @include button_color($color-green);
+    @include button_color($button-color-green);
   }
   &.button_brightgreen {
-    @include button_color($color-brightgreen);
+    @include button_color($button-color-brightgreen);
   }
 }

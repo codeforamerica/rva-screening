@@ -27,30 +27,35 @@
 }
 
 // login form
+
+$login-form-max-width: 350px;
+$login-background-image: url("/img/3230755445_0dfa545f2f_o.jpg");
+$login-background-color: rgba(255,255,255,0.6);
+
 .login_form {
   margin: auto;
-  max-width: 350px;
+  max-width: $login-form-max-width;
   .form_field {
     padding: 0;
     margin-bottom: 1em;
   }
 }
 
-// float right helper
-.float_right {
-  float: right;
-}
-
 .login_form_bkg {
-  background-image: url("/img/3230755445_0dfa545f2f_o.jpg"); // Taber Andrew Bain, Flickr - https://flic.kr/p/5Vut36
+  background-image: $login-background-image; // Taber Andrew Bain, Flickr - https://flic.kr/p/5Vut36
   -webkit-background-size: cover; 
      -moz-background-size: cover; 
        -o-background-size: cover; 
           background-size: cover;
   background-position: center center;
   .inner {
-    background-color: rgba(255,255,255,0.6);
+    background-color: $login-background-color;
   }
+}
+
+// float right helper
+.float_right {
+  float: right;
 }
 
 

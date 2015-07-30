@@ -570,3 +570,10 @@ def index():
     open_referrals = open_referrals,
     your_referrals = your_referrals
   )
+
+
+@screener.route('/mockup')
+@login_required
+def mockup():
+  return render_template('MOCKUPS.html');
+
