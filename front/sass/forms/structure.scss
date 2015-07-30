@@ -120,6 +120,12 @@ textarea {
 }
 // a form that may be repeated based on the number of items
 // also called many-to-one form
+.form_multiform_title {
+  @media (min-width: $break) {
+    padding: 1em 0 0.2em 1em;
+  }
+  margin: 0;
+}
 .form_multiform {
   // padding: 0.5em 2em 2em;
   @include clearfix();
@@ -164,7 +170,6 @@ textarea {
     opacity: 0.5;
   }
   .multiform_content {
-    // width: 89%;
     padding: 0.8em;
     float: left;
     min-height: 61px;
@@ -187,7 +192,6 @@ textarea {
     right: 0;
     width: 30px;
     .multiform_control {
-      border-radius: 0px;
       margin: 0;
       display: block;
       width: 100%;
@@ -203,7 +207,6 @@ textarea {
 }
 
 .multiform_control_add {
-  border-radius: 0px;
   margin: 0 0 1em;
   float: right;
 }

@@ -8,8 +8,8 @@
     <div class="multiform_content">
       <div class="multiform_content_fields">
           <div class="form_row">
-            {{ render_field(entry.full_name) }}
-            {{ render_field(entry.phone_number) }}
+            {{ render_field(entry.full_name, class="block_6") }}
+            {{ render_field(entry.phone_number, class="block_6") }}
           </div>
           {{ render_field(entry.relationship) }}
       </div>
@@ -34,8 +34,12 @@
     <div class="multiform_content">
       <div class="multiform_content_fields">
         <div class="row">
-          {{ render_field(entry.full_name) }}
-          {{ render_field(entry.phone_number) }}
+          {{ render_field(entry.full_name,
+                                class="block_6"
+          ) }}
+          {{ render_field(entry.phone_number,
+                                class="block_6"
+          ) }}
         </div>
         {{ render_field(entry.relationship) }}
       </div>
