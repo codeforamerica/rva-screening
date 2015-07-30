@@ -1,3 +1,54 @@
+{% from "form_field_macros.html" import render_field %}
+
+<div class="form_multiform_wrapper">
+
+  <!-- loop through each address and add a .form_multiform -->
+  {% for entry in form.emergency_contacts %}
+  <div class="form_multiform form_multiform_read">
+    <div class="multiform_content">
+      <div class="multiform_content_fields">
+          <div class="form_row">
+            {{ render_field(entry.full_name) }}
+            {{ render_field(entry.phone_number) }}
+          </div>
+          {{ render_field(entry.relationship) }}
+      </div>
+      <div class="multiform_content_readonly">
+        <span class="multiform_item">{{ entry.full_name.data }}</span><br>
+        <span class="multiform_item">{{ entry.phone_number.data }}</span><br>
+        <span class="multiform_item multiform_item_description">{{ entry.relationship.data }}</span>
+      </div>
+    </div>
+    <!-- form edit/remove controls -->
+    <div class="multiform_controls">
+      <button type="button" class="button button_brightgreen button_inverse multiform_control multiform_control_edit"><i class="fa fa-pencil"></i></button>
+      <button type="button" class="button button_red button_inverse multiform_control multiform_control_remove"><i class="fa fa-trash"></i></button>
+    </div>
+  </div>
+  {% endfor %}
+
+  <!-- prepared form for user to enter -->
+  {% with %}
+    {% set entry = form.emergency_contacts.append_entry() %}
+  <div class="form_multiform form_multiform_new" id="multiform_emergency_contacts">
+    <div class="multiform_content">
+      <div class="multiform_content_fields">
+        <div class="row">
+          {{ render_field(entry.full_name) }}
+          {{ render_field(entry.phone_number) }}
+        </div>
+        {{ render_field(entry.relationship) }}
+      </div>
+    </div>
+  </div>
+  {% endwith %}
+
+</div>
+
+<button data-clone-id="multiform_emergency_contacts" class="button button_red button_small multiform_control_add">Add new emergency contact <i class="fa fa-plus"></i></button>
+<div class="cf"></div>
+<!-- 
+
 <div class="table-wrapper">
   <table class="table table-condensed emergency_contacts" id="emergency_contact_table">
 
@@ -72,3 +123,4 @@
     {{ _("Add an emergency contact") }}
   </button>
 </div>
+ -->

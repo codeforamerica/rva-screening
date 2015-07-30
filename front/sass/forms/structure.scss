@@ -108,7 +108,7 @@ textarea {
 
 // MULTI FORMS
 // aka many-to-one
-body { counter-reset: section; }
+
 .form_multiform_wrapper {
   // margin-bottom: 3em;
   border-bottom: 1px solid $color-gray;
@@ -116,13 +116,14 @@ body { counter-reset: section; }
 
 // a wrapper for a set of many to one forms
 .form_multiform_collection {
+  counter-reset: section;
 }
-
 // a form that may be repeated based on the number of items
 // also called many-to-one form
 .form_multiform {
   // padding: 0.5em 2em 2em;
   @include clearfix();
+  counter-increment: section;
   position: relative;
   .form_field {
     // margin-top: -1px;
@@ -138,8 +139,7 @@ body { counter-reset: section; }
     left: 0em;
     top: 0.2em;
     color: $color-gray;
-    counter-increment: section;
-    content: "" counter(section) " ";
+    content: counters(section, " ");
   }
   &.form_multiform_read {
     .multiform_content_fields {
@@ -164,7 +164,7 @@ body { counter-reset: section; }
     width: 89%;
     padding: 0.8em;
     float: left;
-    min-height: 50px;
+    min-height: 61px;
     border-left: 1px solid $color-gray;
     .multiform_content_readonly {}
     .multiform_content_fields {}
