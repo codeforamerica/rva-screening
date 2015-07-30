@@ -1,7 +1,7 @@
 {% macro render_field(field, providers=[], class='') -%}
 <label class="form_field field_{{field.name}}
   {%- if class %} {{class}}{% endif %}
-  {%- if providers|length > 0 %} q_unique{% endif -%}
+  {%- if providers|length > 0 %} q_unique {% endif -%}
   {%- for provider in providers %} q_{{provider}}{% endfor -%}
   ">
   <span class="field_label">

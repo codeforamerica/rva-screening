@@ -74,7 +74,7 @@ class PhoneNumberForm(NoCsrfForm):
 
 class AddressForm(NoCsrfForm):
   address1 = fields.TextField(_('Address'), [Optional(), validators.Length(max=64)])
-  address2 = fields.TextField([Optional(), validators.Length(max=64)])
+  address2 = fields.TextField(_('Address Line 2'), [Optional(), validators.Length(max=64)])
   city = fields.TextField(_('City'), [Optional(), validators.Length(max=64)])
   state = fields.SelectField(
     _('State'),

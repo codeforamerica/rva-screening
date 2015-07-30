@@ -1,5 +1,62 @@
 {% from "form_field_macros.html" import render_field %}
-<table class="table table-condensed income_sources" id="income_source_table">
+
+<div class="form_multiform_wrapper">
+
+  {% for entry in form.income_sources %}
+  <div class="form_multiform form_multiform_read">
+    <div class="multiform_content">
+      <div class="multiform_content_fields">
+          <div class="form_row">
+            {{ render_field(entry.source) }}
+            {{ render_field(entry.monthly_amount) }}
+          </div>
+      </div>
+      <div class="multiform_content_readonly">
+        <span class="multiform_item">{{ entry.source.data }}</span><br>
+        <span class="multiform_item multiform_item_description"><i class="fa fa-usd"></i> {{ entry.monthly_amount.data }} / month</span><br>
+      </div>
+    </div>
+    <div class="multiform_controls">
+      <button type="button" class="button button_brightgreen button_inverse multiform_control multiform_control_edit"><i class="fa fa-pencil"></i></button>
+      <button type="button" class="button button_red button_inverse multiform_control multiform_control_remove"><i class="fa fa-trash"></i></button>
+    </div>
+  </div>
+  {% endfor %}
+
+  {% with %}
+    {% set entry = form.income_sources.append_entry() %}
+  <div class="form_multiform form_multiform_new" id="multiform_income_sources">
+    <div class="multiform_content">
+      <div class="multiform_content_fields">
+        <div class="row">
+          {{ render_field(entry.source, class="block_6") }}
+          {{ render_field(entry.monthly_amount, class="block_6", type="number") }}
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endwith %}
+
+</div>
+
+<button data-clone-id="multiform_income_sources" class="button button_red button_small multiform_control_add">Add new income source <i class="fa fa-plus"></i></button>
+<div class="cf"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <table class="table table-condensed income_sources" id="income_source_table">
 
   <thead>
     <tr>
@@ -52,9 +109,9 @@
       <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
       {{ _("Add a source of income") }}
     </button>
-</div>
+</div> -->
 
-  {{ render_field(form.how_food_and_shelter, ['an']) }}
-  {{ render_field(form.how_other_expenses, ['an']) }}
+{{ render_field(form.how_food_and_shelter, ['an']) }}
+{{ render_field(form.how_other_expenses, ['an']) }}
 
 
