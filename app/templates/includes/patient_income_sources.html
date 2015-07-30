@@ -2,7 +2,6 @@
 
 <div class="form_multiform_wrapper">
 
-  <!-- loop through each address and add a .form_multiform -->
   {% for entry in form.income_sources %}
   <div class="form_multiform form_multiform_read">
     <div class="multiform_content">
@@ -17,7 +16,6 @@
         <span class="multiform_item multiform_item_description"><i class="fa fa-usd"></i> {{ entry.monthly_amount.data }} / month</span><br>
       </div>
     </div>
-    <!-- form edit/remove controls -->
     <div class="multiform_controls">
       <button type="button" class="button button_brightgreen button_inverse multiform_control multiform_control_edit"><i class="fa fa-pencil"></i></button>
       <button type="button" class="button button_red button_inverse multiform_control multiform_control_remove"><i class="fa fa-trash"></i></button>
@@ -25,7 +23,6 @@
   </div>
   {% endfor %}
 
-  <!-- prepared form for user to enter -->
   {% with %}
     {% set entry = form.income_sources.append_entry() %}
   <div class="form_multiform form_multiform_new" id="multiform_income_sources">
@@ -33,7 +30,7 @@
       <div class="multiform_content_fields">
         <div class="row">
           {{ render_field(entry.source, class="block_6") }}
-          {{ render_field(entry.monthly_amount, class="block_6") }}
+          {{ render_field(entry.monthly_amount, class="block_6", type="number") }}
         </div>
       </div>
     </div>

@@ -6,10 +6,6 @@
 label {
   margin: 0;
 }
-table {
-  background-color: $color-lightgray;
-  padding: 1em;
-}
 textarea {
   display: block;
   width: 100%;
@@ -22,15 +18,13 @@ textarea {
     content: $content;
   }
 }
+
 // a wrapper for a full section of the form, such as "household size"
 .form_section {
   margin-top: 3em;
   background-color: $color-lightgray;
 
   .form_section_title {
-    // border-top-left-radius: 0.2em;
-    // border-bottom-left-radius: 0.2em;
-    // margin-left: -1.6em;
     position: relative;
     background: $color-black;
     color: $color-white;
@@ -179,9 +173,7 @@ textarea {
     border-left: 1px solid $color-gray;
     .multiform_content_readonly {}
     .multiform_content_fields {}
-    .multiform_item {
-      // display: block;
-      
+    .multiform_item {      
       &.multiform_item_description {
         font-size: 0.9em;
         color: $color-darkgray;

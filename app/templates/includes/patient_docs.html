@@ -2,7 +2,6 @@
 
 <div class="form_multiform_wrapper">
 
-  <!-- loop through each address and add a .form_multiform -->
   {% for entry in form.document_images %}
     {% if entry.file_name.data %}
   <div class="form_multiform form_multiform_read">
@@ -21,7 +20,6 @@
         <span class="multiform_item multiform_item_description">{{ entry.file_description.data }}</span>
       </div>
     </div>
-    <!-- form edit/remove controls -->
     <div class="multiform_controls">
       <button type="button" class="button button_brightgreen button_inverse multiform_control multiform_control_edit"><i class="fa fa-pencil"></i></button>
       <button type="button" class="button button_red button_inverse multiform_control multiform_control_remove"><i class="fa fa-trash"></i></button>
@@ -30,7 +28,6 @@
     {% endif %}
   {% endfor %}
 
-  <!-- prepared form for user to enter -->
   {% with %}
     {% set entry = form.document_images.append_entry() %}
   <div class="form_multiform form_multiform_new" id="multiform_documents">

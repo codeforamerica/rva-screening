@@ -2,7 +2,6 @@
 
 <div class="form_multiform_wrapper">
 
-  <!-- we need to add the current patient -->
   <div class="form_multiform form_multiform_self">
     <div class="multiform_content">
       <div class="multiform_content_readonly">
@@ -14,7 +13,6 @@
     </div>
   </div>
 
-  <!-- loop through each address and add a .form_multiform -->
   {% for entry in form.household_members %}
   <div class="form_multiform form_multiform_read">
     <div class="multiform_content">
@@ -44,7 +42,6 @@
         <span class="multiform_item multiform_item_description">{{ entry.relationship.data }}</span><br>
       </div>
     </div>
-    <!-- form edit/remove controls -->
     <div class="multiform_controls">
       <button type="button" class="button button_brightgreen button_inverse multiform_control multiform_control_edit"><i class="fa fa-pencil"></i></button>
       <button type="button" class="button button_red button_inverse multiform_control multiform_control_remove"><i class="fa fa-trash"></i></button>
@@ -52,7 +49,6 @@
   </div>
   {% endfor %}
 
-  <!-- prepared form for user to enter -->
   {% with %}
     {% set entry = form.household_members.append_entry() %}
   <div class="form_multiform form_multiform_new" id="multiform_household_size">
