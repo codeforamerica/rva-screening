@@ -14,7 +14,7 @@
           {{ render_field(entry.relationship) }}
       </div>
       <div class="multiform_content_readonly">
-        <span class="multiform_item">{{ entry.full_name.data }}</span><br>
+        <span class="multiform_item"><strong>{{ entry.full_name.data }}</strong></span><br>
         <span class="multiform_item">{{ entry.phone_number.data }}</span><br>
         <span class="multiform_item multiform_item_description">{{ entry.relationship.data }}</span>
       </div>
@@ -47,80 +47,3 @@
 
 <button data-clone-id="multiform_emergency_contacts" class="button button_red button_small multiform_control_add">Add new emergency contact <i class="fa fa-plus"></i></button>
 <div class="cf"></div>
-<!-- 
-
-<div class="table-wrapper">
-  <table class="table table-condensed emergency_contacts" id="emergency_contact_table">
-
-    <thead>
-      <tr>
-        <th>{{ _("Name") }}</th>
-        <th>{{ _("Phone Number") }} </th>
-        <th>{{ _("Relationship") }} </th>
-        <th>{{ _("Edit") }} </th>
-        <th>{{ _("Delete") }} </th>
-      </tr>
-    </thead>
-
-    {% for entry in form.emergency_contacts %}
-      <tr class="emergency_contact">
-        <td>
-          <div class="read-only">{{ entry.full_name.data }}</div>
-          {{ entry.full_name(class="form-control hidden-input") }}
-        </td>
-        <td>
-          <div class="read-only">{{ entry.phone_number.data }}</div>
-          {{ entry.phone_number(
-            type="tel",
-            class="form-control hidden-input",
-            placeholder="(555) 555-5555",
-            pattern="\(\d{3}\) ?\d{3}-?\d{4}"
-          ) }}
-        </td>
-        <td>
-          <div class="read-only">{{ entry.relationship.data }}</div>
-          {{ entry.relationship(class="form-control hidden-input") }}
-        </td>
-        <td class="emergency_contact_edit">
-          <i class="fa fa-pencil" onclick="showHiddenFields()"></i>
-        </td>
-        <td class="emergency_contact_delete">
-          <i class="fa fa-trash" onclick="hideRow()"></i>
-        </td>
-      </tr>
-    {% endfor %}
-
-    {% with %}
-      {% set entry = form.emergency_contacts.append_entry() %}
-      <tr class="emergency_contact" id="emergency_contact_input">
-        <td>
-          {{ entry.full_name(class="form-control") }}
-        </td>
-        <td>
-          {{ entry.phone_number(
-            type="tel",
-            class="form-control",
-            placeholder="(555) 555-5555",
-            pattern="\(\d{3}\) ?\d{3}-?\d{4}"
-          ) }}
-        </td>
-        <td>
-          {{ entry.relationship(class="form-control") }}
-        </td>
-      </tr>
-    {% endwith %}
-
-  </table>
-</div>
-
-<div class="form-group add_emergency_contact">
-  <button
-    type="button"
-    class="btn btn-primary"
-    onclick="addNewInputRow($('#emergency_contact_table'), $('.emergency_contact').last())"
-  >
-    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-    {{ _("Add an emergency contact") }}
-  </button>
-</div>
- -->

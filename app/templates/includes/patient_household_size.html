@@ -1,100 +1,81 @@
 {% from "form_field_macros.html" import render_field %}
-<div class="table-wrapper">
-  <table class="table table-condensed hh_members" id="household_member_table">
 
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>{{ _("Name") }}</th>
-        <th>{{ _("DOB") }}</th>
-        <th>{{ _("SSN") }}</th>
-        <th>{{ _("Relationship") }}</th>
-        <th>{{ _("Edit") }}</th>
-        <th>{{ _("Delete") }}</th>
-      </tr>
-    </thead>
+<div class="form_multiform_wrapper">
 
-    <tr class="hh_member patient">
-      <td class="hh_member_number">1</td>
-      <td class="hh_member_full_name">{{ form.full_name.data or 'Patient' }}</td>
-      <td class="hh_member_dob">{{ form.dob.data or '' }}</td>
-      <td class="hh_member_ssn">{{ form.ssn.data or '' }}</td>
-      <td class="hh_member_relation">Self</td>
-      <td class="hh_member_edit">
-      </td>
-    </tr>
+  <!-- we need to add the current patient -->
+  <div class="form_multiform form_multiform_self">
+    <div class="multiform_content">
+      <div class="multiform_content_readonly">
+        <span class="multiform_item"><strong>{{ form.first_name.data }} {{ form.last_name.data }}</strong></span><br>
+        <span class="multiform_item">DoB: {{ form.dob.data }}</span><br>
+        <span class="multiform_item">SSN: {{ form.ssn.data }}</span><br>
+        <span class="multiform_item multiform_item_description">Current Patient</span><br>
+      </div>
+    </div>
+  </div>
 
-    {% for entry in form.household_members %}
-      <tr class="hh_member">
-        <td class="hh_member_number">
-          {{ loop.index + 1}}
-        </td>
-        <td class="hh_member_full_name">
-          <div class="read-only">{{ entry.full_name.data }}</div>
-          {{ entry.full_name(class="form-control hidden-input") }}
-        </td>
-        <td class="hh_member_dob">
-          <div class="read-only">{{ entry.dob.data }}</div>
-          {{ entry.dob(type="date", class="form-control hidden-input") }}
-        </td>
-        <td class="hh_member_ssn">
-          <div class="read-only">{{ entry.ssn.data }}</div>
-          {{ entry.ssn(
-            class="form-control hidden-input",
-            placeholder="555-55-5555",
-            pattern="\d{3}-?\d{2}-?\d{4}"
+  <!-- loop through each address and add a .form_multiform -->
+  {% for entry in form.household_members %}
+  <div class="form_multiform form_multiform_read">
+    <div class="multiform_content">
+      <div class="multiform_content_fields">
+          <div class="form_row">
+            {{ render_field(entry.full_name) }}
+            {{ render_field(entry.dob, 
+                            type="date",
+                            max="2200-01-01",
+                            min="1899-01-01"
+            ) }}
+            {{ render_field(entry.ssn,
+                            placeholder="555-55-5555",
+                            pattern="\d{3}-?\d{2}-?\d{4}"
+            ) }}
+          </div>
+          {{ render_field(entry.relationship) }}
+      </div>
+      <div class="multiform_content_readonly">
+        <span class="multiform_item"><strong>{{ entry.full_name.data }}</strong></span><br>
+        <span class="multiform_item">DoB: {{ entry.dob.data }}</span><br>
+        <span class="multiform_item">SSN: {{ entry.ssn.data }}</span><br>
+        <span class="multiform_item multiform_item_description">{{ entry.relationship.data }}</span><br>
+      </div>
+    </div>
+    <!-- form edit/remove controls -->
+    <div class="multiform_controls">
+      <button type="button" class="button button_brightgreen button_inverse multiform_control multiform_control_edit"><i class="fa fa-pencil"></i></button>
+      <button type="button" class="button button_red button_inverse multiform_control multiform_control_remove"><i class="fa fa-trash"></i></button>
+    </div>
+  </div>
+  {% endfor %}
+
+  <!-- prepared form for user to enter -->
+  {% with %}
+    {% set entry = form.household_members.append_entry() %}
+  <div class="form_multiform form_multiform_new" id="multiform_household_size">
+    <div class="multiform_content">
+      <div class="multiform_content_fields">
+        <div class="row">
+          {{ render_field(entry.full_name) }}
+          {{ render_field(entry.dob, 
+                          type="date",
+                          max="2200-01-01",
+                          min="1899-01-01"
           ) }}
-        </td>
-        <td class="hh_member_relationship">
-          <div class="read-only">{{ entry.relationship.data }}</div>
-          {{ entry.relationship(class="form-control hidden-input") }}
-        </td>
-        <td class="hh_member_edit">
-          <i class="fa fa-pencil" onclick="showHiddenFields()"></i>
-        </td>
-        <td class="hh_member_edit">
-          <i class="fa fa-trash" onclick="hideRow()"></i>
-        </td>
-      </tr>
-    {% endfor %}
-
-    {% with %}
-      {% set entry = form.household_members.append_entry() %}
-      <tr class="hh_member" id="household_member_input">
-        <td class="hh_member_number"></td>
-        <td class="hh_member_full_name">
-          {{ entry.full_name(class="form-control") }}
-        </td>
-        <td class="hh_member_dob">
-          {{ entry.dob(type="date", class="form-control") }}
-        </td>
-        <td class="hh_member_ssn">
-          {{ entry.ssn(
-            class="form-control",
-            placeholder="555-55-5555",
-            pattern="\d{3}-?\d{2}-?\d{4}"
+          {{ render_field(entry.ssn,
+                          placeholder="555-55-5555",
+                          pattern="\d{3}-?\d{2}-?\d{4}"
           ) }}
-        </td>
-        <td class="hh_member_relationship">
-          {{ entry.relationship(class="form-control") }}
-        </td>
-        <td class="hh_member_edit"></td>
-      </tr>
-    {% endwith %}
+        </div>
+        {{ render_field(entry.relationship) }}
+      </div>
+    </div>
+  </div>
+  {% endwith %}
 
-  </table>
 </div>
 
-<div class="form-group add_hh_member">
-  <button
-    type="button"
-    class="btn btn-primary"
-    onclick="addNewInputRow($('#household_member_table'), $('.hh_member').last())"
-  >
-    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-    {{ _("Add a person") }}
-  </button>
-</div>
+<button data-clone-id="multiform_household_size" class="button button_red button_small multiform_control_add">Add new household member <i class="fa fa-plus"></i></button>
+<div class="cf"></div>
 
-  {{ render_field(form.filed_taxes_yn, ['an']) }}
-  {{ render_field(form.claimed_as_dependent_yn, ['an']) }}
+{{ render_field(form.filed_taxes_yn, ['an']) }}
+{{ render_field(form.claimed_as_dependent_yn, ['an']) }}

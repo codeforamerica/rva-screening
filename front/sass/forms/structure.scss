@@ -160,8 +160,11 @@ textarea {
       content:"\f067";
     }
   }
+  &.form_multiform_self {
+    opacity: 0.5;
+  }
   .multiform_content {
-    width: 89%;
+    // width: 89%;
     padding: 0.8em;
     float: left;
     min-height: 61px;

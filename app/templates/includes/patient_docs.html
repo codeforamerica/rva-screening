@@ -1,62 +1,51 @@
-<div class="table-wrapper">
-  <table class="table table-condensed patient_docs" id="document_image_table">
+{% from "form_field_macros.html" import render_field %}
 
-    <thead>
-      <tr>
-        <th>{{ _("Preview") }}</th>
-        <th>{{ _("Description") }}</th>
-        <th>{{ _("Uploaded") }}</th>
-        <th>{{ _("Edit") }}</th>
-        <th>{{ _("Delete") }}</th>
-      </tr>
-    </thead>
+<div class="form_multiform_wrapper">
 
-    {% for entry in form.document_images %}
-      {% if entry.file_name.data %}
-        <tr class="patient_doc">
-          <td class="patient_doc_thumbnail">
-            <img src="https://github.com/codeforamerica/rva-screening/blob/templating/images/w2.jpg?raw=true" alt="{{ _("preview of %(description)s", description=entry.file_description.data) }}">
-          </td>
-          <td class="patient_doc_description">
-            <a href="{{ url_for('screener.document_image', image_id=entry['id'].data) }}" class="read-only">
-              {{entry.file_description.data}}
-            </a>
-            {{ entry.file_description(class="hidden-input") }}
-          </td>
-          <td class="patient_doc_uploaded">
-            {{ entry.created.data.strftime('%m-%d-%Y %H:%M:%S') }} by <a href="{{ url_for('screener.user', user_id=entry.created_by.data.id) }}">{{ entry.created_by.data.full_name }}</a>
-          </td>
-          <td class="patient_doc_edit">
-            <i class="fa fa-pencil" onclick="showHiddenFields()"></i>
-          </td>
-          <td class="patient_doc_delete">
-            <i class="fa fa-trash" onclick="hideRow()"></i>
-          </td>
-        </tr>
-      {% endif %}
-    {% endfor %}
+  <!-- loop through each address and add a .form_multiform -->
+  {% for entry in form.document_images %}
+    {% if entry.file_name.data %}
+  <div class="form_multiform form_multiform_read">
+    <div class="multiform_content">
+      <div class="multiform_content_fields">
+          <div class="form_row">
+            {{ render_field(entry.file_name) }}
+            {{ render_field(entry.file_description) }}
+          </div>
+      </div>
+      <div class="multiform_content_readonly">
+        <span class="multiform_item">
+          <img src="https://github.com/codeforamerica/rva-screening/blob/templating/images/w2.jpg?raw=true" alt="{{ _('preview of %(description)s', description=entry.file_description.data) }}">
+        </span><br>
+        <span class="multiform_item">{{ entry.created.data.strftime('%m-%d-%Y %H:%M:%S') }} by <a href="{{ url_for('screener.user', user_id=entry.created_by.data.id) }}">{{ entry.created_by.data.full_name }}</a>
+        <span class="multiform_item multiform_item_description">{{ entry.file_description.data }}</span>
+      </div>
+    </div>
+    <!-- form edit/remove controls -->
+    <div class="multiform_controls">
+      <button type="button" class="button button_brightgreen button_inverse multiform_control multiform_control_edit"><i class="fa fa-pencil"></i></button>
+      <button type="button" class="button button_red button_inverse multiform_control multiform_control_remove"><i class="fa fa-trash"></i></button>
+    </div>
+  </div>
+    {% endif %}
+  {% endfor %}
 
-    {% with %}
-      {% set entry = form.document_images.append_entry() %}
-      <tr class="patient_doc">
-        <td>
+  <!-- prepared form for user to enter -->
+  {% with %}
+    {% set entry = form.document_images.append_entry() %}
+  <div class="form_multiform form_multiform_new" id="multiform_documents">
+    <div class="multiform_content">
+      <div class="multiform_content_fields">
+        <div class="row">
           {{ entry.file_name }}
-        </td>
-        <td>
-          {{ entry.file_description }}
-        </td>
-      </tr>
-    {% endwith %}
-  </table>
+          {{ render_field(entry.file_description) }}
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endwith %}
+
 </div>
 
-<div class="form-group add_patient_doc">
-  <button
-    type="button"
-    class="btn btn-primary"
-    onclick="addNewInputRow($('#document_image_table'), $('.patient_doc').last())"
-  >
-    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-    {{ _("Add a document") }}
-  </button>
-</div>
+<button data-clone-id="multiform_documents" class="button button_red button_small multiform_control_add">Add new document <i class="fa fa-plus"></i></button>
+<div class="cf"></div>

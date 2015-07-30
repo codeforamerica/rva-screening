@@ -33,8 +33,8 @@ var AppController = function ( options ) {
     $('.multiform_control_edit').on('click', function(e){
       e.preventDefault();
       var entry = $(this).parent().parent();
-      var entryForm = entry.find('multiform_content_fields');
-      var entryRead = entry.find('multiform_content_readonly');
+      var entryForm = entry.find('.multiform_content_fields');
+      var entryRead = entry.find('.multiform_content_readonly');
 
       if (entry.hasClass('form_multiform_read')) {
         entry.removeClass('form_multiform_read');
@@ -47,7 +47,15 @@ var AppController = function ( options ) {
     $('.multiform_control_remove').on('click', function(e){
       e.preventDefault();
       var entry = $(this).parent().parent();
-      entry.remove(); // removes from DOM, not from db until page save
+      var entryForm = entry.find('.multiform_content_fields');
+      entryForm.find('.field_input').each(function(){
+        $(this).attr('value', '');
+        if ($(this).attr('type') == 'date') {
+          $(this).attr('value', 'mm/dd/yyyy');
+        }
+      });
+      entry.hide();
+      // entry.remove(); // removes from DOM, not from db until page save
       return;
     });
 
