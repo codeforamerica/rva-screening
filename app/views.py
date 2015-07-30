@@ -554,7 +554,7 @@ def index():
   open_referrals = Patient.query.filter(
     Patient.referrals.any(and_(
       PatientReferral.to_service_id == current_user.service_id,
-      PatientReferral.status in ['SENT', 'RECEIVED']
+      PatientReferral.status.in_(('SENT', 'RECEIVED'))
     ))
   )
   your_referrals = Patient.query.filter(
