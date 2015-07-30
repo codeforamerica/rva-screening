@@ -110,7 +110,7 @@ textarea {
 // aka many-to-one
 body { counter-reset: section; }
 .form_multiform_wrapper {
-  margin-bottom: 3em;
+  // margin-bottom: 3em;
   border-bottom: 1px solid $color-gray;
 }
 
@@ -154,7 +154,7 @@ body { counter-reset: section; }
       display: none;
     }
   }
-  &.form_multiform_add {
+  &.form_multiform_new {
     &:before {
       @extend %icon;
       content:"\f067";
@@ -199,11 +199,10 @@ body { counter-reset: section; }
   }
 }
 
-.form_multiform_controls {
+.multiform_control_add {
+  border-radius: 0px;
+  margin: 0 0 1em;
   float: right;
-  font-size: 1.3em;
-  .form_multiform_remove { color: $color-fuscia; }
-  .form_multiform_edit { color: $color-green; }
 }
 
 .form_multiform_deactivated {

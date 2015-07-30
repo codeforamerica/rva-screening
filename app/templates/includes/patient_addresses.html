@@ -45,35 +45,42 @@
   <!-- end address loop -->
 
   <!-- now add the new form -->
+  {% with %}
+    {% set entry = form.addresses.append_entry() %}
   <div class="form_multiform form_multiform_new" id="multiform_address">
     
     <div class="multiform_content">
       
       <div class="multiform_content_fields">
+        <div class="form_row">
+          {{ render_field(entry.address1) }}
+          {{ render_field(entry.address2) }}
+        </div>
 
+        <div class="form_row">
+          {{ render_field(entry.city) }}
+          {{ render_field(entry.state) }}
+          {{ render_field(entry.zip_code) }}
+        </div>
+        
+        {{ render_field(entry.address_description) }}
       </div>
       
     </div>
+    {% endwith %}
     
     <div class="multiform_controls">
       <button type="button" class="button button_brightgreen button_inverse multiform_control multiform_control_edit"><i class="fa fa-pencil"></i></button>
       <button type="button" class="button button_red button_inverse multiform_control multiform_control_remove"><i class="fa fa-trash"></i></button>
     </div>
   </div>
-  <!-- the end of the new form -->
-
-  <!-- new form button -->
-  <div class="form_multiform form_multiform_add">
-    
-    <div class="multiform_content">
-      <button data-clone-id="multiform_address" class="button button_blue multiform_control_add"><i class="fa fa-plus"></i> Add a new address</button>
-    </div>
-    
-  </div>
-  <!-- end the add new form button -->
-  
+  <!-- the end of the new form -->  
 </div>
-
+<!-- new form button -->
+<button data-clone-id="multiform_address" class="button button_red button_small multiform_control_add"><i class="fa fa-plus"></i> Add a new address</button>
+<div class="cf"></div>
+<!-- end the add new form button -->
+<!-- 
 <table class="table table-condensed addresses" id="address_table">
 
   <thead>
@@ -144,3 +151,4 @@
   </button>
 </div>
 
+ -->
