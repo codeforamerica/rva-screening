@@ -1,14 +1,3 @@
-$alert-margin: 1em 0;
-$alert-padding: 0.8em 1em;
-$alert-border-radius: 0.3em;
-$alert-font-size: 0.8em;
-$alert-line-height: 2em;
-$alert-before-margin-right: 5px;
-$alert-label-font-weight: 700;
-
-$alert-color-error: $color-red;
-$alert-color-success: $color-brightgreen;
-
 @mixin alert($color, $content) {
   border: 1px solid $color;
   background: lighten($color, 38);
@@ -43,6 +32,6 @@ $alert-color-success: $color-brightgreen;
     @include alert($alert-color-error, "\f06a");
   }
   &.alert_success {
-    @include alert($color-brightgreen, "\f058");
+    @include alert($alert-color-success, "\f058");
   }
 } 

@@ -1,0 +1,58 @@
+.box {
+  border: $box-border;
+  border-left-width: $box-border-left-width;
+  margin-top: $box-margin-top;
+  padding-bottom: $box-padding-bottom;
+  position: relative;
+  &:before {
+    text-align: center;
+    width: $box-border-left-width;
+    position: absolute;
+    top: $box-border-left-width / 4;
+    left: -$box-border-left-width;
+    color: $color-white;
+    @extend %icon;
+  }
+  &.box_eligibile {
+    border-color: $box-border-color-eligible;
+    &:before {
+      content:"\f00c";
+    }
+  }
+  &.box_noteligibile {
+    &:before {
+      content:"\f00d";
+    } 
+  }
+
+  .box_title {
+    padding: $box-title-padding;
+    color: $box-title-text-color;
+    background: $box-title-background-color;
+    border-bottom: $box-title-border-bottom;
+    &:hover {
+      background: $box-title-background-hover;
+    }
+    .box_title_meta {
+      float: right;
+      font-size: $box-title-link-size;
+    }
+  }
+
+  .box_content {
+    padding: $box-content-padding;
+    color: $color-darkgray;
+    font-size: $box-content-font-size;
+    line-height: $box-content-line-height;
+  }
+
+  .box_item {
+    padding: $box-service-padding;
+    &:nth-child(2n-1) {
+      background: $color-lightgray;
+    }
+  }
+  .box_item_price {
+    float: right;
+  }
+}

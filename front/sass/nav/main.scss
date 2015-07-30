@@ -127,8 +127,8 @@ body.menu_open {
   overflow: hidden; // temporary. What do we do with long usernames?
   text-align: right;
   padding: 1em;
-  color: $color-black;
-  a { color: $color-black; }
+  color: $nav-user-text-color;
+  a { color: $nav-user-text-color; }
   @media (min-width: $break) {
     display: inline-block;
     vertical-align: middle;

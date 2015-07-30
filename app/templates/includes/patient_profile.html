@@ -9,31 +9,31 @@
     {% if patient.dob %}
     <div class="overview_patient_item tooltip tooltip_top" value="Date of birth">
       <h2><i class="fa fa-birthday-cake"></i> {{ patient.dob.strftime('%m/%d/%Y') }}</h2>
-    </div><br>
+    </div>
     {% endif %}
 
     {% if patient.fpl_percentage %}
     <div class="overview_patient_item tooltip tooltip_top" value="Estimated FPL">
       <h2><i class="fa">%</i> {{ '%0.2f'| format(patient.fpl_percentage|float) }}</h2>
-    </div><br>
+    </div>
     {% endif %}
 
     {% if patient.total_annual_income %}
     <div class="overview_patient_item tooltip tooltip_top" value="Estimated monthly income">
       <h2><i class="fa fa-usd"></i> {{(patient.total_annual_income / 12) | int}}/{{ _("month") }}</h2>
-    </div><br>
+    </div>
     {% endif %}
 
     {% if patient.household_members %}
     <div class="overview_patient_item tooltip tooltip_top" value="Household size">
       <h2><i class="fa fa-users"></i> {{ patient.household_members.count() + 1 }}</h2>
-    </div><br>
+    </div>
     {% endif %}
     
     {% if patient.document_images %}
     <div class="overview_patient_item tooltip tooltip_top" value="Document uploads">
       <h2><i class="fa fa-file-text"></i> {{patient.document_images.count()}}</h2>
-    </div><br>
+    </div>
     {% endif %}
 
     <!-- <div class="overview_patient_item">
