@@ -58,7 +58,7 @@ class AppUser(BasicTable, db.Model):
   email = db.Column(db.String(64))
   password = db.Column(db.String(128))
   authenticated = db.Column(db.Boolean, default=False)
-  service_id = db.Column(db.Integer, db.ForeignKey("service.id"))
+  service_id = db.Column(db.Integer, db.ForeignKey("service.id", ondelete='CASCADE'))
   full_name = db.Column(db.String(64))
   phone_number = db.Column(db.String(32))
 
@@ -297,14 +297,14 @@ class Service(BasicTable, db.Model):
 
 class ServiceTranslation(db.Model):
   id = db.Column(db.Integer, primary_key=True)
-  service_id = db.Column(db.Integer, db.ForeignKey("service.id"))
+  service_id = db.Column(db.Integer, db.ForeignKey("service.id", ondelete="CASCADE"))
   language_code = db.Column(db.String(16))
   description = db.Column(db.Text)
 
 
 class ServiceLocation(BasicTable, db.Model):
   id = db.Column(db.Integer, primary_key=True)
-  service_id = db.Column(db.Integer, db.ForeignKey("service.id"))
+  service_id = db.Column(db.Integer, db.ForeignKey("service.id", ondelete="CASCADE"))
   name = db.Column(db.String(64))
   contact_name = db.Column(db.String(64))
   phone_number = db.Column(db.String(32))
@@ -315,7 +315,7 @@ class ServiceLocation(BasicTable, db.Model):
 
 class SlidingScale(BasicTable, db.Model):
   id = db.Column(db.Integer, primary_key=True)
-  service_id = db.Column(db.Integer, db.ForeignKey("service.id"))
+  service_id = db.Column(db.Integer, db.ForeignKey("service.id", ondelete="CASCADE"))
   scale_name = db.Column(db.String(64))
   fpl_low = db.Column(db.Float)
   fpl_high = db.Column(db.Float)
@@ -324,7 +324,7 @@ class SlidingScale(BasicTable, db.Model):
 
 class SlidingScaleFee(BasicTable, db.Model):
   id = db.Column(db.Integer, primary_key=True)
-  sliding_scale_id = db.Column(db.Integer, db.ForeignKey("sliding_scale.id"))
+  sliding_scale_id = db.Column(db.Integer, db.ForeignKey("sliding_scale.id", ondelete="CASCADE"))
   name = db.Column(db.String(128))
   price_absolute = db.Column(db.Integer)
   price_percentage = db.Column(db.Integer)

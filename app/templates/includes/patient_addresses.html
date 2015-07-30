@@ -17,7 +17,7 @@
     <tr class="address">
       <td class="address_address">
         <address class="read-only">
-          {{ entry.address1.data }}, {{ entry.address2.data }}<br>
+          {{ entry.address1.data }} {{ entry.address2.data or "" }}<br>
           {{ entry.city.data }}, {{ entry.state.data }} {{ entry.zip_code.data }}
         </address>
         <div class="hidden-input">

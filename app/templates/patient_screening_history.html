@@ -41,7 +41,7 @@
 					<a href="{{ url_for('screener.service', service_id=result.service.id) }}">{{ result.service.name }}</a>
 				</h2>
 				<p><strong>{{ _("Eligible?") }}</strong>: {{ _("Yes") if result.eligible_yn == 'Y' else _("No") }}</p>
-				<p><strong>{{ _("Sliding Scale") }}</strong>: {{ result.sliding_scale.name if result.sliding_scale else _("N/A")}}</p>
+				<p><strong>{{ _("Sliding Scale") }}</strong>: {{ result.sliding_scale.scale_name if result.sliding_scale else _("N/A")}}</p>
 				{% if result.notes %}
 				<p class="history_notes"><strong>{{ _("Notes") }}</strong><br>
 				{{ result.notes or "" }}</p>
