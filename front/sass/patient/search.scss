@@ -1,7 +1,6 @@
 .section_search {
   padding: 3em 0;
   background-color: $section_search_background_color;
-  // border-bottom: 1px solid $color-gray;
   box-shadow: 0 0 4px 0px rgba(0,0,0,0.6);
   margin-bottom: 1em;
 }
@@ -14,7 +13,6 @@
 
 .button_add_new_patient {
   width: 100%;
-  // display: block;
   background-color: #e5e5e5;
   font-size: 1em;
   @include bbox();

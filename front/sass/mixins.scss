@@ -20,8 +20,14 @@
   @include clearfix();
 }
 
-.pull_left {
+.pull_left,
+.float_left {
   float: left;
+}
+
+.pull_right,
+.float_right {
+  float: right;
 }
 
 // resetting lists
