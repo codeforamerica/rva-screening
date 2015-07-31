@@ -28,10 +28,10 @@
     &:before {
       content: " ";
       position: absolute;
-      left: -0.6em;
+      left: -11px;
       top: 0;
-      width: 15px;
-      height: 15px;
+      width: 13px;
+      height: 13px;
       border-radius: 50%;
       border: 3px solid $color-white;
       background: $color-lightgray;
@@ -73,10 +73,13 @@
     @include history_border($color-green);
   }
   &.results_item_ineligible {
-    @include history_border($color-gray);
+    @include history_border($color-gray); 
+  }
+  &.history_item_received {
+    @include history_border($color-blue);
   }
   &.history_item_sent {
-    @include history_border($color-blue);
+    @include history_border(lighten($color-blue, 20));
   }
 }
 
