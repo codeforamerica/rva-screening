@@ -1,4 +1,4 @@
-{% from "form_field_macros.html" import render_field %}
+{% from "form_field_macros.html" import render_field, render_multifield %}
 
   <div class="form_row">
     {{ render_field(form.gender, class="block_4") }}
@@ -20,13 +20,17 @@
   {{ render_field(form.marital_status) }}
   {{ render_field(form.veteran_yn) }}
 
-  <div class="form-group q_an">
-    <label>{{ _("How long have you lived in the Greater Richmond Area?") }} </label>
-    {{ form.years_living_in_area.label }}
-    {{ form.years_living_in_area(class="form-control") }}
-    {{ form.months_living_in_area.label }}
-    {{ form.months_living_in_area(class="form-control") }}
-  </div>
+
+  {{ render_multifield(
+    "time_living_in_area",
+    _("How long have you lived in the Greater Richmond Area?"),
+    [
+      form.years_living_in_area, 
+      form.months_living_in_area
+    ], 
+    ['an'],
+    subclass="block_4"
+  ) }}
 
   {{ render_field(form.city_or_county_of_residence, ['an']) }}
   {{ render_field(form.temp_visa_yn, ['an']) }}

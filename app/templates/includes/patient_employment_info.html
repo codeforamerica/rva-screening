@@ -89,14 +89,20 @@
 
   {{ render_multifield(
     "time_unemployed", _("How long have you been unemployed?"),
-    [form.years_unemployed, form.months_unemployed],
+    [
+      form.years_unemployed, 
+      form.months_unemployed
+    ], 
     ['an'],
     subclass="block_4"
   ) }}
 
   {{ render_multifield(
     "spouse_time_unemployed", _("How long has your spouse been unemployed?"),
-    [form.spouse_years_unemployed, form.spouse_months_unemployed],
+    [
+      form.spouse_years_unemployed, 
+      form.spouse_months_unemployed
+    ], 
     ['an'],
     subclass="block_4"
   ) }}
