@@ -48,6 +48,9 @@ deploy:
 	make deploy_static
 	git push heroku master
 	git push spanish master
+	heroku run python add_data/clear_db.py
+	heroku pg:psql < app/audit_triggers.sql
+	heroku run python add_data/add_mock_data.py
 
 update_translations:
 	pybabel extract -F app/babel.cfg -o app/messages.pot .

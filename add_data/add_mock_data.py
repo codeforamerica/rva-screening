@@ -235,12 +235,12 @@ fake = Factory.create('en_US')
 fake.add_provider(PatientProvider)
 
 
-def main():
+def main(options=[]):
   app = create_app()
 
   with app.app_context():
     # Remove all existing data in database
-    clear_db.main(app)
+    #clear_db.main(app, options)
 
     # Add services, with locations, screening criteria, and sliding scales
     services = add_service_data.main(app)
@@ -264,6 +264,6 @@ def main():
 
 
 if __name__ == '__main__':
-  sys.exit(main())
+  sys.exit(main(sys.argv[1:]))
 
 
