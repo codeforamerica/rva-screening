@@ -7,13 +7,13 @@
 
   <div class="form_row">
     {{ render_field(form.race, class="block_4 has_other") }}
-    {{ render_field(form.race_other, class="block_4 hidden") }}
+    {{ render_field(form.race_other, class="block_4") }}
     {{ render_field(form.ethnicity, class="block_4") }}
   </div>
 
   <div class="form_row">
     {{ render_field(form.languages, class="block_6 has_other", rows=5) }}
-    {{ render_field(form.languages_other, class="block_4 hidden") }}
+    {{ render_field(form.languages_other, class="block_4") }}
     {{ render_field(form.has_interpreter_yn, ['an'], class="block_6") }}
   </div>
 
@@ -33,7 +33,7 @@
 
   <div class="form_row">
   {{ render_field(form.housing_status, class="block_6 has_other") }}
-  {{ render_field(form.housing_status_other, class="block_6 hidden") }}
+  {{ render_field(form.housing_status_other, class="block_6") }}
   </div>
 
   {{ render_field(form.education_level, ['an']) }}

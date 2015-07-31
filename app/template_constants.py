@@ -18,7 +18,7 @@ LANGUAGE_CHOICES = [
         ("EN",    _("English")),
         ("ES",    _("Spanish")),
         ("AR",    _("Arabic")),
-        ("other", _("Other"))]
+        ("OTH", _("Other"))]
 
 STATE_CHOICES =[ ("AL", "AL - Alabama"), ("AK", "AK - Alaska"),
             ("AZ", "AZ - Arizona"), ("AR", "AR - Arkansas"),
@@ -56,7 +56,7 @@ HOUSING_STATUS_CHOICES = [
         ("TRA",   _("Is in Transitional housing for the homeless")),
         ("EMR",   _("Emergency Shelter")),
         ("STR",   _("On the street (car, encampment, abandoned building)")),
-        ("other", _("Other"))]
+        ("OTH", _("Other"))]
 
 EMPLOYMENT_STATUS_CHOICES = [
         ("",    ""),
@@ -97,7 +97,7 @@ RACE_CHOICES = [
         ("AA",    _("Black or African-American")),
         ("NHPI",  _("Native Hawaiian/Pacific Islander")),
         ("W",     _("White")),
-        ("other", _("Other"))]
+        ("OTH", _("Other"))]
 
 ETHNICITY_CHOICES = [
         ("",    ""),
