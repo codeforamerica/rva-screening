@@ -12,6 +12,12 @@
 }
 
 .history_item {
+  a {
+    color: $color-black;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
   .history_date {
     font-size: 0.8em;
     color: $color-darkgray;
