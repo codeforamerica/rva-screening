@@ -60,8 +60,8 @@ var DEPENDENCY_PROCESSORS = {
 
 function registerConditionalDisplay(d){
   // parse the dependency and get elements
-  var target = $(".field_"+d.target+" [name='"+d.target+"']");
-  var child = $(".field_"+d.child);
+  var target = $("."+d.target+" [name='"+d.target+"']");
+  var child = $("."+d.child);
   var processor = DEPENDENCY_PROCESSORS[d.type];
   var comparator = d.comparator;
   // make a function to hide or show the child element

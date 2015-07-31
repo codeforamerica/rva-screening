@@ -1,4 +1,4 @@
-{% from "form_field_macros.html" import render_field %}
+{% from "form_field_macros.html" import render_field, render_multifield %}
 
   {{ render_field(form.employment_status) }}
   {{ render_field(form.student_status) }}
@@ -86,21 +86,20 @@
 </div>
 
 
-<div class="form-group q_an">
-  <label>{{ _("How long have you been unemployed?") }}</label>
-  {{ form.years_unemployed.label }}
-  {{ form.years_unemployed(class="form-control") }}
-  {{ form.months_unemployed.label }}
-  {{ form.months_unemployed(class="form-control") }}
-</div>
 
-<div class="form-group q_an">
-  <label>{{ _("How long has your spouse been unemployed?") }}</label>
-  {{ form.spouse_years_unemployed.label }}
-  {{ form.spouse_years_unemployed(class="form-control") }}
-  {{ form.spouse_months_unemployed.label }}
-  {{ form.spouse_months_unemployed(class="form-control") }}
-</div>
+  {{ render_multifield(
+    "time_unemployed", _("How long have you been unemployed?"),
+    [form.years_unemployed, form.months_unemployed],
+    ['an'],
+    subclass="block_4"
+  ) }}
+
+  {{ render_multifield(
+    "spouse_time_unemployed", _("How long has your spouse been unemployed?"),
+    [form.spouse_years_unemployed, form.spouse_months_unemployed],
+    ['an'],
+    subclass="block_4"
+  ) }}
 
   {{ render_field(form.years_at_current_employer, ['an']) }}
   {{ render_field(form.spouse_years_at_current_employer, ['an']) }}

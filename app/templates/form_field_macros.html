@@ -1,5 +1,5 @@
 {% macro render_field(field, providers=[], class='') -%}
-<label class="form_field field_{{field.name}}
+<label class="form_field {{field.name}}
   {%- if class %} {{class}}{% endif %}
   {%- if providers|length > 0 %} q_unique {% endif -%}
   {%- for provider in providers %} q_{{provider}}{% endfor -%}
@@ -10,4 +10,29 @@
   {{ field(class="field_input", **kwargs) }}
   <span class="field_verification"></span>
 </label>
+{% endmacro %}
+
+{% macro render_multifield(multifield_slug, multifield_label, subfields, providers=[], class='', subclass='') -%}
+<div class="multifield {{multifield_slug}}
+  {%- if class %} {{class}}{% endif %}
+  {%- if providers|length > 0 %} q_unique {% endif -%}
+  {%- for provider in providers %} q_{{provider}}{% endfor -%}
+  ">
+  <label class="multifield_label">
+    {{ multifield_label }}
+  </label>
+
+  <div class="subfields">
+  {% for field in subfields %}
+    <label class="form_field {{field.name}}
+    {%- if subclass %} {{subclass}}{% endif -%}
+      ">
+      <span class="field_label">
+        {{ field.label.text }}
+      </span>
+      {{ field(class="field_input", **kwargs) }}
+    </label>
+  {% endfor %}
+  </div>
+</div>
 {% endmacro %}
