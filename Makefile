@@ -27,6 +27,10 @@ new_db:
 	python db.py db upgrade
 	psql -d rva-screening -a -f app/audit_triggers.sql
 
+data:
+	python add_data/clear_db.py -local
+	python add_data/add_mock_data.py
+
 migrate:
 	python db.py db migrate
 
