@@ -120,6 +120,9 @@ body.menu_open {
       }
     }
   }
+  &.menu_list_item_current {
+    background: darken($nav-background-color, 10);
+  }
 }
 
 // user-related navigation items located within the .nav

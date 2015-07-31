@@ -19,7 +19,7 @@ $list-padding-large: 1em;
 }
 
 .list_table {
-  margin-top: 3em;
+  // margin-top: 3em;
   .list_table_title {
     font-size: 1.2em;
     font-weight: 900;
@@ -102,11 +102,9 @@ $list-padding-large: 1em;
 }
 
 .list_row_name {
-  // font-weight: 700;
   color: $color-fuscia;
-
   @media (min-width: $break) {
-    width: 35%;
+    width: 25%;
   }
 }
 
@@ -114,9 +112,9 @@ $list-padding-large: 1em;
   font-weight: 100;
   color: $color-gray;
   font-family: monospace;
-  // @media (min-width: $break) {
-  //   width: 20%;
-  // }
+  @media (min-width: $break) {
+    width: 20%;
+  }
 }
 
 .list_row_edits {
@@ -124,7 +122,7 @@ $list-padding-large: 1em;
   font-size: 0.9em;
   @media (min-width: $break) {
     text-align: right;
-    width: 43%;
+    width: 55%;
   }
 }
 

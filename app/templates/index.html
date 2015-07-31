@@ -99,7 +99,7 @@
 
       <xsl:for-each select="//none">
         <li class="list_row list_row_addnew">
-          <a href="#">
+          <a href="{{ url_for('screener.new_patient') }}">
             <i class="fa fa-plus"></i> Not the right <strong><xsl:value-of select="name"/></strong>? Add them as a new patient.
           </a>
         </li>

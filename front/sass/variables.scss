@@ -37,7 +37,7 @@ $color-gray: #c0c0c0;
 $color-darkgray: #999;
 $color-lightgray: #f6f6f6;
 
-$color-blue: #0081A1;
+$color-blue: #677EB3;
 $color-red: #DF4D4A;
 $color-green: #3D9970;
 $color-fuscia: #c71e56;
@@ -130,9 +130,10 @@ $button-color-brightgreen: $color-brightgreen;
 ** * * * * * * */
 $filter-background-color: $ui-gray;
 $filter-icon-color: darken($filter-background-color, 12);
-$filter-button-background-color: $ui-color-light;
-$filter-button-active-background-color: $ui-new;
+$filter-background-color-active: $ui-color-main;
 $filter-arrow-dimension: 10px;
+$filter-arrow-color: $filter-background-color-active;
+$filter-text-color-active: $ui-color-light;
 
 
 /* * * * * * * * 
@@ -170,7 +171,7 @@ $stat-number-text-color: $ui-color-main;
 ** * * * * * * */
 $checkbox-disabled-background: #e5e5e5;
 $checkbox-content-width: 250px;
-$checkbox-title-font-size: 1em;
+$checkbox-title-font-size: 1.1em;
 $checkbox-text-font-size: $checkbox-title-font-size - 0.3em;
 $checkbox-padding: 1em;
 
