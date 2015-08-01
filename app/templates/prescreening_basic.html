@@ -1,3 +1,5 @@
+{% from "form_field_macros.html" import render_field %}
+
 {% extends "base.html" %}
 {% block content %}
 <div class="container">
@@ -14,7 +16,7 @@
       {{ form.hidden_tag() }}
 
       {% if form.errors %}
-        <ul class="errors">
+        <ul class="alert_list alert_error">
             {% for field_name, field_errors in form.errors|dictsort if field_errors %}
                 {% for error in field_errors %}
                     <li>{{ form[field_name].label }}: {{ error }}</li>
@@ -25,28 +27,30 @@
 
       <h3>{{ _("Please provide answers to the following questions.") }}</h3>
 
-      <!--household size-->
-      <div class="form-group">
-        {{ form.household_size.label }}
-        {{ form.household_size(class="form-control") }}
+      <!--household size -->
+      <div class="form_row">
+        {{ render_field(form.household_size, class="block_6") }}
       </div>
 
-      <!--household income-->
-      <div class="form-group">
-        {{ form.household_income.label }}
-        {{ form.household_income(class="form-control") }}
+      <!-- household income -->
+      <div class="form_row">
+        {{ render_field(form.household_income, class="block_6") }}
       </div>
 
-      <!-- do you have health insurance? -->
-      <div class="form-group">
-        {{ form.has_health_insurance.label }}
-        {{ form.has_health_insurance()}}
+      <div class="form_row">
+        <!-- do you have health insurance? -->
+        <label class="form_field block_12">
+          <span class="field_label">{{ form.has_health_insurance.label }}</span>
+          {{ form.has_health_insurance()}}
+        </label>
       </div>
 
-      <!-- are you eligible for medicare/medicaid? -->
-      <div class="form-group">
-        {{ form.eligible_for_medicaid.label }}
-        {{ form.eligible_for_medicaid() }}
+      <div class="form_row">
+        <!-- are you eligible for medicare/medicaid? -->
+        <label class="form_field block_12">
+          <span class="field_label">{{ form.eligible_for_medicaid.label }}</span>
+          {{ form.eligible_for_medicaid() }}
+        </label>
       </div>
 
       <button class="button button_green"  type="submit">

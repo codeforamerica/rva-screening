@@ -16,7 +16,7 @@
         <h3>{{ _("Which services would you like to check your eligibility for?") }}</h3>
     
         {% for service in services %}
-          <label class="field_checkbox checkbox_extra checkbox_blue">
+          <label class="field_checkbox checkbox_extra checkbox_blue checkbox_full">
             <input type="checkbox" class="text" value="{{service.id}}" name="services" checked="true">
             <span class="field_checkbox_content">
               <span class="field_checkbox_content_title">{{service.name}}</span>

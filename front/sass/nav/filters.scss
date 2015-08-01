@@ -4,7 +4,7 @@
   width: 100%;
   border: none;
   border-bottom: 2px solid #fff;
-  background-color: $color-lightgray;
+  background-color: $filter-background-color;
   font-size: 0.9em;
   text-align: left;
   position: relative;
@@ -13,15 +13,19 @@
     background: #e5e5e5;
     cursor: pointer;
   }
+  &:focus {
+    outline: none;
+  }
   &.filter_active {
-    background-color: $color-fuscia;
-    color: $color-white;
+    background-color: $filter-background-color-active;
+    color: $filter-text-color-active;
     &:before {
       content: " ";
       position: absolute;
-      top: 39%;
+      top: 50%;
+      margin-top: -$filter-arrow-dimension;
       left: 100%;
-      border-left: $filter-arrow-dimension solid $color-fuscia;
+      border-left: $filter-arrow-dimension solid $filter-arrow-color;
       border-top: $filter-arrow-dimension solid transparent;
       border-bottom: $filter-arrow-dimension solid transparent;
     }
@@ -32,7 +36,6 @@
   display: block;
   font-size: 2em;
   font-weight: 900;
-  // color: $stat-number-text-color;
 }
 .statistic_text {
   font-size: 0.9em;

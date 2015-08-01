@@ -1,3 +1,7 @@
+.patient_profile {
+  margin-top: 1em;
+}
+
 // left-hand column typically
 .overview_patient {
   border-top: 1px solid darken($color-lightgray, 10);
@@ -5,7 +9,7 @@
   padding-top: 1em;
   .overview_patient_item {
     cursor: default;
-    display: inline-block;
+    display: block;
     margin-bottom: 0.8em;
     white-space: nowrap;
     .fa {

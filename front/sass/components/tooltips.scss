@@ -1,0 +1,106 @@
+.tooltip {
+  position: relative;
+
+  // general styles
+  &:hover {
+    &:before {
+      position: absolute;
+      border-radius: $tooltip-border-radius;
+      content: attr(value);
+      font-size: $tooltip-font-size;
+      color: $tooltip-text-color;
+      padding: $tooltip-padding;
+      background-color: $tooltip-background-color;
+      z-index: $tooltip-z-index;
+      white-space: nowrap;
+    }
+    &:after {
+      position: absolute;
+      content: " ";
+      z-index: $tooltip-z-index;
+    }
+  }
+
+  // left / right
+  &.tooltip_right,
+  &.tooltip_left {
+    &:hover {
+      &:before {
+        top: $tooltip-lr-vertical;
+        margin-top: $tooltip-lr-margin-box;
+      }
+      &:after {
+        top: $tooltip-lr-vertical;
+        margin-top: -2px;
+        border-top: $tooltip-arrow-trans;
+        border-bottom: $tooltip-arrow-trans;
+      }
+    }
+  }
+  &.tooltip_right {
+    &:hover {
+      &:before {
+        left: $tooltip-lr-horizontal;
+      }
+      &:after {
+        left: $tooltip-lr-horizontal;
+        margin-left: -$tooltip-arrow-size;
+        border-right: $tooltip-arrow;
+      }
+    }
+  }
+  &.tooltip_left {
+    &:hover {
+      &:before {
+        right: $tooltip-lr-horizontal;
+      }
+      &:after {
+        right: $tooltip-lr-horizontal;
+        margin-right: -$tooltip-arrow-size;
+        border-left: $tooltip-arrow;
+      }
+    }
+  }
+
+  // top / bottom
+  &.tooltip_top,
+  &.tooltip_bottom {
+    &:hover {
+      &:before {
+        left: $tooltip-tb-zero;
+      }
+      &:after {
+        border-right: $tooltip-arrow-trans;
+        border-left: $tooltip-arrow-trans;
+      }
+    }
+  }
+  &.tooltip_top {
+    &:hover {
+      &:before {
+        top: $tooltip-tb-zero;
+        margin-top: $tooltip-tb-margin-box;
+      }
+      &:after {
+        top: $tooltip-tb-zero;
+        left: $tooltip-arrow-size;
+        margin-top: $tooltip-tb-margin-arrow;
+        border-top: $tooltip-arrow;
+      }
+    }
+  }
+  &.tooltip_bottom {
+    &:hover {
+      &:before {
+        bottom: $tooltip-tb-zero;
+        margin-bottom: $tooltip-tb-margin-box;
+      }
+      &:after {
+        bottom: $tooltip-tb-zero;
+        left: $tooltip-arrow-size;
+        margin-bottom: $tooltip-tb-margin-arrow;
+        border-bottom: $tooltip-arrow;
+      }
+    }
+  }
+}

@@ -18,6 +18,9 @@ textarea {
     content: $content;
   }
 }
+form li {
+  list-style-type: none;
+}
 
 // a wrapper for a full section of the form, such as "household size"
 .form_section {
@@ -55,7 +58,8 @@ textarea {
 // a wrapping element for multiple fields that lie on one row
 .form_row {
   @include clearfix();
-  // margin-bottom: .5em;
+  border-bottom: 1px solid $color-white;
+  background-color: $color-lightgray;
   .form_field {
     float: left;
     @include bbox();
@@ -75,8 +79,6 @@ textarea {
 
 // a single input with associated label and help text
 .form_field {
-  border-bottom: 1px solid $color-white;
-  background-color: $color-lightgray;
   display: block;
   // margin-top: .2em;
   padding: 1em;
@@ -124,7 +126,6 @@ textarea {
   counter-increment: section;
   position: relative;
   .form_field {
-    // margin-top: -1px;
     border: none;
     padding: 0.3em;
   }
@@ -134,7 +135,7 @@ textarea {
     width: 50px;
     text-align: right;
     float: left;
-    width: 10%;
+    width: 5%;
     top: 0;
     color: $color-gray;
     content: counters(section, " ");
@@ -169,7 +170,7 @@ textarea {
     }
     top: 0;
     padding: 0.8em;
-    min-height: 61px;
+    min-height: 65px;
     border-left: 1px solid $color-gray;
     .multiform_content_readonly {}
     .multiform_content_fields {}

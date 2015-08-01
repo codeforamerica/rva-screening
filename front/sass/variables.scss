@@ -19,7 +19,7 @@ $bump-small: 5px;
 
 /* * * * * * * * 
 **
-** BREAKS & MEDIA QUERIES
+** Breaks & Media Queries
 **
 ** * * * * * * */
 $break: 50em;
@@ -28,17 +28,16 @@ $break-large: 70em;
 
 /* * * * * * * * 
 **
-** COLORS
+** Colors
 **
 ** * * * * * * */
-
 $color-black: #222;
 $color-white: #fff;
 $color-gray: #c0c0c0;
 $color-darkgray: #999;
 $color-lightgray: #f6f6f6;
 
-$color-blue: #0081A1;
+$color-blue: #677EB3;
 $color-red: #DF4D4A;
 $color-green: #3D9970;
 $color-fuscia: #c71e56;
@@ -46,14 +45,23 @@ $color-brightgreen: #2ecc40;
 
 /* * * * * * * * 
 **
-** UI - GENERAL
+** UI - General
 ** This naming scheme is questionable - would love to see where
 ** it actually goes. It's a bit similar to mixins & helpers ...
 **
 ** * * * * * * */
+$ui-color-main: $color-fuscia;
+$ui-color-light: $color-white;
+
+$ui-dark: $color-black;
+$ui-gray: $color-lightgray;
+$ui-gray1: darken($color-lightgray, 10);
+$ui-gray2: darken($color-lightgray, 20);
+$ui-graydark: darken($color-lightgray, 60);
 
 $ui-new: $color-blue;
 $ui-alert: $color-red;
+$ui-error: $color-red;
 $ui-success: $color-green;
 
 $font-main: "Verdana", sans-serif;
@@ -62,38 +70,37 @@ $font-header: arial, sans-serif;
 
 /* * * * * * * * 
 **
-** BASE
+** Base
 **
 ** * * * * * * */
-
-$text-color: $color-black;
-$background-color: $color-lightgray;
+$text-color: $ui-dark;
+$background-color: $ui-gray;
 
 
 /* * * * * * * * 
 **
-** MAIN NAVIGATION
+** Main Navigation
 **
 ** * * * * * * */
 $nav-sidebar-width: 200px;
-$nav-background-color: $color-fuscia;
+$nav-background-color: $ui-color-main;
 $nav-item-border: 1px solid lighten($nav-background-color, 10);
+
+$nav-user-text-color: $ui-dark;
 
 
 /* * * * * * * * 
 **
-** FORMS
+** Forms
 **
 ** * * * * * * */
-
-$field-border-color: $color-gray;
+$field-border-color: $ui-gray1;
 
 // field_label
-$field_label_color: $color-black;
+$field_label_color: $ui-dark;
 
 // flags
 $field_flag_color: $color-darkgray;
-
 %dropdown_reset {
   -webkit-appearance: none;
   -webkit-border-radius: 0px;
@@ -106,77 +113,84 @@ $field_flag_color: $color-darkgray;
 
 /* * * * * * * * 
 **
-** FILTERS
+** Buttons
 **
 ** * * * * * * */
+$button-color-red: $ui-error;
+$button-color-black: $ui-dark;
+$button-color-blue: $color-blue;
+$button-color-green: $color-green;
+$button-color-brightgreen: $color-brightgreen;
 
-$filter-background-color: $color-lightgray;
+
+/* * * * * * * * 
+**
+** Filters
+**
+** * * * * * * */
+$filter-background-color: $ui-gray;
 $filter-icon-color: darken($filter-background-color, 12);
-$filter-button-background-color: $color-white;
-$filter-button-active-background-color: $color-blue;
-
+$filter-background-color-active: $ui-color-main;
 $filter-arrow-dimension: 10px;
+$filter-arrow-color: $filter-background-color-active;
+$filter-text-color-active: $ui-color-light;
 
 
 /* * * * * * * * 
 **
-** SEARCH - PATIENT SEARCH
+** Search - Patient Search
 **
 ** * * * * * * */
-
-$section_search_background_color: $color-lightgray;
+$section_search_background_color: $ui-gray;
 $search_input_optional_width: 25%;
-$search_input_optional_color: $color-gray;
+$search_input_optional_color: $ui-gray2;
 
 
 /* * * * * * * * 
 **
-** SIDEBAR
+** Sidebar
 **
 ** * * * * * * */
-
 $sidebar-margin: 2em;
-$sidebar-background-color: $color-lightgray;
-$sidebar-title-color: $color-darkgray;
+$sidebar-background-color: $ui-gray;
+$sidebar-title-color: $ui-graydark;
 
 
 /* * * * * * * * 
 **
-** STATS
+** Stats
 **
 ** * * * * * * */
-
-$stat-number-text-color: $color-fuscia;
+$stat-number-text-color: $ui-color-main;
 
 
 /* * * * * * * * 
 **
-** CHECKBOX
+** Checkbox
 **
 ** * * * * * * */
-
 $checkbox-disabled-background: #e5e5e5;
 $checkbox-content-width: 250px;
-$checkbox-title-font-size: 1em;
+$checkbox-title-font-size: 1.1em;
 $checkbox-text-font-size: $checkbox-title-font-size - 0.3em;
 $checkbox-padding: 1em;
 
 
 /* * * * * * * * 
 **
-** TABS
+** Tabs
 **
 ** * * * * * * */
-
 $tab-container-margin: 2em 0 0.5em;
 $tab-font-size: 0.8em;
+$tab-text-color: $ui-dark;
 $tab-padding: 0.7em 1.2em;
-$tab-border: 1px solid $color-gray;
-$tab-active-border: 1px solid $color-white;
-$tab-background-color: $color-white;
+$tab-border: 1px solid $ui-gray2;
+$tab-active-border: 1px solid $ui-color-light;
+$tab-background-color: $ui-color-light;
 $tab-margin: 5px;
 $tab-border-radius: 5px;
-$tab-hover-color: $color-lightgray;
+$tab-hover-color: $ui-gray;
 
 %tab_meta_border {
   content: " ";
@@ -186,3 +200,79 @@ $tab-hover-color: $color-lightgray;
   width: $tab-margin + 1px;
 }
 
+
+/* * * * * * * * 
+**
+** Tooltips
+**
+** * * * * * * */
+$tooltip-background-color: rgba(0, 0, 0, 0.8);
+$tooltip-border-radius: 2px;
+$tooltip-font-size: 12px;
+$tooltip-text-color: $ui-color-light;
+$tooltip-padding: ($tooltip-font-size - 5px) ($tooltip-font-size - 2px);
+$tooltip-z-index: 10;
+
+$tooltip-arrow-size: $tooltip-font-size / 2;
+$tooltip-arrow-color: $tooltip-background-color;
+$tooltip-arrow: $tooltip-arrow-size solid $tooltip-arrow-color;
+$tooltip-arrow-trans: $tooltip-arrow-size solid transparent;
+
+$tooltip-lr-horizontal: 105%;
+$tooltip-lr-margin-box: -$tooltip-font-size + ($tooltip-font-size - 5px * 2);
+$tooltip-lr-margin-arrow: $tooltip-arrow-size - 2px;
+$tooltip-lr-vertical: 50%;
+$tooltip-tb-zero: 0;
+$tooltip-tb-margin-arrow: -11px;
+$tooltip-tb-margin-box: -40px;
+
+
+/* * * * * * * * 
+**
+** Breadcrumbs
+** not currently in use
+**
+** * * * * * * */
+$breadcrumbs-padding: 2em;
+$breadcrumb-color: $ui-graydark;
+$breadcrumb-font-size: 0.9em;
+
+
+/* * * * * * * * 
+**
+** Alerts
+**
+** * * * * * * */
+$alert-margin: 1em 0;
+$alert-padding: 0.8em 1em;
+$alert-border-radius: 0.3em;
+$alert-font-size: 0.8em;
+$alert-line-height: 2em;
+$alert-before-margin-right: 5px;
+$alert-label-font-weight: 700;
+$alert-color-error: $ui-error;
+$alert-color-success: $ui-success;
+
+
+/* * * * * * * * 
+**
+** Boxes
+**
+** * * * * * * */
+$box-text-color: $ui-dark;
+$box-border-color: lighten($ui-gray2, 10);
+$box-border-left-width: 30px;
+$box-border: 1px solid $box-border-color;
+$box-border-color-eligible: lighten($ui-success, 10);
+$box-margin-top: 1em;
+$box-padding-bottom: 0.7em;
+$box-title-padding: 1em;
+$box-title-text-color: $box-text-color;
+$box-title-background-color: $ui-gray;
+$box-title-border-bottom: 1px solid darken($box-title-background-color, 5);
+$box-title-background-hover: darken($box-title-background-color, 5);
+$box-title-link-size: 0.8em;
+$box-content-padding: 0.2em 1em;
+$box-content-font-size: 0.9em;
+$box-content-line-height: 1.4em;
+$box-service-padding: 0.3em;

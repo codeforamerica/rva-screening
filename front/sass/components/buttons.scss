@@ -65,20 +65,31 @@
     float: right;
   }
 
-    
+  &.button_error,
+  &.button_warning,
   &.button_red {
-    @include button_color($color-red);
+    @include button_color($button-color-red);
   }
   &.button_black {
-    @include button_color($color-black);
+    @include button_color($button-color-black);
   }
   &.button_blue {
-    @include button_color($color-blue);
+    @include button_color($button-color-blue);
   }
   &.button_green {
-    @include button_color($color-green);
+    @include button_color($button-color-green);
   }
   &.button_brightgreen {
-    @include button_color($color-brightgreen);
+    @include button_color($button-color-brightgreen);
+  }
+
+  &.button_shared {
+    background: white;
+    border: 1px solid $button-color-green;
+    color: $button-color-green;
+    &:hover {
+      cursor: default; // we should probably deactivate the button instead of this
+      background: white;
+    }
   }
 }
