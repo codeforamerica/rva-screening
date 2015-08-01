@@ -1,0 +1,18 @@
+$footer-background-color: $ui-gray;
+
+.footer {
+  padding: 1em;
+  margin-top: 2em;
+  background: $footer-background-color;
+  text-align: center;
+  p {
+    font-size: 0.8em;
+    color: $ui-gray2;
+    a {
+      color: inherit;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}

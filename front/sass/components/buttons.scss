@@ -85,8 +85,8 @@
 
   &.button_shared {
     background: white;
-    border: 1px solid $button-color-brightgreen;
-    color: $button-color-brightgreen;
+    border: 1px solid $button-color-green;
+    color: $button-color-green;
     &:hover {
       cursor: default; // we should probably deactivate the button instead of this
       background: white;
