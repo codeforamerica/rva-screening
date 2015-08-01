@@ -82,4 +82,14 @@
   &.button_brightgreen {
     @include button_color($button-color-brightgreen);
   }
+
+  &.button_shared {
+    background: white;
+    border: 1px solid $button-color-brightgreen;
+    color: $button-color-brightgreen;
+    &:hover {
+      cursor: default; // we should probably deactivate the button instead of this
+      background: white;
+    }
+  }
 }
