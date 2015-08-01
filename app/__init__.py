@@ -1,4 +1,5 @@
 import os
+import sys
 import logging
 from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
@@ -15,6 +16,20 @@ def create_app(config=ProdConfig):
     register_blueprints(app)
     register_extensions(app)
     register_context_processors(app)
+    register_errorhandler(app)
+    @app.before_first_request
+    def before_first_request():
+        if app.debug and not app.testing:
+            app.logger.setLevel(logging.DEBUG)
+        elif app.testing:
+            app.logger.setLevel(logging.CRITICAL)
+        else:
+            stdout = logging.StreamHandler(sys.stdout)
+            stdout.setFormatter(logging.Formatter(
+                '%(asctime)s | %(name)s | %(levelname)s in %(module)s [%(pathname)s:%(lineno)d]: %(message)s'
+            ))
+            app.logger.addHandler(stdout)
+            app.logger.setLevel(logging.DEBUG)
     return app
 
 def register_blueprints(app):
@@ -37,6 +52,13 @@ def register_context_processors(app):
     app.context_processor(inject_static_url)
     app.context_processor(inject_example_data)
     app.context_processor(inject_template_constants)
+
+def register_errorhandler(app):
+    def render_error(error):
+        app.logger.exception(error)
+        return render_template('500.html')
+    app.errorhandler(500)(render_error)
+    return None
 
 db = SQLAlchemy()
 bcrypt = Bcrypt()
