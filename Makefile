@@ -1,3 +1,5 @@
+export PYTHONPATH := $(PYTHONPATH):$(shell pwd)
+
 install:
 	npm install
 	pip install -r ./requirements.txt
@@ -26,6 +28,9 @@ new_db:
 	python db.py db migrate
 	python db.py db upgrade
 	psql -d rva-screening -a -f app/audit_triggers.sql
+
+data:
+	python ./add_data/add_mock_data.py
 
 migrate:
 	python db.py db migrate
