@@ -1,3 +1,5 @@
+export PYTHONPATH := $(PYTHONPATH):$(shell pwd)
+
 install:
 	npm install
 	pip install -r ./requirements.txt
