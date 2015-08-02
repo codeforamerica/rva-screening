@@ -117,7 +117,8 @@
 }
 
 // working checkbox examples
-.field_checkbox {
+.field_checkbox,
+.field_radio {
   @include checkbox();
   // button with extra content
   &.checkbox_extra {
