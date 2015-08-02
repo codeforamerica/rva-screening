@@ -2,7 +2,8 @@
   cursor: pointer;
 
   // hidden defaults - THIS IS IMPORTANT!
-  input[type="checkbox"] {
+  input[type="checkbox"],
+  input[type="radio"] {
     opacity: 0;
     display: none;
   }
@@ -20,7 +21,8 @@
       color: darken($default, 20);
     }
   }
-  input[type="checkbox"]:checked ~ .field_checkbox_content {
+
+  input:checked ~ .field_checkbox_content {
     background: $bg-color;
     &:hover {
       background-color: lighten($bg-color, 10);
@@ -33,7 +35,7 @@
     }
   }
 
-  input[type="checkbox"]:disabled ~ .field_checkbox_content {
+  input:disabled ~ .field_checkbox_content {
     &:hover {
       background-color: $checkbox-disabled-background;
       color: darken($default, 50);
@@ -53,7 +55,6 @@
         @extend %icon;
         width: 20px;
         display: inline-block;
-        content: "\f096";
       }
     }
     .field_checkbox_content_text {
@@ -67,7 +68,22 @@
     }
   }
 
-  // checked button
+  input[type="checkbox"] ~ .field_checkbox_content {
+    .field_checkbox_content_title {
+      &:before {
+        content: "\f096";
+      }
+    }
+  }
+
+  input[type="radio"] ~ .field_checkbox_content {
+    .field_checkbox_content_title {
+      &:before {
+        content:"\f10c";
+      }
+    }
+  }
+
   input[type="checkbox"]:checked ~ .field_checkbox_content {
     .field_checkbox_content_title {
       &:before {
@@ -81,8 +97,16 @@
     }
   }
 
+  input[type="radio"]:checked ~ .field_checkbox_content {
+    .field_checkbox_content_title {
+      &:before {
+        content:"\f111";
+      }
+    }
+  }
+
   // disabled button
-  input[type="checkbox"]:disabled ~ .field_checkbox_content {
+  input:disabled ~ .field_checkbox_content {
     opacity: 0.5;
     cursor: default;
     .field_checkbox_content_title,

@@ -23,21 +23,27 @@
               <span class="field_checkbox_content_text">{{ service.description or "" }}</span>
             </span>
           </label>
-
-          <!-- ORIGINAL CHECKBOX
-          <div class="checkbox">
-            <label>
-              <input type="checkbox" class="text" value="{{service.id}}" name="services" checked="true">
-              {{service.name}}
-            </label>
-          </div>
-          /END ORIGINAL CHECKBOX -->
         {% endfor %}
         <br> 
         <button class="button button_green"  type="submit">
           {{ _("Check eligibility") }} <i class="fa fa-chevron-right"></i>
         </button>
 
+
+        <p>Radio input testing</p>
+        <label class="field_checkbox">
+          <input type="radio" class="text" value="1" name="radio-test" checked="true">
+          <span class="field_checkbox_content">
+            <span class="field_checkbox_content_title">Checked</span>
+          </span>
+        </label>
+
+        <label class="field_checkbox">
+          <input type="radio" class="text" value="1" name="radio-test" checked="true">
+          <span class="field_checkbox_content">
+            <span class="field_checkbox_content_title">Another radio</span>
+          </span>
+        </label>
       </div>
     </form>
   </div>
