@@ -2,11 +2,10 @@
 
 {{ render_field(form.last_healthcare) }}
 {{ render_field(form.insurance_status) }}
-{{ render_field(form.coverage_type) }}
 
-<div class="form-group {% if form.coverage_type.data != "Other" %} hidden {% endif %}">
-  {{ form.coverage_type_other.label }}
-  {{ form.coverage_type_other(class="form-control") }}
+<div class="form_row">
+{{ render_field(form.coverage_type) }}
+{{ render_field(form.coverage_type_other) }}
 </div>
 
 {{ render_field(form.has_prescription_coverage_yn, ['an']) }}

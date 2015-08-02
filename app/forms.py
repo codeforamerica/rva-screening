@@ -252,6 +252,7 @@ class PatientForm(Form):
   )
 
   # How long have you lived in the greater Richmond area?
+  # .time_living_in_area is parent node
   years_living_in_area = fields.IntegerField( _("Years"), [Optional()])
   months_living_in_area = fields.IntegerField( _("Months"), [Optional()])
   city_or_county_of_residence = fields.TextField(
@@ -285,8 +286,10 @@ class PatientForm(Form):
   )
 
   # How long have you been unemployed?
+  # time_unemployed is the parent node
   years_unemployed = fields.IntegerField( _("Years"), [Optional()])
   months_unemployed = fields.IntegerField( _("Months"), [Optional()])
+  # spouse_time_unemployed is the parent node
   spouse_years_unemployed = fields.IntegerField( _("Years"), [Optional()])
   spouse_months_unemployed = fields.IntegerField( _("Months"), [Optional()])
   # employment_changes

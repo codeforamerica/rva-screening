@@ -1,4 +1,4 @@
-{% from "form_field_macros.html" import render_field %}
+{% from "form_field_macros.html" import render_field, render_multifield %}
 
   <div class="form_row">
     {{ render_field(form.gender, class="block_4") }}
@@ -7,33 +7,37 @@
 
   <div class="form_row">
     {{ render_field(form.race, class="block_4 has_other") }}
-    {{ render_field(form.race_other, class="block_4 hidden") }}
+    {{ render_field(form.race_other, class="block_4") }}
     {{ render_field(form.ethnicity, class="block_4") }}
   </div>
 
   <div class="form_row">
     {{ render_field(form.languages, class="block_6 has_other", rows=5) }}
-    {{ render_field(form.languages_other, class="block_4 hidden") }}
+    {{ render_field(form.languages_other, class="block_4") }}
     {{ render_field(form.has_interpreter_yn, ['an'], class="block_6") }}
   </div>
 
   {{ render_field(form.marital_status) }}
   {{ render_field(form.veteran_yn) }}
 
-  <div class="form-group q_an">
-    <label>{{ _("How long have you lived in the Greater Richmond Area?") }} </label>
-    {{ form.years_living_in_area.label }}
-    {{ form.years_living_in_area(class="form-control") }}
-    {{ form.months_living_in_area.label }}
-    {{ form.months_living_in_area(class="form-control") }}
-  </div>
+
+  {{ render_multifield(
+    "time_living_in_area",
+    _("How long have you lived in the Greater Richmond Area?"),
+    [
+      form.years_living_in_area, 
+      form.months_living_in_area
+    ], 
+    ['an'],
+    subclass="block_4"
+  ) }}
 
   {{ render_field(form.city_or_county_of_residence, ['an']) }}
   {{ render_field(form.temp_visa_yn, ['an']) }}
 
   <div class="form_row">
   {{ render_field(form.housing_status, class="block_6 has_other") }}
-  {{ render_field(form.housing_status_other, class="block_6 hidden") }}
+  {{ render_field(form.housing_status_other, class="block_6") }}
   </div>
 
   {{ render_field(form.education_level, ['an']) }}
