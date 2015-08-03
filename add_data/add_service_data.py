@@ -3,7 +3,7 @@ import sys
 
 from flask import current_app
 from app import create_app
-from app.models import db, Service, SlidingScale, SlidingScaleFee
+from app.models import db, Service, SlidingScale, SlidingScaleFee, ServiceLocation
 
 def main(app=create_app()):
   with app.app_context():
@@ -22,6 +22,26 @@ def main(app=create_app()):
       medicaid_ineligible_only_yn = 'N',
       residence_requirement_yn = 'N',
       time_in_area_requirement_yn = 'N',
+      locations = [
+        ServiceLocation(
+          name = "The Daily Planet",
+          address = "517 W Grace St. Richmond, VA 23220",
+          latitude = 37.547508, 
+          longitude = -77.447895
+        ),
+        ServiceLocation(
+          name = "Southside Community Health Center",
+          address = "180 Belt Blvd. Richmond, VA 23225",
+          latitude = 37.509781,
+          longitude = -77.487185
+        ),
+        ServiceLocation(
+          name = "St. Joseph\s Villa",
+          address = "8000 Brook Road, Richmond, VA 23227",
+          latitude = 37.632248,
+          longitude = -77.459127
+        )
+      ],
       sliding_scales = [
         SlidingScale(
           scale_name = 'Nominal',
@@ -151,6 +171,20 @@ def main(app=create_app()):
       medicaid_ineligible_only_yn = 'N',
       residence_requirement_yn = 'N',
       time_in_area_requirement_yn = 'N',
+      locations = [
+        ServiceLocation(
+          name = "Cowardin",
+          address = "108 Cowardin Ave, Richmond, VA 23224",
+          latitude = 37.519541,
+          longitude = -77.449814
+        ),
+        ServiceLocation(
+          name = "Quioccasin",
+          address = "8600 Quioccasin Road, Suite 105, Richmond, VA 23229",
+          latitude = 37.602507,
+          longitude = -77.565325
+        )
+      ],
       sliding_scales = [
         SlidingScale(
           scale_name = 'All',
@@ -209,6 +243,14 @@ def main(app=create_app()):
       medicaid_ineligible_only_yn = 'Y',
       residence_requirement_yn = 'Y',
       time_in_area_requirement_yn = 'Y',
+      locations = [
+        ServiceLocation(
+          name = "RAM",
+          address = "2821 Emerywood Pkwy #200, Richmond, VA 23294",
+          latitude = 37.608142,
+          longitude = -77.525421
+        )
+      ]
     )
 
     resource_centers = Service(
@@ -224,6 +266,56 @@ def main(app=create_app()):
       medicaid_ineligible_only_yn = 'N',
       residence_requirement_yn = 'N',
       time_in_area_requirement_yn = 'N',
+      locations = [
+        ServiceLocation(
+          name = "Bellemeade Community Center",
+          address = "1800 Lynhaven Avenue, Richmond, VA",
+          latitude = 37.496315,
+          longitude = -77.440993
+        ),
+        ServiceLocation(
+          name = "Broad Rock Community Center",
+          address = "4615 Ferguson Lane, Richmond, VA",
+          latitude = 37.477709,
+          longitude = -77.479711
+        ),
+        ServiceLocation(
+          name = "Creighton Resource Center",
+          address = "2150 Creighton Road, Richmond, VA",
+          latitude = 37.546839,
+          longitude = -77.397964
+        ),
+        ServiceLocation(
+          name = "Fairfield Resource Center",
+          address = "2311 North 25th Street, Richmond, VA",
+          latitude = 37.549656,
+          longitude = -77.403191
+        ),
+        ServiceLocation(
+          name = "Gilpin Community Center",
+          address = "436 Calhoun St, Richmond, VA",
+          latitude = 37.554103,
+          longitude = -77.440609
+        ),
+        ServiceLocation(
+          name = "Hillside Resource Center",
+          address = "1615 Glenfield Avenue, Richmond, VA",
+          latitude = 37.506280,
+          longitude = -77.432616
+        ),
+        ServiceLocation(
+          name = "Mosby Resource Center",
+          address = "1536 Coalter Street, Richmond, VA",
+          latitude = 37.547104,
+          longitude = -77.419123
+        ),
+        ServiceLocation(
+          name = "Whitcomb Resource Center",
+          address = "2106 Deforrest Street, Richmond, VA",
+          latitude = 37.556742,
+          longitude = -77.415224
+        )
+      ],
       sliding_scales = [
         SlidingScale(
           scale_name = 'A',
