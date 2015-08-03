@@ -6,9 +6,12 @@
 window.Maps = window.Maps || {};
 var Maps = function ( options ) {
   console.info('Maps initialized :)');
-  console.log($('#service-map'));
-  if ($('#service-map').length) {
 
+  if ($('#service-map').length) {
+    makeTheMaps();
+  }
+
+  function makeTheMaps() {
     // temporary fake locations
     this.locations = [];
     this.keys = {
@@ -17,13 +20,11 @@ var Maps = function ( options ) {
     };
     this.id = 'service-map';
 
-    var _this = this;
-
-    console.log($('.location').length);
+    _this = this;
     
     if (!$('.location').length) {
-      console.error('Maps: No locations specified. See https://github.com/codeforamerica/rva-screening-ui-prototypes/wiki/Maps');
-      return;
+      var err = new Error('Maps: No locations specified. See https://github.com/codeforamerica/rva-screening-ui-prototypes/wiki/Maps');
+      throw err;
     } else {
       $('.location').each(function(){
         var newLocation = {};
@@ -50,6 +51,18 @@ var Maps = function ( options ) {
 
       this.markers.addTo(this.mapObject);
       this.mapObject.fitBounds(this.markers.getBounds());
+
+      // pans the map to the marker on location hover, and opens popup
+      $('.location').on('mouseenter', function(e) {
+        var elem = $(this);
+        _this.markers.eachLayer(function(e){
+          var ll = e.getLatLng();
+          if(parseFloat(elem.attr('data-latitude')) === ll.lat) {
+            e.togglePopup();
+            _this.mapObject.panTo(ll);
+          }
+        });
+      });
     }
   }
 };

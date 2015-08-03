@@ -1,0 +1,50 @@
+.service_users,
+.service_details {
+  a {
+    color: $color-blue;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.service_details {
+  p {
+    margin: 0.4em;
+    .fa {
+      color: $color-gray;
+      margin-right: 5px;
+    }
+  }
+}
+
+.service_description {
+  margin: 2em 0;
+}
+
+.service_locations {
+  .location {
+    position: relative;
+    padding: 1em 1em 1em 40px;
+    border-bottom: 2px solid $color-white;
+    background-color: $color-lightgray;
+    .location_name {}
+    .location_address {
+      display: block;
+      font-size: 0.8em;
+      color: $color-black;
+    }
+    &:hover {
+      background: darken($color-lightgray, 5);
+      cursor: pointer;
+    }
+    .fa {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      margin-top: -12px;
+      font-size: 1.2em;
+      color: $color-gray;
+    }
+  }
+}

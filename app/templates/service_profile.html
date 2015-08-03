@@ -2,12 +2,15 @@
 {% block content %}
 
 <div class="container">
-  <div class="patient-content block_4">
+  <div class="block_4">
     <h1>{{ service.name }}</h1>
-    <p><span class="glyphicon glyphicon-user"></span> <a href="#">{{ service.main_contact_name }}</a></p>
-    <p><span class="glyphicon glyphicon-link"></span> <a href="{{ service.website_url }}">{{ service.website_url }}</a></p>
+    <div class="service_details">
+      <p><i class="fa fa-user"></i> {{ service.main_contact_name }}</p>
+      <p><i class="fa fa-phone"></i> <a href="tel:">{{ service.main_contact_phone }}</a></p>
+      <p><span class="fa fa-link"></span> <a href="{{ service.website_url }}">website</a></p>
+    </div>
 
-    <div class="locations">
+    <div class="service_locations">
 
       <h3>{{ _("Location(s)") }}</h3>
 
@@ -17,10 +20,9 @@
              data-address="{{ location.address }}"
              data-latitude="{{ location.latitude }}"
              data-longitude="{{ location.longitude }}">
-          <p><strong>{{ location.name }}</strong></p>
-          <p><i class="fa fa-check"></i> {{ location.address }}</p>
-          <p><i class="fa fa-user"></i> <a href="#">{{location.contact_name}}</a></p>
-          <p><i class="fa fa-earphone"></i> <a href="tel:6666666666">{{location.phone_number}}</a></p>
+          <i class="fa fa-map-marker"></i>
+          <span class="location_name"><strong>{{ location.name }}</strong></span>
+          <span class="location_address">{{ location.address }}</span> 
         </div>
       {% endfor %} 
 
@@ -28,14 +30,13 @@
   </div>
 
   <div class="block_8 block_padding">
-    <div class="description">
+    <div class="service_description">
       {{ service.description }}
     </div>
-    <hr>
     
-    <div id="service-map" class="location-map"></div>
+    <div id="service-map" class="map_service"></div>
 
-    <div class="service-users">
+    <div class="service_users">
       <h3>{{ _("Users at %(service)s", service=service.name) }}</h3>
       <div class="table-wrapper">
         <table class="table table-condensed">
