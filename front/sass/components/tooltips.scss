@@ -31,7 +31,7 @@
       }
       &:after {
         top: $tooltip-lr-vertical;
-        margin-top: -2px;
+        margin-top: $tooltip-lr-margin-arrow;
         border-top: $tooltip-arrow-trans;
         border-bottom: $tooltip-arrow-trans;
       }
