@@ -175,7 +175,7 @@ class PatientForm(Form):
   )
   phone_numbers = fields.FieldList(fields.FormField(
     PhoneNumberForm
-  ), min_entries=1)
+  ))
   addresses = fields.FieldList(fields.FormField(
     AddressForm
   ))
