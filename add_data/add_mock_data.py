@@ -205,7 +205,7 @@ def add_patients(app_users, services):
   }
 
   with current_app.test_request_context():
-    for _ in range(500):
+    for _ in range(50):
       login_user(fake.random_element(app_users))
       patient = fake.patient()
       for field in many_to_one_field_counts:
