@@ -1,9 +1,7 @@
 {% from "form_field_macros.html" import render_field %}
 
-<p class="form_multiform_title">{{ _("Phone Numbers") }}</p>
-
 <div class="form_multiform_wrapper">
-
+  <p class="form_multiform_title">{{ _("Phone Numbers") }}</p>
   {% for entry in form.phone_numbers %}
   <div class="form_multiform form_multiform_read">
     <div class="multiform_content">
@@ -38,8 +36,6 @@
     </div>
   </div>
   {% endwith %}
-
+  <button data-clone-id="multiform_phone_numbers" class="button button_red button_small multiform_control_add">Add new phone number <i class="fa fa-plus"></i></button>
 </div>
-
-<button data-clone-id="multiform_phone_numbers" class="button button_red button_small multiform_control_add">Add new phone number <i class="fa fa-plus"></i></button>
 <div class="cf"></div>
