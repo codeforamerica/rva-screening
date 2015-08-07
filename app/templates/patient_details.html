@@ -135,10 +135,6 @@
 
   <div class="patient_details_actions">
     <div class="container">
-      <a class="button button_red button_inverse delete-patient float_right" href="{{ url_for('screener.delete', id=patient.id) }}">
-        <i class="fa fa-trash"></i>
-        <!-- {{ _("Delete patient") }} -->
-      </a>
       <button type="submit" class="button button_green float_right" style="margin-right: 1em;">
         <i class="fa fa-check"></i>
         {% if patient %}
