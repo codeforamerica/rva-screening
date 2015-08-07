@@ -67,10 +67,7 @@ body.menu_open {
 // logo space located within the .nav element
 .nav_logo {
   padding: 0.5em 10px;
-  font-weight: 100;
-  color: darken($color-fuscia, 20);
-  letter-spacing: -2px;
-  font-size: 1.6em; // temporary
+  width: 105px;
   @media (min-width: $break) {
     float: left;
     padding: 5px;

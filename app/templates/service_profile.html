@@ -1,62 +1,72 @@
 {% extends "base.html" %}
 {% block content %}
-  <div class="service">
-    <div class="col-sm-4">
-      <img src="{{ service.logo_url }}">
-      <h1>{{ service.name }}</h1>
-      <p><span class="glyphicon glyphicon-user"></span> <a href="#">{{ service.main_contact_name }}</a></p>
-      <p><span class="glyphicon glyphicon-link"></span> <a href="{{ service.website_url }}">{{ service.website_url }}</a></p>
 
-      <div class="locations">
+<div class="container">
+  <div class="block_4">
+    <h1>{{ service.name }}</h1>
+    <div class="service_details">
+      <p><i class="fa fa-user"></i> {{ service.main_contact_name }}</p>
+      <p><i class="fa fa-phone"></i> <a href="tel:">{{ service.main_contact_phone }}</a></p>
+      <p><span class="fa fa-link"></span> <a href="{{ service.website_url }}">website</a></p>
+    </div>
 
-        <h3>{{ _("Location(s)") }}</h3>
+    <div class="service_locations">
 
-        {% for location in service.locations %}
-          <div class="location" 
-               data-name="{{ location.name }}" 
-               data-address="{{ location.address }}"
-               data-latitude="{{ location.latitude }}"
-               data-longitude="{{ location.longitude }}">
-            <p><strong>{{ location.name }}</strong></p>
-            <p><span class="glyphicon glyphicon-home"></span> {{ location.address }}</p>
-            <p><span class="glyphicon glyphicon-user"></span> <a href="#">{{location.contact_name}}</a></p>
-            <p><span class="glyphicon glyphicon-earphone"></span> <a href="tel:6666666666">{{location.phone_number}}</a></p>
-          </div>
-        {% endfor %}        
-      
+      <h3>{{ _("Location(s)") }}</h3>
+
+      {% for location in service.locations %}
+        <div class="location" 
+             data-name="{{ location.name }}" 
+             data-address="{{ location.address }}"
+             data-latitude="{{ location.latitude }}"
+             data-longitude="{{ location.longitude }}">
+          <i class="fa fa-map-marker"></i>
+          <span class="location_name"><strong>{{ location.name }}</strong></span>
+          <span class="location_address">{{ location.address }}</span> 
+        </div>
+      {% endfor %} 
+
+    </div>
+  </div>
+
+  <div class="block_8 block_padding">
+    <div class="service_description">
+      {{ service.description }}
+    </div>
+    
+    <div id="service-map" class="map_service"></div>
+
+    <div class="service_users">
+      <h3>{{ _("Users at %(service)s", service=service.name) }}</h3>
+      <div class="table-wrapper">
+        <table class="table table-condensed">
+          <thead>
+            <tr>
+              <th>{{ _("Name") }}</th>
+              <th>{{ _("Phone") }}</th>
+              <th>{{ _("Email") }}</th>
+            </tr>
+          </thead>
+
+          {% for user in service.users %}
+            <tr>
+              <td><a href="{{ url_for('screener.user', user_id=user.id) }}"><strong>{{ user.full_name }}</strong></a></td>
+              <td><a href="{{ user.phone }}">{{ user.phone_number }}</a></td>
+              <td><a href="{{ user.email }}">{{ user.email }}</a></td>
+            </tr>
+          {% endfor %}
+        </table>
       </div>
     </div>
+  </div>
+</div>
+
+  <div class="service">
+    <div class="col-sm-4">
+      
+    </div>
     <div class="col-sm-8">
-      <div class="description">
-        {{ service.description }}
-      </div>
-
-      <hr>
-
-      <div id="service-map" class="location-map"></div>
-
-      <div class="service-users">
-        <h3>{{ _("Users at %(service)s", service=service.name) }}</h3>
-        <div class="table-wrapper">
-          <table class="table table-condensed">
-            <thead>
-              <tr>
-                <th>{{ _("Name") }}</th>
-                <th>{{ _("Phone") }}</th>
-                <th>{{ _("Email") }}</th>
-              </tr>
-            </thead>
-
-            {% for user in service.users %}
-              <tr>
-                <td><a href="{{ url_for('screener.user', user_id=user.id) }}"><strong>{{ user.full_name }}</strong></a></td>
-                <td><a href="{{ user.phone }}">{{ user.phone_number }}</a></td>
-                <td><a href="{{ user.email }}">{{ user.email }}</a></td>
-              </tr>
-            {% endfor %}
-          </table>
-        </div>
-      </div>
+      
 
     </div>
   </div>

@@ -1,7 +1,7 @@
-var gulp        =  require('gulp'),
-	  rename      = require('gulp-rename'),
-	  concat      = require('gulp-concat'),
-    sass        = require('gulp-sass');
+var gulp     = require('gulp'),
+	  rename   = require('gulp-rename'),
+	  concat   = require('gulp-concat'),
+    sass     = require('gulp-sass');
 
 from = './app/front/'
 to = './app/static/'
@@ -53,6 +53,17 @@ gulp.task('vendorCSS', function(){
     .pipe(gulp.dest('./app/static/css/'));
 });
 
+var vendorIMG = [
+  './front/vendor/mapbox/images/**/**.*' // specifically to get mapbox icons into the proper folders
+];
+
+gulp.task('vendorIMG', function(){
+  return gulp.src(vendorIMG)
+    .pipe(gulp.dest(to + '/css/images'));
+});
+
+
+
 // Watch Files For Changes
 gulp.task('watch', function() {
     gulp.watch('./front/**/*.scss', ['sass']);
@@ -60,5 +71,5 @@ gulp.task('watch', function() {
     gulp.watch('./front/img/**.*', ['img']);
 });
 
-gulp.task('build', ['img', 'fonts', 'sass', 'vendorJS', 'vendorCSS', 'js']);
+gulp.task('build', ['img', 'fonts', 'sass', 'vendorIMG', 'vendorJS', 'vendorCSS', 'js']);
 gulp.task('default', ['build', 'watch']);

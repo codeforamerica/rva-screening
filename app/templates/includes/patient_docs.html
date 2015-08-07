@@ -20,10 +20,7 @@
         <span class="multiform_item multiform_item_description">{{ entry.file_description.data }}</span>
       </div>
     </div>
-    <div class="multiform_controls">
-      <button type="button" class="button button_brightgreen button_inverse multiform_control multiform_control_edit"><i class="fa fa-pencil"></i></button>
-      <button type="button" class="button button_red button_inverse multiform_control multiform_control_remove"><i class="fa fa-trash"></i></button>
-    </div>
+    {% include "includes/multiform_controls.html" %}
   </div>
     {% endif %}
   {% endfor %}
@@ -41,8 +38,6 @@
     </div>
   </div>
   {% endwith %}
-
+  <button data-clone-id="multiform_documents" class="button button_red button_small multiform_control_add">Add new document <i class="fa fa-plus"></i></button>
 </div>
-
-<button data-clone-id="multiform_documents" class="button button_red button_small multiform_control_add">Add new document <i class="fa fa-plus"></i></button>
 <div class="cf"></div>
