@@ -75,6 +75,9 @@ form li {
       padding: 0;
     }
   }
+  &.form_row_padding {
+    padding: 1em;
+  }
 }
 
 // a single input with associated label and help text

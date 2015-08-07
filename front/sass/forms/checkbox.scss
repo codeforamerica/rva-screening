@@ -1,0 +1,161 @@
+@mixin checkbox($bg-color: $color-black, $default: #e5e5e5, $text-color: $color-lightgray) {
+  cursor: pointer;
+
+  // hidden defaults - THIS IS IMPORTANT!
+  input[type="checkbox"],
+  input[type="radio"] {
+    opacity: 0;
+    display: none;
+  }
+
+  .field_checkbox_content {
+    background-color: $default;
+    .field_checkbox_content_title {
+      color: darken($default, 50);
+    }
+    .field_checkbox_content_text {
+      color: darken($default, 50);
+    }
+    &:hover {
+      background-color: darken($default, 10);
+      color: darken($default, 20);
+    }
+  }
+
+  input:checked ~ .field_checkbox_content {
+    background: $bg-color;
+    &:hover {
+      background-color: lighten($bg-color, 10);
+    }
+    .field_checkbox_content_title {
+      color: $text-color;
+    }
+    .field_checkbox_content_text {
+      color: $text-color;
+    }
+  }
+
+  input:disabled ~ .field_checkbox_content {
+    &:hover {
+      background-color: $checkbox-disabled-background;
+      color: darken($default, 50);
+    }
+  }
+
+  // default styles
+  .field_checkbox_content {
+    display: inline-block;
+    vertical-align: top;
+    font-size: $checkbox-title-font-size;
+    margin-bottom: .3em;
+    .field_checkbox_content_title {
+      padding: $checkbox-padding;
+      display: block;
+      &:before {
+        @extend %icon;
+        width: 20px;
+        display: inline-block;
+      }
+    }
+    .field_checkbox_content_text {
+      padding: 0 ($checkbox-padding + 0.2em) ($checkbox-padding + 0.2em);
+      display: block;
+      font-size: $checkbox-text-font-size;
+      a {
+        text-decoration: underline;
+        color: $color-darkgray;
+      }
+    }
+  }
+
+  input[type="checkbox"] ~ .field_checkbox_content {
+    .field_checkbox_content_title {
+      &:before {
+        content: "\f096";
+      }
+    }
+  }
+
+  input[type="radio"] ~ .field_checkbox_content {
+    .field_checkbox_content_title {
+      &:before {
+        content:"\f10c";
+      }
+    }
+  }
+
+  input[type="checkbox"]:checked ~ .field_checkbox_content {
+    .field_checkbox_content_title {
+      &:before {
+        content: "\f046";
+      }
+    }
+    .field_checkbox_content_text {
+      a {
+        color: $color-white;
+      }
+    }
+  }
+
+  input[type="radio"]:checked ~ .field_checkbox_content {
+    .field_checkbox_content_title {
+      &:before {
+        content:"\f111";
+      }
+    }
+  }
+
+  // disabled button
+  input:disabled ~ .field_checkbox_content {
+    opacity: 0.5;
+    cursor: default;
+    .field_checkbox_content_title,
+    .field_checkbox_content_text {
+      text-decoration: line-through;
+    }
+  }
+}
+
+// working checkbox examples
+.field_checkbox,
+.field_radio {
+  @include checkbox();
+  // button with extra content
+  &.checkbox_extra {
+    .field_checkbox_content {
+      width: $checkbox-content-width;
+    }
+  }
+
+  &.checkbox_small {
+    font-size: .7em;
+  }
+
+  &.checkbox_simple {
+    .field_checkbox_content {
+      .field_checkbox_content_title {
+        &:before {
+          width: .9em !important;
+        }
+      }
+    }
+  }
+
+  &.checkbox_full {
+    display: block;
+    .field_checkbox_content {
+      width: 100%;
+    }
+  }
+
+  // different colors
+  &.checkbox_blue {
+    @include checkbox($color-blue);
+  }
+  &.checkbox_red {
+    @include checkbox($color-fuscia);
+  }
+  &.checkbox_green {
+    @include checkbox($color-green);
+  }
+}

@@ -37,20 +37,32 @@
         {{ render_field(form.household_income, class="block_6") }}
       </div>
 
-      <div class="form_row">
+      <div class="form_row form_row_padding">
         <!-- do you have health insurance? -->
-        <label class="form_field block_12">
-          <span class="field_label">{{ form.has_health_insurance.label }}</span>
-          {{ form.has_health_insurance()}}
-        </label>
+        <p>{{ form.has_health_insurance.label.text }}</p>
+        {% for choice in form.has_health_insurance.choices %}
+          <label class="field_radio checkbox_small checkbox_blue">
+            <input type="radio" class="text" value="1" name="{{ form.has_health_insurance.label.text }}">
+            <span class="field_checkbox_content">
+              <span class="field_checkbox_content_title">{{ choice[1] }}</span>
+            </span>
+          </label>
+        {% endfor %}
+
+
       </div>
 
-      <div class="form_row">
+      <div class="form_row form_row_padding">
         <!-- are you eligible for medicare/medicaid? -->
-        <label class="form_field block_12">
-          <span class="field_label">{{ form.eligible_for_medicaid.label }}</span>
-          {{ form.eligible_for_medicaid() }}
-        </label>
+        <p>{{ form.eligible_for_medicaid.label.text }}</p>
+        {% for choice in form.eligible_for_medicaid.choices %}
+          <label class="field_radio checkbox_small checkbox_blue">
+            <input type="radio" class="text" value="1" name="{{ form.eligible_for_medicaid.label.text }}">
+            <span class="field_checkbox_content">
+              <span class="field_checkbox_content_title">{{ choice[1] }}</span>
+            </span>
+          </label>
+        {% endfor %}
       </div>
 
       <button class="button button_green"  type="submit">
