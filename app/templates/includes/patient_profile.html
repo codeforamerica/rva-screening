@@ -48,6 +48,11 @@
       <p>{{ _('Eligible for Medicaid') }}</p>
       <h2>waka</h2>
     </div> -->
-  </div>    
+  </div>
+  <br>
+  <a class="button button_red button_inverse delete-patient button_small" href="{{ url_for('screener.delete', id=patient.id) }}">
+    <i class="fa fa-folder-o"></i>
+    {{ _("Archive Patient") }}
+  </a>
 
 </div>
