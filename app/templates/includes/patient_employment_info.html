@@ -1,112 +1,76 @@
 {% from "form_field_macros.html" import render_field, render_multifield %}
 
-  {{ render_field(form.employment_status) }}
-  {{ render_field(form.student_status) }}
-  {{ render_field(form.spouse_employment_status) }}
+{{ render_field(form.employment_status) }}
+{{ render_field(form.student_status) }}
+{{ render_field(form.spouse_employment_status) }}
 
-<div class="employers">
-  <h4>{{ _("Employers") }}</h4>
-  <div class="table-wrapper">
-    <table class="table table-condensed employment" id="employer_table">
-      <thead>
-        <tr>
-          <th>{{ _("Employer Name") }}</th>
-          <th>{{ _("Phone Number") }}</th>
-          <th>{{ _("Whose job?") }}</th>
-          <th>{{ _("Edit") }}</th>
-        </tr>
-      </thead>
 
-      {% for entry in form.employers %}
-        <tr class="employer">
-          <td>
-            <div class="read-only">{{ entry.employer_name.data }}</div>
-            <div class="hidden-input">
-              {{ entry.employer_name(class="form-control hidden-input") }}
-            </div>
-          </td>
-          <td>
-            <div class="read-only">{{ entry.phone_number.data }}</div>
-            <div class="hidden-input">
-              {{ entry.phone_number(
-                type="tel",
-                class="form-control hidden-input",
-                placeholder="(555) 555-5555",
-                pattern="\(\d{3}\) ?\d{3}-?\d{4}"
-              ) }}
-            </div>
-          </td>
-          <td>
-            <div class="read-only">{{ entry.employee.data }}</div>
-            <div class="hidden-input">
-              {{ entry.employee(class="form-control hidden-input") }}
-            </div>
-          </td>
-          <td class="edit">
-            <i class="fa fa-pencil" onclick="showHiddenFields()"></i>
-          </td>
-          <td class="income_source_delete">
-            <i class="fa fa-trash" onclick="hideRow()"></i>
-          </td>
-        </tr>
-      {% endfor %}
-
-      {% with %}
-        {% set entry = form.employers.append_entry() %}
-        <tr class="employer" id="employer_input">
-          <td>
-            {{ entry.employer_name(class="form-control") }}
-          </td>
-          <td>
-            {{ entry.phone_number(
-              type="tel",
-              class="form-control",
-              placeholder="(555) 555-5555",
-              pattern="\(\d{3}\) ?\d{3}-?\d{4}"
-            ) }}
-          </td>
-          <td>
-            {{ entry.employee(class="form-control") }}
-          </td>
-        </tr>
-      {% endwith %}
-
-    </table>
+<div class="form_multiform_wrapper employers" id="employer_table">
+  <p class="form_multiform_title">{{ _("Employers") }}</p>
+  {% for entry in form.employers %}
+  <div class="form_multiform form_multiform_read">
+    <div class="multiform_content">
+      <div class="multiform_content_fields">
+          <div class="form_row">
+            {{ render_field(entry.employer_name, class="block_6") }}
+            {{ render_field(entry.phone_number, class="block_6") }}
+            {{ render_field(entry.employer_name, class="block_6") }}
+          </div>
+            {{ render_field(entry.employee) }}
+      </div>
+      <div class="multiform_content_readonly">
+        <span class="multiform_item"><strong>{{ entry.employer_name.data }}</strong></span><br>
+        <span class="multiform_item">{{ entry.phone_number.data }}</span><br>
+        <span class="multiform_item multiform_item_description">{{ entry.employee.data }}</span>
+      </div>
+    </div>
+    {% include "includes/multiform_controls.html" %}
   </div>
+  {% endfor %}
 
-  <div class="form-group add_employer">
-    <button
-      type="button"
-      class="btn btn-primary"
-      onclick="addNewInputRow($('#employer_table'), $('.employer').last())">
-      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-      {{ _("Add an employer") }}
-    </button>
+  {% with %}
+    {% set entry = form.employers.append_entry() %}
+  <div class="form_multiform form_multiform_new" id="multiform_employers">
+    <div class="multiform_content">
+      <div class="multiform_content_fields">
+        <div class="row">
+          {{ render_field(entry.employer_name,
+                                class="block_6"
+          ) }}
+          {{ render_field(entry.phone_number,
+                                class="block_6"
+          ) }}
+        </div>
+        {{ render_field(entry.employee) }}
+      </div>
+    </div>
   </div>
+  {% endwith %}
+
+  <button data-clone-id="multiform_employers" class="button button_red button_small multiform_control_add">Add new emergency contact <i class="fa fa-plus"></i></button>
+  
 </div>
+<div class="cf"></div>
 
+{{ render_multifield(
+  "time_unemployed", _("How long have you been unemployed?"),
+  [
+    form.years_unemployed, 
+    form.months_unemployed
+  ], 
+  ['an'],
+  subclass="block_4"
+) }}
 
+{{ render_multifield(
+  "spouse_time_unemployed", _("How long has your spouse been unemployed?"),
+  [
+    form.spouse_years_unemployed, 
+    form.spouse_months_unemployed
+  ], 
+  ['an'],
+  subclass="block_4"
+) }}
 
-  {{ render_multifield(
-    "time_unemployed", _("How long have you been unemployed?"),
-    [
-      form.years_unemployed, 
-      form.months_unemployed
-    ], 
-    ['an'],
-    subclass="block_4"
-  ) }}
-
-  {{ render_multifield(
-    "spouse_time_unemployed", _("How long has your spouse been unemployed?"),
-    [
-      form.spouse_years_unemployed, 
-      form.spouse_months_unemployed
-    ], 
-    ['an'],
-    subclass="block_4"
-  ) }}
-
-  {{ render_field(form.years_at_current_employer, ['an']) }}
-  {{ render_field(form.spouse_years_at_current_employer, ['an']) }}
-
+{{ render_field(form.years_at_current_employer, ['an']) }}
+{{ render_field(form.spouse_years_at_current_employer, ['an']) }}

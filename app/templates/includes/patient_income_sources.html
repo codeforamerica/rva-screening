@@ -33,80 +33,12 @@
     </div>
   </div>
   {% endwith %}
-
+  <button data-clone-id="multiform_income_sources" class="button button_red button_small multiform_control_add">Add new income source <i class="fa fa-plus"></i></button>
 </div>
 
-<button data-clone-id="multiform_income_sources" class="button button_red button_small multiform_control_add">Add new income source <i class="fa fa-plus"></i></button>
+
 <div class="cf"></div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- <table class="table table-condensed income_sources" id="income_source_table">
-
-  <thead>
-    <tr>
-      <th>{{ _("Source") }}</th>
-      <th>{{ _("$/mo.") }}</th>
-      <th>{{ _("Edit") }}</th>
-      <th>{{ _("Delete") }}</th>
-    </tr>
-  </thead>
-
-  {% for entry in form.income_sources %}
-    <tr class="income_source">
-      <td class="income_source_type">
-        <div class="read-only">{{ entry.source.data }}</div>
-        {{ entry.source(class="form-control hidden-input") }}
-      </td>
-      <td class="income_source_amount">
-        <div class="read-only">${{ (entry.monthly_amount.data) | int }}</div>
-        {{ entry.monthly_amount(class="form-control hidden-input")}}
-      </td>
-      <td class="income_source_edit">
-        <i class="fa fa-pencil" onclick="showHiddenFields()"></i>
-      </td>
-      <td class="income_source_delete">
-        <i class="fa fa-trash" onclick="hideRow()"></i>
-      </td>
-    </tr>
-  {% endfor %}
-
-  {% with %}
-    {% set entry = form.income_sources.append_entry() %}
-    <tr class="income_source" id="income_source_input">
-      <td class="income_source_type">
-        {{ entry.source(class="form-control") }}
-      </td>
-      <td class="income_source_amount">
-        {{ entry.monthly_amount(class="form-control") }}
-      </td>
-      <td class="income_source_edit"></td>
-    </tr>
-  {% endwith %}
-</table>
-
-<div class="form-group add_income_source">
-    <button
-      type="button"
-      class="btn btn-primary"
-      onclick="addNewInputRow($('#income_source_table'), $('.income_source').last())"
-    >
-      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-      {{ _("Add a source of income") }}
-    </button>
-</div> -->
 
 {{ render_field(form.how_food_and_shelter, ['an']) }}
 {{ render_field(form.how_other_expenses, ['an']) }}
