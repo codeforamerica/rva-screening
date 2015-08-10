@@ -63,4 +63,4 @@ def main(app=create_app(), options=[]):
     print "Deleted all existing data"
 
 if __name__ == '__main__':
-  sys.exit(main())
+  sys.exit(main(create_app(), sys.argv[1:]))
