@@ -20,6 +20,7 @@ from hashlib import sha1
 from itertools import chain
 from sqlalchemy import func, and_, or_
 from sqlalchemy.orm import subqueryload
+from werkzeug.datastructures import FileStorage
 
 screener = Blueprint('screener', __name__, url_prefix='')
 
@@ -128,7 +129,8 @@ def update_patient(patient, form, files):
     ('addresses', Address),
     ('emergency_contacts', EmergencyContact),
     ('household_members', HouseholdMember),
-    ('employers', Employer)
+    ('employers', Employer),
+    ('document_images', DocumentImage)
   ]:
     if form[field_name]:
       # If the last row from the form doesn't have any data, don't save it
@@ -137,6 +139,10 @@ def update_patient(patient, form, files):
         and val is not None
         and key != 'id'
         and not (key == 'state' and val == 'VA')
+        and not (
+          type(val) is FileStorage
+          and val.filename == ''
+        )
       )]):
         form[field_name].pop_entry()
 
@@ -153,35 +159,24 @@ def update_patient(patient, form, files):
           and key != 'id'
           and not (key == 'state' and val == 'VA')
         )]):
-          index = int(row.name[-1])
+          row_index = int(row.name[-1])
           # Delete from patient object
-          db.session.delete(getattr(patient, field_name)[index])
+          db.session.delete(getattr(patient, field_name)[row_index])
           # Deletion from form FieldList requires popping all entries
           # after the one to be removed, then readding them
           to_re_add = []
-          for _ in range(len(form[field_name].entries) - index):
+          for _ in range(len(form[field_name].entries) - row_index):
             to_re_add.append(form[field_name].pop_entry())
           to_re_add.pop()
           for row in to_re_add:
             form[field_name].append_entry(data=row.data)
 
   # populate_obj won't work for file uploads; save them manually
-  for entry in form.document_images:
-    if entry['id'].data != None:
-      document_image = DocumentImage.query.get(entry['id'].data)
-      document_image.file_description = entry.file_description.data
+  for index, entry in enumerate(form.document_images):
+    if entry.file_name.data and entry.file_name.data.filename:
+      entry.file_name.data = upload_file(entry.file_name.data)
     else:
-      for _file in files.values():
-        filename = upload_file(_file)
-        document_image = DocumentImage(
-          file_description = entry.file_description.data,
-          file_name = filename
-        )
-        patient.document_images.append(document_image)
-        db.session.add(document_image)
-        break
-  for entry in form.document_images:
-    form.document_images.pop_entry()
+      entry.file_name.data = patient.document_images[index].file_name
 
   form.populate_obj(patient)
 

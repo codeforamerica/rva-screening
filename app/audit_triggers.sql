@@ -12,8 +12,15 @@ BEGIN
   audit_row.transaction_id = txid_current();
   audit_row.action_timestamp = CURRENT_TIMESTAMP;
   audit_row.table_name = TG_TABLE_NAME::text;
-  audit_row.row_id = NEW.id;
-  audit_row.app_user_id = coalesce(NEW.last_modified_by_id, NEW.created_by_id);
+  IF (TG_LEVEL = 'ROW') THEN
+    IF (TG_OP='DELETE') THEN
+      audit_row.row_id = OLD.id;
+      audit_row.app_user_id = coalesce(OLD.last_modified_by_id, OLD.created_by_id);
+    ELSE THEN
+      audit_row.row_id = NEW.id;
+      audit_row.app_user_id = coalesce(NEW.last_modified_by_id, NEW.created_by_id);
+    END IF;
+  END IF;
   audit_row.action = SUBSTRING(TG_OP,1,1);
  
   IF TG_ARGV[1] IS NOT NULL THEN
