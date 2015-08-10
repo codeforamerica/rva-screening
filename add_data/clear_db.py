@@ -55,12 +55,14 @@ def main(app=create_app(), options=[]):
     db.create_all()
     engine.dispose()
 
+    print "Deleted all existing data"
+
     # Audit triggers aren't in SQLAlchemy schema definition, so create_all
     # won't recreate them. Run the separate script to add them.
     if '-local' in options:
       os.system('psql -d {} -a -f app/audit_triggers.sql'.format(engine.url.database))
+      print "Added audit triggers"
 
-    print "Deleted all existing data"
 
 if __name__ == '__main__':
   sys.exit(main(create_app(), sys.argv[1:]))
