@@ -63,6 +63,13 @@ var AppController = function ( options ) {
       e.preventDefault();
       var id = $(this).attr('data-clone-id');
       var clone = $('#'+id).clone();
+      var elem_id = clone.find(":input")[0].id;
+      var elem_num = parseInt(elem_id.replace(/.*-(\d{1,4})-.*/m, '$1')) + 1;
+      clone.attr('data-id', elem_num);
+      clone.find(":input").each(function() {
+        var new_elem_id = $(this).attr('id').replace('-' + (elem_num - 1) + '-', '-' + (elem_num) + '-');
+        $(this).attr('name', new_elem_id).attr('id', new_elem_id).val('').removeAttr("checked");
+      });
       $('#'+id).after(clone);
       // console.log(id, clone);
       return;
