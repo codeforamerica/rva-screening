@@ -6,7 +6,7 @@ from flask_wtf import Form
 from flask_wtf.file import FileField, FileAllowed
 from wtforms import widgets, fields, validators
 from wtforms import Form as NoCsrfForm
-from wtforms.validators import DataRequired, Email, ValidationError, Optional
+from wtforms.validators import InputRequired, DataRequired, Email, ValidationError, Optional
 
 ALL_INTEGERS = re.compile('[^\d.]')
 def validate_digit_count(form, field, count):
@@ -23,6 +23,24 @@ def validate_ssn(form, field):
 def validate_phone_number(form, field):
   if validate_digit_count(form, field, 10) is False:
     raise ValidationError('Phone number should be 10 digits.')
+
+
+class RequiredIf(InputRequired):
+  # a validator which makes a field required if
+  # another field is set and has a truthy value
+  # http://stackoverflow.com/questions/8463209/how-to-make-a-field-conditionally-optional-in-wtforms
+
+  def __init__(self, other_field_name, *args, **kwargs):
+      self.other_field_name = other_field_name
+      super(RequiredIf, self).__init__(*args, **kwargs)
+
+  def __call__(self, form, field):
+      other_field = form._fields.get(self.other_field_name)
+      if other_field is None:
+          raise Exception('no field named "%s" in form' % self.other_field_name)
+      if bool(other_field.data):
+          super(RequiredIf, self).__call__(form, field)
+
 
 class ScreeningResultForm(Form):
   eligible_yn = fields.RadioField(
@@ -137,9 +155,6 @@ class EmployerForm(NoCsrfForm):
   start_date = fields.DateField(_('Start date'), validators=[Optional()])
 
 class DocumentImageForm(NoCsrfForm):
-  id = fields.IntegerField()
-  created = fields.TextField()
-  created_by = fields.TextField()
   file_name = FileField(
     validators=[FileAllowed(
       ['jpg', 'png', 'pdf'],
@@ -148,7 +163,7 @@ class DocumentImageForm(NoCsrfForm):
   )
   file_description = fields.TextField(
     _('Description'),
-    [Optional(), validators.Length(max=64)]
+    [RequiredIf('file_name'), validators.Length(max=64)]
   )
 
 class PatientForm(Form):
