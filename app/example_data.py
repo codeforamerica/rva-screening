@@ -1,18 +1,33 @@
 RELATIONSHIPS = (
-  "brother", "mother", "sister", "aunt",
-  "son", "daughter", "grandmother", "granddaughter",
-  "grandfather", "grandson", "uncle", "nephew",
-  "niece", "partner", "friend", "father"
+    "brother",
+    "mother",
+    "sister",
+    "aunt",
+    "son",
+    "daughter",
+    "grandmother",
+    "granddaughter",
+    "grandfather",
+    "grandson",
+    "uncle",
+    "nephew",
+    "niece",
+    "partner",
+    "friend",
+    "father"
 )
 
 ADDRESS_TYPES = (
-  "mailing", "home", "street", "temporary", "shelter"
+    "mailing", "home", "street", "temporary", "shelter"
 )
 
 PHONE_TYPES = (
-  "cell phone", "home phone", "temporary cell phone",
-  "work phone", "shelter phone"
+    "cell phone",
+    "home phone",
+    "temporary cell phone",
+    "work phone",
+    "shelter phone"
 )
 REFERRAL_STATUSES = (
-  "SENT", "RECEIVED", "COMPLETED"
+    "SENT", "RECEIVED", "COMPLETED"
 )
