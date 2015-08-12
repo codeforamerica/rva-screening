@@ -15,6 +15,9 @@ correr:
 	foreman run python run.py \
 		--env=.env
 
+verify:
+	flake8 add_data app tests
+
 test:
 	nosetests tests/ \
 		-sv \
