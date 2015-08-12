@@ -1,3 +1,23 @@
+CREATE EXTENSION IF NOT EXISTS hstore;
+ 
+CREATE SCHEMA IF NOT EXISTS audit;
+REVOKE ALL ON SCHEMA audit FROM public;
+
+CREATE TABLE IF NOT EXISTS audit.action_log(
+  id bigserial PRIMARY KEY,
+  transaction_id BIGINT,
+  action_timestamp TIMESTAMP WITH TIME ZONE NOT NULL,
+  table_name text NOT NULL,
+  row_id BIGINT,
+  app_user_id BIGINT,
+  action CHAR(1) NOT NULL CHECK (action IN ('I', 'D', 'U', 'T')),
+  row_data hstore,
+  changed_fields hstore
+);
+ 
+REVOKE ALL ON audit.logged_actions FROM public;
+
+
 CREATE OR REPLACE FUNCTION audit.if_modified_func() RETURNS TRIGGER AS $body$
 DECLARE
   audit_row action_log;
@@ -16,7 +36,7 @@ BEGIN
     IF (TG_OP='DELETE') THEN
       audit_row.row_id = OLD.id;
       audit_row.app_user_id = coalesce(OLD.last_modified_by_id, OLD.created_by_id);
-    ELSE THEN
+    ELSE
       audit_row.row_id = NEW.id;
       audit_row.app_user_id = coalesce(NEW.last_modified_by_id, NEW.created_by_id);
     END IF;
@@ -116,6 +136,7 @@ CREATE OR REPLACE FUNCTION audit.audit_table(target_table regclass) RETURNS void
 SELECT audit.audit_table($1, BOOLEAN 't', BOOLEAN 't');
 $$ LANGUAGE 'sql';
 
+CREATE SCHEMA IF NOT EXISTS audit;
 
 SELECT
   audit.audit_table(table_name)
