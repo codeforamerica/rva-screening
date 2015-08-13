@@ -51,14 +51,12 @@ class TestScreener(BaseTestCase):
         return existing_patient
 
     def insert_test_patient(self):
-        service = self.get_test_service()
         patient = Patient(
             first_name='John',
             last_name='Richmond',
             dob='1950-01-01',
             ssn='111-11-1111'
         )
-        patient.services.append(service)
         db.session.add(patient)
         db.session.commit()
         return patient

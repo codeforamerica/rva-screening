@@ -174,14 +174,6 @@ class Patient(BasicTable, db.Model):
     total_annual_income = 0
     fpl_percentage = 0
 
-    # Permissions
-    patient_service_permissions = db.relationship(
-        'PatientServicePermission',
-        backref='patient',
-        lazy='dynamic'
-    )
-    services = db.relationship('Service', secondary='patient_service_permission')
-
     referrals = db.relationship('PatientReferral', backref='patient', lazy='dynamic')
     screening_results = db.relationship(
         'PatientScreeningResult',
@@ -361,12 +353,6 @@ class SlidingScaleFee(BasicTable, db.Model):
     name = db.Column(db.String(128))
     price_absolute = db.Column(db.Integer)
     price_percentage = db.Column(db.Integer)
-
-
-class PatientServicePermission(BasicTable, db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    patient_id = db.Column(db.Integer, db.ForeignKey("patient.id"))
-    service_id = db.Column(db.Integer, db.ForeignKey("service.id"))
 
 
 @event.listens_for(BasicTable, 'before_insert', propagate=True)

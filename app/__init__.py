@@ -70,5 +70,3 @@ db = SQLAlchemy()
 bcrypt = Bcrypt()
 babel = Babel()
 login_manager = LoginManager()
-
-from app import views, models

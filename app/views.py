@@ -13,7 +13,22 @@ from flask import (
 from flask.ext.login import login_user, logout_user, current_user, login_required
 from app import db, bcrypt, login_manager
 from app.forms import PatientForm, PrescreenForm, ScreeningResultForm
-from app.models import *
+from app.models import (
+    AppUser,
+    Patient,
+    PhoneNumber,
+    Address,
+    Employer,
+    IncomeSource,
+    HouseholdMember,
+    DocumentImage,
+    EmergencyContact,
+    Service,
+    ActionLog,
+    PatientReferral,
+    SlidingScale,
+    PatientScreeningResult
+)
 from app.prescreening import calculate_fpl, calculate_pre_screen_results
 from app.utils import upload_file, send_document_image, translate_object
 from itertools import chain
@@ -331,10 +346,6 @@ def patient_history(patient_id):
             and_(
                 ActionLog.row_id.in_([p.id for p in patient.household_members]),
                 ActionLog.table_name == 'household_member'
-            ),
-            and_(
-                ActionLog.row_id.in_([p.id for p in patient.patient_service_permissions]),
-                ActionLog.table_name == 'patient_service_permission'
             )
         )).\
         order_by(ActionLog.action_timestamp.desc())

@@ -29,7 +29,7 @@ from app.models import (
     PatientScreeningResult,
     db
 )
-from app.template_constants import *
+import app.template_constants as constants
 import add_service_data
 
 
@@ -61,7 +61,7 @@ class PatientProvider(BaseProvider):
                 if sliding_scale_ids
                 else None
             ),
-            eligible_yn=choice(YN_NONULL_CHOICES),
+            eligible_yn=choice(constants.YN_NONULL_CHOICES),
             notes=fake.text(max_nb_chars=200)
         )
 
@@ -81,48 +81,48 @@ class PatientProvider(BaseProvider):
             ssn=fake.ssn(),
 
             email=fake.email(),
-            has_transport_yn=choice(YN_CHOICES),
+            has_transport_yn=choice(constants.YN_CHOICES),
 
-            gender=choice(GENDER_CHOICES),
-            transgender=choice(TRANSGENDER_CHOICES),
-            race=choice(RACE_CHOICES),
-            ethnicity=choice(ETHNICITY_CHOICES),
-            language=choice(LANGUAGE_CHOICES),
-            has_interpreter_yn=choice(YNNA_CHOICES),
+            gender=choice(constants.GENDER_CHOICES),
+            transgender=choice(constants.TRANSGENDER_CHOICES),
+            race=choice(constants.RACE_CHOICES),
+            ethnicity=choice(constants.ETHNICITY_CHOICES),
+            language=choice(constants.LANGUAGE_CHOICES),
+            has_interpreter_yn=choice(constants.YNNA_CHOICES),
             education_level='High school',
-            marital_status=choice(MARITAL_STATUS_CHOICES),
-            veteran_yn=choice(YN_CHOICES),
-            housing_status=choice(HOUSING_STATUS_CHOICES),
+            marital_status=choice(constants.MARITAL_STATUS_CHOICES),
+            veteran_yn=choice(constants.YN_CHOICES),
+            housing_status=choice(constants.HOUSING_STATUS_CHOICES),
             years_living_in_area=fake.random_int(min=0, max=20),
             months_living_in_area=fake.random_int(min=0, max=11),
             # city_or_county_of_residence = 'Richmond',
-            temp_visa_yn=choice(YN_CHOICES),
+            temp_visa_yn=choice(constants.YN_CHOICES),
 
-            student_status=choice(STUDENT_STATUS_CHOICES),
-            employment_status=choice(EMPLOYMENT_STATUS_CHOICES),
-            spouse_employment_status=choice(EMPLOYMENT_STATUS_CHOICES),
+            student_status=choice(constants.STUDENT_STATUS_CHOICES),
+            employment_status=choice(constants.EMPLOYMENT_STATUS_CHOICES),
+            spouse_employment_status=choice(constants.EMPLOYMENT_STATUS_CHOICES),
             years_unemployed=fake.random_int(min=0, max=5),
             months_unemployed=fake.random_int(min=0, max=11),
             spouse_years_unemployed=fake.random_int(min=0, max=5),
             spouse_months_unemployed=fake.random_int(min=0, max=11),
 
             # last_healthcare = '2 years ago.',
-            insurance_status=choice(YN_CHOICES),
-            coverage_type=choice(COVERAGE_TYPE_CHOICES),
-            has_prescription_coverage_yn=choice(YNN_NONULL_CHOICES),
-            has_vcc=choice(YN_CHOICES),
-            eligible_insurance_types=choice(COVERAGE_ELIGIBILITY_CHOICES),
-            applied_for_vets_benefits_yn=choice(YNNA_CHOICES),
-            eligible_for_vets_benefits_yn=choice(YNN_NONULL_CHOICES),
-            applied_for_medicaid_yn=choice(YN_CHOICES),
+            insurance_status=choice(constants.YN_CHOICES),
+            coverage_type=choice(constants.COVERAGE_TYPE_CHOICES),
+            has_prescription_coverage_yn=choice(constants.YNN_NONULL_CHOICES),
+            has_vcc=choice(constants.YN_CHOICES),
+            eligible_insurance_types=choice(constants.COVERAGE_ELIGIBILITY_CHOICES),
+            applied_for_vets_benefits_yn=choice(constants.YNNA_CHOICES),
+            eligible_for_vets_benefits_yn=choice(constants.YNN_NONULL_CHOICES),
+            applied_for_medicaid_yn=choice(constants.YN_CHOICES),
             # medicaid_date_effective
-            applied_for_ssd_yn=choice(YN_CHOICES),
+            applied_for_ssd_yn=choice(constants.YN_CHOICES),
             # ssd_date_effective
-            care_due_to_accident_yn=choice(YN_CHOICES),
-            accident_work_related_yn=choice(YN_CHOICES),
+            care_due_to_accident_yn=choice(constants.YN_CHOICES),
+            accident_work_related_yn=choice(constants.YN_CHOICES),
 
-            filed_taxes_yn=choice(YN_CHOICES),
-            claimed_as_dependent_yn=choice(YNN_CHOICES),
+            filed_taxes_yn=choice(constants.YN_CHOICES),
+            claimed_as_dependent_yn=choice(constants.YNN_CHOICES),
             # how_food_and_shelter
             # how_other_expenses
         )
@@ -166,7 +166,7 @@ class PatientProvider(BaseProvider):
         return Address(
             address1=fake.street_address(),
             city=fake.city(),
-            state=choice(STATE_CHOICES),
+            state=choice(constants.STATE_CHOICES),
             zip_code=fake.postcode(),
             address_description=fake.random_element(ADDRESS_TYPES)
         )
@@ -175,7 +175,7 @@ class PatientProvider(BaseProvider):
         return Employer(
             employer_name=fake.company(),
             phone_number=formatted_phone_number(),
-            employee=choice(EMPLOYEE_CHOICES),
+            employee=choice(constants.EMPLOYEE_CHOICES),
             start_date=fake.date_time_between(start_date="-10y", end_date="now").date()
         )
 
