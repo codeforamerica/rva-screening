@@ -1,6 +1,7 @@
 import os
 import flask
 
+
 def inject_static_url():
     """Adds `STATIC_URL` variable to template context.
     """
@@ -12,12 +13,14 @@ def inject_static_url():
         static_url=static_url
     )
 
+
 def inject_example_data():
     """Adds `EXAMPLE` variable to template context, if we need to fake data
     somewhere.
     """
     from app import example_data
     return dict(EXAMPLE=example_data)
+
 
 def inject_template_constants():
     from app import template_constants

@@ -1,5 +1,6 @@
 import os
 
+
 class Config(object):
     DEBUG = True
     SECRET_KEY = 'some-secret'
@@ -22,16 +23,20 @@ class Config(object):
     BABEL_DEFAULT_LOCALE = os.environ.get('BABEL_DEFAULT_LOCALE', 'en_US')
     BABEL_DEFAULT_TIMEZONE = os.environ.get('BABEL_DEFAULT_TIMEZONE', 'America/New_York')
 
+
 class ProdConfig(Config):
     DEBUG = False
 
+
 class DevConfig(Config):
     DEBUG = True
+
 
 class TestConfig(Config):
     DEBUG = True
     TESTING = True
     WTF_CSRF_ENABLED = False
-    SQLALCHEMY_DATABASE_URI = 'postgresql://localhost/screener_test'
-
-
+    SQLALCHEMY_DATABASE_URI = os.environ.get(
+        'TEST_DATABASE_URL',
+        'postgresql://localhost/screener_test'
+    )

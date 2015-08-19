@@ -2,24 +2,15 @@
 
 ### What
 
-A repository of early prototyping and design ideas for an application that would allow safety net health services in Richmond, VA to share income verification screening.
+A prototype of an application that will allow safety net health services in Richmond, VA to share patients' financial screening information more easily. For more information, check out our [blog](rva.codeforamerica.org).
 
 ### Status
 
-This project is in an early design stage. In addition to code, it contains issues used to discuss potential features and links to documentation of the design process.
-
-### Why
-
-Assumptions that led to this app idea:
-
-* Financial eligibilty screening is done redundantly for a given patient who applies to multiple safety net services.
-* Financial eligibility screening is a significant source of delay between the time a patient is referred to a safety net health service and the time of their first treatment.
-* Creating a more standardized process for financial elgibility will help clients and case managers to more easily discover services that a client would be eligible for.
-* Reducing the time spent on financial eligibility screening would be helpful to clients as well as safety-net service providers.
+This project is in early development. We also discuss potential features and design decisions in the [rva-screening-ui-prototypes](https://github.com/codeforamerica/rva-screening-ui-prototypes) repo.
 
 ### Who
 
-The [2015 Code for America Fellows working in Richmond, VA with RVA Community Partners](http://www.codeforamerica.org/governments/rva-community-partners/):
+The [2015 Code for America Fellows in Richmond, VA](http://www.codeforamerica.org/governments/rva-community-partners/):
 
 Ben Golder ([bengolder](//github.com/bengolder))  
 Emma Smithayer ([esmithayer](//github.com/esmithayer))  
@@ -27,38 +18,44 @@ Sam Matthews ([svamatthews](//github.com/svmatthews))
 
 ### How (Installation)
 
-**Site & Server (Flask)**
-* Install MySQL (http://dev.mysql.com/downloads/mysql/) and start your server.
-* Set the root MySQL password to "password": ```mysqladmin -u root -p “password”```
-* Create a database called rva_screening.
-* Install requirements: ```pip install -r requirements.txt```
-* Create migrations folder: ```python db.py db init```
-* Create migration based on current models: ```python db.py db migrate```
-* Apply migration to database: ```python db.py db upgrade```
-* Create a user account for login: ```python add_user.py```
-* Start server: ```python run.py```
+The application is built with Python and [Flask](http://flask.pocoo.org/).
+
+**Environment variables**
+* `DATABASE_URL=[db connection string]` — For example, `postgresql://localhost/screener`
+
+**Install**
+* Install a PostgreSQL database ([how to](https://github.com/codeforamerica/howto/blob/master/PostgreSQL.md))
+* A [virtual environment](https://github.com/codeforamerica/howto/blob/master/Python-Virtualenv.md) will make it easier to manage dependencies.
+* Clone the repo: ```git clone https://github.com/codeforamerica/rva-screening```
+* Change into the project directory: ```cd rva-screening```
+* Install Python requirements: ```pip install -r requirements.txt```
+* Install front end requirements: ```npm install```
+* Create a database:
+```bash
+psql
+create database rva-screening;
+```
+* Set up the database: ```make new_db```
+* Create mock data, including user accounts: ```make data```
+* Start server: ```make run```
 
 After pulling down new code:
 
-```pip install -r requirements.txt```
-
-```python db.py db migrate```
-
-```python db.py db upgrade```
-
-**Assets**
-
-All assets build from `app/static/` using Flask-Assets and webassets. They are bundled into `public/` and retrieved on page loads.
-
-The front-end currently depends on some 3rd party assets. To install these, use `npm`:
-
+```bash
+pip install -r requirements.txt
+make db_update
 ```
-cd ./app/static/
-npm install
+
+**Testing**
+
+To run the tests, you'll need a new database. By default, the code looks for a database called 'screener_test'. Set the TEST_DATABASE_URL environment variable if you choose a different name.
+```bash
+psql
+create database screener_test
 ```
+Run ```make test``` to run all the tests.
 
 ### Contribute
 
-In this early stage, you should email us (the Richmond CfA Fellows Team) if you're interested in helping with the project:
+At this early stage, you should email us (the Richmond CfA Fellowship Team) if you're interested in helping with the project:
 [richmond@codeforamerica.org](mailto:richmond@codeforamerica.org).
-

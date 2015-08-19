@@ -27,26 +27,18 @@
             </a>
           </td>
           {% if entry.action == 'I' %}
-            {% if entry.table_name == 'patient_service_permission' %}
-              <td>Added access for 
-                <a href="{{ url_for('screener.service', service_id=entry.row_data['service_id']) }}">
-                  {{ services[entry.row_data['service_id']|int].name}}
-                </a>
-              </td>
-            {% else %}
-              <td>Added {{entry.table_name | replace('_', ' ')}} with fields:<br>
-                {% for field, value in entry.row_data.iteritems() %}
-                  {% if value != None and field not in (
-                    'id',
-                    'created',
-                    'created_by_id',
-                    'patient_id'
-                  ) %}
-                    {{readable_names[field] or field}}: {{value}}<br>
-                  {% endif %}
-                {% endfor %}
-              </td>
-            {% endif %}
+            <td>Added {{entry.table_name | replace('_', ' ')}} with fields:<br>
+              {% for field, value in entry.row_data.iteritems() %}
+                {% if value != None and field not in (
+                  'id',
+                  'created',
+                  'created_by_id',
+                  'patient_id'
+                ) %}
+                  {{readable_names[field] or field}}: {{value}}<br>
+                {% endif %}
+              {% endfor %}
+            </td>
           {% elif entry.action == 'U' %}
             <td>
               {% if entry.table_name != 'patient' %}
