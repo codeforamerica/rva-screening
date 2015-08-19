@@ -404,7 +404,7 @@ class TestScreener(BaseTestCase):
 
     def test_calculate_pre_screen_results(self):
         """Test that calculating prescreening results works as expected."""
-        add_service_data.main()
+        add_service_data.main(self.app)
         daily_planet = Service.query.filter(Service.name == 'Daily Planet').first()
         result = calculate_pre_screen_results(
             fpl=0,
@@ -436,7 +436,7 @@ class TestScreener(BaseTestCase):
 
     def test_patient_screening_history(self):
         """Test that the patient referral/screening history page works as expected."""
-        add_service_data.main()
+        add_service_data.main(self.app)
         user = get_user()
         user.service = Service.query.filter(Service.name == 'Daily Planet').first()
         self.login()

@@ -159,7 +159,7 @@ def update_patient(patient, form, files):
                 val != ''
                 and val is not None
                 and key != 'id'
-                and not (key == 'state' and val == 'VA')
+                and not (key in ['state', 'employee'])
                 and not (
                     type(val) is FileStorage
                     and val.filename == ''
@@ -181,7 +181,7 @@ def update_patient(patient, form, files):
                     val != ''
                     and val is not None
                     and key != 'id'
-                    and not (key == 'state' and val == 'VA')
+                    and not (key in ['state', 'employee'])
                 )]):
                     row_index = int(row.name[-1])
                     # Delete from patient object
