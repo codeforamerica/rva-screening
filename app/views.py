@@ -210,7 +210,7 @@ def update_patient(patient, form, files):
 @screener.route('/delete/<id>', methods=['POST', 'GET'])
 @login_required
 def delete(id):
-    """Hard delete a patient. Soft-deleting is usuall a better idea."""
+    """Hard delete a patient. Soft-deleting is usually a better idea."""
     patient = Patient.query.get(id)
     db.session.delete(patient)
     db.session.commit()
@@ -267,11 +267,7 @@ def prescreening_basic():
         session['is_eligible_for_medicaid'] = form.eligible_for_medicaid.data
         return redirect(url_for('screener.prescreening_results'))
     else:
-        if session.get('patient_id'):
-            patient = Patient.query.get(session['patient_id'])
-            return render_template('prescreening_basic.html', patient=patient, form=form)
-        else:
-            return render_template('prescreening_basic.html', form=form)
+        return render_template('prescreening_basic.html', form=form)
 
 
 @screener.route('/prescreening_results')
@@ -447,7 +443,7 @@ def patient_screening_history(patient_id):
     )
     # Add the current organization's sliding scale options to the dropdown
     form.sliding_scale_id.choices = [
-        (option.id, option.scale_name) for option in sliding_scale_options
+        (str(option.id), option.scale_name) for option in sliding_scale_options
     ] or [("", "N/A")]
 
     if form.validate_on_submit():
@@ -476,7 +472,7 @@ def patient_screening_history(patient_id):
 @screener.route('/')
 @login_required
 def index():
-    """Displays the initial landing page, which lists patients in the
+    """Display the initial landing page, which lists patients in the
     network and allows users to search and filter them.
     """
     session.clear()
@@ -512,7 +508,7 @@ def index():
 @screener.route('/user/<user_id>')
 @login_required
 def user(user_id):
-    """Displays the profile page for a single user."""
+    """Display the profile page for a single user."""
     user = AppUser.query.get(user_id)
     return render_template('user_profile.html', user=user)
 
@@ -520,7 +516,7 @@ def user(user_id):
 @screener.route('/service/<service_id>')
 @login_required
 def service(service_id):
-    """Displays the profile page for a service organization."""
+    """Display the profile page for a service organization."""
     service = translate_object(
         Service.query.get(service_id),
         current_app.config['BABEL_DEFAULT_LOCALE']
