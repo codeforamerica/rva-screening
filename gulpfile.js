@@ -1,7 +1,8 @@
 var gulp     = require('gulp'),
 	  rename   = require('gulp-rename'),
 	  concat   = require('gulp-concat'),
-    sass     = require('gulp-sass');
+    sass     = require('gulp-sass'),
+    karma    = require('gulp-karma');
 
 from = './app/front/'
 to = './app/static/'
@@ -62,7 +63,20 @@ gulp.task('vendorIMG', function(){
     .pipe(gulp.dest(to + '/css/images'));
 });
 
+var testFiles = [
+  './tests/front/suite/**/*.js'
+];
 
+gulp.task('test', function() {
+  return gulp.src(testFiles)
+    .pipe(karma({
+      configFile: './tests/front/karma.conf.js',
+      action: 'run'
+    }))
+    .on('error', function(err) {
+      throw err;
+    });
+});
 
 // Watch Files For Changes
 gulp.task('watch', function() {
