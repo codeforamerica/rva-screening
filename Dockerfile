@@ -1,2 +1,2 @@
 FROM quay.io/aptible/autobuild
-pip install Flask
+RUN sudo pip install Flask
