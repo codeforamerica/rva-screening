@@ -1,3 +1,4 @@
+var validations = validations || {};
 function validationResult(res, val, message){
   return { passed: res, value: val, message: message || 'Something may have gone wrong but it could have gone right.' };
 }
@@ -162,74 +163,6 @@ function validationHTML(elem, className, message) {
   }
 }
 
-// reporter object for handling specific validation types
-var reports = {
-  "default": function(e, result) {
-    console.log(e.type, arguments);
-  },
-  "failure": function(e, result) {
-    console.log(e.type, arguments);
-    console.error(result.message);
-    validationHTML(arguments[0].currentTarget, 'validation_invalid');
-  },
-  "success": function(e, result) {
-    console.log(e.type, arguments);
-    validationHTML(arguments[0].currentTarget, 'validation_valid');
-  },
-  "required": function(e, result) {
-    console.log(e.type, arguments);
-    validationHTML(arguments[0].currentTarget, 'validation_required');
-  }
-}
-
 function fName(s){
   return "[name='"+s+"']";
 }
-
-var validations = [
-  { 
-    selector: fName("household_income"), 
-    validators: [
-      { 
-        type: "currency", 
-        success: reports.default, 
-        failure: reports.failure
-      } 
-    ]
-  },
-  { 
-    selector: fName("dob"), 
-    validators: [
-      { 
-        type: "required",
-        success: reports.default,
-        failure: reports.required
-      },
-      { 
-        type: "dob",
-        success: reports.success,
-        failure: reports.failure
-      }  
-    ]
-  },
-  { 
-    selector: fName("first_name"),
-    validators: [
-      { 
-        type: "required",
-        success: reports.success,
-        failure: reports.required
-      }
-    ]
-  },
-  {
-    selector: fName("ssn"),
-    validators: [
-      {
-        type: "ssn",
-        success: reports.success,
-        failure: reports.failure
-      }
-    ]
-  }
-];

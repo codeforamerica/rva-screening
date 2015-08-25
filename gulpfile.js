@@ -24,7 +24,7 @@ gulp.task('img', function(){
 
 // Concatenate js
 gulp.task('js', function() {
-  return gulp.src('./front/js/**.js')
+  return gulp.src('./front/js/**/*.js')
     .pipe(concat('main.js'))
     .pipe(gulp.dest('./app/static/js/'));
 });
