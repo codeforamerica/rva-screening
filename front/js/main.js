@@ -10,7 +10,7 @@ var inputClearingFunctions = [
 ];
 
 var AppController = function ( options ) {
-  console.info('App initialized :)');
+  // console.info('App initialized :)');
   this.options = options || {};
   addEventListeners();
   function addEventListeners() {
@@ -77,40 +77,12 @@ var AppController = function ( options ) {
 
   }
 
-  /*
-  **  SEARCH FIELD CHECK
-  **  If #patient-search exists, initialize the search
-  **
-  */
-  if ($('#patient-search').length) {
-    this.search = {};
-    this.initSearch('patient-search', 
-        { valueNames: ['patient-name', 'patient-dob'] });
-  }
-
-
   // If we're on the print page, hide everything that shouldn't print
   if (window.location.pathname.indexOf('/patient_print') > -1) {
     convertForPrint();
   }
 
 };
-
-
-/*
-**  SEARCH INITIALIZATION
-**  @param(id) - the element ID of the list you're making searchable
-**  @param(options) - options you can pass through, currently just an array
-**    of valueNames for the classes in your list items you want to make
-**    searchable.
-**
-*/
-AppController.prototype.initSearch = function ( id, options ) {
-  this.search.id = id;
-  this.search.options = options;
-  this.search.list = new List(id, options);
-};
-
 
 function convertForPrint() {
   $('#patient_details_form').find(':input').not('.hidden-input').not('.hidden').replaceWith(function(){

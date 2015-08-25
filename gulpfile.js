@@ -64,7 +64,10 @@ gulp.task('vendorIMG', function(){
 });
 
 var testFiles = [
-  './tests/front/suite/**/*.js'
+  // './tests/front/html/xsl.html',
+  './app/static/js/vendor.js',
+  './front/js/**/*.js',
+  './tests/front/spec/**/*.spec.js'
 ];
 
 gulp.task('test', function() {

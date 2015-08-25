@@ -18,7 +18,14 @@
 
       window.menu = new Menu();
       window.map = new Maps();
-      window.search = new Search();
+
+      if ($('.field_input_search').length && tempSearchData) {
+        window.search = new Search({
+          elementClass: '.field_input_search',
+          searchData: tempSearchData
+        });  
+      }
+      
     }
     </script>
   </body>

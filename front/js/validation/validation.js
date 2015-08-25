@@ -63,7 +63,7 @@ var DEFAULT_VALIDATORS = {
 };
 
 
-function Validator(root, fields, validationFunctions){
+var Validator = function(root, fields, validationFunctions){
   this.validateOn = 'blur';
   this.$root = $(root);
   this.validationFunctions = validationFunctions || DEFAULT_VALIDATORS;
