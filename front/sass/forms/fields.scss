@@ -27,35 +27,6 @@
   &:focus {
     outline: solid 1px $color-blue;
   }
-
-  &.field_input_verified,
-  &.field_input_invalid {
-    + .field_verification {
-      position: absolute;
-      right: 11px;
-      bottom: 12px;
-      &:before {
-        @extend %icon;
-      }
-    }
-  }
-  &.field_input_verified {
-    + .field_verification {
-      &:before {
-        content:"\f00c";
-        color: $color-green;
-      }
-    }
-  }
-  &.field_input_invalid {
-    border: 1px solid $color-red;
-    + .field_verification {
-      &:before {
-        content:"\f00d";
-        color: $color-red;
-      }
-    }
-  }
 }
 
 // an individual select element in a field
@@ -175,29 +146,75 @@
   }
 }
 
-.validation {}
+// .validation {}
+// .validation_valid,
+// .validation_invalid,
+// .validation_required {
+//   .field_label {
+//     &:after {
+//       @extend %icon;
+//       margin-left: 5px;
+//     }
+//   }
+// }
+// .validation_valid {
+//   @include validator("\f00c", $color-brightgreen);
+//   background-color: inherit;
+//   .field_input {
+//     border: 1px solid $field-border-color;
+//   }
+// }
+// .validation_invalid {
+//   @include validator("\f00d", $ui-error);
+// }
+// .validation_required {
+//   @include validator("\f06a", $ui-new);
+// }
+
 .validation_valid,
 .validation_invalid,
 .validation_required {
-  .field_label {
-    &:after {
-      @extend %icon;
-      margin-left: 5px;
+  .field_input {
+    + .field_verification {
+      position: absolute;
+      right: 23px;
+      bottom: 23px;
+      &:before {
+        @extend %icon;
+      }
     }
   }
 }
 .validation_valid {
-  @include validator("\f00c", $color-brightgreen);
-  background-color: inherit;
   .field_input {
-    border: 1px solid $field-border-color;
+    + .field_verification {
+      &:before {
+        content:"\f00c";
+        color: $color-brightgreen;
+      }
+    }
   }
 }
 .validation_invalid {
-  @include validator("\f00d", $ui-error);
+  .field_input {
+    border: 1px solid $ui-error;
+    + .field_verification {
+      &:before {
+        content:"\f00d";
+        color: $ui-error;
+      }
+    }
+  }
 }
 .validation_required {
-  @include validator("\f06a", $ui-new);
+  .field_input {
+    border: 1px solid $ui-new;
+    + .field_verification {
+      &:before {
+        content:"\f12a";
+        color: $ui-new;
+      }
+    }
+  }
 }
-
 

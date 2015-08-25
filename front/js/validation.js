@@ -9,7 +9,7 @@ var DEFAULT_VALIDATORS = {
     var cleaned = val.replace(/[^0-9\.]+/g,"");
     var parsed = Math.round( parseFloat(cleaned));
     if( isNaN(parsed) ){
-      return validationResult(false, val, 'It looks like you\'v entered an incorrect currency amount.');
+      return validationResult(false, val, 'It looks like you\'ve entered an incorrect currency amount.');
     } else {
       return validationResult(true, parsed);
     }
@@ -47,6 +47,16 @@ var DEFAULT_VALIDATORS = {
       return validationResult(false, val, 'Please enter date after 1/1/1900');
     } else {
       return validationResult(true, parsed);
+    }
+  },
+  "ssn": function($elem) {
+    // matches a regex against the value
+    var val = $elem.val();
+    var pattern = /^\d{3}-\d{2}-\d{4}$/;
+    if (!val.match(pattern)) {
+      return validationResult(false, val, 'Not a valid social security number.');
+    } else {
+      return validationResult(true, val);
     }
   }
 };
@@ -212,4 +222,14 @@ var validations = [
       }
     ]
   },
+  {
+    selector: fName("ssn"),
+    validators: [
+      {
+        type: "ssn",
+        success: reports.success,
+        failure: reports.failure
+      }
+    ]
+  }
 ];
