@@ -1,5 +1,5 @@
-function validationResult(res, val){
-  return { passed: res, value: val };
+function validationResult(res, val, message){
+  return { passed: res, value: val, message: message || 'Something may have gone wrong but it could have gone right.' };
 }
 
 var DEFAULT_VALIDATORS = {
@@ -9,7 +9,7 @@ var DEFAULT_VALIDATORS = {
     var cleaned = val.replace(/[^0-9\.]+/g,"");
     var parsed = Math.round( parseFloat(cleaned));
     if( isNaN(parsed) ){
-      return validationResult(false, val);
+      return validationResult(false, val, 'It looks like you\'v entered an incorrect currency amount.');
     } else {
       return validationResult(true, parsed);
     }
@@ -20,7 +20,7 @@ var DEFAULT_VALIDATORS = {
     if( val ){
       return validationResult(true, val);
     } else {
-      return validationResult(false, val);
+      return validationResult(false, val, 'This field is required!');
     }
   },
   "date": function ($elem) {
@@ -28,27 +28,32 @@ var DEFAULT_VALIDATORS = {
     var val = $elem.val();
     var parsed = new Date(val);
     if( isNaN(parsed) ){
-      return validationResult(false, val);
+      return validationResult(false, val, 'Incorrect date');
     } else {
       return validationResult(true, parsed);
     }
   },
   "dob": function ($elem) {
-    console.log(this);
+    // checks date to be before today and after 1900 (currently only checking year)
     var val = $elem.val();
     var parsed = new Date(val);
+    var today = new Date();
+    var todayNice = today.getMonth() + '/' + today.getDate() + '/' + today.getFullYear();
     if( isNaN(parsed) ){
-      return validationResult(false, val);
+      return validationResult(false, val, 'This is not a valid date.');
+    } else if ( parsed > today ) {
+      return validationResult(false, val, 'Please enter a date before ' + todayNice);
+    } else if ( parsed < new Date(1900, 1, 1) ) {
+      return validationResult(false, val, 'Please enter date after 1/1/1900');
     } else {
       return validationResult(true, parsed);
     }
   }
 };
 
- 
 
 function Validator(root, fields, validationFunctions){
-  this.validateOn = 'change';
+  this.validateOn = 'blur';
   this.$root = $(root);
   this.validationFunctions = validationFunctions || DEFAULT_VALIDATORS;
   this.fields = fields || [];
@@ -123,23 +128,54 @@ Validator.prototype = {
 
 };
 
+// Removes all instances of classes with 'validation'.
+// Used when updating HTML validation
+function removeValidationClasses($elem) {
+  var $parent = $elem.parent();
+  var classList = $parent.attr('class').split(/\s+/);
+  $.each( classList, function(index, item){
+    if (item.indexOf('validation') > -1) {
+      // remove all validation classnames before adding new ones
+      $parent.removeClass(item);
+    }
+  });
+}
 
-// handle validation messages and values
+// Handle validation on the HTML side of things
+function validationHTML(elem, className, message) {
+  var $input = $(elem);
+  removeValidationClasses($input);
+  $input.parent().addClass(className);
+  if (message) {
+    console.log(message);
+    // do this
+  }
+}
+
+// reporter object for handling specific validation types
 var reports = {
   "default": function(e, result) {
     console.log(e.type, arguments);
   },
-  "dobFailure": function(e, result) {
-    alert('please enter a date prior to today.');
+  "failure": function(e, result) {
+    console.log(e.type, arguments);
+    console.error(result.message);
+    validationHTML(arguments[0].currentTarget, 'validation_invalid');
   },
-  "incomeFailure": function(e, result){
-    alert("please enter a whole dollar amount.");
+  "success": function(e, result) {
+    console.log(e.type, arguments);
+    validationHTML(arguments[0].currentTarget, 'validation_valid');
+  },
+  "required": function(e, result) {
+    console.log(e.type, arguments);
+    validationHTML(arguments[0].currentTarget, 'validation_required');
   }
 }
 
 function fName(s){
   return "[name='"+s+"']";
 }
+
 var validations = [
   { 
     selector: fName("household_income"), 
@@ -147,7 +183,7 @@ var validations = [
       { 
         type: "currency", 
         success: reports.default, 
-        failure: reports.incomeFailure
+        failure: reports.failure
       } 
     ]
   },
@@ -157,12 +193,12 @@ var validations = [
       { 
         type: "required",
         success: reports.default,
-        failure: reports.default
+        failure: reports.required
       },
       { 
         type: "dob",
-        success: reports.default,
-        failure: reports.dobFailure
+        success: reports.success,
+        failure: reports.failure
       }  
     ]
   },
@@ -171,8 +207,8 @@ var validations = [
     validators: [
       { 
         type: "required",
-        success: reports.default,
-        failure: reports.default
+        success: reports.success,
+        failure: reports.required
       }
     ]
   },

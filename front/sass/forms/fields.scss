@@ -162,5 +162,42 @@
   }
 }
 
+@mixin validator($content, $color) {
+  background-color: lighten($color, 30);
+  .field_label {
+    &:after {
+      content:$content;
+      color: $color;
+    }
+  }
+  .field_input {
+    border: 1px solid $color;
+  }
+}
+
+.validation {}
+.validation_valid,
+.validation_invalid,
+.validation_required {
+  .field_label {
+    &:after {
+      @extend %icon;
+      margin-left: 5px;
+    }
+  }
+}
+.validation_valid {
+  @include validator("\f00c", $color-brightgreen);
+  background-color: inherit;
+  .field_input {
+    border: 1px solid $field-border-color;
+  }
+}
+.validation_invalid {
+  @include validator("\f00d", $ui-error);
+}
+.validation_required {
+  @include validator("\f06a", $ui-new);
+}
 
 
