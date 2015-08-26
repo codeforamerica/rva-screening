@@ -1,8 +1,5 @@
 {
-  "engines": {
-    "node": "0.10.x"
-  },
-  "private": true,
+ "private": true,
   "devDependencies": {
     "bootstrap": "^3.3.4",
     "gulp": "^3.8.11",
