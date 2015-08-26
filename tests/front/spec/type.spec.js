@@ -27,7 +27,7 @@ describe('Type', function() {
   });
 
   describe('Exist as objects', function() {
-    // test for needed objects
+    // test for needed objects?
   });
 
 });

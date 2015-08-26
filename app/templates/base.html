@@ -17,7 +17,11 @@
       });
 
       window.menu = new Menu();
-      window.map = new Maps();
+      
+      window.map = new Maps({
+        accessToken: 'pk.eyJ1Ijoic3ZtYXR0aGV3cyIsImEiOiJVMUlUR0xrIn0.NweS_AttjswtN5wRuWCSNA',
+        tileSet: 'svmatthews.lidab7g5'
+      });
 
       if ($('.field_input_search').length && tempSearchData) {
         window.search = new Search({

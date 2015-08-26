@@ -95,7 +95,7 @@ describe('search.js', function() {
     // TODO: write tests that search by ssn and dob
   });
 
-  // TEMPLATES: can't do this because we don't have the xsl templates loaded in Karma yet
+  // TODO: can't test templates yet because we don't have the xsl loaded in Karma
   describe('Templates', function() {
     // unsure how to test XSL templating
     // it('Templates exist', function() {});
