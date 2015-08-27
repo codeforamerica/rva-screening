@@ -6,6 +6,7 @@ RUN apt-get update
 RUN apt-get install -y python python-dev python-distribute python-pip libpq-dev libffi-dev
 RUN pip install Flask
 RUN pip install -r ./requirements.txt
+RUN npm install
 RUN gulp build
 RUN python ./upload_assets.py
 
