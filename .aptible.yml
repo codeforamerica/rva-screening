@@ -1,1 +1,2 @@
 before_release:
+  make db_update

@@ -3,7 +3,7 @@ ADD . /app
 WORKDIR /app
 
 RUN apt-get update
-RUN apt-get install -y python python-dev python-distribute python-pip libpq-dev libffi-dev nodejs
+RUN apt-get install -y python python-dev python-distribute python-pip libpq-dev libffi-dev
 RUN pip install Flask
 RUN pip install -r ./requirements.txt
 
