@@ -24,6 +24,10 @@ describe('Type', function() {
     it('Conditional Display', function() {
       expect(typeof registerConditionalDisplay).to.equal('function');
     });
+
+    it('Function.prototype.bind exists', function() {
+      expect(typeof Function.prototype.bind).to.equal('function');
+    });
   });
 
   describe('Exist as objects', function() {

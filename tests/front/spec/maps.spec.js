@@ -1,4 +1,4 @@
-describe('> > > MAPS.JS', function() {
+describe('maps.js', function() {
 
   var opts = {
     accessToken: 'pk.eyJ1Ijoic3ZtYXR0aGV3cyIsImEiOiJVMUlUR0xrIn0.NweS_AttjswtN5wRuWCSNA',
