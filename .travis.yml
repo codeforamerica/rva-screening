@@ -7,6 +7,7 @@ before_script:
   - psql -c 'drop database if exists screener_test;' -U postgres
   - psql -c 'create database screener_test;' -U postgres
   - psql screener_test -c 'CREATE EXTENSION IF NOT EXISTS hstore' -U postgres
+  - npm install
 script: make test
 addons:
   postgresql: 9.3
