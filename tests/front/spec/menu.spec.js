@@ -7,9 +7,6 @@ describe('menu.js', function() {
   var menuHTML = '<nav class="nav cf" id="nav"><div class="nav_logo"><img src=""></div><div class="nav_menu"><ul class="nav_menu_list"><li class="menu_list_item "><a href="/new_prescreening"><i class="fa fa-pencil"></i> Pre-Screener</a></li><li class="menu_list_item "><a href="/"><i class="fa fa-search"></i> Search Patients</a></li></ul></div><div class="nav_user"><a href="#" class="nav_user_profile">daily_planet_user@test.com</a> / <a href="/logout">Logout</a></div></nav>';
 
   beforeEach(function() {
-    // var nav = document.createElement('div');
-    // nav.id = 'nav';
-    // document.body.appendChild(nav);
 
     document.body.innerHTML = menuHTML;
 
