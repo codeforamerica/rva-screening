@@ -1,2 +1,2 @@
 before_release:
-  make db_update
+  python add_data/clear_db.py
