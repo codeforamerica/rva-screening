@@ -65,6 +65,10 @@ var DEFAULT_VALIDATORS = {
 
 var Validator = function(root, fields, validationFunctions){
   this.validateOn = 'blur';
+  if(!$(root)) {
+    var err = new Error(root + 'does not exist');
+    throw err;
+  }
   this.$root = $(root);
   this.validationFunctions = validationFunctions || DEFAULT_VALIDATORS;
   this.fields = fields || [];

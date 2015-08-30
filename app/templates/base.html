@@ -33,6 +33,11 @@
           searchData: tempSearchData
         });  
       }
+
+      if ($('.validation').length) {
+        V = new Validator('.validation', validations.config);
+        validations.bindings.forEach(registerOneWayDataBinding);
+      }
       
     }
     </script>
