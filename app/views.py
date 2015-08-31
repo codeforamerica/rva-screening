@@ -42,6 +42,7 @@ screener = Blueprint('screener', __name__, url_prefix='')
 @screener.before_request
 def before_request():
     g.user = current_user
+    session.modified = True
 
 
 @screener.route("/login", methods=["GET", "POST"])
@@ -57,7 +58,8 @@ def login():
                 user.authenticated = True
                 db.session.add(user)
                 db.session.commit()
-                login_user(user, remember=True)
+                login_user(user)
+                session.permanent = True
                 return redirect(url_for('screener.index'))
             else:
                 return redirect(url_for('screener.login'))
@@ -475,7 +477,6 @@ def index():
     """Display the initial landing page, which lists patients in the
     network and allows users to search and filter them.
     """
-    session.clear()
     all_patients = Patient.query.all()
     # Get patients created or updated in the last week
     recently_updated = Patient.query.filter(or_(
