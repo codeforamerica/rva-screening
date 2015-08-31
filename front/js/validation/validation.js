@@ -108,11 +108,15 @@ Validator.prototype = {
     };
   },
 
-  addValidator: function addValidator(key, fn){
+  addValidator: function(key, fn){
     this.validators[key] = fn;
   },
 
-  listenToField: function listenToField(selector, validators, eventType){
+  addValidationFn: function(key, fn){
+    this.validationFunctions[key] = fn;
+  },
+
+  listenToField: function(selector, validators, eventType){
     var V = this;
     this.fields.push({ 'selector': selector, 
       'validators': validators });
