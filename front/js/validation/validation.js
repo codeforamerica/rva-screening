@@ -62,8 +62,8 @@ var DEFAULT_VALIDATORS = {
   },
   "phone": function($elem) {
     var val = $elem.val();
-    // http://stackoverflow.com/questions/18375929/validate-phone-number-using-javascript
-    var pattern = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+    // http://stackoverflow.com/a/18376010
+    var pattern = /^\(?[0-9]{3}(\-|\)) ?[0-9]{3}-[0-9]{4}$/;
     if (!val.match(pattern)) {
       return validationResult(false, val, 'Not a valid phone number!');
     } else {

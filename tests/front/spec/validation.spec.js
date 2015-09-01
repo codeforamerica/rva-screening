@@ -15,8 +15,14 @@ describe('Validation', function() {
     ssn_false: {passed: false, value: '222-22-222', message: 'Not a valid social security number.'},
     currency_true: {passed: true, value: 300, message: 'Something may have gone wrong but it could have gone right.'},
     currency_false: {passed: false, value: '', message: 'It looks like you\'ve entered an incorrect currency amount.'},
-    phone_true: {passed: true, value: 777-777-7777, message: 'Something may have gone wrong but it could have gone right.'},
-    phone_false: {passed: false, value: '', message: 'Not a valid phone number!'}
+    phone_true_dashes: {passed: true, value: '123-123-1234', message: 'Something may have gone wrong but it could have gone right.'},
+    phone_true_parentheses_space: {passed: true, value: '(123) 123-1234', message: 'Something may have gone wrong but it could have gone right.'},
+    phone_true_parentheses_nospace: {passed: true, value: '(123)123-1234', message: 'Something may have gone wrong but it could have gone right.'},
+    phone_false_nodashes: {passed: false, value: '1231231234', message: 'Not a valid phone number!'},
+    phone_false_invalid_nums: {passed: false, value: '777877', message: 'Not a valid phone number!'},
+    phone_false_periods: {passed: false, value: '123.123.1234', message: 'Not a valid phone number!'},
+    phone_false_improper_parentheses1: {passed: false, value: '(123- 456-7890', message: 'Not a valid phone number!'},
+    phone_false_improper_parentheses2: {passed: false, value: '123)456-7890', message: 'Not a valid phone number!'}
   };
 
   function createField(type, attributes, parentId) {
@@ -109,7 +115,7 @@ describe('Validation', function() {
       expect(res).to.deep.equal(expectedResponses.ssn_false);
     });
 
-    it('phone: improper input returns false validation result', function() {
+    it('phone: fails with improper number length', function() {
       var testValidator = new v('.validation', []);
       createField('input', {
         id: 'phone',
@@ -118,7 +124,91 @@ describe('Validation', function() {
         value: '777877'
       }, 'test-form');
       var res = testValidator.validationFunctions['phone']($('#phone'));
-      expect(res).to.deep.equal(expectedResponses.phone_false);
+      expect(res).to.deep.equal(expectedResponses.phone_false_invalid_nums);
+    });
+
+    it('phone: fails using periods', function() {
+      var testValidator = new v('.validation', []);
+      createField('input', {
+        id: 'phone',
+        name: 'phone_number',
+        type: 'text',
+        value: '123.123.1234'
+      }, 'test-form');
+      var res = testValidator.validationFunctions['phone']($('#phone'));
+      expect(res).to.deep.equal(expectedResponses.phone_false_periods);
+    });
+
+    // it('phone: fails with improper parentheses 1', function() {
+    //   var testValidator = new v('.validation', []);
+    //   createField('input', {
+    //     id: 'phone',
+    //     name: 'phone_number',
+    //     type: 'text',
+    //     value: '(123- 456-7890'
+    //   }, 'test-form');
+    //   var res = testValidator.validationFunctions['phone']($('#phone'));
+    //   expect(res).to.deep.equal(expectedResponses.phone_false_improper_parentheses1);
+    // });
+
+    // it('phone: fails with improper parentheses 2', function() {
+    //   var testValidator = new v('.validation', []);
+    //   createField('input', {
+    //     id: 'phone',
+    //     name: 'phone_number',
+    //     type: 'text',
+    //     value: '123)456-7890'
+    //   }, 'test-form');
+    //   var res = testValidator.validationFunctions['phone']($('#phone'));
+    //   expect(res).to.deep.equal(expectedResponses.phone_false_improper_parentheses2);
+    // });
+
+    it('phone: fails with no dashes', function() {
+      var testValidator = new v('.validation', []);
+      createField('input', {
+        id: 'phone',
+        name: 'phone_number',
+        type: 'text',
+        value: '1231231234'
+      }, 'test-form');
+      var res = testValidator.validationFunctions['phone']($('#phone'));
+      expect(res).to.deep.equal(expectedResponses.phone_false_nodashes);
+    });
+
+    it('phone: passes with proper dashes', function() {
+      var testValidator = new v('.validation', []);
+      createField('input', {
+        id: 'phone',
+        name: 'phone_number',
+        type: 'text',
+        value: '123-123-1234'
+      }, 'test-form');
+      var res = testValidator.validationFunctions['phone']($('#phone'));
+      expect(res).to.deep.equal(expectedResponses.phone_true_dashes);
+    });
+
+    it('phone: passes with parentheses and space', function() {
+      var testValidator = new v('.validation', []);
+      createField('input', {
+        id: 'phone',
+        name: 'phone_number',
+        type: 'text',
+        value: '(123) 123-1234'
+      }, 'test-form');
+      var res = testValidator.validationFunctions['phone']($('#phone'));
+      expect(res).to.deep.equal(expectedResponses.phone_true_parentheses_space);
+    });
+
+    it('phone: passes with parentheses, no space', function() {
+      var testValidator = new v('.validation', []);
+      createField('input', {
+        id: 'phone',
+        name: 'phone_number',
+        type: 'text',
+        value: '(123)123-1234'
+      }, 'test-form');
+      var res = testValidator.validationFunctions['phone']($('#phone'));
+      expect(res).to.deep.equal(expectedResponses.phone_true_parentheses_nospace);
     });
 
     it('dob: proper input returns true validation result', function() {
