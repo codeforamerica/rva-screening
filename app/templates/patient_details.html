@@ -35,7 +35,7 @@
 
 {% block patient_content %}
 
-<form enctype="multipart/form-data" action="" method="post" id="patient_details_form" class="print validation">
+<form enctype="multipart/form-data" action="" method="post" id="patient_details_form" class="print validation" autocomplete="off">
   {{ form.hidden_tag() }}
 
   {% if form.errors %}
@@ -211,6 +211,16 @@ config.validations = [
         failure: reports.failure
       }
     ]
+  },
+  {
+    selector: fName('email'),
+    validators: [
+      {
+        type: "email",
+        success: reports.success,
+        failure: reports.failure
+      }
+    ]
   }
 ];
 
@@ -222,7 +232,7 @@ config.bindings = [
 
 var EMPLOYED = [ "FT", "PT", "SEA" ];
 
-var DEPENDENCIES = [
+config.dependencies = [
   { target: "marital_status", child: "spouse_employment_status", 
     type: "equals", comparator: "MAR" },
   { target: "spouse_employment_status", child: "spouse_years_at_current_employer ", 

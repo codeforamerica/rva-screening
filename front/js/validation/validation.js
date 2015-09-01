@@ -9,7 +9,6 @@ var DEFAULT_VALIDATORS = {
     // parse as currency - via http://stackoverflow.com/a/559178/399726
     var cleaned = val.replace(/[^0-9\.]+/g,"");
     var parsed = Math.round( parseFloat(cleaned));
-    console.log(val, cleaned, parsed);
     if( isNaN(parsed) ){
       return validationResult(false, val, 'It looks like you\'ve entered an incorrect currency amount.');
     } else {
@@ -67,6 +66,16 @@ var DEFAULT_VALIDATORS = {
     var pattern = /^\(?[0-9]{3}(\-|\)) ?[0-9]{3}-[0-9]{4}$/;
     if (!val.match(pattern)) {
       return validationResult(false, val, 'Not a valid phone number!');
+    } else {
+      return validationResult(true, val);
+    }
+  },
+  "email": function($elem) {
+    var val = $elem.val();
+    // http://stackoverflow.com/a/46181
+    var pattern = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+    if (!val.match(pattern)) {
+      return validationResult(false, val, 'Not a valid email address!');
     } else {
       return validationResult(true, val);
     }

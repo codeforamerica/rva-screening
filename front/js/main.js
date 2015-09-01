@@ -30,50 +30,9 @@ var AppController = function ( options ) {
     **  .form-list contains both .add-form-list-item and .form-list-item
     *   .form-list-item is the div to be added
     */
-    $('.multiform_control_edit').on('click', function(e){
-      e.preventDefault();
-      var entry = $(this).parent().parent();
-      var entryForm = entry.find('.multiform_content_fields');
-      var entryRead = entry.find('.multiform_content_readonly');
-
-      if (entry.hasClass('form_multiform_read')) {
-        entry.removeClass('form_multiform_read');
-        entry.addClass('form_multiform_edit');
-      }
-
-      return;
-    });
-
-    $('.multiform_control_remove').on('click', function(e){
-      e.preventDefault();
-      var entry = $(this).parent().parent();
-      var entryForm = entry.find('.multiform_content_fields');
-      entryForm.find('.field_input').each(function(){
-        $(this).attr('value', '');
-        if ($(this).attr('type') == 'date') {
-          $(this).attr('value', 'mm/dd/yyyy');
-        }
-      });
-      entry.hide();
-      // entry.remove(); // removes from DOM, not from db until page save
-      return;
-    });
-
-    $('.multiform_control_add').on('click', function(e){
-      e.preventDefault();
-      var id = $(this).attr('data-clone-id');
-      var clone = $('#'+id).clone();
-      var elem_id = clone.find(":input")[0].id;
-      var elem_num = parseInt(elem_id.replace(/.*-(\d{1,4})-.*/m, '$1')) + 1;
-      clone.attr('data-id', elem_num);
-      clone.find(":input").each(function() {
-        var new_elem_id = $(this).attr('id').replace('-' + (elem_num - 1) + '-', '-' + (elem_num) + '-');
-        $(this).attr('name', new_elem_id).attr('id', new_elem_id).val('').removeAttr("checked");
-      });
-      $('#'+id).after(clone);
-      // console.log(id, clone);
-      return;
-    });
+    $('.multiform_control_edit').on('click', multiform.edit);
+    $('.multiform_control_remove').on('click', multiform.remove);
+    $('.multiform_control_add').on('click', multiform.add);
 
   }
 
@@ -82,6 +41,51 @@ var AppController = function ( options ) {
     convertForPrint();
   }
 
+};
+
+var multiform = {
+  add: function(event) {
+    event.preventDefault();
+    var id = $(this).attr('data-clone-id');
+    var clone = $('#'+id).clone();
+    var elem_id = clone.find(":input")[0].id;
+    var elem_num = parseInt(elem_id.replace(/.*-(\d{1,4})-.*/m, '$1')) + 1;
+    clone.attr('data-id', elem_num);
+    clone.find(":input").each(function() {
+      var new_elem_id = $(this).attr('id').replace('-' + (elem_num - 1) + '-', '-' + (elem_num) + '-');
+      $(this).attr('name', new_elem_id).attr('id', new_elem_id).val('').removeAttr("checked");
+    });
+    $('#'+id).after(clone);
+    // console.log(id, clone);
+    return;
+  },
+  remove: function(event) {
+    event.preventDefault();
+    var entry = $(this).parent().parent();
+    var entryForm = entry.find('.multiform_content_fields');
+    entryForm.find('.field_input').each(function(){
+      $(this).attr('value', '');
+      if ($(this).attr('type') == 'date') {
+        $(this).attr('value', 'mm/dd/yyyy');
+      }
+    });
+    entry.hide();
+    // entry.remove(); // removes from DOM, not from db until page save
+    return;
+  },
+  edit: function(event) {
+    event.preventDefault();
+    var entry = $(this).parent().parent();
+    var entryForm = entry.find('.multiform_content_fields');
+    var entryRead = entry.find('.multiform_content_readonly');
+
+    if (entry.hasClass('form_multiform_read')) {
+      entry.removeClass('form_multiform_read');
+      entry.addClass('form_multiform_edit');
+    }
+
+    return;
+  }
 };
 
 function convertForPrint() {

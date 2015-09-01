@@ -22,7 +22,12 @@ describe('Validation', function() {
     phone_false_invalid_nums: {passed: false, value: '777877', message: 'Not a valid phone number!'},
     phone_false_periods: {passed: false, value: '123.123.1234', message: 'Not a valid phone number!'},
     phone_false_improper_parentheses1: {passed: false, value: '(123- 456-7890', message: 'Not a valid phone number!'},
-    phone_false_improper_parentheses2: {passed: false, value: '123)456-7890', message: 'Not a valid phone number!'}
+    phone_false_improper_parentheses2: {passed: false, value: '123)456-7890', message: 'Not a valid phone number!'},
+    email_true: {passed: true, value: 'example@codeforamerica.org', message: 'Something may have gone wrong but it could have gone right.'},
+    email_false_nodomain: {passed: false, value: 'example@codeforamerica', message: 'Not a valid email address!'},
+    email_false_nodestination: {passed: false, value: 'examplecodeforamerica.org', message: 'Not a valid email address!'},
+    email_false_justdomain: {passed: false, value: 'codeforamerica.org', message: 'Not a valid email address!'},
+    email_false_norecipient: {passed: false, value: '@codeforamerica.org', message: 'Not a valid email address!'}
   };
 
   function createField(type, attributes, parentId) {
@@ -209,6 +214,66 @@ describe('Validation', function() {
       }, 'test-form');
       var res = testValidator.validationFunctions['phone']($('#phone'));
       expect(res).to.deep.equal(expectedResponses.phone_true_parentheses_nospace);
+    });
+
+    it('email: fails only domain', function() {
+      var testValidator = new v('.validation', []);
+      createField('input', {
+        id: 'email',
+        name: 'email',
+        type: 'email',
+        value: 'codeforamerica.org'
+      }, 'test-form');
+      var res = testValidator.validationFunctions['email']($('#email'));
+      expect(res).to.deep.equal(expectedResponses.email_false_justdomain);
+    });
+
+    it('email: fails missing recipient', function() {
+      var testValidator = new v('.validation', []);
+      createField('input', {
+        id: 'email',
+        name: 'email',
+        type: 'email',
+        value: '@codeforamerica.org'
+      }, 'test-form');
+      var res = testValidator.validationFunctions['email']($('#email'));
+      expect(res).to.deep.equal(expectedResponses.email_false_norecipient);
+    });
+
+    it('email: fails without domain', function() {
+      var testValidator = new v('.validation', []);
+      createField('input', {
+        id: 'email',
+        name: 'email',
+        type: 'email',
+        value: 'example@codeforamerica'
+      }, 'test-form');
+      var res = testValidator.validationFunctions['email']($('#email'));
+      expect(res).to.deep.equal(expectedResponses.email_false_nodomain);
+    });
+
+    it('email: fails without @', function() {
+      var testValidator = new v('.validation', []);
+      createField('input', {
+        id: 'email',
+        name: 'email',
+        type: 'email',
+        value: 'examplecodeforamerica.org'
+      }, 'test-form');
+      var res = testValidator.validationFunctions['email']($('#email'));
+      expect(res).to.deep.equal(expectedResponses.email_false_nodestination);
+    });
+
+    it('email: passes with example@codeforamerica.org', function() {
+      var testValidator = new v('.validation', []);
+      createField('input', {
+        id: 'email',
+        name: 'email',
+        type: 'email',
+        value: 'example@codeforamerica.org'
+      }, 'test-form');
+      var res = testValidator.validationFunctions['email']($('#email'));
+      expect(res).to.deep.equal(expectedResponses.email_true);
     });
 
     it('dob: proper input returns true validation result', function() {

@@ -39,8 +39,8 @@
         config.bindings.forEach(registerOneWayDataBinding);
       }
 
-      if (DEPENDENCIES.length) {
-        DEPENDENCIES.forEach(registerConditionalDisplay);
+      if (typeof config === 'object' && typeof config.dependencies !== 'undefined') {
+        config.dependencies.forEach(registerConditionalDisplay);
       }
       
     }

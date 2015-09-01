@@ -9,7 +9,7 @@
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^2.0.1",
     "jquery": "^2.1.4",
-    "karma": ">=0.10",
+    "karma": "^0.10.x",
     "karma-chai": "^0.1.0",
     "karma-mocha": "^0.2.0",
     "karma-mocha-reporter": "^1.1.1",
