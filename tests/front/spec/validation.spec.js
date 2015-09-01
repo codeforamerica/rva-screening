@@ -286,6 +286,7 @@ describe('Validation', function() {
       expect(res).to.equal('wakaflaka');
     });
 
+    // // function not in use
     // it('properly adds a new validator using Validator.addValidator', function() {
     //   var newValidator = function(x) {
     //     return x + 1
