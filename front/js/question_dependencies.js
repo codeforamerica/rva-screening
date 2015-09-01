@@ -83,6 +83,5 @@ function registerConditionalDisplay(d){
 
 $(function(){
   DEPENDENCIES.forEach(registerConditionalDisplay);
-  console.info("Registered Dependencies :)");
 });
 

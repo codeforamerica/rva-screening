@@ -35,8 +35,8 @@
       }
 
       if ($('.validation').length) {
-        V = new Validator('.validation', validations.config);
-        validations.bindings.forEach(registerOneWayDataBinding);
+        V = new Validator('.validation', config.validations);
+        config.bindings.forEach(registerOneWayDataBinding);
       }
       
     }

@@ -154,15 +154,16 @@
 
 {% block script %}
 <script>
-var validations = validations || {};
-validations.config = [
+config = {};
+
+config.validations = [
   { 
     selector: fName("household_income"), 
     validators: [
       { 
         type: "currency", 
-        success: validations.reports.default, 
-        failure: validations.reports.failure
+        success: reports.default, 
+        failure: reports.failure
       } 
     ]
   },
@@ -171,13 +172,13 @@ validations.config = [
     validators: [
       { 
         type: "required",
-        success: validations.reports.default,
-        failure: validations.reports.required
+        success: reports.default,
+        failure: reports.required
       },
       { 
         type: "dob",
-        success: validations.reports.success,
-        failure: validations.reports.failure
+        success: reports.success,
+        failure: reports.failure
       }  
     ]
   },
@@ -186,8 +187,8 @@ validations.config = [
     validators: [
       { 
         type: "required",
-        success: validations.reports.success,
-        failure: validations.reports.required
+        success: reports.success,
+        failure: reports.required
       }
     ]
   },
@@ -196,11 +197,18 @@ validations.config = [
     validators: [
       {
         type: "ssn",
-        success: validations.reports.success,
-        failure: validations.reports.failure
+        success: reports.success,
+        failure: reports.failure
       }
     ]
   }
 ];
+
+config.bindings = [
+  { origin: "first_name", recipient:".hh_member.patient .hh_member_full_name", type: "text" },
+  { origin: "dob", recipient:".hh_member.patient .hh_member_dob", type: "text" },
+  { origin: "ssn", recipient:".hh_member.patient .hh_member_ssn", type: "text" },
+];
+
 </script>
 {% endblock %}

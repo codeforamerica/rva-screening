@@ -2,7 +2,8 @@ describe('Validation', function() {
 
   var v, testValidator;
 
-  var config_dob = [{selector:fName("dob"),validators:[{type:"required",success:validations.reports.default,failure:validations.reports.required},{type:"dob",success:validations.reports.success,failure:validations.reports.failure}]}];
+  var config_dob = [{selector:fName("dob"),validators:[{type:"required",success:reports.default,failure:reports.required},{type:"dob",success:reports.success,failure:reports.failure}]}];
+  var config_binding = [{ origin: "dob", recipient:"#dob_recipient", type: "text" }];
 
   // TODO: make these less brittle - currently depend on message string matching with deep.equal()
   var expectedResponses = {
@@ -162,7 +163,7 @@ describe('Validation', function() {
 
   describe('The Validator', function() {
     // var expectedFields = 
-    var newValidator = {selector:fName("family_member_dob"),validators:[{type:"dob",success:validations.reports.success,failure:validations.reports.failure}]}
+    var newValidator = {selector:fName("family_member_dob"),validators:[{type:"dob",success:reports.success,failure:reports.failure}]}
     var testFieldName = 'waka';
     var expectedFieldNameResponse = '[name=\'waka\']';
     it('fName() structures properly', function() {
@@ -251,6 +252,31 @@ describe('Validation', function() {
       }, 'wrapper');
       $('#test-field').trigger('validation:dob:failure', {});
       expect($('#test-field').parent().hasClass('validation_invalid')).to.eq(true);
+    });
+  });
+
+  describe('Bindings', function() {
+    it('Text processor binds origin to recipient properly', function() {
+      var testDateValue = '1914-06-18';
+      var testValidator = new v('.validation', config_dob);
+      createField('label', {
+        id: 'wrapper',
+        class: 'form_field first_name block_4'
+      }, 'test-form');
+      createField('input', {
+        id: 'test-field',
+        max: '2200-01-01',
+        min: '1899-01-01',
+        name: 'dob',
+        type: 'date',
+        value: testDateValue
+      }, 'wrapper');
+      createField('p', {
+        id: 'dob_recipient'
+      }, 'wrapper');
+      config_binding.forEach(registerOneWayDataBinding);
+      $('#test-field').trigger('change');
+      expect($('#dob_recipient').text()).to.equal(testDateValue);
     });
   });
 
