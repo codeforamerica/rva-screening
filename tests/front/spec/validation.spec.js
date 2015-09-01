@@ -14,7 +14,9 @@ describe('Validation', function() {
     ssn_true: {passed: true, value: '222-22-2222', message: 'Something may have gone wrong but it could have gone right.'},
     ssn_false: {passed: false, value: '222-22-222', message: 'Not a valid social security number.'},
     currency_true: {passed: true, value: 300, message: 'Something may have gone wrong but it could have gone right.'},
-    currency_false: {passed: false, value: '', message: 'It looks like you\'ve entered an incorrect currency amount.'}
+    currency_false: {passed: false, value: '', message: 'It looks like you\'ve entered an incorrect currency amount.'},
+    phone_true: {passed: true, value: 777-777-7777, message: 'Something may have gone wrong but it could have gone right.'},
+    phone_false: {passed: false, value: '', message: 'Not a valid phone number!'}
   };
 
   function createField(type, attributes, parentId) {
@@ -105,6 +107,18 @@ describe('Validation', function() {
       }, 'test-form');
       var res = testValidator.validationFunctions['ssn']($('#ssn'));
       expect(res).to.deep.equal(expectedResponses.ssn_false);
+    });
+
+    it('phone: improper input returns false validation result', function() {
+      var testValidator = new v('.validation', []);
+      createField('input', {
+        id: 'phone',
+        name: 'phone_number',
+        type: 'text',
+        value: '777877'
+      }, 'test-form');
+      var res = testValidator.validationFunctions['phone']($('#phone'));
+      expect(res).to.deep.equal(expectedResponses.phone_false);
     });
 
     it('dob: proper input returns true validation result', function() {
