@@ -23,7 +23,6 @@ describe('Validation', function() {
       elem.setAttribute(a, attributes[a]);
     }
     document.getElementById(parentId).appendChild(elem);
-    // <input class="field_input" id="dob" max="2200-01-01" min="1899-01-01" name="dob" type="date" value="1914-06-18">
   };
 
   function createForm(className, id) {

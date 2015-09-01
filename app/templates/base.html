@@ -38,6 +38,10 @@
         V = new Validator('.validation', config.validations);
         config.bindings.forEach(registerOneWayDataBinding);
       }
+
+      if (DEPENDENCIES.length) {
+        DEPENDENCIES.forEach(registerConditionalDisplay);
+      }
       
     }
     </script>
