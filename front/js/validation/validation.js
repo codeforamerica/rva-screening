@@ -9,6 +9,7 @@ var DEFAULT_VALIDATORS = {
     // parse as currency - via http://stackoverflow.com/a/559178/399726
     var cleaned = val.replace(/[^0-9\.]+/g,"");
     var parsed = Math.round( parseFloat(cleaned));
+    console.log(val, cleaned, parsed);
     if( isNaN(parsed) ){
       return validationResult(false, val, 'It looks like you\'ve entered an incorrect currency amount.');
     } else {

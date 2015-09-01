@@ -186,14 +186,14 @@
   }
 }
 .validation_valid {
-  .field_input {
-    + .field_verification {
-      &:before {
-        content:"\f00c";
-        color: $color-brightgreen;
-      }
-    }
-  }
+  // .field_input {
+  //   + .field_verification {
+  //     &:before {
+  //       content:"\f00c";
+  //       color: $color-brightgreen;
+  //     }
+  //   }
+  // }
 }
 .validation_invalid {
   .field_input {
