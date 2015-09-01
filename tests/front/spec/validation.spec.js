@@ -162,7 +162,7 @@ describe('Validation', function() {
 
   describe('The Validator', function() {
     // var expectedFields = 
-    var newValidator = {selector:fName("family_member_dob"),validators:[{type:"dob",success:reports.success,failure:reports.failure}]}
+    var newValidator = {selector:fName("family_member_dob"),validators:[{type:"dob",success:reports.success,failure:reports.failure}]};
     var testFieldName = 'waka';
     var expectedFieldNameResponse = '[name=\'waka\']';
     it('fName() structures properly', function() {
@@ -251,6 +251,96 @@ describe('Validation', function() {
       }, 'wrapper');
       $('#test-field').trigger('validation:dob:failure', {});
       expect($('#test-field').parent().hasClass('validation_invalid')).to.eq(true);
+    });
+
+    it('properly selects multiple inputs if using regex selector', function() {
+      var config_multiSelect = [{selector:"[name*=pirate]",validators:[{type:"dob",success:reports.success,failure:reports.failure}]}];
+      var testValidator = new v('.validation', config_multiSelect); // selects any field with "pirates" in the name
+      // :not([name*=cowboys])
+
+      createField('label', {
+        id: 'pirate_wrapper',
+        class: 'form_field first_name block_4'
+      }, 'test-form');
+      createField('input', {
+        id: 'pirate_test',
+        max: '2200-01-01',
+        min: '1899-01-01',
+        name: 'pirate_date_of_birth',
+        type: 'date',
+        value: '1950-06-18'
+      }, 'pirate_wrapper');
+
+      createField('label', {
+        id: 'pirate_parent_wrapper',
+        class: 'form_field first_name block_4'
+      }, 'test-form');
+      createField('input', {
+        id: 'pirate_parent_test',
+        max: '2200-01-01',
+        min: '1899-01-01',
+        name: 'pirate_parent_date_of_birth',
+        type: 'date',
+        value: '1989-06-18'
+      }, 'pirate_parent_wrapper');
+
+      // trigger success dob on both and check if they are valid
+      $('#pirate_test').trigger('validation:dob:success', {});
+      $('#pirate_parent_test').trigger('validation:dob:success', {});
+      expect($('#pirate_parent_wrapper').hasClass('validation_valid')).to.eq(true);
+      expect($('#pirate_wrapper').hasClass('validation_valid')).to.eq(true);
+    });
+
+    it('properly selects multiple inputs if using exclusion regex selector', function() {
+      var config_multiSelect = [{selector:"[name*=pirate]:not([name*=cowboy])",validators:[{type:"dob",success:reports.success,failure:reports.failure}]}];
+      var testValidator = new v('.validation', config_multiSelect); // selects any field with "pirates" in the name
+
+      createField('label', {
+        id: 'pirate_wrapper',
+        class: 'form_field first_name block_4'
+      }, 'test-form');
+      createField('input', {
+        id: 'pirate_test',
+        max: '2200-01-01',
+        min: '1899-01-01',
+        name: 'pirate_date_of_birth',
+        type: 'date',
+        value: '1950-06-18'
+      }, 'pirate_wrapper');
+
+      createField('label', {
+        id: 'pirate_parent_wrapper',
+        class: 'form_field first_name block_4'
+      }, 'test-form');
+      createField('input', {
+        id: 'pirate_parent_test',
+        max: '2200-01-01',
+        min: '1899-01-01',
+        name: 'pirate_parent_date_of_birth',
+        type: 'date',
+        value: '1989-06-18'
+      }, 'pirate_parent_wrapper');
+
+      createField('label', {
+        id: 'pirate_cowboy_wrapper',
+        class: 'form_field first_name block_4'
+      }, 'test-form');
+      createField('input', {
+        id: 'pirate_cowboy_test',
+        max: '2200-01-01',
+        min: '1899-01-01',
+        name: 'pirate_cowboy_date_of_birth',
+        type: 'date',
+        value: '1989-06-18'
+      }, 'pirate_cowboy_wrapper');
+
+      // trigger success dob on all three, but assume cowboy doesn't trigger
+      $('#pirate_test').trigger('validation:dob:success', {});
+      $('#pirate_parent_test').trigger('validation:dob:success', {});
+      $('#pirate_cowboy_test').trigger('validation:dob:success', {});
+      expect($('#pirate_parent_wrapper').hasClass('validation_valid')).to.eq(true);
+      expect($('#pirate_wrapper').hasClass('validation_valid')).to.eq(true);
+      expect($('#pirate_cowboy_wrapper').hasClass('validation_valid')).to.eq(false);
     });
   });
 

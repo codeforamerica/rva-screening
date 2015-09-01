@@ -201,6 +201,16 @@ config.validations = [
         failure: reports.failure
       }
     ]
+  },
+  {
+    selector: "[name*=phone_number]:not([name*=description])",
+    validators: [
+      {
+        type: "phone",
+        success: reports.success,
+        failure: reports.failure
+      }
+    ]
   }
 ];
 
