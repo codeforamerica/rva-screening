@@ -3,6 +3,7 @@ describe('Question Dependencies', function() {
   var exampleEquals = [{ target: "question_a", child: "question_b", type: "equals", comparator: "YES" }];
   var exampleIn = [{ target: "question_a", child: "question_b ", type: "in", comparator: ['ONE', 'TWO', 'THREE'] }];
   var exampleContains = [{ target: "question_a", child: "question_b", type: "contains", comparator: "OTH" }];
+  var exampleDoesNotContain = [{ target: "question_a", child: "question_b", type: "does_not_contain", comparator: "WAKA" }];
 
   function createField(type, attributes, parentId) {
     var elem = document.createElement(type);
@@ -220,35 +221,105 @@ describe('Question Dependencies', function() {
       expect(display).to.equal('none');
     });
 
-  //   it('[contains]: display:inline-block after change', function() {
-  //     createField('label', {
-  //       id: 'question_label',
-  //       class: 'question_a'
-  //     }, 'wrapper');
+    // it('[contains]: display:inline-block after change', function() {
+    //   createField('label', {
+    //     id: 'question_label',
+    //     class: 'question_a'
+    //   }, 'wrapper');
 
-  //     createField('select', {
-  //       id: 'question_a',
-  //       name: 'question_a',
-  //       type: 'text'
-  //     }, 'question_label');
-  //     createField('option', { value: 'A THING' }, 'question_a');
-  //     createField('option', { value: 'SOMETHING' }, 'question_a');
-  //     createField('option', { value: 'OTH', id: 'other-field' }, 'question_a');
+    //   createField('select', {
+    //     id: 'question_a',
+    //     name: 'question_a',
+    //     type: 'text'
+    //   }, 'question_label');
+    //   createField('option', { value: 'A THING' }, 'question_a');
+    //   createField('option', { value: 'SOMETHING' }, 'question_a');
+    //   createField('option', { value: 'OTH', id: 'other-field' }, 'question_a');
 
-  //     createField('input', {
-  //       id: 'question_b',
-  //       class: 'question_b',
-  //       type: 'text'
-  //     }, 'wrapper');
-  //     console.log(document.body);
-  //     exampleContains.forEach(registerConditionalDisplay);
-  //     $('#question_a option').each(function() {
-  //       if ($(this).val() === 'OTH') $(this).attr('selected', 'selected');
-  //     });
-  //     $('#question_a').trigger('change');
-  //     var display = $('#question_b').css('display');
-  //     expect(display).to.equal('inline-block');
-  //   });
-  // });
-  
+    //   createField('input', {
+    //     id: 'question_b',
+    //     class: 'question_b',
+    //     type: 'text'
+    //   }, 'wrapper');
+    //   console.log(document.body);
+    //   exampleContains.forEach(registerConditionalDisplay);
+    //   $('#question_a option').each(function() {
+    //     if ($(this).val() === 'OTH') $(this).attr('selected', 'selected');
+    //   });
+    //   $('#question_a').trigger('change');
+    //   var display = $('#question_b').css('display');
+    //   expect(display).to.equal('inline-block');
+    // });
+
+    // it('[does_not_contain]: display:none before change', function() {
+    //   createField('label', {
+    //     id: 'question_label',
+    //     class: 'question_a'
+    //   }, 'wrapper');
+
+    //   createField('input', {
+    //     id: 'question_a',
+    //     name: 'question_a',
+    //     type: 'text',
+    //     value: 'HELLO'
+    //   }, 'question_label');
+
+    //   createField('input', {
+    //     id: 'question_b',
+    //     class: 'question_b',
+    //     type: 'text'
+    //   }, 'wrapper');
+    //   exampleDoesNotContain.forEach(registerConditionalDisplay);
+    //   var display = $('#question_b').css('display');
+    //   expect(display).to.equal('none');
+    // });
+
+    // it('[does_not_contain]: display:none after false change', function() {
+    //   createField('label', {
+    //     id: 'question_label',
+    //     class: 'question_a'
+    //   }, 'wrapper');
+
+    //   createField('input', {
+    //     id: 'question_a',
+    //     name: 'question_a',
+    //     type: 'text',
+    //     value: 'NO'
+    //   }, 'question_label');
+
+    //   createField('input', {
+    //     id: 'question_b',
+    //     class: 'question_b',
+    //     type: 'text'
+    //   }, 'wrapper');
+    //   exampleIn.forEach(registerConditionalDisplay);
+    //   $('#question_a').val('FOUR').trigger('change');
+    //   var display = $('#question_b').css('display');
+    //   expect(display).to.equal('none');
+    // });
+
+    // it('[does_not_contain]: display:inline-block after change', function() {
+    //   createField('label', {
+    //     id: 'question_label',
+    //     class: 'question_a'
+    //   }, 'wrapper');
+
+    //   createField('input', {
+    //     id: 'question_a',
+    //     name: 'question_a',
+    //     type: 'text',
+    //     value: 'NO'
+    //   }, 'question_label');
+
+    //   createField('input', {
+    //     id: 'question_b',
+    //     class: 'question_b',
+    //     type: 'text'
+    //   }, 'wrapper');
+    //   exampleIn.forEach(registerConditionalDisplay);
+    //   $('#question_a').val('ONE').trigger('change');
+    //   var display = $('#question_b').css('display');
+    //   expect(display).to.equal('inline-block');   
+    // });
+  });
 });

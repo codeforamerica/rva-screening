@@ -6,7 +6,6 @@ var DEPENDENCY_PROCESSORS = {
     return $.inArray(answer, comparator) > -1;
   },
   "contains": function(answer, comparator){
-    console.log($.inArray(comparator, answer));
     return $.inArray(comparator, answer) > -1;
   },
   "does_not_contain": function(answer, comparator){
@@ -22,9 +21,9 @@ function registerConditionalDisplay(d){
   var comparator = d.comparator;
   // make a function to hide or show the child element
   var displayFunction = function(){
-    console.log("parent:", target[0], "child:", child[0]);
-    console.log("changed to", target.val());
-    console.log("met criteria:", processor(target.val(), comparator));
+    // console.log("parent:", target[0], "child:", child[0]);
+    // console.log("changed to", target.val());
+    // console.log("met criteria:", processor(target.val(), comparator));
     if( processor(target.val(), comparator) ){
       child.show();
     } else {
