@@ -93,6 +93,7 @@ var Validator = function(root, fields, validationFunctions){
   this.validationFunctions = validationFunctions || DEFAULT_VALIDATORS;
   this.fields = fields || [];
   this.init();
+  this.dirty = false;
 }
 
 Validator.prototype = {
@@ -155,6 +156,25 @@ Validator.prototype = {
     // validation functions and triggers
     this.$root.on( eventType || this.validateOn, selector, 
         this.createListener(validators) );
+
+    // detect any changes in the form
+    $('.validation :input').on('change', dirt);
+    function dirt(event) {
+      V.$root.addClass('validation_dirty');
+      V.dirty = true;
+    }
+
+    window.addEventListener('beforeunload', function(e) {
+      var confirmationMessage = 'There are unsaved edits on this page. Please save before continuing.';
+
+      // if the form isn't dirty, or if the user is clicking the save button
+      if (!V.dirty || e.target.activeElement.getAttribute('type') === 'submit') {
+          return undefined;
+      }
+
+      (e || window.event).returnValue = confirmationMessage; //Gecko + IE
+      return confirmationMessage;
+    });
   },
 
   init: function init(){
