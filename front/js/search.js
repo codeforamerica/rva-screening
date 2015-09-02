@@ -47,11 +47,13 @@ var Search = function ( options ) {
     if (res.length > S.data.total) {
       var html = "";
     } else if (!res.length) {
-      var html = Defiant.render('search_noresults', results);
+      var html = templates.render('noresults', results);
+      // var html = Defiant.render('search_noresults', results);
     } else {
-      var html = Defiant.render('search_results_list', results);
+      var html = templates.render('list', results);
+      // var html = Defiant.render('search_results_list', results);
     }
-    console.log(html);
+    
     $('#search_results').html(html);
   });
 }
@@ -60,9 +62,57 @@ function translateResults(r, n) {
   return { 
     patients: r,
     none:[
-      { 
+      {
         name: n 
       }
     ]
   };
 }
+
+var templates = {
+  render: function(fn, array) {
+    var html = this[fn](array);
+    return html;
+  },
+  list: function(data) {
+    var elem = document.createElement('ul');
+    elem.className = 'list list_table';
+    for (var p = 0; p < data.patients.length; p++) {
+      var patient = data.patients[p];
+      var li = document.createElement('li');
+      li.className = 'list_row';
+      
+      var anchor = document.createElement('a');
+      anchor.href = patient.url;
+      anchor.innerHTML += '<span class="list_row_item list_row_name">' + patient.name + '</span>';
+      anchor.innerHTML += '<span class="list_row_item list_row_dob">' + patient.dob + '</span>';
+      anchor.innerHTML += '<span class="list_row_item list_row_edits">Some extra information</span>';
+
+      li.appendChild(anchor);
+      elem.appendChild(li);
+    }
+    var newPatient = document.createElement('a');
+    newPatient.href = newPatientUrl;
+    newPatient.innerHTML = '<i class="fa fa-plus"></i> Not the right <strong>' + data.none[0].name + '</strong>? Add them as a new patient.';
+
+    var addNew = document.createElement('li');
+    addNew.className = 'list_row list_row_addnew';
+    addNew.appendChild(newPatient);
+    elem.appendChild(addNew);
+
+    return elem;
+  },
+  noresults: function(data) {
+    var elem = document.createElement('div');
+    elem.className = 'no_results';
+    elem.innerHTML = '<p><i class="fa fa-exclamation-circle"></i> No patients matched <strong>' + data.none[0].name + '</strong></p>';
+    
+    var newPatient = document.createElement('a');
+    newPatient.className = 'button button_blue button_fat button_add';
+    newPatient.href = newPatientUrl || '/new_patient';
+    newPatient.innerHTML = 'Create a new patient record with ' + data.none[0].name;
+    
+    elem.appendChild(newPatient);
+    return elem;
+  }
+};

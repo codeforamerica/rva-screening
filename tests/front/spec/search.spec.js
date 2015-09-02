@@ -95,17 +95,28 @@ describe('search.js', function() {
     // TODO: write tests that search by ssn and dob
   });
 
-  // TODO: can't test templates yet because we don't have the xsl loaded in Karma
   describe('Templates', function() {
-    // unsure how to test XSL templating
-    // it('Templates exist', function() {});
-    // it('Single result HTML string renders properly', function() {
-    //   var res = JSON.search(searchData, '//*[contains(name, "Nader")]');
-    //   var results = translateResults(res, "Nade"); // function from search.js
-    //   var html = Defiant.render('search_results_list', results);
-    // });
-    // it('HTML is blank if nothing searched', function() {});
-    // it('Create new patient renders if no results', function() {});
+    it('renders proper list on successful response', function() {
+      window.newPatientUrl = '/url'; // this is suuuuuper hacky
+      var resultsContainer = document.createElement('div');
+      resultsContainer.id = 'results_container';
+      document.body.appendChild(resultsContainer);
+      var results = translateResults(JSON.search(searchData, '//*[contains(name, "Nade")]'), 'Nade');
+      var html = templates.render('list', results);
+      $('#results_container').html(html);
+      expect(document.getElementsByTagName('li').length).to.equal(2);
+    });
+
+    it('renders proper "no result" response on unsuccessful response', function() {
+      window.newPatientUrl = '/url'; // this is suuuuuper hacky
+      var resultsContainer = document.createElement('div');
+      resultsContainer.id = 'results_container';
+      document.body.appendChild(resultsContainer);
+      var results = translateResults(JSON.search(searchData, '//*[contains(name, "Waka")]'), 'Nade');
+      var html = templates.render('noresults', results);
+      $('#results_container').html(html);
+      expect(document.getElementsByClassName('no_results').length).to.equal(1);
+    });
   });
 
 });
