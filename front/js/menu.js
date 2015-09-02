@@ -1,80 +1,91 @@
+Function.prototype.bind = Function.prototype.bind || function (thisp) {
+  var fn = this;
+  return function () {
+    return fn.apply(thisp, arguments);
+  };
+};
+
 window.Menu = window.Menu || {};
 
 var Menu = function ( options ) {
   this.options = options || {};
-
   this.yDown = null;
   this.xDown = null;
+  if (!options.id) {
+    var err = new Error('Please specify an ID for the menu');
+    throw err;
+  }
+  this.id = options.id;
   this.swipeMenuState = false;
-  this.elem = document.getElementById('nav');
+  this.elem = document.getElementById(options.id);
   this.button = document.getElementById('nav_button');
-  var _this = this;
-  events();
+  that = this;
 
-  function events() {
-    document.addEventListener('touchstart', _this.handleTouchStart.bind(_this), false);
-    _this.button.addEventListener('click', _this.toggle.bind(_this), false);        
-    document.addEventListener('touchmove', _this.handleTouchMove.bind(_this), false);
-  }
+  window.ontouchstart = function(e) {
+    handleTouchStart(e, that);
+  };
 
-  console.info('Menu initialized :)');
+  window.ontouchmove = function(e) {
+    handleTouchMove(e, that);
+  };
+
+  that.button.addEventListener('click', function(e) {
+    menuToggle(that);
+  });
+
 };
 
-Menu.prototype.open = function() {
-  var m = this;
-  m.elem.className += ' open';
+function menuOpen(that) {
+  that.elem.className += ' open';
   document.body.className = 'menu_open';
-  m.button.className += ' open';
-  m.swipeMenuState = !m.swipeMenuState;
-};
+  that.button.className += ' open';
+  that.swipeMenuState = !that.swipeMenuState;
+}
 
-Menu.prototype.close = function() {
-  var m = this;
-  m.elem.className = 'nav';
+function menuClose(that) {
+  that.elem.className = 'nav';
   document.body.className = '';
-  m.button.className = 'button_nav';
-  m.swipeMenuState = !m.swipeMenuState;
-};
+  that.button.className = 'button_nav';
+  that.swipeMenuState = !that.swipeMenuState;
+}
 
-Menu.prototype.toggle = function() {
-  var m = this;
-  if (m.swipeMenuState) {
-    m.close();
+function menuToggle(that) {
+  if (that.swipeMenuState) {
+    menuClose(that);
   } else {
-    m.open();
+    menuOpen(that);
   }
-};
+}
 
-Menu.prototype.handleTouchStart = function(event) {
-  var m = this;
-  m.xDown = event.touches[0].clientX;                                      
-  m.yDown = event.touches[0].clientY;
-};
+function handleTouchStart(event, that) {
+  that.xDown = event.touches[0].clientX;                                      
+  that.yDown = event.touches[0].clientY;
+}
 
-Menu.prototype.handleTouchMove = function(event) {
-  var m = this;
-  if ( ! this.xDown || ! this.yDown ) {
+function handleTouchMove(event, that) {
+  if ( isNaN(that.xDown) || isNaN(that.yDown) ) {
     return;
   }
   var xUp = event.touches[0].clientX,                                    
       yUp = event.touches[0].clientY,
-      xDiff = this.xDown - xUp,
-      yDiff = this.yDown - yUp;
+      xDiff = that.xDown - xUp,
+      yDiff = that.yDown - yUp;
+
   if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {
     document.body.className = 'menu_open'; // prevent vertical scroll during open
     if ( xDiff > 0 ) {
-      if (this.swipeMenuState) this.close(); 
+      if (that.swipeMenuState) menuClose(that); 
     } else {
-      if (!this.swipeMenuState) this.open();
+      if (!that.swipeMenuState) menuOpen(that);
     }                       
   } else {
     if ( yDiff > 0 ) {
-      /* up swipe, do nothing */ 
+      return;
     } else { 
-      /* down swipe, do nothing */
+      return;
     }                                                                 
   }
   /* reset values */
-  this.xDown = null;
-  this.yDown = null; 
-};
+  that.xDown = null;
+  that.yDown = null;
+}

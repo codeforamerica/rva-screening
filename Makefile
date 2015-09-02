@@ -23,7 +23,9 @@ test:
 		-sv \
 		--with-coverage \
 		--cover-package=app \
-		--cover-erase 
+		--cover-erase
+	gulp build
+	gulp test
 
 new_db:
 	rm -rf ./migrations
