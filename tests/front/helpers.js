@@ -28,8 +28,8 @@ function createMultiform() {
   document.write("      <\/div>");
   document.write("    <\/div>");
   document.write("    <div class=\"multiform_controls\">");
-  document.write("      <button type=\"button\" class=\"multiform_control_edit\" value=\"Edit\"><\/button>");
-  document.write("      <button type=\"button\" class=\"multiform_control_remove\" value=\"Remove\"><\/button>");
+  document.write("      <button type=\"button\" id=\"test_edit_button\" class=\"multiform_control_edit\" value=\"Edit\"><\/button>");
+  document.write("      <button type=\"button\" id=\"test_remove_button\" class=\"multiform_control_remove\" value=\"Remove\"><\/button>");
   document.write("    <\/div>");
   document.write("  <\/div>");
   document.write("  <div class=\"form_multiform form_multiform_new\" id=\"data_clone_test\">");
