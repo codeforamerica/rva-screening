@@ -24,6 +24,7 @@ test:
 		--with-coverage \
 		--cover-package=app \
 		--cover-erase
+	gulp build
 	gulp test
 
 new_db:
