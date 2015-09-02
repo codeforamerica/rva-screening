@@ -30,21 +30,6 @@ describe('Validation', function() {
     email_false_norecipient: {passed: false, value: '@codeforamerica.org', message: 'Not a valid email address!'}
   };
 
-  function createField(type, attributes, parentId) {
-    var elem = document.createElement(type);
-    for (a in attributes) {
-      elem.setAttribute(a, attributes[a]);
-    }
-    document.getElementById(parentId).appendChild(elem);
-  };
-
-  function createForm(className, id) {
-    var form = document.createElement('form');
-    form.className = className;
-    form.id = id;
-    document.body.appendChild(form);
-  }
-
   beforeEach(function() {
     createForm('validation', 'test-form');
     v = Validator; // locally scoped Validator
@@ -64,7 +49,7 @@ describe('Validation', function() {
       // TODO: write config validator in validation.js
     });
   });
-
+  
   describe('validator functions', function() {
 
     it('able to access validator functions', function() {
@@ -81,7 +66,7 @@ describe('Validation', function() {
         value: '300'
       }, 'test-form');
       var res = testValidator.validationFunctions['currency']($('#income'));
-      expect(res).to.deep.equal(expectedResponses.currency_true);
+      expect(res.passed).to.equal(true);
     });
 
     it('currency: improper input returns false validation result', function() {
@@ -93,7 +78,7 @@ describe('Validation', function() {
         value: '3o0'
       }, 'test-form');
       var res = testValidator.validationFunctions['currency']($('#income'));
-      expect(res).to.deep.equal(expectedResponses.currency_false);
+      expect(res.passed).to.equal(false);
     });
 
     it('ssn: proper input returns true validation result', function() {
@@ -105,7 +90,7 @@ describe('Validation', function() {
         value: '222-22-2222'
       }, 'test-form');
       var res = testValidator.validationFunctions['ssn']($('#ssn'));
-      expect(res).to.deep.equal(expectedResponses.ssn_true);
+      expect(res.passed).to.equal(true);
     });
 
     it('ssn: improper input returns false validation result', function() {
@@ -117,7 +102,7 @@ describe('Validation', function() {
         value: '222-22-222'
       }, 'test-form');
       var res = testValidator.validationFunctions['ssn']($('#ssn'));
-      expect(res).to.deep.equal(expectedResponses.ssn_false);
+      expect(res.passed).to.equal(false);
     });
 
     it('phone: fails with improper number length', function() {
@@ -129,7 +114,7 @@ describe('Validation', function() {
         value: '777877'
       }, 'test-form');
       var res = testValidator.validationFunctions['phone']($('#phone'));
-      expect(res).to.deep.equal(expectedResponses.phone_false_invalid_nums);
+      expect(res.passed).to.equal(false);
     });
 
     it('phone: fails using periods', function() {
@@ -141,7 +126,7 @@ describe('Validation', function() {
         value: '123.123.1234'
       }, 'test-form');
       var res = testValidator.validationFunctions['phone']($('#phone'));
-      expect(res).to.deep.equal(expectedResponses.phone_false_periods);
+      expect(res.passed).to.equal(false);
     });
 
     // it('phone: fails with improper parentheses 1', function() {
@@ -153,7 +138,7 @@ describe('Validation', function() {
     //     value: '(123- 456-7890'
     //   }, 'test-form');
     //   var res = testValidator.validationFunctions['phone']($('#phone'));
-    //   expect(res).to.deep.equal(expectedResponses.phone_false_improper_parentheses1);
+    //   expect(res.passed).to.equal(false);
     // });
 
     // it('phone: fails with improper parentheses 2', function() {
@@ -165,7 +150,7 @@ describe('Validation', function() {
     //     value: '123)456-7890'
     //   }, 'test-form');
     //   var res = testValidator.validationFunctions['phone']($('#phone'));
-    //   expect(res).to.deep.equal(expectedResponses.phone_false_improper_parentheses2);
+    //   expect(res.passed).to.equal(false);
     // });
 
     it('phone: fails with no dashes', function() {
@@ -177,7 +162,7 @@ describe('Validation', function() {
         value: '1231231234'
       }, 'test-form');
       var res = testValidator.validationFunctions['phone']($('#phone'));
-      expect(res).to.deep.equal(expectedResponses.phone_false_nodashes);
+      expect(res.passed).to.equal(false);
     });
 
     it('phone: passes with proper dashes', function() {
@@ -189,7 +174,7 @@ describe('Validation', function() {
         value: '123-123-1234'
       }, 'test-form');
       var res = testValidator.validationFunctions['phone']($('#phone'));
-      expect(res).to.deep.equal(expectedResponses.phone_true_dashes);
+      expect(res.passed).to.equal(true);
     });
 
     it('phone: passes with parentheses and space', function() {
@@ -201,7 +186,7 @@ describe('Validation', function() {
         value: '(123) 123-1234'
       }, 'test-form');
       var res = testValidator.validationFunctions['phone']($('#phone'));
-      expect(res).to.deep.equal(expectedResponses.phone_true_parentheses_space);
+      expect(res.passed).to.equal(true);
     });
 
     it('phone: passes with parentheses, no space', function() {
@@ -213,7 +198,7 @@ describe('Validation', function() {
         value: '(123)123-1234'
       }, 'test-form');
       var res = testValidator.validationFunctions['phone']($('#phone'));
-      expect(res).to.deep.equal(expectedResponses.phone_true_parentheses_nospace);
+      expect(res.passed).to.equal(true);
     });
 
     it('email: fails only domain', function() {
@@ -225,7 +210,7 @@ describe('Validation', function() {
         value: 'codeforamerica.org'
       }, 'test-form');
       var res = testValidator.validationFunctions['email']($('#email'));
-      expect(res).to.deep.equal(expectedResponses.email_false_justdomain);
+      expect(res.passed).to.equal(false);
     });
 
     it('email: fails missing recipient', function() {
@@ -237,7 +222,7 @@ describe('Validation', function() {
         value: '@codeforamerica.org'
       }, 'test-form');
       var res = testValidator.validationFunctions['email']($('#email'));
-      expect(res).to.deep.equal(expectedResponses.email_false_norecipient);
+      expect(res.passed).to.equal(false);
     });
 
     it('email: fails without domain', function() {
@@ -249,7 +234,7 @@ describe('Validation', function() {
         value: 'example@codeforamerica'
       }, 'test-form');
       var res = testValidator.validationFunctions['email']($('#email'));
-      expect(res).to.deep.equal(expectedResponses.email_false_nodomain);
+      expect(res.passed).to.equal(false);
     });
 
     it('email: fails without @', function() {
@@ -261,7 +246,7 @@ describe('Validation', function() {
         value: 'examplecodeforamerica.org'
       }, 'test-form');
       var res = testValidator.validationFunctions['email']($('#email'));
-      expect(res).to.deep.equal(expectedResponses.email_false_nodestination);
+      expect(res.passed).to.equal(false);
     });
 
     it('email: passes with example@codeforamerica.org', function() {
@@ -273,7 +258,7 @@ describe('Validation', function() {
         value: 'example@codeforamerica.org'
       }, 'test-form');
       var res = testValidator.validationFunctions['email']($('#email'));
-      expect(res).to.deep.equal(expectedResponses.email_true);
+      expect(res.passed).to.equal(true);
     });
 
     it('dob: proper input returns true validation result', function() {
@@ -287,7 +272,7 @@ describe('Validation', function() {
         value: '1914-06-18'
       }, 'test-form');
       var res = testValidator.validationFunctions['currency']($('#dob'));
-      expect(res).to.deep.equal(expectedResponses.dob_true);
+      expect(res.passed).to.equal(true);
     });
 
     it('dob: improper input returns false validation result', function() {
@@ -301,7 +286,7 @@ describe('Validation', function() {
         value: 'waka'
       }, 'test-form');
       var res = testValidator.validationFunctions['currency']($('#dob'));
-      expect(res).to.deep.equal(expectedResponses.dob_false);
+      expect(res.passed).to.equal(false);
     });
 
     it('required: proper input returns true validation result', function() {
@@ -313,7 +298,7 @@ describe('Validation', function() {
         value: 'some required text'
       }, 'test-form');
       var res = testValidator.validationFunctions['required']($('#something-required'));
-      expect(res).to.deep.equal(expectedResponses.required_true);
+      expect(res.passed).to.equal(true);
     });
 
     it('required: improper input returns false validation result', function() {
@@ -325,7 +310,7 @@ describe('Validation', function() {
         value: ''
       }, 'test-form');
       var res = testValidator.validationFunctions['required']($('#something-required'));
-      expect(res).to.deep.equal(expectedResponses.required_false);
+      expect(res.passed).to.equal(false);
     });
   });
 

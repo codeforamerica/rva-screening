@@ -5,14 +5,6 @@ describe('Question Dependencies', function() {
   var exampleContains = [{ target: "question_a", child: "question_b", type: "contains", comparator: "OTH" }];
   var exampleDoesNotContain = [{ target: "question_a", child: "question_b", type: "does_not_contain", comparator: "WAKA" }];
 
-  function createField(type, attributes, parentId) {
-    var elem = document.createElement(type);
-    for (a in attributes) {
-      elem.setAttribute(a, attributes[a]);
-    }
-    document.getElementById(parentId).appendChild(elem);
-  };
-
   beforeEach(function() {
     var div = document.createElement('div');
     div.id = 'wrapper';

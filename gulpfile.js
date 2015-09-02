@@ -65,6 +65,7 @@ gulp.task('vendorIMG', function(){
 
 var testFiles = [
   './tests/front/es5-shim.js',
+  './tests/front/helpers.js',
   './app/static/js/vendor.js',
   './front/js/**/*.js',
   './tests/front/spec/**/*.spec.js'
