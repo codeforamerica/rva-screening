@@ -261,6 +261,66 @@ describe('Validation', function() {
       expect(res.passed).to.equal(true);
     });
 
+    it('zip: passes with 5 digit, 12345', function() {
+      var testValidator = new v('.validation', []);
+      createField('input', {
+        id: 'zip',
+        name: 'zip_code',
+        type: 'text',
+        value: '12345'
+      }, 'test-form');
+      var res = testValidator.validationFunctions['zip']($('#zip'));
+      expect(res.passed).to.equal(true);
+    });
+
+    it('zip: passes with 9 digit, 12345-9876', function() {
+      var testValidator = new v('.validation', []);
+      createField('input', {
+        id: 'zip',
+        name: 'zip_code',
+        type: 'text',
+        value: '12345-9876'
+      }, 'test-form');
+      var res = testValidator.validationFunctions['zip']($('#zip'));
+      expect(res.passed).to.equal(true);
+    });
+
+    it('zip: fails incorrect digits, 1234', function() {
+      var testValidator = new v('.validation', []);
+      createField('input', {
+        id: 'zip',
+        name: 'zip_code',
+        type: 'text',
+        value: '1234'
+      }, 'test-form');
+      var res = testValidator.validationFunctions['zip']($('#zip'));
+      expect(res.passed).to.equal(false);
+    });
+
+    it('zip: fails with dash and no extra digits, 12345-', function() {
+      var testValidator = new v('.validation', []);
+      createField('input', {
+        id: 'zip',
+        name: 'zip_code',
+        type: 'text',
+        value: '12345-'
+      }, 'test-form');
+      var res = testValidator.validationFunctions['zip']($('#zip'));
+      expect(res.passed).to.equal(false);
+    });
+
+    it('zip: fails with no dash, 123459876', function() {
+      var testValidator = new v('.validation', []);
+      createField('input', {
+        id: 'zip',
+        name: 'zip_code',
+        type: 'text',
+        value: '123459876'
+      }, 'test-form');
+      var res = testValidator.validationFunctions['zip']($('#zip'));
+      expect(res.passed).to.equal(false);
+    });
+
     it('dob: proper input returns true validation result', function() {
       var testValidator = new v('.validation', []);
       createField('input', {

@@ -54,7 +54,7 @@ var DEFAULT_VALIDATORS = {
     // matches a regex against the value
     var val = $elem.val();
     if(val==='') {
-      return validationResult('clear', val);
+      return validationResult(true, val);
     }
     var pattern = /^\d{3}-\d{2}-\d{4}$/;
     if (!val.match(pattern)) {
@@ -66,7 +66,7 @@ var DEFAULT_VALIDATORS = {
   "phone": function($elem) {
     var val = $elem.val();
     if(val==='') {
-      return validationResult('clear', val);
+      return validationResult(true, val);
     }
     // http://stackoverflow.com/a/18376010
     var pattern = /^\(?[0-9]{3}(\-|\)) ?[0-9]{3}-[0-9]{4}$/;
@@ -82,6 +82,19 @@ var DEFAULT_VALIDATORS = {
     var pattern = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
     if (!val.match(pattern)) {
       return validationResult(false, val, 'Not a valid email address!');
+    } else {
+      return validationResult(true, val);
+    }
+  },
+  "zip": function($elem) {
+    var val = $elem.val();
+    if(val==='') {
+      return validationResult(true, val);
+    }
+    http://stackoverflow.com/a/160583
+    var pattern = /(^\d{5}$)|(^\d{5}-\d{4}$)/;
+    if(!val.match(pattern)) {
+      return validationResult(false, val, 'Not a valid email address!'); 
     } else {
       return validationResult(true, val);
     }
