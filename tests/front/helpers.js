@@ -13,14 +13,15 @@ function createForm(className, id) {
   document.body.appendChild(form);
 }
 
+// lol at this
 function createMultiform() {
   document.write("<div class=\"form_multiform_wrapper\">");
-  document.write("  <div class=\"form_multiform form_multiform_read\">");
+  document.write("  <div class=\"form_multiform form_multiform_read\" id=\"test_multiform\">");
   document.write("    <div class=\"multiform_content\">");
   document.write("      <div class=\"multiform_content_fields\">");
   document.write("        <label>");
   document.write("          Enter something");
-  document.write("          <input name=\"something-0\" type=\"text\" id=\"something-0\" value=\"this is my content\">");
+  document.write("          <input class=\"field_input\" name=\"something-0\" type=\"text\" id=\"something-0\" value=\"this is my content\">");
   document.write("        <\/label>");
   document.write("      <\/div>");
   document.write("      <div class=\"multiform_content_readonly\">");

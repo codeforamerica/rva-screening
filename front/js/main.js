@@ -57,12 +57,10 @@ var AppController = function ( options ) {
 
 var multiform = {
   add: function(id) {
-    console.log(id);
     var clone = $('#'+id).clone();
     var elem_id = clone.find(":input")[0].id;
     var elem_num = parseInt(elem_id.replace(/.*-(\d{1,4})-.*/m, '$1')) + 1;
     clone.attr('data-id', elem_num);
-    console.log(clone);
     clone.find(":input").each(function() {
       var new_elem_id = $(this).attr('id').replace('-' + (elem_num - 1) + '-', '-' + (elem_num) + '-');
       $(this).attr('name', new_elem_id).attr('id', new_elem_id).val('').removeAttr("checked");
@@ -74,9 +72,9 @@ var multiform = {
     var entry = $button.parent().parent();
     var entryForm = entry.find('.multiform_content_fields');
     entryForm.find('.field_input').each(function(){
-      $button.attr('value', '');
-      if ($button.attr('type') == 'date') {
-        $button.attr('value', 'mm/dd/yyyy');
+      $(this).attr('value', '');
+      if ($(this).attr('type') == 'date') {
+        $(this).attr('value', 'mm/dd/yyyy');
       }
     });
     entry.hide();
