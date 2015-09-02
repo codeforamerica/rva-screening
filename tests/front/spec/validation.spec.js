@@ -372,7 +372,7 @@ describe('Validation', function() {
   });
 
   describe('Triggers', function() {
-    it('validated element shows proper validation class after trigger', function() {
+    it('validated element shows proper valid class after trigger', function() {
       var testValidator = new v('.validation', config_dob);
       createField('label', {
         id: 'wrapper',
@@ -390,7 +390,7 @@ describe('Validation', function() {
       expect($('#test-field').parent().hasClass('validation_valid')).to.eq(true);
     });
 
-    it('validated element shows proper validation class after trigger', function() {
+    it('validated element shows proper invalid class after trigger', function() {
       var testValidator = new v('.validation', config_dob);
       createField('label', {
         id: 'wrapper',
@@ -406,6 +406,24 @@ describe('Validation', function() {
       }, 'wrapper');
       $('#test-field').trigger('validation:dob:failure', {});
       expect($('#test-field').parent().hasClass('validation_invalid')).to.eq(true);
+    });
+
+    it('validation element with no input length removes validation class', function() {
+      var config_ssn = [{selector:fName("ssn"),validators:[{type:"ssn",success:reports.success,failure:reports.failure}]}];
+      var testValidator = new v('.validation', config_ssn);
+      createField('label', {
+        id: 'wrapper',
+        class: 'form_field first_name block_4 validation_valid'
+      }, 'test-form');
+      createField('input', {
+        id: 'ssn',
+        name: 'ssn',
+        type: 'text',
+        value: '222-22-2222'
+      }, 'wrapper');
+      $('#ssn').val('').change();
+      $('#ssn').trigger('validation:ssn:success', {});
+      expect($('#ssn').parent().hasClass('validation_valid')).to.eq(false);
     });
 
     it('properly selects multiple inputs if using regex selector', function() {
@@ -522,6 +540,28 @@ describe('Validation', function() {
       $('#test-field').trigger('change');
       expect($('#dob_recipient').text()).to.equal(testDateValue);
     });
+  });
+
+  describe('Dirty form check', function() {
+    // it('sets dirty option to true if something has changed', function() {
+    //   var testValidator = new v('.validation', config_dob);
+    //   createField('label', {
+    //     id: 'wrapper',
+    //     class: 'form_field first_name block_4'
+    //   }, 'test-form');
+    //   createField('input', {
+    //     id: 'test-field',
+    //     max: '2200-01-01',
+    //     min: '1899-01-01',
+    //     name: 'dob',
+    //     type: 'date',
+    //     value: '1914-06-18'
+    //   }, 'wrapper');
+    //   $('#test-field').attr('value', '1914-06-19').change();
+    //   $('.validation :input').change();
+    //   console.log(document.body);
+    //   console.log(testValidator.dirty);
+    // });
   });
 
 });

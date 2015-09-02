@@ -53,6 +53,9 @@ var DEFAULT_VALIDATORS = {
   "ssn": function($elem) {
     // matches a regex against the value
     var val = $elem.val();
+    if(val==='') {
+      return validationResult('clear', val);
+    }
     var pattern = /^\d{3}-\d{2}-\d{4}$/;
     if (!val.match(pattern)) {
       return validationResult(false, val, 'Not a valid social security number.');
@@ -62,6 +65,9 @@ var DEFAULT_VALIDATORS = {
   },
   "phone": function($elem) {
     var val = $elem.val();
+    if(val==='') {
+      return validationResult('clear', val);
+    }
     // http://stackoverflow.com/a/18376010
     var pattern = /^\(?[0-9]{3}(\-|\)) ?[0-9]{3}-[0-9]{4}$/;
     if (!val.match(pattern)) {
@@ -98,7 +104,7 @@ var Validator = function(root, fields, validationFunctions){
 
 Validator.prototype = {
 
-  VALIDATION_EVENT_TYPES: ['complete', 'failure', 'success'],
+  VALIDATION_EVENT_TYPES: ['complete', 'failure', 'success', 'clear'],
 
   createListener: function(validators){
     var V = this;
@@ -112,6 +118,9 @@ Validator.prototype = {
         result.validator = v.type;
         if( result.passed ){
           target.trigger(typeScope + 'success', [result]);
+        } else if (result.passed === 'clear') {
+          console.log(target);
+          target.trigger(typeScope + 'clear', [result]);
         } else {
           target.trigger(typeScope + 'failure', [result]);
         }
@@ -204,10 +213,14 @@ function removeValidationClasses($elem) {
 function validationHTML(elem, className, message) {
   var $input = $(elem);
   removeValidationClasses($input);
-  $input.parent().addClass(className);
-  if (message) {
-    console.log(message);
-    // do this
+  if($input.val().length === 0 && className === 'validation_valid') {
+    // if valid but no input, it means the user has removed this information
+  } else {
+    $input.parent().addClass(className);
+    if (message) {
+      console.log(message);
+      // do this
+    }
   }
 }
 

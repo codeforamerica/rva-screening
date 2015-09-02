@@ -192,6 +192,16 @@ config.validations = [
       }
     ]
   },
+  { 
+    selector: fName("last_name"),
+    validators: [
+      { 
+        type: "required",
+        success: reports.success,
+        failure: reports.required
+      }
+    ]
+  },
   {
     selector: "[name*=ssn]",
     validators: [
