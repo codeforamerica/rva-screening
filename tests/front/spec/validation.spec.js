@@ -5,31 +5,6 @@ describe('Validation', function() {
   var config_dob = [{selector:fName("dob"),validators:[{type:"required",success:reports.default,failure:reports.required},{type:"dob",success:reports.success,failure:reports.failure}]}];
   var config_binding = [{ origin: "dob", recipient:"#dob_recipient", type: "text" }];
 
-  // TODO: make these less brittle - currently depend on message string matching with deep.equal()
-  var expectedResponses = {
-    dob_true: {passed: true, value: 19140618, message: 'Something may have gone wrong but it could have gone right.'},
-    dob_false: {passed: false, value: 'waka', message: 'It looks like you\'ve entered an incorrect currency amount.'},
-    required_true: {passed: true, value: 'some required text', message: 'Something may have gone wrong but it could have gone right.'},
-    required_false: {passed: false, value: '', message: 'This field is required!'},
-    ssn_true: {passed: true, value: '222-22-2222', message: 'Something may have gone wrong but it could have gone right.'},
-    ssn_false: {passed: false, value: '222-22-222', message: 'Not a valid social security number.'},
-    currency_true: {passed: true, value: 300, message: 'Something may have gone wrong but it could have gone right.'},
-    currency_false: {passed: false, value: '', message: 'It looks like you\'ve entered an incorrect currency amount.'},
-    phone_true_dashes: {passed: true, value: '123-123-1234', message: 'Something may have gone wrong but it could have gone right.'},
-    phone_true_parentheses_space: {passed: true, value: '(123) 123-1234', message: 'Something may have gone wrong but it could have gone right.'},
-    phone_true_parentheses_nospace: {passed: true, value: '(123)123-1234', message: 'Something may have gone wrong but it could have gone right.'},
-    phone_false_nodashes: {passed: false, value: '1231231234', message: 'Not a valid phone number!'},
-    phone_false_invalid_nums: {passed: false, value: '777877', message: 'Not a valid phone number!'},
-    phone_false_periods: {passed: false, value: '123.123.1234', message: 'Not a valid phone number!'},
-    phone_false_improper_parentheses1: {passed: false, value: '(123- 456-7890', message: 'Not a valid phone number!'},
-    phone_false_improper_parentheses2: {passed: false, value: '123)456-7890', message: 'Not a valid phone number!'},
-    email_true: {passed: true, value: 'example@codeforamerica.org', message: 'Something may have gone wrong but it could have gone right.'},
-    email_false_nodomain: {passed: false, value: 'example@codeforamerica', message: 'Not a valid email address!'},
-    email_false_nodestination: {passed: false, value: 'examplecodeforamerica.org', message: 'Not a valid email address!'},
-    email_false_justdomain: {passed: false, value: 'codeforamerica.org', message: 'Not a valid email address!'},
-    email_false_norecipient: {passed: false, value: '@codeforamerica.org', message: 'Not a valid email address!'}
-  };
-
   beforeEach(function() {
     createForm('validation', 'test-form');
     v = Validator; // locally scoped Validator
@@ -603,25 +578,12 @@ describe('Validation', function() {
   });
 
   describe('Dirty form check', function() {
-    // it('sets dirty option to true if something has changed', function() {
-    //   var testValidator = new v('.validation', config_dob);
-    //   createField('label', {
-    //     id: 'wrapper',
-    //     class: 'form_field first_name block_4'
-    //   }, 'test-form');
-    //   createField('input', {
-    //     id: 'test-field',
-    //     max: '2200-01-01',
-    //     min: '1899-01-01',
-    //     name: 'dob',
-    //     type: 'date',
-    //     value: '1914-06-18'
-    //   }, 'wrapper');
-    //   $('#test-field').attr('value', '1914-06-19').change();
-    //   $('.validation :input').change();
-    //   console.log(document.body);
-    //   console.log(testValidator.dirty);
-    // });
+    it('sets dirty option to true, and adds class', function() {
+      var testValidator = new v('.validation', config_dob);
+      testValidator.dirt();
+      expect(testValidator.dirty).to.equal(true);
+      expect($('form').hasClass('validation_dirty')).to.equal(true);
+    });
   });
 
 });

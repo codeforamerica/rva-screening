@@ -94,7 +94,7 @@ var DEFAULT_VALIDATORS = {
     http://stackoverflow.com/a/160583
     var pattern = /(^\d{5}$)|(^\d{5}-\d{4}$)/;
     if(!val.match(pattern)) {
-      return validationResult(false, val, 'Not a valid email address!'); 
+      return validationResult(false, val, 'Not a valid postal code!');
     } else {
       return validationResult(true, val);
     }
@@ -178,15 +178,26 @@ Validator.prototype = {
     // validation functions and triggers
     this.$root.on( eventType || this.validateOn, selector, 
         this.createListener(validators) );
+  },
 
-    // detect any changes in the form
-    $('.validation :input').on('change', dirt);
-    function dirt(event) {
-      V.$root.addClass('validation_dirty');
-      V.dirty = true;
-    }
+  init: function init(){
+    var V = this;
+    this.fields.forEach(function(f){
+      V.listenToField(f.selector, f.validators);
+    });
+    var listeners = $._data(V.$root[0], "events");
+    this.changeDetection();
+  },
 
-    window.addEventListener('beforeunload', function(e) {
+  changeDetection: function() {
+    var V = this;
+    var prx = this.proxy(V.dirt, V);
+
+    // detect any changes in the form, pass with proper scope using $.proxy()
+    $('.validation :input').on('change', prx);
+
+    $(window).on('beforeunload', function(event) {
+      var e = event.originalEvent;
       var confirmationMessage = 'There are unsaved edits on this page. Please save before continuing.';
 
       // if the form isn't dirty, or if the user is clicking the save button
@@ -199,13 +210,16 @@ Validator.prototype = {
     });
   },
 
-  init: function init(){
-    var V = this;
-    this.fields.forEach(function(f){
-      V.listenToField(f.selector, f.validators);
-    });
-    var listeners = $._data(V.$root[0], "events");
+  // only available so we can test
+  proxy: function(fn, context) {
+    return $.proxy(fn, context);
+  },
+
+  dirt: function() {
+    this.$root.addClass('validation_dirty');
+    this.dirty = true;
   }
+
 
 };
 

@@ -45,7 +45,6 @@ var AppController = function ( options ) {
       multiform.add($(this).attr('data-clone-id'));
       return;
     });
-
   }
 
   // If we're on the print page, hide everything that shouldn't print
@@ -120,5 +119,3 @@ function sharePatientInfo( btn, patient_id, app_user_id, service_id ) {
     $(btn).text('Referral sent!');
   });
 }
-
-
