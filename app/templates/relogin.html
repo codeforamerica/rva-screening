@@ -1,3 +1,5 @@
+{% extends "base.html" %}
+{% block content %}
 <p>Your session has timed out. Please re-enter your password to continue.</p>
 <form method="post">
 
@@ -31,3 +33,4 @@
   <p><a href="{{ url_for('screener.logout') }}">Log in as a different user</a></p>    
 
 </form>
+{% endblock %}
