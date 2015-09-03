@@ -8,7 +8,7 @@ class Config(object):
     SCREENER_ENVIRONMENT = os.environ.get('SCREENER_ENVIRONMENT', 'dev')
     IS_PRODUCTION = os.environ.get('IS_PRODUCTION', False)
     PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
-    PERMANENT_SESSION_LIFETIME = timedelta(minutes=1)
+    PERMANENT_SESSION_LIFETIME = timedelta(minutes=15)
 
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL', 'postgres://@localhost/screener')
 

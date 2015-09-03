@@ -3,7 +3,7 @@ import datetime
 from flask.ext.login import current_user
 from flask.ext.babel import gettext as _
 from sqlalchemy import event
-from sqlalchemy.dialects.postgresql import HSTORE
+from sqlalchemy.dialects.postgresql import HSTORE, JSON
 from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy.orm import relationship
 
@@ -353,6 +353,14 @@ class SlidingScaleFee(BasicTable, db.Model):
     name = db.Column(db.String(128))
     price_absolute = db.Column(db.Integer)
     price_percentage = db.Column(db.Integer)
+
+
+class UnsavedForm(BasicTable, db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    app_user_id = db.Column(db.Integer, db.ForeignKey("app_user.id"))
+    patient_id = db.Column(db.Integer, db.ForeignKey("patient.id"))
+    page_name = db.Column(db.String(128))
+    form_json = db.Column(JSON)
 
 
 @event.listens_for(BasicTable, 'before_insert', propagate=True)

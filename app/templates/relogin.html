@@ -1,0 +1,33 @@
+<p>Your session has timed out. Please re-enter your password to continue.</p>
+<form method="post">
+
+  <label class="form_field form_field_large field_login_email">
+	<span class="field_label">
+		{{ _("Email address") }}:
+	</span>
+	<span>
+		<input type="hidden" name="email" value="{{email}}">
+		{{ email }}
+	</span>
+  </label>
+
+  <label class="form_field form_field_large field_login_password">
+    <span class="field_label">
+      {{ _("Password") }}
+    </span>
+    <input type="password" 
+      class="field_input" 
+      name="password"
+      id="password"
+      >
+    <span class="field_verification"></span>
+  </label>
+  <span class="hidden">
+  	<input type="hidden" name="previous_page" value="{{ previous_page }}">
+  </span>
+
+  <button class="button button_blue" type="submit">{{ _("Log in") }}</button>
+
+  <p><a href="{{ url_for('screener.logout') }}">Log in as a different user</a></p>    
+
+</form>
