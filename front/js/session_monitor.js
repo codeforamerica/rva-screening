@@ -1,7 +1,6 @@
-"use strict";
-
 // Modified from http://www.saltycrane.com/blog/2014/09/bank-style-session-timeout-example-using-jquery-bootstrap-and-flask/
 sessionMonitor = function(options) {
+    "use strict";
 
     var defaults = {
         // Session lifetime (milliseconds)
