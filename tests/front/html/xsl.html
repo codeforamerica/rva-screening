@@ -1,0 +1,46 @@
+<html lang="en">
+<head></head>
+<body>
+<script type="text/javascript">
+window.xslTest = Infinity;
+</script>
+<script type="defiant/xsl-template">
+  <xsl:template name="search_results_list">
+    <ul class="list list_table">
+      <xsl:for-each select="//patients">
+        <li class="list_row" >
+          <a>
+            <xsl:attribute name="href">
+              <xsl:value-of select="url"/>
+            </xsl:attribute>
+            <span class="list_row_item list_row_name"><xsl:value-of select="name"/></span>
+            <span class="list_row_item list_row_dob"><xsl:value-of select="dob"/></span>
+            <span class="list_row_item list_row_edits">Richmond Resource Center</span>
+          </a>
+        </li>
+      </xsl:for-each>
+
+      <xsl:for-each select="//none">
+        <li class="list_row list_row_addnew">
+          <a href="{{ url_for('screener.new_patient') }}">
+            <i class="fa fa-plus"></i> Not the right <strong><xsl:value-of select="name"/></strong>? Add them as a new patient.
+          </a>
+        </li>
+      </xsl:for-each>
+
+    </ul>
+  </xsl:template>
+
+  <xsl:template name="search_noresults">
+    <xsl:for-each select="//none">
+      <div class="no_results">
+        <p><i class="fa fa-exclamation-circle"></i> No patients matched <strong><xsl:value-of select="name"/></strong></p>
+        <a href="{{ url_for('screener.new_patient') }}" class="button button_blue button_fat button_add">
+          Create a new patient record with <xsl:value-of select="name"/>
+        </a>
+      </div>
+    </xsl:for-each>
+  </xsl:template>
+</script>
+</body>
+</html>

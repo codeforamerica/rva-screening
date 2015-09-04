@@ -1,7 +1,8 @@
 var gulp     = require('gulp'),
 	  rename   = require('gulp-rename'),
 	  concat   = require('gulp-concat'),
-    sass     = require('gulp-sass');
+    sass     = require('gulp-sass'),
+    karma    = require('gulp-karma');
 
 from = './app/front/'
 to = './app/static/'
@@ -24,7 +25,7 @@ gulp.task('img', function(){
 
 // Concatenate js
 gulp.task('js', function() {
-  return gulp.src('./front/js/**.js')
+  return gulp.src('./front/js/**/*.js')
     .pipe(concat('main.js'))
     .pipe(gulp.dest('./app/static/js/'));
 });
@@ -62,7 +63,24 @@ gulp.task('vendorIMG', function(){
     .pipe(gulp.dest(to + '/css/images'));
 });
 
+var testFiles = [
+  './tests/front/es5-shim.js',
+  './tests/front/helpers.js',
+  './app/static/js/vendor.js',
+  './front/js/**/*.js',
+  './tests/front/spec/**/*.spec.js'
+];
 
+gulp.task('test', function() {
+  return gulp.src(testFiles)
+    .pipe(karma({
+      configFile: './tests/front/karma.conf.js',
+      action: 'run'
+    }))
+    .on('error', function(err) {
+      throw err;
+    });
+});
 
 // Watch Files For Changes
 gulp.task('watch', function() {
