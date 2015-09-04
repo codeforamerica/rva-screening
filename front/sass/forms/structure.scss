@@ -92,6 +92,17 @@ form li {
       font-weight: 100;
     }
   }
+  &.field_required {
+    &.validation_required {
+      background-color: lighten($ui-new, 35);
+    }
+    .field_label {
+      &:after {
+        content: "*";
+        color: $ui-new;
+      }
+    }
+  }
   // @media (max-width: $break) {
   //   width: 100%;
   // }
@@ -99,6 +110,79 @@ form li {
   //   float: left;
   //   
   // }
+}
+
+// .validation {}
+// .validation_valid,
+// .validation_invalid,
+// .validation_required {
+//   .field_label {
+//     &:after {
+//       @extend %icon;
+//       margin-left: 5px;
+//     }
+//   }
+// }
+// .validation_valid {
+//   @include validator("\f00c", $color-brightgreen);
+//   background-color: inherit;
+//   .field_input {
+//     border: 1px solid $field-border-color;
+//   }
+// }
+// .validation_invalid {
+//   @include validator("\f00d", $ui-error);
+// }
+// .validation_required {
+//   @include validator("\f06a", $ui-new);
+// }
+
+.validation_valid,
+.validation_invalid,
+.validation_required {
+  .field_input {
+    + .field_verification {
+      position: absolute;
+      right: 23px;
+      bottom: 23px;
+      &:before {
+        @extend %icon;
+      }
+    }
+  }
+}
+.validation_valid {
+  // .field_input {
+  //   + .field_verification {
+  //     &:before {
+  //       content:"\f00c";
+  //       color: $color-brightgreen;
+  //     }
+  //   }
+  // }
+}
+.validation_invalid {
+  .field_input {
+    border: 1px solid $ui-error;
+    background-color: lighten($ui-error, 30);
+    // + .field_verification {
+    //   &:before {
+    //     content:"\f00d";
+    //     color: $ui-error;
+    //   }
+    // }
+  }
+}
+.validation_required {
+  .field_input {
+    border: 1px solid $ui-new;
+    // + .field_verification {
+    //   &:before {
+    //     content:"\f12a";
+    //     color: $ui-new;
+    //   }
+    // }
+  }
 }
 
 // two or more inputs that share a label & help text

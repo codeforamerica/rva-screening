@@ -5,31 +5,6 @@ describe('Validation', function() {
   var config_dob = [{selector:fName("dob"),validators:[{type:"required",success:reports.default,failure:reports.required},{type:"dob",success:reports.success,failure:reports.failure}]}];
   var config_binding = [{ origin: "dob", recipient:"#dob_recipient", type: "text" }];
 
-  // TODO: make these less brittle - currently depend on message string matching with deep.equal()
-  var expectedResponses = {
-    dob_true: {passed: true, value: 19140618, message: 'Something may have gone wrong but it could have gone right.'},
-    dob_false: {passed: false, value: 'waka', message: 'It looks like you\'ve entered an incorrect currency amount.'},
-    required_true: {passed: true, value: 'some required text', message: 'Something may have gone wrong but it could have gone right.'},
-    required_false: {passed: false, value: '', message: 'This field is required!'},
-    ssn_true: {passed: true, value: '222-22-2222', message: 'Something may have gone wrong but it could have gone right.'},
-    ssn_false: {passed: false, value: '222-22-222', message: 'Not a valid social security number.'},
-    currency_true: {passed: true, value: 300, message: 'Something may have gone wrong but it could have gone right.'},
-    currency_false: {passed: false, value: '', message: 'It looks like you\'ve entered an incorrect currency amount.'},
-    phone_true_dashes: {passed: true, value: '123-123-1234', message: 'Something may have gone wrong but it could have gone right.'},
-    phone_true_parentheses_space: {passed: true, value: '(123) 123-1234', message: 'Something may have gone wrong but it could have gone right.'},
-    phone_true_parentheses_nospace: {passed: true, value: '(123)123-1234', message: 'Something may have gone wrong but it could have gone right.'},
-    phone_false_nodashes: {passed: false, value: '1231231234', message: 'Not a valid phone number!'},
-    phone_false_invalid_nums: {passed: false, value: '777877', message: 'Not a valid phone number!'},
-    phone_false_periods: {passed: false, value: '123.123.1234', message: 'Not a valid phone number!'},
-    phone_false_improper_parentheses1: {passed: false, value: '(123- 456-7890', message: 'Not a valid phone number!'},
-    phone_false_improper_parentheses2: {passed: false, value: '123)456-7890', message: 'Not a valid phone number!'},
-    email_true: {passed: true, value: 'example@codeforamerica.org', message: 'Something may have gone wrong but it could have gone right.'},
-    email_false_nodomain: {passed: false, value: 'example@codeforamerica', message: 'Not a valid email address!'},
-    email_false_nodestination: {passed: false, value: 'examplecodeforamerica.org', message: 'Not a valid email address!'},
-    email_false_justdomain: {passed: false, value: 'codeforamerica.org', message: 'Not a valid email address!'},
-    email_false_norecipient: {passed: false, value: '@codeforamerica.org', message: 'Not a valid email address!'}
-  };
-
   beforeEach(function() {
     createForm('validation', 'test-form');
     v = Validator; // locally scoped Validator
@@ -261,6 +236,66 @@ describe('Validation', function() {
       expect(res.passed).to.equal(true);
     });
 
+    it('zip: passes with 5 digit, 12345', function() {
+      var testValidator = new v('.validation', []);
+      createField('input', {
+        id: 'zip',
+        name: 'zip_code',
+        type: 'text',
+        value: '12345'
+      }, 'test-form');
+      var res = testValidator.validationFunctions['zip']($('#zip'));
+      expect(res.passed).to.equal(true);
+    });
+
+    it('zip: passes with 9 digit, 12345-9876', function() {
+      var testValidator = new v('.validation', []);
+      createField('input', {
+        id: 'zip',
+        name: 'zip_code',
+        type: 'text',
+        value: '12345-9876'
+      }, 'test-form');
+      var res = testValidator.validationFunctions['zip']($('#zip'));
+      expect(res.passed).to.equal(true);
+    });
+
+    it('zip: fails incorrect digits, 1234', function() {
+      var testValidator = new v('.validation', []);
+      createField('input', {
+        id: 'zip',
+        name: 'zip_code',
+        type: 'text',
+        value: '1234'
+      }, 'test-form');
+      var res = testValidator.validationFunctions['zip']($('#zip'));
+      expect(res.passed).to.equal(false);
+    });
+
+    it('zip: fails with dash and no extra digits, 12345-', function() {
+      var testValidator = new v('.validation', []);
+      createField('input', {
+        id: 'zip',
+        name: 'zip_code',
+        type: 'text',
+        value: '12345-'
+      }, 'test-form');
+      var res = testValidator.validationFunctions['zip']($('#zip'));
+      expect(res.passed).to.equal(false);
+    });
+
+    it('zip: fails with no dash, 123459876', function() {
+      var testValidator = new v('.validation', []);
+      createField('input', {
+        id: 'zip',
+        name: 'zip_code',
+        type: 'text',
+        value: '123459876'
+      }, 'test-form');
+      var res = testValidator.validationFunctions['zip']($('#zip'));
+      expect(res.passed).to.equal(false);
+    });
+
     it('dob: proper input returns true validation result', function() {
       var testValidator = new v('.validation', []);
       createField('input', {
@@ -372,7 +407,7 @@ describe('Validation', function() {
   });
 
   describe('Triggers', function() {
-    it('validated element shows proper validation class after trigger', function() {
+    it('validated element shows proper valid class after trigger', function() {
       var testValidator = new v('.validation', config_dob);
       createField('label', {
         id: 'wrapper',
@@ -390,7 +425,7 @@ describe('Validation', function() {
       expect($('#test-field').parent().hasClass('validation_valid')).to.eq(true);
     });
 
-    it('validated element shows proper validation class after trigger', function() {
+    it('validated element shows proper invalid class after trigger', function() {
       var testValidator = new v('.validation', config_dob);
       createField('label', {
         id: 'wrapper',
@@ -406,6 +441,24 @@ describe('Validation', function() {
       }, 'wrapper');
       $('#test-field').trigger('validation:dob:failure', {});
       expect($('#test-field').parent().hasClass('validation_invalid')).to.eq(true);
+    });
+
+    it('validation element with no input length removes validation class', function() {
+      var config_ssn = [{selector:fName("ssn"),validators:[{type:"ssn",success:reports.success,failure:reports.failure}]}];
+      var testValidator = new v('.validation', config_ssn);
+      createField('label', {
+        id: 'wrapper',
+        class: 'form_field first_name block_4 validation_valid'
+      }, 'test-form');
+      createField('input', {
+        id: 'ssn',
+        name: 'ssn',
+        type: 'text',
+        value: '222-22-2222'
+      }, 'wrapper');
+      $('#ssn').val('').change();
+      $('#ssn').trigger('validation:ssn:success', {});
+      expect($('#ssn').parent().hasClass('validation_valid')).to.eq(false);
     });
 
     it('properly selects multiple inputs if using regex selector', function() {
@@ -521,6 +574,15 @@ describe('Validation', function() {
       config_binding.forEach(registerOneWayDataBinding);
       $('#test-field').trigger('change');
       expect($('#dob_recipient').text()).to.equal(testDateValue);
+    });
+  });
+
+  describe('Dirty form check', function() {
+    it('sets dirty option to true, and adds class', function() {
+      var testValidator = new v('.validation', config_dob);
+      testValidator.dirt();
+      expect(testValidator.dirty).to.equal(true);
+      expect($('form').hasClass('validation_dirty')).to.equal(true);
     });
   });
 

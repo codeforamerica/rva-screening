@@ -183,7 +183,27 @@ config.validations = [
     ]
   },
   { 
+    selector: "[name*=zip_code]", 
+    validators: [
+      { 
+        type: "zip",
+        success: reports.success,
+        failure: reports.failure
+      }  
+    ]
+  },
+  { 
     selector: fName("first_name"),
+    validators: [
+      { 
+        type: "required",
+        success: reports.success,
+        failure: reports.required
+      }
+    ]
+  },
+  { 
+    selector: fName("last_name"),
     validators: [
       { 
         type: "required",

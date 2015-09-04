@@ -53,6 +53,9 @@ var DEFAULT_VALIDATORS = {
   "ssn": function($elem) {
     // matches a regex against the value
     var val = $elem.val();
+    if(val==='') {
+      return validationResult(true, val);
+    }
     var pattern = /^\d{3}-\d{2}-\d{4}$/;
     if (!val.match(pattern)) {
       return validationResult(false, val, 'Not a valid social security number.');
@@ -62,6 +65,9 @@ var DEFAULT_VALIDATORS = {
   },
   "phone": function($elem) {
     var val = $elem.val();
+    if(val==='') {
+      return validationResult(true, val);
+    }
     // http://stackoverflow.com/a/18376010
     var pattern = /^\(?[0-9]{3}(\-|\)) ?[0-9]{3}-[0-9]{4}$/;
     if (!val.match(pattern)) {
@@ -79,6 +85,19 @@ var DEFAULT_VALIDATORS = {
     } else {
       return validationResult(true, val);
     }
+  },
+  "zip": function($elem) {
+    var val = $elem.val();
+    if(val==='') {
+      return validationResult(true, val);
+    }
+    http://stackoverflow.com/a/160583
+    var pattern = /(^\d{5}$)|(^\d{5}-\d{4}$)/;
+    if(!val.match(pattern)) {
+      return validationResult(false, val, 'Not a valid postal code!');
+    } else {
+      return validationResult(true, val);
+    }
   }
 };
 
@@ -93,11 +112,12 @@ var Validator = function(root, fields, validationFunctions){
   this.validationFunctions = validationFunctions || DEFAULT_VALIDATORS;
   this.fields = fields || [];
   this.init();
+  this.dirty = false;
 }
 
 Validator.prototype = {
 
-  VALIDATION_EVENT_TYPES: ['complete', 'failure', 'success'],
+  VALIDATION_EVENT_TYPES: ['complete', 'failure', 'success', 'clear'],
 
   createListener: function(validators){
     var V = this;
@@ -111,6 +131,9 @@ Validator.prototype = {
         result.validator = v.type;
         if( result.passed ){
           target.trigger(typeScope + 'success', [result]);
+        } else if (result.passed === 'clear') {
+          console.log(target);
+          target.trigger(typeScope + 'clear', [result]);
         } else {
           target.trigger(typeScope + 'failure', [result]);
         }
@@ -163,7 +186,40 @@ Validator.prototype = {
       V.listenToField(f.selector, f.validators);
     });
     var listeners = $._data(V.$root[0], "events");
+    this.changeDetection();
+  },
+
+  changeDetection: function() {
+    var V = this;
+    var prx = this.proxy(V.dirt, V);
+
+    // detect any changes in the form, pass with proper scope using $.proxy()
+    $('.validation :input').on('change', prx);
+
+    $(window).on('beforeunload', function(event) {
+      var e = event.originalEvent;
+      var confirmationMessage = 'There are unsaved edits on this page. Please save before continuing.';
+
+      // if the form isn't dirty, or if the user is clicking the save button
+      if (!V.dirty || e.target.activeElement.getAttribute('type') === 'submit') {
+          return undefined;
+      }
+
+      (e || window.event).returnValue = confirmationMessage; //Gecko + IE
+      return confirmationMessage;
+    });
+  },
+
+  // only available so we can test
+  proxy: function(fn, context) {
+    return $.proxy(fn, context);
+  },
+
+  dirt: function() {
+    this.$root.addClass('validation_dirty');
+    this.dirty = true;
   }
+
 
 };
 
@@ -184,10 +240,14 @@ function removeValidationClasses($elem) {
 function validationHTML(elem, className, message) {
   var $input = $(elem);
   removeValidationClasses($input);
-  $input.parent().addClass(className);
-  if (message) {
-    console.log(message);
-    // do this
+  if($input.val().length === 0 && className === 'validation_valid') {
+    // if valid but no input, it means the user has removed this information
+  } else {
+    $input.parent().addClass(className);
+    if (message) {
+      console.log(message);
+      // do this
+    }
   }
 }
 

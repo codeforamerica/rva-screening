@@ -1,9 +1,9 @@
 {% from "form_field_macros.html" import render_field %}
 
 <div class="form_row">
-  {{ render_field(form.first_name, class='block_4') }}
+  {{ render_field(form.first_name, class='block_4 field_required') }}
   {{ render_field(form.middle_name, class='block_4') }}
-  {{ render_field(form.last_name, class='block_4') }}
+  {{ render_field(form.last_name, class='block_4 field_required') }}
 </div>
 
 <div class="form_row">
@@ -17,7 +17,3 @@
       pattern="\d{3}-?\d{2}-?\d{4}"
   ) }}
 </div>
-
-
-
-
