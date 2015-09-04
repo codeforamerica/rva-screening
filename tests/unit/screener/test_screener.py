@@ -331,6 +331,7 @@ class TestScreener(BaseTestCase):
 
     def test_patient_print(self):
         """Test that the print patient page works as expected."""
+        self.login()
         patient = get_patient()
         response = self.client.get('/patient_print/{}'.format(patient.id))
         self.assert200(response)
@@ -338,6 +339,7 @@ class TestScreener(BaseTestCase):
 
     def test_patient_history(self):
         """Test that the edit history page works as expected."""
+        self.login()
         patient = get_patient()
         response = self.client.get('/patient_history/{}'.format(patient.id))
         self.assert200(response)
@@ -345,6 +347,7 @@ class TestScreener(BaseTestCase):
 
     def test_patient_share(self):
         """Test that the share patient page works as expected."""
+        self.login()
         patient = get_patient()
         response = self.client.get('/patient_share/{}'.format(patient.id))
         self.assert200(response)

@@ -1,9 +1,17 @@
 # -*- coding: utf-8 -*-
-
 import os
+import json
+
 from boto.s3.connection import S3Connection
+from sqlalchemy import and_
 from werkzeug import secure_filename
-from flask import current_app, send_from_directory
+from werkzeug.datastructures import MultiDict
+
+from flask import current_app, send_from_directory, session, abort
+from flask.ext.login import login_user, current_user
+
+from app import db, bcrypt
+from app.models import AppUser, UnsavedForm
 
 
 def send_document_image(file_name):
@@ -80,3 +88,55 @@ def translate_object(obj, language_code):
             ):
                 setattr(obj, key, getattr(translations, key))
     return obj
+
+
+def login_helper(user_email, password):
+    user = AppUser.query.filter(AppUser.email == user_email).first()
+    if user and bcrypt.check_password_hash(
+        user.password.encode('utf8'),
+        password
+    ):
+        user.authenticated = True
+        db.session.add(user)
+        db.session.commit()
+        login_user(user)
+        session.permanent = True
+        return True
+    else:
+        return False
+
+
+def get_unsaved_form(request, patient, page_name, form_class):
+    """If the patient is logging back in after being automatically logged out
+    due to inactivity, check whether there's unsaved form data we should restore.
+    """
+    if request.referrer and request.referrer.find('relogin'):
+        unsaved_form = UnsavedForm.query.filter(and_(
+            UnsavedForm.patient_id == patient.id,
+            UnsavedForm.app_user_id == current_user.id,
+            UnsavedForm.page_name.like('%' + page_name + '%')
+        )).first()
+
+        if unsaved_form:
+            form_dict = {}
+            for element in json.loads(unsaved_form.form_json):
+                name = element['name']
+                form_dict[name] = element['value']
+            form_multidict = MultiDict(form_dict)
+            form = form_class(formdata=form_multidict)
+
+            # Once we've recreated the form, delete the temp data
+            db.session.delete(unsaved_form)
+            db.session.commit()
+
+            return form
+    return False
+
+
+def check_patient_permission(patient_id):
+    """If the current user is a patient account, check whether they're viewing
+    the patient linked to their own account. If not, abort.
+    """
+    if current_user.is_patient_user() and current_user.patient_id != int(patient_id):
+        abort(403)
+    return

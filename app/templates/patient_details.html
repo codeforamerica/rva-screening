@@ -35,7 +35,7 @@
 
 {% block patient_content %}
 
-<form enctype="multipart/form-data" action="" method="post" id="patient_details_form" class="print">
+<form enctype="multipart/form-data" action="" method="post" id="patient_details_form" class="print validation" autocomplete="off">
   {{ form.hidden_tag() }}
 
   {% if form.errors %}
@@ -150,4 +150,130 @@
 
 
 
+{% endblock %}
+
+{% block script %}
+<script>
+config = {};
+
+config.validations = [
+  { 
+    selector: "[name*=monthly_amount]", 
+    validators: [
+      { 
+        type: "currency", 
+        success: reports.default, 
+        failure: reports.failure
+      } 
+    ]
+  },
+  { 
+    selector: "[name*=dob]", 
+    validators: [
+      { 
+        type: "required",
+        success: reports.default,
+        failure: reports.required
+      },
+      { 
+        type: "dob",
+        success: reports.success,
+        failure: reports.failure
+      }  
+    ]
+  },
+  { 
+    selector: fName("first_name"),
+    validators: [
+      { 
+        type: "required",
+        success: reports.success,
+        failure: reports.required
+      }
+    ]
+  },
+  {
+    selector: "[name*=ssn]",
+    validators: [
+      {
+        type: "ssn",
+        success: reports.success,
+        failure: reports.failure
+      }
+    ]
+  },
+  {
+    selector: "[name*=phone_number]:not([name*=description])",
+    validators: [
+      {
+        type: "phone",
+        success: reports.success,
+        failure: reports.failure
+      }
+    ]
+  },
+  {
+    selector: fName('email'),
+    validators: [
+      {
+        type: "email",
+        success: reports.success,
+        failure: reports.failure
+      }
+    ]
+  }
+];
+
+config.bindings = [
+  { origin: "first_name", recipient:".hh_member.patient .hh_member_full_name", type: "text" },
+  { origin: "dob", recipient:".hh_member.patient .hh_member_dob", type: "text" },
+  { origin: "ssn", recipient:".hh_member.patient .hh_member_ssn", type: "text" },
+];
+
+var EMPLOYED = [ "FT", "PT", "SEA" ];
+
+config.dependencies = [
+  { target: "marital_status", child: "spouse_employment_status", 
+    type: "equals", comparator: "MAR" },
+  { target: "spouse_employment_status", child: "spouse_years_at_current_employer ", 
+    type: "in", comparator: EMPLOYED },
+  { target: "employment_status", child: "employers",
+    type: "in", comparator: EMPLOYED },
+  { target: "employment_status", child: "years_at_current_employer ",
+    type: "in", comparator: EMPLOYED },
+  { target: "spouse_employment_status", child: "spouse_years_at_current_employer",
+    type: "in", comparator: EMPLOYED },
+  { target: "employment_status", child: "time_unemployed",
+    type: "equals", comparator: "UNE" },
+  { target: "spouse_employment_status", child: "spouse_time_unemployed",
+    type: "equals", comparator: "UNE" },
+  { target: "insurance_status", child: "coverage_type",
+    type: "equals", comparator: "Y" },
+
+  { target: "veteran_yn", child: "applied_for_vets_benefits_yn",
+    type: "equals", comparator: "Y" },
+  { target: "eligible_for_vets_benefits_yn", child: "applied_for_vets_benefits_yn",
+    type: "equals", comparator: "Y" },
+
+  { target: "applied_for_medicaid_yn", child: "medicaid_date_effective",
+    type: "equals", comparator: "Y" },
+  { target: "applied_for_ssd_yn", child: "ssd_date_effective",
+    type: "equals", comparator: "Y" },
+  { target: "are_due_to_accident", child: "accident_work_related_yn",
+    type: "equals", comparator: "Y" },
+
+  { target: "race", child: "race_other",
+    type: "equals", comparator: "OTH" },
+  { target: "languages", child: "languages_other",
+    type: "contains", comparator: "OTH" },
+  { target: "housing_status", child: "housing_status_other",
+    type: "equals", comparator: "OTH" },
+  { target: "coverage_type", child: "coverage_type_other",
+    type: "equals", comparator: "OTH" },
+
+  { target: "languages", child: "has_interpreter_yn",
+    type: "does_not_contain", comparator: "EN" },
+];
+
+</script>
 {% endblock %}

@@ -3,8 +3,10 @@
   <div class="nav_menu">
     <ul class="nav_menu_list">
       {% if g.user.is_authenticated() %}
-      <li class="menu_list_item {% if request.path == url_for('screener.new_prescreening') %}menu_list_item_current{% endif %}"><a href="{{ url_for('screener.new_prescreening') }}"><i class="fa fa-pencil"></i> {{ _("Pre-Screener") }}</a></li>
-      <li class="menu_list_item {% if request.path == url_for('screener.index') %}menu_list_item_current{% endif %}"><a href="{{ url_for('screener.index') }}"><i class="fa fa-search"></i> {{ _("Search Patients") }}</a></li>
+        <li class="menu_list_item {% if request.path == url_for('screener.new_prescreening') %}menu_list_item_current{% endif %}"><a href="{{ url_for('screener.new_prescreening') }}"><i class="fa fa-pencil"></i> {{ _("Pre-Screener") }}</a></li>
+        {% if g.user.can(PERMISSION.VIEW_ALL_PATIENTS) %}
+          <li class="menu_list_item {% if request.path == url_for('screener.index') %}menu_list_item_current{% endif %}"><a href="{{ url_for('screener.index') }}"><i class="fa fa-search"></i> {{ _("Search Patients") }}</a></li>
+        {% endif %}
       {% endif %}
     </ul>
   </div>
