@@ -1,4 +1,3 @@
-from app import db
 import datetime
 from flask.ext.login import current_user
 from flask.ext.babel import gettext as _
@@ -6,6 +5,7 @@ from sqlalchemy import event
 from sqlalchemy.dialects.postgresql import HSTORE, JSON
 from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy.orm import relationship
+from app import db
 
 
 class BasicTable(object):
@@ -62,6 +62,26 @@ class AppUser(BasicTable, db.Model):
     service_id = db.Column(db.Integer, db.ForeignKey("service.id", ondelete='CASCADE'))
     full_name = db.Column(db.String(64))
     phone_number = db.Column(db.String(32))
+    role_id = db.Column(db.Integer, db.ForeignKey("role.id"))
+    # Users are linked to patient ids only if their role is 'Patient'
+    patient_id = db.Column(db.Integer, db.ForeignKey("patient.id"))
+
+    def __init__(self, **kwargs):
+        role_name = kwargs.pop('role_name', None)
+        super(AppUser, self).__init__(**kwargs)
+        if role_name:
+            self.role = Role.query.filter_by(name=role_name).first()
+        else:
+            self.role = Role.query.filter_by(default=True).first()
+
+    def can(self, permissions):
+        return (
+            self.role is not None
+            and (self.role.permissions & permissions) == permissions
+        )
+
+    def is_patient_user(self):
+        return bool(self.role.name == 'Patient')
 
     def is_authenticated(self):
         return True
@@ -74,6 +94,41 @@ class AppUser(BasicTable, db.Model):
 
     def get_id(self):
         return self.email
+
+
+class Role(BasicTable, db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64), unique=True)
+    default = db.Column(db.Boolean, default=False, index=True)
+    permissions = db.Column(db.Integer)
+    app_users = db.relationship(
+        'AppUser',
+        primaryjoin='Role.id==AppUser.role_id',
+        backref='role',
+        lazy='dynamic'
+    )
+
+    @staticmethod
+    def insert_roles():
+        roles = {
+            'Patient': (0x00, True),
+            'Staff': (Permission.VIEW_ALL_PATIENTS, False),
+            'Admin': (Permission.VIEW_ALL_PATIENTS | Permission.VIEW_ADMIN_PAGES, False),
+            'Superuser': (0xff, False)
+        }
+        for r in roles:
+            role = Role.query.filter_by(name=r).first()
+            if role is None:
+                role = Role(name=r)
+            role.permissions = roles[r][0]
+            role.default = roles[r][1]
+            db.session.add(role)
+        db.session.commit()
+
+
+class Permission:
+    VIEW_ALL_PATIENTS = 0x01
+    VIEW_ADMIN_PAGES = 0x02
 
 
 class Patient(BasicTable, db.Model):
@@ -177,6 +232,13 @@ class Patient(BasicTable, db.Model):
     referrals = db.relationship('PatientReferral', backref='patient', lazy='dynamic')
     screening_results = db.relationship(
         'PatientScreeningResult',
+        backref='patient',
+        lazy='dynamic'
+    )
+
+    app_user = db.relationship(
+        'AppUser',
+        primaryjoin='Patient.id==AppUser.patient_id',
         backref='patient',
         lazy='dynamic'
     )

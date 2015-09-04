@@ -1,10 +1,10 @@
 import sys
 import logging
 from flask import Flask, render_template
-from flask.ext.sqlalchemy import SQLAlchemy
-from flask.ext.login import LoginManager
-from flask.ext.bcrypt import Bcrypt
 from flask.ext.babel import Babel
+from flask.ext.bcrypt import Bcrypt
+from flask.ext.login import LoginManager
+from flask.ext.sqlalchemy import SQLAlchemy
 from flask_s3 import FlaskS3
 from config import ProdConfig
 
@@ -53,11 +53,13 @@ def register_context_processors(app):
     from app.context_processors import (
         inject_static_url,
         inject_example_data,
-        inject_template_constants
+        inject_template_constants,
+        inject_permissions
     )
     app.context_processor(inject_static_url)
     app.context_processor(inject_example_data)
     app.context_processor(inject_template_constants)
+    app.context_processor(inject_permissions)
 
 
 def register_errorhandler(app):

@@ -17,6 +17,7 @@ from flask import (
 from flask.ext.login import logout_user, current_user, login_required
 
 from app import db, login_manager
+from app.decorators import view_all_patients_required
 from app.forms import PatientForm, PrescreenForm, ScreeningResultForm
 from app.models import (
     AppUser,
@@ -33,7 +34,8 @@ from app.models import (
     PatientReferral,
     SlidingScale,
     PatientScreeningResult,
-    UnsavedForm
+    UnsavedForm,
+    Permission
 )
 from app.prescreening import calculate_fpl, calculate_pre_screen_results
 from app.utils import (
@@ -41,7 +43,8 @@ from app.utils import (
     send_document_image,
     translate_object,
     login_helper,
-    get_unsaved_form
+    get_unsaved_form,
+    check_patient_permission
 )
 
 
@@ -59,7 +62,15 @@ def login():
     """Display login page and check credentials."""
     if request.method == 'POST':
         if login_helper(request.form['email'], request.form['password']):
-            return redirect(url_for('screener.index'))
+            if current_user.can(Permission.VIEW_ALL_PATIENTS):
+                return redirect(url_for('screener.index'))
+            elif current_user.patient_id is not None:
+                return redirect(url_for(
+                    'screener.patient_details',
+                    id=current_user.patient_id
+                ))
+            else:
+                return redirect(url_for('screener.new_patient'))
         else:
             return render_template("login.html")
     else:
@@ -137,6 +148,10 @@ def new_patient():
     if form.validate_on_submit():
         patient = Patient()
         update_patient(patient, form, request.files)
+        # If the patient was created by a patient user, link the new patient to the
+        # user account
+        if current_user.is_patient_user():
+            current_user.patient = patient
         db.session.add(patient)
         db.session.commit()
         return redirect(url_for('screener.patient_details', id=patient.id))
@@ -148,6 +163,7 @@ def new_patient():
 @login_required
 def patient_details(id):
     """Display the full patient details form for an existing user."""
+    check_patient_permission(id)
     patient = Patient.query.get(id)
     form = (
         get_unsaved_form(request, patient, 'patient_details', PatientForm)
@@ -257,6 +273,7 @@ def update_patient(patient, form, files):
 @login_required
 def delete(id):
     """Hard delete a patient. Soft-deleting is usually a better idea."""
+    check_patient_permission(id)
     patient = Patient.query.get(id)
     db.session.delete(patient)
     db.session.commit()
@@ -268,6 +285,7 @@ def delete(id):
 def document_image(image_id):
     """Display an uploaded document image."""
     _image = DocumentImage.query.get(image_id)
+    check_patient_permission(_image.patient.id)
     if current_app.config['SCREENER_ENVIRONMENT'] == 'prod':
         file_path = 'http://s3.amazonaws.com/{bucket}/{uploaddir}/{filename}'.format(
             bucket=current_app.config['S3_BUCKET_NAME'],
@@ -283,6 +301,8 @@ def document_image(image_id):
 @login_required
 def get_image(filename):
     """Serve a document image file."""
+    document_image = DocumentImage.query.filter(file_name=filename)
+    check_patient_permission(document_image.patient.id)
     return send_document_image(filename)
 
 
@@ -343,6 +363,7 @@ def prescreening_results():
 @login_required
 def patient_print(patient_id):
     """Format the patient details page for printing."""
+    check_patient_permission(patient_id)
     patient = Patient.query.get(patient_id)
     form = PatientForm(obj=patient)
     return render_template('patient_details.html', patient=patient, form=form)
@@ -352,6 +373,7 @@ def patient_print(patient_id):
 @login_required
 def patient_history(patient_id):
     """Display all past edits to the patient's information"""
+    check_patient_permission(patient_id)
     patient = Patient.query.get(patient_id)
     patient.update_stats()
 
@@ -429,6 +451,7 @@ def patient_share(patient_id):
     """Displays the 'Share Patient' page, which includes prescreening
     results and allows users to send referrals.
     """
+    check_patient_permission(patient_id)
     patient = Patient.query.get(patient_id)
     patient.update_stats()
     services = Service.query.all()
@@ -464,6 +487,7 @@ def patient_share(patient_id):
 def add_referral():
     """Adds new referral to the database. Called when user clicks
     'Send Referral' button."""
+    check_patient_permission(request.form['patient_id'])
     referral = PatientReferral(
         patient_id=request.form['patient_id'],
         from_app_user_id=request.form['app_user_id'],
@@ -481,6 +505,7 @@ def patient_screening_history(patient_id):
     """Display a patient's past referrals and screening results, and a form
     to enter new screening results.
     """
+    check_patient_permission(patient_id)
     patient = Patient.query.get(patient_id)
     patient.update_stats()
     form = ScreeningResultForm()
@@ -517,6 +542,7 @@ def patient_screening_history(patient_id):
 
 @screener.route('/')
 @login_required
+@view_all_patients_required
 def index():
     """Display the initial landing page, which lists patients in the
     network and allows users to search and filter them.
