@@ -81,7 +81,7 @@ def home_page_redirect():
             id=current_user.patient_id
         ))
     else:
-        return redirect(url_for('screener.new_patient')) 
+        return redirect(url_for('screener.new_patient'))
 
 
 @screener.route("/relogin", methods=['POST', 'GET'])
