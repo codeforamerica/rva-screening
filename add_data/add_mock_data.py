@@ -30,6 +30,7 @@ from app.models import (
     db
 )
 import app.template_constants as constants
+import add_roles
 import add_service_data
 
 
@@ -187,9 +188,19 @@ def add_users(services):
             password=bcrypt.generate_password_hash('password'),
             service_id=service.id,
             full_name=fake.name(),
-            phone_number=formatted_phone_number()
+            phone_number=formatted_phone_number(),
+            role_name='Staff'
         )
         db.session.add(user)
+
+    patient_user = AppUser(
+        email='patient_user@test.com',
+        password=bcrypt.generate_password_hash('password'),
+        full_name=fake.name(),
+        phone_number=formatted_phone_number()
+    )
+    db.session.add(patient_user)
+
     db.session.commit()
     app_users = AppUser.query.all()
 
@@ -250,7 +261,9 @@ def main(options=[]):
         # Add services, with locations, screening criteria, and sliding scales
         services = add_service_data.main(app)
 
-        # Add several users, associated with different services
+        # Add several staff users, associated with different services,
+        # and a patient user
+        add_roles.main(app)
         services = Service.query.all()
         app_users = add_users(services)
 

@@ -1,6 +1,8 @@
-from app.models import AppUser, Service, Patient
+from app.models import AppUser, Service, Patient, Role
 from app import bcrypt, db
 
+def insert_roles():
+    Role.insert_roles()
 
 def get_user():
     existing_user = AppUser.query.filter(
@@ -13,11 +15,13 @@ def get_user():
 
 
 def insert_user():
+    insert_roles()
     service = get_service()
     app_user = AppUser(
         email='richmond@codeforamerica.org',
         password=bcrypt.generate_password_hash('password'),
-        service=service
+        service=service,
+        role_name='Staff'
     )
     db.session.add(app_user)
     db.session.commit()

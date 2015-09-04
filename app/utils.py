@@ -7,7 +7,7 @@ from sqlalchemy import and_
 from werkzeug import secure_filename
 from werkzeug.datastructures import MultiDict
 
-from flask import current_app, send_from_directory, session
+from flask import current_app, send_from_directory, session, abort
 from flask.ext.login import login_user, current_user
 
 from app import db, bcrypt
@@ -131,3 +131,12 @@ def get_unsaved_form(request, patient, page_name, form_class):
 
             return form
     return False
+
+
+def check_patient_permission(patient_id):
+    """If the current user is a patient account, check whether they're viewing
+    the patient linked to their own account. If not, abort.
+    """
+    if current_user.is_patient_user() and current_user.patient_id != int(patient_id):
+        abort(403)
+    return
