@@ -62,19 +62,26 @@ def login():
     """Display login page and check credentials."""
     if request.method == 'POST':
         if login_helper(request.form['email'], request.form['password']):
-            if current_user.can(Permission.VIEW_ALL_PATIENTS):
-                return redirect(url_for('screener.index'))
-            elif current_user.patient_id is not None:
-                return redirect(url_for(
-                    'screener.patient_details',
-                    id=current_user.patient_id
-                ))
-            else:
-                return redirect(url_for('screener.new_patient'))
+            return redirect(url_for('screener.home_page_redirect'))
         else:
             return render_template("login.html")
     else:
         return render_template("login.html")
+
+
+@screener.route("/home")
+@login_required
+def home_page_redirect():
+    """Redirect the user to the home page appropriate for their role."""
+    if current_user.can(Permission.VIEW_ALL_PATIENTS):
+        return redirect(url_for('screener.index'))
+    elif current_user.patient_id is not None:
+        return redirect(url_for(
+            'screener.patient_details',
+            id=current_user.patient_id
+        ))
+    else:
+        return redirect(url_for('screener.new_patient')) 
 
 
 @screener.route("/relogin", methods=['POST', 'GET'])

@@ -5,10 +5,8 @@
 {% endblock %}
 
 {% block content %}
-	<div class="jumbotron">
-	    <div class="text-center">
-	        <h1>404</h1>
-	        <p>Sorry, we couldn't find that page!</p>
-	    </div>
+	<div>
+	    <p>Sorry, we couldn't find that page!</p>
+	    <p><a href="{{ url_for('screener.home_page_redirect') }}">Return to home page</a></p>
 	</div>
 {% endblock %}

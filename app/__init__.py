@@ -63,10 +63,16 @@ def register_context_processors(app):
 
 
 def register_errorhandler(app):
-    def render_error(error):
+    def server_error(error):
         app.logger.exception(error)
         return render_template('500.html')
-    app.errorhandler(500)(render_error)
+    def page_not_found(error):
+        return render_template('404.html')
+    def permission_denied(error):
+        return render_template('403.html')
+    app.errorhandler(500)(server_error)
+    app.errorhandler(404)(page_not_found)
+    app.errorhandler(403)(permission_denied)
     return None
 
 
