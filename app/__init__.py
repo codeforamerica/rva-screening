@@ -5,6 +5,7 @@ from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.login import LoginManager
 from flask.ext.bcrypt import Bcrypt
 from flask.ext.babel import Babel
+from flask_s3 import FlaskS3
 from config import ProdConfig
 
 
@@ -45,6 +46,7 @@ def register_extensions(app):
     babel.init_app(app)
     login_manager.init_app(app)
     login_manager.login_view = '/login'
+    s3.init_app(app)
 
 
 def register_context_processors(app):
@@ -70,3 +72,4 @@ db = SQLAlchemy()
 bcrypt = Bcrypt()
 babel = Babel()
 login_manager = LoginManager()
+s3 = FlaskS3()

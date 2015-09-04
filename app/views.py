@@ -1,4 +1,8 @@
 import datetime
+from itertools import chain
+from sqlalchemy import and_, or_
+from werkzeug.datastructures import FileStorage
+
 from flask import (
     Blueprint,
     render_template,
@@ -10,8 +14,9 @@ from flask import (
     current_app,
     jsonify
 )
-from flask.ext.login import login_user, logout_user, current_user, login_required
-from app import db, bcrypt, login_manager
+from flask.ext.login import logout_user, current_user, login_required
+
+from app import db, login_manager
 from app.forms import PatientForm, PrescreenForm, ScreeningResultForm
 from app.models import (
     AppUser,
@@ -27,13 +32,17 @@ from app.models import (
     ActionLog,
     PatientReferral,
     SlidingScale,
-    PatientScreeningResult
+    PatientScreeningResult,
+    UnsavedForm
 )
 from app.prescreening import calculate_fpl, calculate_pre_screen_results
-from app.utils import upload_file, send_document_image, translate_object
-from itertools import chain
-from sqlalchemy import and_, or_
-from werkzeug.datastructures import FileStorage
+from app.utils import (
+    upload_file,
+    send_document_image,
+    translate_object,
+    login_helper,
+    get_unsaved_form
+)
 
 
 screener = Blueprint('screener', __name__, url_prefix='')
@@ -42,29 +51,55 @@ screener = Blueprint('screener', __name__, url_prefix='')
 @screener.before_request
 def before_request():
     g.user = current_user
+    session.modified = True
 
 
 @screener.route("/login", methods=["GET", "POST"])
 def login():
     """Display login page and check credentials."""
     if request.method == 'POST':
-        user = AppUser.query.filter(AppUser.email == request.form['email']).first()
-        if user:
-            if bcrypt.check_password_hash(
-                user.password.encode('utf8'),
-                request.form['password']
-            ):
-                user.authenticated = True
-                db.session.add(user)
-                db.session.commit()
-                login_user(user, remember=True)
-                return redirect(url_for('screener.index'))
-            else:
-                return redirect(url_for('screener.login'))
+        if login_helper(request.form['email'], request.form['password']):
+            return redirect(url_for('screener.index'))
         else:
-            return redirect(url_for('screener.login'))
+            return render_template("login.html")
     else:
         return render_template("login.html")
+
+
+@screener.route("/relogin", methods=['POST', 'GET'])
+def relogin():
+    """Prompt the user to reauthenticate after 15 minutes of inactivity.
+    After reauthentication, return to previous page and include any unsaved form data.
+    """
+    if request.method == 'POST':
+        if login_helper(request.form['email'], request.form['password']):
+            return redirect(request.form['previous_page'])
+        else:
+            return render_template("relogin.html", user_email=request.form['email'])
+    else:
+        email = current_user.email
+        return render_template(
+            "relogin.html",
+            email=email,
+            previous_page=request.referrer
+        )
+
+
+@screener.route("/unsaved_form", methods=["POST"])
+@login_required
+def unsaved_form():
+    """When a user is automatically logged out, store any form data on the page as JSON
+    so it can be restored when they log back in.
+    """
+    unsaved_form = UnsavedForm(
+        app_user_id=current_user.id,
+        patient_id=request.form['patient_id'],
+        page_name=request.referrer,
+        form_json=request.form['form_json']
+    )
+    db.session.add(unsaved_form)
+    db.session.commit()
+    return jsonify()
 
 
 @screener.route("/logout", methods=["GET"])
@@ -77,6 +112,14 @@ def logout():
     db.session.commit()
     logout_user()
     return redirect(url_for('screener.login'))
+
+
+@screener.route("/ping", methods=["POST"])
+@login_required
+def ping():
+    """User is active on front-end, so don't let session expire."""
+    session.modified = True
+    return jsonify()
 
 
 @login_manager.user_loader
@@ -106,7 +149,10 @@ def new_patient():
 def patient_details(id):
     """Display the full patient details form for an existing user."""
     patient = Patient.query.get(id)
-    form = PatientForm(obj=patient)
+    form = (
+        get_unsaved_form(request, patient, 'patient_details', PatientForm)
+        or PatientForm(obj=patient)
+    )
 
     if request.method == 'POST' and form.validate_on_submit():
         update_patient(patient, form, request.files)
@@ -475,7 +521,6 @@ def index():
     """Display the initial landing page, which lists patients in the
     network and allows users to search and filter them.
     """
-    session.clear()
     all_patients = Patient.query.all()
     # Get patients created or updated in the last week
     recently_updated = Patient.query.filter(or_(
