@@ -1,8 +1,10 @@
 from app.models import AppUser, Service, Patient, Role
 from app import bcrypt, db
 
+
 def insert_roles():
     Role.insert_roles()
+
 
 def get_user():
     existing_user = AppUser.query.filter(
