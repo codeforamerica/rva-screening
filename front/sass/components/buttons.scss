@@ -13,10 +13,8 @@
 @mixin button_color($color, $text: $color-white) {
   color: $text;
   background: $color;
-  border: 1px solid $color;
   &:hover {
     background: darken($color, 10);
-    border: 1px solid darken($color, 10);
   }
   &.button_inverse {
     color: $color;
@@ -75,9 +73,11 @@
   &.button_black {
     @include button_color($button-color-black);
   }
+  &.button_new,
   &.button_blue {
     @include button_color($button-color-blue);
   }
+  &.button_success,
   &.button_green {
     @include button_color($button-color-green);
   }

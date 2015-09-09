@@ -1,0 +1,39 @@
+<section class="style-guide-section">
+  <span class="style-guide-header">Maps</span>
+  <p class="style-guide-explanation">Maps require two parts. 1) The locations, which are derived from a <code>.location</code> element and its attributes. There also needs to be a map object for the actual map to show up with the <code>#service-map</code> ID. The location components and the map object are decoupled, and therefore can exist in different parts of the page and continue to work.</p>
+</section>
+
+<div class="service_locations">
+
+  <h3>Location(s)</h3>
+  <div class="location" data-name="The Daily Planet" data-address="517 W Grace St. Richmond, VA 23220" data-latitude="37.547508" data-longitude="-77.447895">
+    <i class="fa fa-map-marker"></i>
+    <span class="location_name"><strong>The Daily Planet</strong></span>
+    <span class="location_address">517 W Grace St. Richmond, VA 23220</span> 
+  </div>
+
+  <div class="location" data-name="Southside Community Health Center" data-address="180 Belt Blvd. Richmond, VA 23225" data-latitude="37.509781" data-longitude="-77.487185">
+    <i class="fa fa-map-marker"></i>
+    <span class="location_name"><strong>Southside Community Health Center</strong></span>
+    <span class="location_address">180 Belt Blvd. Richmond, VA 23225</span> 
+  </div>
+
+  <div class="location" data-name="St. Joseph\s Villa" data-address="8000 Brook Road, Richmond, VA 23227" data-latitude="37.632248" data-longitude="-77.459127">
+    <i class="fa fa-map-marker"></i>
+    <span class="location_name"><strong>St. Joseph\s Villa</strong></span>
+    <span class="location_address">8000 Brook Road, Richmond, VA 23227</span> 
+  </div>
+</div>
+
+<div id="service-map" style="height: 400px;"></div>
+
+<pre class="style-guide-code">
+<span class="style-guide-code-comment">&lt;-- .location element --&gt;</span>
+&lt;div class="location" data-name="NAME" data-address="ADDRESS" data-latitude="LATITUDE" data-longitude="LONGITUDE"&gt;
+&lt;i class="fa fa-map-marker"&gt;&lt;/i&gt;
+&lt;span class="location_name"&gt;&lt;strong&gt;LOCATION NAME&lt;/strong&gt;&lt;/span&gt;
+&lt;span class="location_address"&gt;LOCATION ADDRESS&lt;/span&gt; 
+&lt;/div&gt;
+
+<span class="style-guide-code-comment">&lt;-- #service-map element --&gt;</span>
+&lt;div id="service-map"&gt;&lt;/div&gt;</pre>

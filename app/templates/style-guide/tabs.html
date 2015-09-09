@@ -1,0 +1,39 @@
+<section class="style-guide-section">
+  <span class="style-guide-header">Tabs</span>
+  <p class="style-guide-explanation">Tabs are used to shuffle between related views, such as a patient's information, sharing that patient, etc. The mobile version of tabs turns into a <code>select</code> field that, when selected, brings the user to the new view. These are typically generated in jinja templates.</p>
+</section>
+
+<nav class="nav_tabs">
+  <div class="tabs">
+    <a class="tab tab_active" href="/patient_details/2"><i class="fa fa-home"></i> Home</a>
+    <a class="tab" href=""><i class="fa fa-share"></i> Share</a>
+    <a class="tab" href=""><i class="fa fa-pencil"></i> Edit</a>
+    <a class="tab" href=""><i class="fa fa-download"></i> Export</a>
+  </div>
+
+  <select class="tabs_dropdown" onchange="location = this.options[this.selectedIndex].value;">
+    <option value="">Select an action...</option>
+    <option value="">Home</option>
+    <option value="">Share</option>
+    <option value="">Edit</option>
+    <option value="">Export</option>
+  </select>
+</nav>
+
+<pre class="style-guide-code">
+&lt;nav class="nav_tabs"&gt;
+&lt;div class="tabs"&gt;
+  &lt;a class="tab tab_active" href="/patient_details/2"&gt;&lt;i class="fa fa-home"&gt;&lt;/i&gt; Home&lt;/a&gt;
+  &lt;a class="tab" href=""&gt;&lt;i class="fa fa-share"&gt;&lt;/i&gt; Share&lt;/a&gt;
+  &lt;a class="tab" href=""&gt;&lt;i class="fa fa-pencil"&gt;&lt;/i&gt; Edit&lt;/a&gt;
+  &lt;a class="tab" href=""&gt;&lt;i class="fa fa-download"&gt;&lt;/i&gt; Export&lt;/a&gt;
+&lt;/div&gt;
+
+&lt;select class="tabs_dropdown" onchange="location = this.options[this.selectedIndex].value;"&gt;
+  &lt;option value=""&gt;Select an action...&lt;/option&gt;
+  &lt;option value=""&gt;Home&lt;/option&gt;
+  &lt;option value=""&gt;Share&lt;/option&gt;
+  &lt;option value=""&gt;Edit&lt;/option&gt;
+  &lt;option value=""&gt;Export&lt;/option&gt;
+&lt;/select&gt;
+&lt;/nav&gt;</pre>

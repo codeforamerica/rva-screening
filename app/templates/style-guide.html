@@ -32,346 +32,40 @@
   <p><strong>RVA Screener Style Guide</strong></p>
   <p>Below are the style components used throughout the application. The <code>front/sass/</code> files are structured to containe specific UI components, using constant variables from <code>front/sass/variables.scss</code>.</p>
 
-  <section class="style-guide-section">
-    <span class="style-guide-header">Colors</span>
-    <p class="style-guide-explanation"></p>
-  </section>
-  <style>
-    .style-guide-color-block {
-      padding: 1em;
-      height: 100px;
-      border: 1px solid white;
-    }
-  </style>
-  <div class="row">
-    <div class="color-black block_3 style-guide-color-block"><code style="color: white;">.color-black</code></div>
-    <div class="color-white block_3 style-guide-color-block"><code>.color-white</code></div>
-    <div class="color-lightgray block_3 style-guide-color-block"><code>.color-lightgray</code></div>
-    <div class="color-gray block_3 style-guide-color-block"><code>.color-gray</code></div>
-    <div class="color-darkgray block_3 style-guide-color-block"><code>.color-darkgray</code></div>
-    <div class="color-blue block_3 style-guide-color-block"><code>.color-blue</code></div>
-    <div class="color-red block_3 style-guide-color-block"><code>.color-red</code></div>
-    <div class="color-green block_3 style-guide-color-block"><code>.color-green</code></div>
-    <div class="color-fuscia block_3 style-guide-color-block"><code>.color-fuscia</code></div>
-    <div class="color-brightgreen block_3 style-guide-color-block"><code>.color-brightgreen</code></div>
-  </div>
+  {% include "style-guide/colors.html" %}
+  {% include "style-guide/typography.html" %}
+  {% include "style-guide/blocks.html" %}
+  {% include "style-guide/alerts.html" %}
+  {% include "style-guide/notifications.html" %}
+  {% include "style-guide/checkboxes.html" %}
+  {% include "style-guide/buttons.html" %}
+  {% include "style-guide/tooltips.html" %}
+  {% include "style-guide/forms.html" %}
+  {% include "style-guide/tabs.html" %}
+  {% include "style-guide/filters.html" %}
+  {% include "style-guide/lists.html" %}
+  {% include "style-guide/maps.html" %}
   
-  <section class="style-guide-section">
-    <span class="style-guide-header">Text, headings, links</span>
-    <p class="style-guide-explanation"></p>
-  </section>
-  <h1>Header 1</h1>
-  <h2>Header 2</h2>
-  <h3>Header 3</h3>
-  <h4>Header 4</h4>
-  <h1><a href="">Header 1 with link</a></h1>
-  <h2><a href="">Header 2 with link</a></h2>
-  <h3><a href="">Header 3 with link</a></h3>
-  <h4><a href="">Header 4 with link</a></h4>
-  <p>Lorem ipsum dolor sit amet, <strong>strong text</strong> elit. Sed tincidunt semper diam non mattis. Nullam non facilisis ex, in sollicitudin turpis. Pellentesque in mattis ex, id porta dui. Suspendisse non accumsan risus. Duis consequat nunc lacinia arcu consequat, eu elementum purus congue. <a href="">Text with a link</a> vehicula blandit diam sit amet tristique. Duis hendrerit dui eros, a scelerisque lacus placerat ornare. Nam ultricies, nisi vitae commodo consectetur, ligula odio pellentesque justo, eu varius mauris ipsum lobortis erat. Nullam scelerisque imperdiet ipsum, et malesuada tellus convallis quis. Donec condimentum tempor urna id accumsan. Suspendisse tempor iaculis urna ut efficitur. Nulla auctor dolor in velit vulputate iaculis. Maecenas tincidunt erat quis rutrum eleifend.</p>
 
-  <section class="style-guide-section">
-    <span class="style-guide-header">Blocks</span>
-    <p class="style-guide-explanation">Blocks are the essential dividers used in the application. They can be used for major layouts or small components. They are floating elements, so make sure to wrap them within a <code>.row</code> element for a proper clearfix. All blocks are styled <code>box-sizing: border-box</code> so padding and margins are added inwards, not outwards.</p>
-  </section>
-  <style>
-    .style-guide-block {
-      background: #f6f6f6;
-      height: 200px;
-      border: 1px solid #fff;
-    }
-  </style>
-  <div class="row">
-    <div class="block_8 style-guide-block"><code>.block_8</code></div>
-    <div class="block_4 style-guide-block"><code>.block_4</code></div>
-  </div>
 
-  <div class="row">
-    <div class="block_6 style-guide-block block_padding"><code>.block_6 block_padding</code></div>
-    <div class="block_6 style-guide-block block_padding"><code>.block_6 block_padding</code></div>
-  </div>
+  
 
-  <div class="row">
-    <div class="block_1 style-guide-block"><code>.block_1</code></div>
-    <div class="block_1 style-guide-block"><code>.block_1</code></div>
-    <div class="block_1 style-guide-block"><code>.block_1</code></div>
-    <div class="block_1 style-guide-block"><code>.block_1</code></div>
-    <div class="block_1 style-guide-block"><code>.block_1</code></div>
-    <div class="block_1 style-guide-block"><code>.block_1</code></div>
-    <div class="block_1 style-guide-block"><code>.block_1</code></div>
-    <div class="block_1 style-guide-block"><code>.block_1</code></div>
-    <div class="block_1 style-guide-block"><code>.block_1</code></div>
-    <div class="block_1 style-guide-block"><code>.block_1</code></div>
-    <div class="block_1 style-guide-block"><code>.block_1</code></div>
-    <div class="block_1 style-guide-block"><code>.block_1</code></div>
-  </div>
+  
 
-  <section class="style-guide-section">
-    <span class="style-guide-header">Alerts</span>
-    <p class="style-guide-explanation">Alerts are used for user feedback based on success or errors. They are <code>&lt;ul&gt;</code>'s with the <code>.alert_list</code> class and a modifying class for success and failure (see below). They are mostly injected via the jinja templates, which means there is no way to load them via javascript right now.</p>
-  </section>
+  
 
-  <ul class="alert_list alert_success">
-    <li>Success! <code>.alert_success</code></li>
-    <li>You can have multiple messages in one alert.</li>
-    <li>One more.</li>
-  </ul>
+  
 
-  <ul class="alert_list alert_error">
-    <li>Error! <code>.alert_error</code></li>
-  </ul>
+  
 
-  <pre class="style-guide-code">
-<span class="style-guide-code-comment">&lt;!-- success --&gt;</span>
-&lt;ul class="alert_list alert_success"&gt;
-  &lt;li&gt;Success!&lt;/li&gt;
-&lt;/ul&gt;
+  
+  
 
-<span class="style-guide-code-comment">&lt;!-- error --&gt;</span>
-&lt;ul class="alert_list alert_error"&gt;
-  &lt;li&gt;Error!&lt;/li&gt;
-&lt;/ul&gt;</pre>
+  
 
-  <section class="style-guide-section">
-    <span class="style-guide-header">Notifications</span>
-    <p class="style-guide-explanation"></p>
-  </section>
+  
 
-  <section class="style-guide-section">
-    <span class="style-guide-header">Boxes</span>
-    <p class="style-guide-explanation"></p>
-  </section>
-
-  <section class="style-guide-section">
-    <span class="style-guide-header">Buttons</span>
-    <p class="style-guide-explanation"></p>
-  </section>
-
-  <section class="style-guide-section">
-    <span class="style-guide-header">Maps</span>
-    <p class="style-guide-explanation"></p>
-  </section>
-
-  <section class="style-guide-section">
-    <span class="style-guide-header">Tooltips</span>
-    <p class="style-guide-explanation">Tooltips are used to add extra information to an element in the page. This information should not be priority to the user in order to interact with the app properly!</p>
-  </section>
-  <style>
-    .style-guide-tooltip {
-      max-width: 400px;
-      height: 100px;
-      background: #f6f6f6;
-      display: block;
-      margin: auto;
-      padding: 10px;
-    }
-  </style>
-
-  <div class="tooltip tooltip_right style-guide-tooltip" value="Here's a tip - drink water."><code>.tooltip.tooltip_right</code></div><br>
-
-  <div class="tooltip tooltip_left style-guide-tooltip" value="How is your day going?"><code>.tooltip.tooltip_left</code></div><br>
-
-  <div class="tooltip tooltip_top style-guide-tooltip" value="Life's greatest treasure is hidden."><code>.tooltip.tooltip_top</code></div><br>
-
-  <div class="tooltip tooltip_bottom style-guide-tooltip" value="Arrrrr. Give me your gold dabloons!"><code>.tooltip.tooltip_bottom</code></div><br>
-
-  <pre class="style-guide-code">
-<span class="style-guide-code-comment">&lt;!-- tooltip tooltip_right --&gt;</span>
-&lt;div class="tooltip tooltip_right" value="Here's a tip - drink water."&gt;&lt;/div&gt;
-
-<span class="style-guide-code-comment">&lt;!-- tooltip tooltip_left --&gt;</span>
-&lt;div class="tooltip tooltip_left" value="How is your day going?"&gt;&lt;/div&gt;
-
-<span class="style-guide-code-comment">&lt;!-- tooltip tooltip_top --&gt;</span>
-&lt;div class="tooltip tooltip_top" value="Life's greatest treasure is hidden."&gt;&lt;/div&gt;
-
-<span class="style-guide-code-comment">&lt;!-- tooltip tooltip_bottom --&gt;</span>
-&lt;div class="tooltip tooltip_bottom" value="Arrrrr. Give me your gold dabloons!"&gt;&lt;/div&gt;</pre>
-
-  <section class="style-guide-section">
-    <span class="style-guide-header">Forms</span>
-    <p class="style-guide-explanation"></p>
-  </section>
-
-  <section class="style-guide-section">
-    <span class="style-guide-header">Tabs</span>
-    <p class="style-guide-explanation">Tabs are used to shuffle between related views, such as a patient's information, sharing that patient, etc. The mobile version of tabs turns into a <code>select</code> field that, when selected, brings the user to the new view. These are typically generated in jinja templates.</p>
-  </section>
-
-  <nav class="nav_tabs">
-    <div class="tabs">
-      <a class="tab tab_active" href="/patient_details/2"><i class="fa fa-home"></i> Home</a>
-      <a class="tab" href=""><i class="fa fa-share"></i> Share</a>
-      <a class="tab" href=""><i class="fa fa-pencil"></i> Edit</a>
-      <a class="tab" href=""><i class="fa fa-download"></i> Export</a>
-    </div>
-
-    <select class="tabs_dropdown" onchange="location = this.options[this.selectedIndex].value;">
-      <option value="">Select an action...</option>
-      <option value="">Home</option>
-      <option value="">Share</option>
-      <option value="">Edit</option>
-      <option value="">Export</option>
-    </select>
-  </nav>
-
-  <pre class="style-guide-code">
-&lt;nav class="nav_tabs"&gt;
-  &lt;div class="tabs"&gt;
-    &lt;a class="tab tab_active" href="/patient_details/2"&gt;&lt;i class="fa fa-home"&gt;&lt;/i&gt; Home&lt;/a&gt;
-    &lt;a class="tab" href=""&gt;&lt;i class="fa fa-share"&gt;&lt;/i&gt; Share&lt;/a&gt;
-    &lt;a class="tab" href=""&gt;&lt;i class="fa fa-pencil"&gt;&lt;/i&gt; Edit&lt;/a&gt;
-    &lt;a class="tab" href=""&gt;&lt;i class="fa fa-download"&gt;&lt;/i&gt; Export&lt;/a&gt;
-  &lt;/div&gt;
-
-  &lt;select class="tabs_dropdown" onchange="location = this.options[this.selectedIndex].value;"&gt;
-    &lt;option value=""&gt;Select an action...&lt;/option&gt;
-    &lt;option value=""&gt;Home&lt;/option&gt;
-    &lt;option value=""&gt;Share&lt;/option&gt;
-    &lt;option value=""&gt;Edit&lt;/option&gt;
-    &lt;option value=""&gt;Export&lt;/option&gt;
-  &lt;/select&gt;
-&lt;/nav&gt;</pre>
-
-  <section class="style-guide-section">
-    <span class="style-guide-header">Filters / Switchers</span>
-    <p class="style-guide-explanation">Used for navigating between different lists or in-page pieces of information without switching views. <strong>This currently has no proper mobile version!</strong></p>
-  </section>
-  <style>
-    .style-guide-filter-list ul li {
-      padding: 10px 5px;
-    }
-  </style>
-
-  <div class="row style-guide-filter-list">
-    <div class="block_3">      
-      <button data-list="0" class="filter filter_statistic filter_active">
-        <span class="statistic_number">5</span>
-        <span class="statistic_text"><strong>Tum laborum</strong></span>
-      </button>
-
-      <button data-list="1" class="filter filter_statistic">
-        <span class="statistic_number">4</span>
-        <span class="statistic_text">accusamus quos possimus</span>
-      </button>
-    </div>
-
-    <div class="block_9 block_padding">
-      <ul id="list-0" class="list list_table list_filter list_filter_active">
-        <li class="list_row">Lorem ipsum dolor sit amet</li>
-        <li class="list_row">consectetur adipisicing elit</li>
-        <li class="list_row">Ea amet iusto ab nisi numquam</li>
-        <li class="list_row">Tum laborum fugit labore dolorem</li>
-        <li class="list_row">quam nemo accusamus quos possimus</li>
-      </ul>
-
-      <ul id="list-1" class="list list_table list_filter">
-        <li class="list_row">Ea amet iusto ab nisi numquam</li>
-        <li class="list_row">Tum laborum fugit labore dolorem</li>
-        <li class="list_row">Lorem ipsum dolor sit amet</li>
-        <li class="list_row">quam nemo accusamus quos possimus</li>
-      </ul>
-    </div>
-  </div>
-
-  <pre class="style-guide-code">
-&lt;div class="row"&gt;
-  &lt;div class="block_3"&gt;      
-    &lt;button data-list="0" class="filter filter_statistic filter_active"&gt;
-      &lt;span class="statistic_number"&gt;5&lt;/span&gt;
-      &lt;span class="statistic_text"&gt;&lt;strong&gt;Tum laborum&lt;/strong&gt;&lt;/span&gt;
-    &lt;/button&gt;
-
-    &lt;button data-list="1" class="filter filter_statistic"&gt;
-      &lt;span class="statistic_number"&gt;4&lt;/span&gt;
-      &lt;span class="statistic_text"&gt;accusamus quos possimus&lt;/span&gt;
-    &lt;/button&gt;
-  &lt;/div&gt;
-
-  &lt;div class="block_9 block_padding"&gt;
-    &lt;ul id="list-0" class="list list_table list_filter list_filter_active"&gt;
-      &lt;li class="list_row"&gt;Lorem ipsum dolor sit amet&lt;/li&gt;
-      &lt;li class="list_row"&gt;consectetur adipisicing elit&lt;/li&gt;
-      &lt;li class="list_row"&gt;Ea amet iusto ab nisi numquam&lt;/li&gt;
-      &lt;li class="list_row"&gt;Tum laborum fugit labore dolorem&lt;/li&gt;
-      &lt;li class="list_row"&gt;quam nemo accusamus quos possimus&lt;/li&gt;
-    &lt;/ul&gt;
-
-    &lt;ul id="list-1" class="list list_table list_filter"&gt;
-      &lt;li class="list_row"&gt;Ea amet iusto ab nisi numquam&lt;/li&gt;
-      &lt;li class="list_row"&gt;Tum laborum fugit labore dolorem&lt;/li&gt;
-      &lt;li class="list_row"&gt;Lorem ipsum dolor sit amet&lt;/li&gt;
-      &lt;li class="list_row"&gt;quam nemo accusamus quos possimus&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/div&gt;
-&lt;/div&gt;</pre>
-
-  <section class="style-guide-section">
-    <span class="style-guide-header">Lists</span>
-    <p class="style-guide-explanation"></p>
-  </section>
-
-  <p><strong>Basic list</strong></p>
-  <ul class="list list_table">
-    <li class="list_row">
-      Something in a <code>.list_row</code>
-    </li>
-    <li class="list_row">
-      Something in a <code>.list_row</code>
-    </li>
-    <li class="list_row">
-      Something in a <code>.list_row</code>
-    </li>
-    <li class="list_row">
-      Something in a <code>.list_row</code>
-    </li>
-    <li class="list_row">
-      Something in a <code>.list_row</code>
-    </li>  
-  </ul>
-  <pre class="style-guide-code">
-&lt;ul class="list list_table"&gt;
-  &lt;li class="list_row"&gt;
-    <span class="style-guide-code-comment">&lt;-- put anything here --&gt;</span>
-  &lt;/li&gt;
-  &lt;li class="list_row"&gt;
-    <span class="style-guide-code-comment">&lt;-- put anything here --&gt;</span>
-  &lt;/li&gt;
-  &lt;li class="list_row"&gt;
-    <span class="style-guide-code-comment">&lt;-- put anything here --&gt;</span>
-  &lt;/li&gt;
-  &lt;li class="list_row"&gt;
-    <span class="style-guide-code-comment">&lt;-- put anything here --&gt;</span>
-  &lt;/li&gt;
-  &lt;li class="list_row"&gt;
-    <span class="style-guide-code-comment">&lt;-- put anything here --&gt;</span>
-  &lt;/li&gt;  
-&lt;/ul&gt;
-  </pre>
-
-  <p><strong>List with blocks</strong></p>
-  <ul class="list list_table">
-    <li class="list_row">
-      <span class="block_4" style="padding:10px;">This is within a <code>.block_4</code></span>
-      <span class="block_8" style="padding:10px;">This more information within a <code>.block_8</code></span>
-    </li>
-    <li class="list_row">
-      <span class="block_4" style="padding:10px;">This is within a <code>.block_4</code></span>
-      <span class="block_8" style="padding:10px;">This more information within a <code>.block_8</code></span>
-    </li>
-    <li class="list_row">
-      <span class="block_4" style="padding:10px;">This is within a <code>.block_4</code></span>
-      <span class="block_8" style="padding:10px;">This more information within a <code>.block_8</code></span>
-    </li>
-    <li class="list_row">
-      <span class="block_4" style="padding:10px;">This is within a <code>.block_4</code></span>
-      <span class="block_8" style="padding:10px;">This more information within a <code>.block_8</code></span>
-    </li>
-    <li class="list_row">
-      <span class="block_4" style="padding:10px;">This is within a <code>.block_4</code></span>
-      <span class="block_8" style="padding:10px;">This more information within a <code>.block_8</code></span>
-    </li>  
-  </ul>
+  
 
 
 
