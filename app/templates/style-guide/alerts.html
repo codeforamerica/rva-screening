@@ -1,0 +1,25 @@
+<section class="style-guide-section">
+  <span class="style-guide-header">Alerts</span>
+  <p class="style-guide-explanation">Alerts are used for user feedback based on success or errors. They are <code>&lt;ul&gt;</code>'s with the <code>.alert_list</code> class and a modifying class for success and failure (see below). They are mostly injected via the jinja templates, which means there is no way to load them via javascript right now.</p>
+</section>
+
+<ul class="alert_list alert_success">
+  <li>Success! <code>.alert_success</code></li>
+  <li>You can have multiple messages in one alert.</li>
+  <li>One more.</li>
+</ul>
+
+<ul class="alert_list alert_error">
+  <li>Error! <code>.alert_error</code></li>
+</ul>
+
+<pre class="style-guide-code">
+<span class="style-guide-code-comment">&lt;!-- success --&gt;</span>
+&lt;ul class="alert_list alert_success"&gt;
+&lt;li&gt;Success!&lt;/li&gt;
+&lt;/ul&gt;
+
+<span class="style-guide-code-comment">&lt;!-- error --&gt;</span>
+&lt;ul class="alert_list alert_error"&gt;
+&lt;li&gt;Error!&lt;/li&gt;
+&lt;/ul&gt;</pre>

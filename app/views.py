@@ -618,3 +618,8 @@ def template_prototyping():
 @login_required
 def mockup():
     return render_template('MOCKUPS.html')
+
+@screener.route('/style-guide')
+@login_required
+def style_guide():
+    return render_template('style-guide.html')

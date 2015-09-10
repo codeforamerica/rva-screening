@@ -55,7 +55,6 @@ sessionMonitor = function(options) {
     function extendsess() {
         // Extend the session expiration. Ping the server and reset the timers if
         // the minimum interval has passed since the last ping.
-        debugger;
         var now = $.now(),
             timeSinceLastPing = now - _lastPingTime;
 

@@ -78,7 +78,7 @@
   &.tooltip_top {
     &:hover {
       &:before {
-        top: $tooltip-tb-zero;
+        top: $tooltip-tb-zero + 1px;
         margin-top: $tooltip-tb-margin-box;
       }
       &:after {
@@ -92,7 +92,7 @@
   &.tooltip_bottom {
     &:hover {
       &:before {
-        bottom: $tooltip-tb-zero;
+        bottom: $tooltip-tb-zero + 1px;
         margin-bottom: $tooltip-tb-margin-box;
       }
       &:after {

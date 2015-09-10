@@ -1,0 +1,72 @@
+<section class="style-guide-section">
+  <span class="style-guide-header">Filters / Switchers</span>
+  <p class="style-guide-explanation">Used for navigating between different lists or in-page pieces of information without switching views. <strong>This currently has no proper mobile version!</strong></p>
+</section>
+<style>
+  .style-guide-filter-list ul li {
+    padding: 10px 5px;
+  }
+</style>
+
+<div class="row style-guide-filter-list">
+  <div class="block_3">      
+    <button data-list="0" class="filter filter_statistic filter_active">
+      <span class="statistic_number">5</span>
+      <span class="statistic_text"><strong>Tum laborum</strong></span>
+    </button>
+
+    <button data-list="1" class="filter filter_statistic">
+      <span class="statistic_number">4</span>
+      <span class="statistic_text">accusamus quos possimus</span>
+    </button>
+  </div>
+
+  <div class="block_9 block_padding">
+    <ul id="list-0" class="list list_table list_filter list_filter_active">
+      <li class="list_row">Lorem ipsum dolor sit amet</li>
+      <li class="list_row">consectetur adipisicing elit</li>
+      <li class="list_row">Ea amet iusto ab nisi numquam</li>
+      <li class="list_row">Tum laborum fugit labore dolorem</li>
+      <li class="list_row">quam nemo accusamus quos possimus</li>
+    </ul>
+
+    <ul id="list-1" class="list list_table list_filter">
+      <li class="list_row">Ea amet iusto ab nisi numquam</li>
+      <li class="list_row">Tum laborum fugit labore dolorem</li>
+      <li class="list_row">Lorem ipsum dolor sit amet</li>
+      <li class="list_row">quam nemo accusamus quos possimus</li>
+    </ul>
+  </div>
+</div>
+
+<pre class="style-guide-code">
+&lt;div class="row"&gt;
+&lt;div class="block_3"&gt;      
+  &lt;button data-list="0" class="filter filter_statistic filter_active"&gt;
+    &lt;span class="statistic_number"&gt;5&lt;/span&gt;
+    &lt;span class="statistic_text"&gt;&lt;strong&gt;Tum laborum&lt;/strong&gt;&lt;/span&gt;
+  &lt;/button&gt;
+
+  &lt;button data-list="1" class="filter filter_statistic"&gt;
+    &lt;span class="statistic_number"&gt;4&lt;/span&gt;
+    &lt;span class="statistic_text"&gt;accusamus quos possimus&lt;/span&gt;
+  &lt;/button&gt;
+&lt;/div&gt;
+
+&lt;div class="block_9 block_padding"&gt;
+  &lt;ul id="list-0" class="list list_table list_filter list_filter_active"&gt;
+    &lt;li class="list_row"&gt;Lorem ipsum dolor sit amet&lt;/li&gt;
+    &lt;li class="list_row"&gt;consectetur adipisicing elit&lt;/li&gt;
+    &lt;li class="list_row"&gt;Ea amet iusto ab nisi numquam&lt;/li&gt;
+    &lt;li class="list_row"&gt;Tum laborum fugit labore dolorem&lt;/li&gt;
+    &lt;li class="list_row"&gt;quam nemo accusamus quos possimus&lt;/li&gt;
+  &lt;/ul&gt;
+
+  &lt;ul id="list-1" class="list list_table list_filter"&gt;
+    &lt;li class="list_row"&gt;Ea amet iusto ab nisi numquam&lt;/li&gt;
+    &lt;li class="list_row"&gt;Tum laborum fugit labore dolorem&lt;/li&gt;
+    &lt;li class="list_row"&gt;Lorem ipsum dolor sit amet&lt;/li&gt;
+    &lt;li class="list_row"&gt;quam nemo accusamus quos possimus&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;</pre>

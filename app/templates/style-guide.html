@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+  .style-guide-section {
+    margin-top: 5em;
+    margin-bottom: 1em;
+    border-bottom: 1px solid #e5e5e5;
+  }
+  .style-guide-header {
+    display: block;
+    font-size: 2em;
+    color: #c0c0c0;
+  }
+  .style-guide-explanation {
+    font-size: 0.9em;
+    color: #999;
+    max-width: 700px;
+  }
+  .style-guide-code {
+    background: #f6f6f6;
+    padding: 10px;
+    border-left: 5px solid #333;
+    margin-top: 3em;
+  }
+  .style-guide-code-comment {
+    color: #999;
+  }
+</style>
+
+<div class="container">
+  <p><strong>RVA Screener Style Guide</strong></p>
+  <p>Below are the style components used throughout the application. The <code>front/sass/</code> files are structured to containe specific UI components, using constant variables from <code>front/sass/variables.scss</code>.</p>
+
+  {% include "style-guide/colors.html" %}
+  {% include "style-guide/typography.html" %}
+  {% include "style-guide/blocks.html" %}
+  {% include "style-guide/alerts.html" %}
+  {% include "style-guide/notifications.html" %}
+  {% include "style-guide/checkboxes.html" %}
+  {% include "style-guide/buttons.html" %}
+  {% include "style-guide/tooltips.html" %}
+  {% include "style-guide/forms.html" %}
+  {% include "style-guide/tabs.html" %}
+  {% include "style-guide/filters.html" %}
+  {% include "style-guide/lists.html" %}
+  {% include "style-guide/maps.html" %}
+
+</div>
+
+{% endblock %}
