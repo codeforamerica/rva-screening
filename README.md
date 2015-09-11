@@ -12,9 +12,9 @@ This project is in early development. We also discuss potential features and des
 
 The [2015 Code for America Fellows in Richmond, VA](http://www.codeforamerica.org/governments/rva-community-partners/):
 
-Ben Golder ([bengolder](//github.com/bengolder))  
-Emma Smithayer ([esmithayer](//github.com/esmithayer))  
-Sam Matthews ([svamatthews](//github.com/svmatthews))  
+Ben Golder ([bengolder](//github.com/bengolder))
+Emma Smithayer ([esmithayer](//github.com/esmithayer))
+Sam Matthews ([mapsam](//github.com/mapsam))
 
 ### How (Installation)
 
@@ -30,11 +30,10 @@ The application is built with Python and [Flask](http://flask.pocoo.org/).
 * Change into the project directory: ```cd rva-screening```
 * Install Python requirements: ```pip install -r requirements.txt```
 * Install front end requirements: ```npm install```
-* Create a database:
-```bash
-psql
-create database rva-screening;
-```
+* Create two databases: ```createdb screener```
+* Add the HSTORE extension: ```psql screener -c CREATE EXTENSION hstore;```
+
+
 * Set up the database: ```make new_db```
 * Create mock data, including user accounts: ```make data```
 * Start server: ```make run```
