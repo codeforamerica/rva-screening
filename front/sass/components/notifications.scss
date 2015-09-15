@@ -19,13 +19,14 @@ $notification-error-color: #FF4136;
   display: table;
   padding: 1em;
   height: 82px;
+  max-height: 82px;
   padding-left: 100px;
   padding-right: 100px;
   width: 100%;
   margin-bottom: 1em;
   @include notification_color($notification-bg-default);
   p {
-    line-height: 1.6em;
+    line-height: 1.5em;
     span {
       float: right;
     }

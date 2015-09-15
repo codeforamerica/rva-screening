@@ -1,41 +1,38 @@
-.patient_profile {
-  margin-top: 1em;
-}
-
-// left-hand column typically
-.overview_patient {
-  border-top: 1px solid darken($color-lightgray, 10);
-  border-bottom: 1px solid darken($color-lightgray, 10);
-  padding-top: 1em;
-  .overview_patient_item {
-    cursor: default;
+.patientProfile {
+  .patientProfile-block {
+    margin-top: 2em;
+  }
+  .patientProfile-infoblock {
+    margin-bottom: 0.5em;
+  }
+  a {
+    color: #333;
+    text-decoration: underline;
+  }
+  .patient-name {
+    font-weight: 500;
+  }
+  .patient-star {
+    margin-left: 0.5em;
+  }
+  .patient-descriptor {
     display: block;
-    margin-bottom: 0.8em;
-    white-space: nowrap;
-    .fa {
-      color: $color-gray;
-      text-align: center;
-      width: 1em;
-    }
-    p {
-      font-size: 0.7em;
-      margin: 0;
-      color: $color-darkgray;
-    }
-    h2 {
-      font-size: 1.2em;
-      margin: 0;
-      color: $color-blue;
+    font-size: 0.9em;
+    font-weight: 300;
+  }
+  .patient-info {
+    display: block;
+    font-size: 2em;
+    font-weight: 300;
+    &.patient-info-small {
+      font-size: 1em;
+      font-weight: 700;
     }
   }
 }
-
-.patient_details_actions {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 0 0 0.5em;
-  background: $color-white;
-  box-shadow: 0 0 5px 0px rgba(0,0,0,0.4);
+.patientProfile-photo {
+  img {
+    max-width: 100%;
+    height: auto;
+  }
 }
