@@ -1,9 +1,60 @@
-.nav_patient {
-  background: $color-lightgray;
-}
+// .nav_patient {
+//   background: $color-lightgray;
+// }
 
 .patient_options {
   width: 45%;
   text-align: right;
   display: inline-block;
+}
+
+$pNav-li-color: #333;
+$pNav-li-bg: #e5e5e5;
+$pNav-sli-color: $pNav-li-color;
+$pNav-sli-bg: #f6f6f6;
+$pNav-sli-bgHover: darken($pNav-li-bg, 5);
+$pNav-sli-border: 4px solid #999;
+
+nav.patientNav {
+  .patientNav_list,
+  .patientNav_sublist {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+  }
+
+  .patientNav_list {
+    .patientNav_li {
+      a {
+        color: $pNav-li-color;
+        display: block;
+        padding: 0.8em 1.2em;
+        .fa {
+          margin-right: 10px;
+        }
+      }
+      background: $pNav-li-bg;
+      margin-bottom: 2px;
+      font-weight: 500;
+    }
+  }
+
+  .patientNav_sublist {
+    .patientNav_subli {
+      font-weight: 300;
+      a {
+        color: $pNav-sli-color;
+        display: block;
+        padding: 0.5em 0.5em 0.5em 2em;
+      }
+      &:hover {
+        background: $pNav-sli-bgHover;
+      }
+      &.patientNav_subli_active {
+        border-left: $pNav-sli-border;
+        background: $pNav-sli-bg;
+        width: 120%; // arbitrary
+      }
+    }
+  }
 }
