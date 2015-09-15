@@ -1,4 +1,4 @@
-$filter-active-color: #F012BE;
+$filter-active-color: #0074D9;
 $filter-active-bg: lighten($filter-active-color, 35);
 $filter-active-border: 4px solid $filter-active-color;
 $filter-container-border: 1px solid $filter-active-bg;
@@ -18,6 +18,8 @@ $filter-count-color: #c0c0c0;
   text-align: left;
   background: white;
   cursor: pointer;
+  color: #333;
+  font-weight: 400;
   &.filter_sub {
     padding-left: 2em;
   }
@@ -31,6 +33,9 @@ $filter-count-color: #c0c0c0;
     background: $filter-active-bg;
     .fa {
       color: #333;
+    }
+    .filter-count {
+      color: white;
     }
   }
   &:focus {

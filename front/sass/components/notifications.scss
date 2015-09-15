@@ -12,6 +12,11 @@ $notification-error-color: #FF4136;
     background: $bg;
     color: $color;
   }
+  .notification_right {
+    @media (max-width: $break) {
+      background: transparent;
+    }
+  }
 }
 
 .notification {
@@ -35,21 +40,43 @@ $notification-error-color: #FF4136;
       text-decoration: underline;
     }
   }
+  @media (max-width: $break) {
+    padding: 10px;
+    p {
+      span {
+        display: block;
+        float: none;
+      }
+    }
+  }
   .notification_left,
   .notification_right {
     position: absolute;
     top: 0;
     text-align: center;
+    @media (max-width: $break) {
+      position: relative;
+      display: block;
+    }
   }
   .notification_left {
     left: 0;
     padding: 17px 22px;
     font-size: 3em;
+    @media (max-width: $break) {
+      font-size: 1.8em;
+      padding: 5px;
+    }
   }
   .notification_right {
     right: 0;
     height: 100%;
     padding: 24px 20px;
+    @media (max-width: $break) {
+      padding: 5px;
+      background: transparent;
+      // text-align: left;
+    }
     p {
       margin: 0;
       padding: 0;
