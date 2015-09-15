@@ -1,43 +1,43 @@
+$filter-active-color: #F012BE;
+$filter-active-bg: lighten($filter-active-color, 35);
+$filter-active-border: 4px solid $filter-active-color;
+$filter-container-border: 1px solid $filter-active-bg;
+$filter-icon-hover: $filter-active-color;
+$filter-count-color: #c0c0c0;
+
+.filter_actions {
+  border-right: $filter-container-border;
+}
+
 .filter {
-  padding: 1em;
   display: block;
-  width: 100%;
+  padding: 0.5em;
+  font-size: 1em;
   border: none;
-  border-bottom: 2px solid #fff;
-  background-color: $filter-background-color;
-  font-size: 0.9em;
+  width: 100%;
   text-align: left;
-  position: relative;
-  color: $color-black;
+  background: white;
+  cursor: pointer;
+  &.filter_sub {
+    padding-left: 2em;
+  }
   &:hover {
-    background: #e5e5e5;
-    cursor: pointer;
+    .fa {
+      color: $filter-icon-hover;
+    }
+  }
+  &.filter_active {
+    border-left: $filter-active-border;
+    background: $filter-active-bg;
+    .fa {
+      color: #333;
+    }
   }
   &:focus {
     outline: none;
   }
-  &.filter_active {
-    background-color: $filter-background-color-active;
-    color: $filter-text-color-active;
-    &:before {
-      content: " ";
-      position: absolute;
-      top: 50%;
-      margin-top: -$filter-arrow-dimension;
-      left: 100%;
-      border-left: $filter-arrow-dimension solid $filter-arrow-color;
-      border-top: $filter-arrow-dimension solid transparent;
-      border-bottom: $filter-arrow-dimension solid transparent;
-    }
+  .filter-count {
+    font-weight: 300;
+    color: $filter-count-color;
   }
-}
-
-.statistic_number {
-  display: block;
-  font-size: 2em;
-  font-weight: 900;
-}
-.statistic_text {
-  font-size: 0.9em;
-  font-weight: 100;
 }
