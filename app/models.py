@@ -1,6 +1,7 @@
 import datetime
 from flask.ext.login import current_user
 from flask.ext.babel import gettext as _
+from flask.ext.security import UserMixin, RoleMixin
 from sqlalchemy import event
 from sqlalchemy.dialects.postgresql import HSTORE, JSON
 from sqlalchemy.ext.declarative import declared_attr
@@ -54,15 +55,35 @@ class ActionLog(db.Model):
     changed_fields = db.Column(HSTORE)
 
 
-class AppUser(BasicTable, db.Model):
+class RolesUsers(BasicTable, db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    app_user_id = db.Column(db.Integer, db.ForeignKey('app_user.id'))
+    app_user = db.relationship("AppUser", foreign_keys='RolesUsers.app_user_id')
+    role_id = db.Column(db.Integer, db.ForeignKey('role.id'))
+
+
+class AppUser(BasicTable, UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(64))
     password = db.Column(db.String(128))
     authenticated = db.Column(db.Boolean, default=False)
+    active = db.Column(db.Boolean())
+    confirmed_at = db.Column(db.DateTime())
+    last_login_at = db.Column(db.DateTime())
+    current_login_at = db.Column(db.DateTime())
+    last_login_ip = db.Column(db.String(16))
+    current_login_ip = db.Column(db.String(16))
+    login_count = db.Column(db.Integer)
     service_id = db.Column(db.Integer, db.ForeignKey("service.id", ondelete='CASCADE'))
     full_name = db.Column(db.String(64))
     phone_number = db.Column(db.String(32))
-    role_id = db.Column(db.Integer, db.ForeignKey("role.id"))
+    roles = db.relationship(
+        'Role',
+        secondary='roles_users',
+        primaryjoin='AppUser.id==RolesUsers.app_user_id',
+        secondaryjoin='RolesUsers.role_id==Role.id',
+        backref=db.backref('app_users', lazy='dynamic')
+    )
     # Users are linked to patient ids only if their role is 'Patient'
     patient_id = db.Column(db.Integer, db.ForeignKey("patient.id"))
 
@@ -81,7 +102,10 @@ class AppUser(BasicTable, db.Model):
         )
 
     def is_patient_user(self):
-        return bool(self.role.name == 'Patient')
+        return self.has_role('Patient')
+
+    def is_current_patient(self, patient_id):
+        return self.patient_id == int(patient_id)
 
     def is_authenticated(self):
         return True
@@ -92,43 +116,28 @@ class AppUser(BasicTable, db.Model):
     def is_anonymous(self):
         return False
 
-    def get_id(self):
-        return self.email
 
-
-class Role(BasicTable, db.Model):
+class Role(BasicTable, RoleMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), unique=True)
+    description = db.Column(db.String(255))
     default = db.Column(db.Boolean, default=False, index=True)
-    permissions = db.Column(db.Integer)
-    app_users = db.relationship(
-        'AppUser',
-        primaryjoin='Role.id==AppUser.role_id',
-        backref='role',
-        lazy='dynamic'
-    )
 
     @staticmethod
     def insert_roles():
         roles = {
-            'Patient': (0x00, True),
-            'Staff': (Permission.VIEW_ALL_PATIENTS, False),
-            'Admin': (Permission.VIEW_ALL_PATIENTS | Permission.VIEW_ADMIN_PAGES, False),
-            'Superuser': (0xff, False)
+            'Patient': True,
+            'Staff': False,
+            'Admin': False,
+            'Superuser': False
         }
         for r in roles:
             role = Role.query.filter_by(name=r).first()
             if role is None:
                 role = Role(name=r)
-            role.permissions = roles[r][0]
-            role.default = roles[r][1]
+            role.default = roles[r]
             db.session.add(role)
         db.session.commit()
-
-
-class Permission:
-    VIEW_ALL_PATIENTS = 0x01
-    VIEW_ADMIN_PAGES = 0x02
 
 
 class Patient(BasicTable, db.Model):

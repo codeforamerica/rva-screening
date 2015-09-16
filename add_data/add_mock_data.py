@@ -6,8 +6,9 @@ from faker import Factory
 from faker.providers import BaseProvider
 from flask import current_app
 from flask.ext.login import current_user, login_user, logout_user
+from flask.ext.security.utils import encrypt_password
 
-from app import create_app, bcrypt
+from app import create_app
 from app.example_data import (
     RELATIONSHIPS,
     ADDRESS_TYPES,
@@ -16,6 +17,7 @@ from app.example_data import (
 )
 from app.models import (
     AppUser,
+    Role,
     Service,
     SlidingScale,
     Patient,
@@ -182,26 +184,30 @@ class PatientProvider(BaseProvider):
 
 
 def add_users(services):
+    staff_role = Role.query.filter_by(name='Staff').first()
+    patient_role = Role.query.filter_by(name='Patient').first()
+
     for service in services:
         user = AppUser(
             email=service.name.lower().replace(' ', '_') + '_user@test.com',
-            password=bcrypt.generate_password_hash('password'),
+            password=encrypt_password('password'),
             service_id=service.id,
             full_name=fake.name(),
-            phone_number=formatted_phone_number(),
-            role_name='Staff'
+            phone_number=formatted_phone_number()
         )
         db.session.add(user)
+        user.roles.append(staff_role)
 
     patient_user = AppUser(
         email='patient_user@test.com',
-        password=bcrypt.generate_password_hash('password'),
+        password=encrypt_password('password'),
         full_name=fake.name(),
         phone_number=formatted_phone_number()
     )
     db.session.add(patient_user)
-
+    patient_user.roles.append(patient_role)
     db.session.commit()
+
     app_users = AppUser.query.all()
 
     print "Added users"

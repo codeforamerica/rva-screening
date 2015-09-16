@@ -9,8 +9,9 @@ from werkzeug.datastructures import MultiDict
 
 from flask import current_app, send_from_directory, session, abort
 from flask.ext.login import login_user, current_user
+from flask.ext.security.utils import verify_password
 
-from app import db, bcrypt
+from app import db
 from app.models import AppUser, UnsavedForm
 
 
@@ -92,7 +93,7 @@ def translate_object(obj, language_code):
 
 def login_helper(user_email, password):
     user = AppUser.query.filter(AppUser.email == user_email).first()
-    if user and bcrypt.check_password_hash(
+    if user and verify_password(
         user.password.encode('utf8'),
         password
     ):
@@ -137,6 +138,6 @@ def check_patient_permission(patient_id):
     """If the current user is a patient account, check whether they're viewing
     the patient linked to their own account. If not, abort.
     """
-    if current_user.is_patient_user() and current_user.patient_id != int(patient_id):
+    if current_user.is_patient_user() and not current_user.is_current_patient(patient_id):
         abort(403)
     return

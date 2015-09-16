@@ -4,6 +4,7 @@ from sqlalchemy import and_, or_
 from werkzeug.datastructures import FileStorage
 
 from flask import (
+    abort,
     Blueprint,
     render_template,
     request,
@@ -14,10 +15,11 @@ from flask import (
     current_app,
     jsonify
 )
-from flask.ext.login import logout_user, current_user, login_required
+from flask.ext.login import login_user, current_user
+from flask.ext.security import login_required, roles_accepted
+from flask.ext.security.forms import LoginForm
 
 from app import db, login_manager
-from app.decorators import view_all_patients_required
 from app.forms import PatientForm, PrescreenForm, ScreeningResultForm
 from app.models import (
     AppUser,
@@ -34,15 +36,13 @@ from app.models import (
     PatientReferral,
     SlidingScale,
     PatientScreeningResult,
-    UnsavedForm,
-    Permission
+    UnsavedForm
 )
 from app.prescreening import calculate_fpl, calculate_pre_screen_results
 from app.utils import (
     upload_file,
     send_document_image,
     translate_object,
-    login_helper,
     get_unsaved_form,
     check_patient_permission
 )
@@ -57,23 +57,11 @@ def before_request():
     session.modified = True
 
 
-@screener.route("/login", methods=["GET", "POST"])
-def login():
-    """Display login page and check credentials."""
-    if request.method == 'POST':
-        if login_helper(request.form['email'], request.form['password']):
-            return redirect(url_for('screener.home_page_redirect'))
-        else:
-            return render_template("login.html")
-    else:
-        return render_template("login.html")
-
-
-@screener.route("/home")
+@screener.route("/")
 @login_required
 def home_page_redirect():
     """Redirect the user to the home page appropriate for their role."""
-    if current_user.can(Permission.VIEW_ALL_PATIENTS):
+    if not current_user.is_patient_user():
         return redirect(url_for('screener.index'))
     elif current_user.patient_id is not None:
         return redirect(url_for(
@@ -89,17 +77,21 @@ def relogin():
     """Prompt the user to reauthenticate after 15 minutes of inactivity.
     After reauthentication, return to previous page and include any unsaved form data.
     """
-    if request.method == 'POST':
-        if login_helper(request.form['email'], request.form['password']):
-            return redirect(request.form['previous_page'])
-        else:
-            return render_template("relogin.html", user_email=request.form['email'])
+    form = LoginForm()
+    if form.validate_on_submit():
+        login_user(form.user, remember=form.remember.data)
+        user = AppUser.query.filter(AppUser.email == form.user.email).first()
+        user.authenticated = True
+        db.session.add(user)
+        db.session.commit()
+        return redirect(request.form['previous_page'])
     else:
         email = current_user.email
         return render_template(
             "relogin.html",
             email=email,
-            previous_page=request.referrer
+            previous_page=request.referrer,
+            login_user_form=form
         )
 
 
@@ -118,18 +110,6 @@ def unsaved_form():
     db.session.add(unsaved_form)
     db.session.commit()
     return jsonify()
-
-
-@screener.route("/logout", methods=["GET"])
-@login_required
-def logout():
-    """Log the user out and redirect to login page."""
-    user = current_user
-    user.authenticated = False
-    db.session.add(user)
-    db.session.commit()
-    logout_user()
-    return redirect(url_for('screener.login'))
 
 
 @screener.route("/ping", methods=["POST"])
@@ -547,9 +527,9 @@ def patient_screening_history(patient_id):
     return render_template('patient_screening_history.html', patient=patient, form=form)
 
 
-@screener.route('/')
+@screener.route('/index')
 @login_required
-@view_all_patients_required
+@roles_accepted('Staff', 'Admin', 'Superuser')
 def index():
     """Display the initial landing page, which lists patients in the
     network and allows users to search and filter them.
@@ -602,6 +582,11 @@ def service(service_id):
     return render_template('service_profile.html', service=service)
 
 
+@screener.route('/403')
+def throw_403():
+    abort(403)
+
+
 #########################################
 # Development-only routes
 #########################################
@@ -618,6 +603,7 @@ def template_prototyping():
 @login_required
 def mockup():
     return render_template('MOCKUPS.html')
+
 
 @screener.route('/style-guide')
 @login_required

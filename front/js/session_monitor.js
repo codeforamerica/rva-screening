@@ -27,7 +27,7 @@ sessionMonitor = function(options) {
             // (such as saving draft data) before the user is automatically logged out.
             // This may optionally return a jQuery Deferred object, in which case
             // ontimeout will be executed when the deferred is resolved or rejected.
-            form_json = JSON.stringify($("#patient_details_form :input")
+            var form_json = JSON.stringify($("#patient_details_form :input")
                 .filter(function(index, element) {
                     return $(element).val() != "";
                 })
