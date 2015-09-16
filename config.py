@@ -62,3 +62,4 @@ class TestConfig(Config):
         'postgresql://localhost/screener_test'
     )
     MAIL_SUPPRESS_SEND = True
+    SECURITY_PASSWORD_SALT = 'test'
