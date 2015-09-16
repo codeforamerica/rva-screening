@@ -26,13 +26,13 @@ class TestScreener(BaseTestCase):
         self.logout()
         self.assertEquals(app_user.authenticated, False)
         self.login('richmond@codeforamerica.org', 'badpassword')
-        self.assert_template_used('login.html')
+        self.assert_template_used('security/login_user.html')
         self.assertEquals(app_user.authenticated, False)
 
     def test_index(self):
         """Test that the index page works as expected."""
         response = self.login()
-        response = self.client.get('/')
+        response = self.client.get('/index')
         self.assert200(response)
         self.assert_template_used('index.html')
 

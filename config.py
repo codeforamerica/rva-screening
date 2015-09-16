@@ -28,7 +28,8 @@ class Config(object):
     SECURITY_PASSWORD_HASH = 'bcrypt'
     SECURITY_PASSWORD_SALT = os.environ.get('SECURITY_PASSWORD_SALT')
     SECURITY_EMAIL_SENDER = 'ZipScreen <richmond@codeforamerica.org>'
-    SECURITY_POST_LOGIN_VIEW = '/home'
+    SECURITY_POST_LOGIN_VIEW = '/'
+    SECURITY_POST_LOGOUT_VIEW = '/login'
     SECURITY_UNAUTHORIZED_VIEW = '/403'
     SECURITY_RECOVERABLE = True
     SECURITY_TRACKABLE = True
