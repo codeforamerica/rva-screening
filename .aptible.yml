@@ -1,2 +1,2 @@
 before_release:
-  python db.py db upgrade
+  python db.py db upgrade --app rva-screener
