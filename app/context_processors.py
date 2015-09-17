@@ -25,8 +25,3 @@ def inject_example_data():
 def inject_template_constants():
     from app import template_constants
     return dict(CONSTANTS=template_constants)
-
-
-def inject_permissions():
-    from app.models import Permission
-    return dict(PERMISSION=Permission)

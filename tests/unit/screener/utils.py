@@ -1,5 +1,6 @@
+from flask.ext.security.utils import encrypt_password
 from app.models import AppUser, Service, Patient, Role
-from app import bcrypt, db
+from app import db
 
 
 def insert_roles():
@@ -19,13 +20,14 @@ def get_user():
 def insert_user():
     insert_roles()
     service = get_service()
+    staff_role = Role.query.filter_by(name='Staff').first()
     app_user = AppUser(
         email='richmond@codeforamerica.org',
-        password=bcrypt.generate_password_hash('password'),
-        service=service,
-        role_name='Staff'
+        password=encrypt_password('password'),
+        service=service
     )
     db.session.add(app_user)
+    app_user.roles.append(staff_role)
     db.session.commit()
     return app_user
 

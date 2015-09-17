@@ -1,36 +1,16 @@
 {% extends "base.html" %}
 {% block content %}
+{% from "security/_macros.html" import render_field_with_errors, render_field %}
+{% include "security/_messages.html" %}
 <p>Your session has timed out. Please re-enter your password to continue.</p>
-<form method="post">
-
-  <label class="form_field form_field_large field_login_email">
-	<span class="field_label">
-		{{ _("Email address") }}:
-	</span>
-	<span>
-		<input type="hidden" name="email" value="{{email}}">
-		{{ email }}
-	</span>
-  </label>
-
-  <label class="form_field form_field_large field_login_password">
-    <span class="field_label">
-      {{ _("Password") }}
-    </span>
-    <input type="password" 
-      class="field_input" 
-      name="password"
-      id="password"
-      >
-    <span class="field_verification"></span>
-  </label>
+<form action="{{ url_for('screener.relogin') }}" method="POST" name="login_user_form">
+  {{ login_user_form.hidden_tag() }}
+  {{ render_field_with_errors(login_user_form.email, value=email) }}
+  {{ render_field_with_errors(login_user_form.password) }}
+  {{ render_field(login_user_form.submit, class="button button_blue") }}
+  <p><a href="{{ url_for_security('logout') }}">Log in as a different user</a></p> 
   <span class="hidden">
-  	<input type="hidden" name="previous_page" value="{{ previous_page }}">
+    <input type="hidden" name="previous_page" value="{{ previous_page }}">
   </span>
-
-  <button class="button button_blue" type="submit">{{ _("Log in") }}</button>
-
-  <p><a href="{{ url_for('screener.logout') }}">Log in as a different user</a></p>    
-
 </form>
 {% endblock %}
