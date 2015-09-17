@@ -25,6 +25,24 @@ class Config(object):
     BABEL_DEFAULT_LOCALE = os.environ.get('BABEL_DEFAULT_LOCALE', 'en_US')
     BABEL_DEFAULT_TIMEZONE = os.environ.get('BABEL_DEFAULT_TIMEZONE', 'America/New_York')
 
+    SECURITY_PASSWORD_HASH = 'bcrypt'
+    SECURITY_PASSWORD_SALT = os.environ.get('SECURITY_PASSWORD_SALT')
+    SECURITY_EMAIL_SENDER = 'ZipScreen <richmond@codeforamerica.org>'
+    SECURITY_POST_LOGIN_VIEW = '/'
+    SECURITY_POST_LOGOUT_VIEW = '/login'
+    SECURITY_UNAUTHORIZED_VIEW = '/403'
+    SECURITY_RECOVERABLE = True
+    SECURITY_TRACKABLE = True
+    SECURITY_CHANGEABLE = True
+    SECURITY_EMAIL_SUBJECT_PASSWORD_RESET = 'ZipScreen password reset instructions'
+    SECURITY_EMAIL_SUBJECT_PASSWORD_NOTICE = 'Your ZipScreen password has been reset'
+
+    MAIL_SERVER = os.environ.get('MAIL_SERVER', 'smtp.gmail.com')
+    MAIL_PORT = os.environ.get('MAIL_PORT', 465)
+    MAIL_USE_SSL = True
+    MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
+    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
+
 
 class ProdConfig(Config):
     DEBUG = False
@@ -32,6 +50,7 @@ class ProdConfig(Config):
 
 class DevConfig(Config):
     DEBUG = True
+    MAIL_SUPPRESS_SEND = True
 
 
 class TestConfig(Config):
@@ -42,3 +61,5 @@ class TestConfig(Config):
         'TEST_DATABASE_URL',
         'postgresql://localhost/screener_test'
     )
+    MAIL_SUPPRESS_SEND = True
+    SECURITY_PASSWORD_SALT = 'test'
