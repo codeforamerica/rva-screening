@@ -22,6 +22,7 @@ def insert_user():
     service = get_service()
     staff_role = Role.query.filter_by(name='Staff').first()
     app_user = AppUser(
+        full_name = 'App User',
         email='richmond@codeforamerica.org',
         password=encrypt_password('password'),
         service=service
