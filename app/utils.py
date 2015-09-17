@@ -7,11 +7,12 @@ from sqlalchemy import and_
 from werkzeug import secure_filename
 from werkzeug.datastructures import MultiDict
 
-from flask import current_app, send_from_directory, session, abort
+from flask import current_app, send_from_directory, session, abort, render_template
 from flask.ext.login import login_user, current_user
 from flask.ext.security.utils import verify_password
+from flask_mail import Message
 
-from app import db
+from app import db, mail
 from app.models import AppUser, UnsavedForm
 
 
@@ -140,4 +141,23 @@ def check_patient_permission(patient_id):
     """
     if current_user.is_patient_user() and not current_user.is_current_patient(patient_id):
         abort(403)
+    return
+
+
+def send_referral_notification_email(service, patient, from_app_user):
+    """Send an email to addresses associated with a service, notifying them that they've
+    been sent a new referral.
+    """
+    message = Message(
+        "New referral from " + from_app_user.full_name + " at " + from_app_user.service.name
+    )
+    message.recipients = [e.email for e in service.referral_emails]
+    if message.recipients:
+        message.html = render_template(
+            "emails/referral_notification.html",
+            service=service,
+            patient=patient,
+            from_app_user=from_app_user
+        )
+        mail.send(message)
     return
