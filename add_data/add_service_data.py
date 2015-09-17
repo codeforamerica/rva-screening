@@ -2,7 +2,14 @@
 import sys
 
 from app import create_app
-from app.models import db, Service, SlidingScale, SlidingScaleFee, ServiceLocation
+from app.models import (
+    db,
+    Service,
+    ServiceReferralEmail,
+    SlidingScale,
+    SlidingScaleFee,
+    ServiceLocation
+)
 
 
 def main(app=create_app()):
@@ -22,6 +29,11 @@ def main(app=create_app()):
             medicaid_ineligible_only_yn='N',
             residence_requirement_yn='N',
             time_in_area_requirement_yn='N',
+            referral_emails=[
+                ServiceReferralEmail(
+                    email="richmond@codeforamerica.org"
+                )
+            ],
             locations=[
                 ServiceLocation(
                     name="The Daily Planet",
@@ -171,6 +183,11 @@ def main(app=create_app()):
             medicaid_ineligible_only_yn='N',
             residence_requirement_yn='N',
             time_in_area_requirement_yn='N',
+            referral_emails=[
+                ServiceReferralEmail(
+                    email="richmond@codeforamerica.org"
+                )
+            ],
             locations=[
                 ServiceLocation(
                     name="Cowardin",
@@ -243,6 +260,11 @@ def main(app=create_app()):
             medicaid_ineligible_only_yn='Y',
             residence_requirement_yn='Y',
             time_in_area_requirement_yn='Y',
+            referral_emails=[
+                ServiceReferralEmail(
+                    email="richmond@codeforamerica.org"
+                )
+            ],
             locations=[
                 ServiceLocation(
                     name="RAM",
@@ -266,6 +288,11 @@ def main(app=create_app()):
             medicaid_ineligible_only_yn='N',
             residence_requirement_yn='N',
             time_in_area_requirement_yn='N',
+            referral_emails=[
+                ServiceReferralEmail(
+                    email="richmond@codeforamerica.org"
+                )
+            ],
             locations=[
                 ServiceLocation(
                     name="Bellemeade Community Center",

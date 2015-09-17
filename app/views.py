@@ -44,7 +44,8 @@ from app.utils import (
     send_document_image,
     translate_object,
     get_unsaved_form,
-    check_patient_permission
+    check_patient_permission,
+    send_referral_notification_email
 )
 
 
@@ -483,6 +484,13 @@ def add_referral():
     )
     db.session.add(referral)
     db.session.commit()
+    service = Service.query.get(request.form['service_id'])
+    patient = Patient.query.get(request.form['patient_id'])
+    send_referral_notification_email(
+        service=service,
+        patient=patient,
+        from_app_user=current_user
+    )
     return jsonify()
 
 

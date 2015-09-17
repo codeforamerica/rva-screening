@@ -374,6 +374,7 @@ class Service(BasicTable, db.Model):
     medicaid_ineligible_only_yn = db.Column(db.String(1))
     residence_requirement_yn = db.Column(db.String(1))
     time_in_area_requirement_yn = db.Column(db.String(1))
+    referral_emails = db.relationship('ServiceReferralEmail', backref='service', lazy='dynamic')
     sliding_scales = db.relationship('SlidingScale', backref='service', lazy='dynamic')
     locations = db.relationship('ServiceLocation', backref='service', lazy='dynamic')
     users = db.relationship(
@@ -382,6 +383,12 @@ class Service(BasicTable, db.Model):
         backref='service'
     )
     translations = db.relationship('ServiceTranslation', backref='service', lazy='dynamic')
+
+
+class ServiceReferralEmail(BasicTable, db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    service_id = db.Column(db.Integer, db.ForeignKey("service.id", ondelete="CASCADE"))
+    email = db.Column(db.String(64))
 
 
 class ServiceTranslation(db.Model):

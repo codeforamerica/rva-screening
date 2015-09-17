@@ -42,6 +42,7 @@ class Config(object):
     MAIL_USE_SSL = True
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
+    MAIL_DEFAULT_SENDER = 'ZipScreen <richmond@codeforamerica.org>'
 
 
 class ProdConfig(Config):
