@@ -1,1 +1,2 @@
 before_release:
+  python db.py db upgrade
