@@ -22,9 +22,9 @@
             <span class="patient-descriptor">Phone</span>
 
             <!-- this just grabs the first phone number in the loop, we'll want to grab primary contact -->
-            {% for entry in form.phone_numbers %}
+            {% for phone in patient.phone_numbers %}
               {% if loop.index < 2 %}
-              <span class="patient-info">{{ entry.phone_number.data }}</span>
+              <span class="patient-info">{{ phone.phone_number }}</span>
               {% endif %}
             {% endfor %}
             <span class="patient-descriptor"><a href="#">see all contact info</a></span>
@@ -49,11 +49,7 @@
           <!-- LAST EDIT -->
           <div class="block_6">
             <span class="patient-descriptor">Last edited by</span>
-            {% for entry in history %}
-              {% if loop.index < 2 %}
-              <span class="patient-info patient-info-small"><a href="{{ url_for('screener.user', user_id=entry.app_user_id) }}">{{entry.app_user.full_name}}</a> at <a href="{{ url_for('screener.service', service_id=entry.app_user.service.id) }}">{{entry.app_user.service.name}}</a></span>
-              {% endif %}
-            {% endfor %}
+              <span class="patient-info patient-info-small"><a href="">{{ patient.last_modified_by.full_name }}</a> on <a href="">{{ patient.last_modified.strftime('%m/%d/%Y') }}</a></span>
           </div>
         </div>
       </div>

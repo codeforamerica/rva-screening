@@ -14,6 +14,8 @@ $pNav-sli-color: $pNav-li-color;
 $pNav-sli-bg: #f6f6f6;
 $pNav-sli-bgHover: darken($pNav-li-bg, 5);
 $pNav-sli-border: 4px solid #999;
+$pNav-li-bg-active: #7FDBFF;
+$pNav-li-color-active: #fff;
 
 nav.patientNav {
   .patientNav_list,
@@ -33,8 +35,12 @@ nav.patientNav {
           margin-right: 10px;
         }
       }
+      &.patientNav_li_active {
+        background: $pNav-li-bg-active;
+        a { color: $pNav-li-color-active; }
+      }
       background: $pNav-li-bg;
-      margin-bottom: 2px;
+      margin-bottom: 3px;
       font-weight: 500;
     }
   }

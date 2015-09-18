@@ -1,31 +1,6 @@
-{% extends "base.html" %}
-{% block content %}
+{% extends "patient.html" %}
+{% block patient_content %}
 
-{% include "patient/header.html" %}
-<section class="patientBody">
-  <div class="container">
+  {% include "patient/overview.html" %}
 
-    <div class="notification notification_highlight">
-      <div class="notification_left">
-        <i class="fa fa-clock-o"></i>
-      </div>
-      <p><strong>Applied to Nominal (estimated) at Daily Planet</strong><br>
-      2 days ago from Bon Secours ED<span><a href="#">See full history (includes Bon Secours, RCHD)</a></span></p>
-      <a href="#" class="notification_right">
-        <p>Review</p>
-        <i class="fa fa-chevron-down"></i>
-      </a>
-    </div>
-
-    <div class="row">
-      <div class="block_3">
-      {% include "patient/navigation.html" %}    
-      </div>
-      <div class="block_9 block_padding">
-      {% include "patient/overview.html" %}        
-      </div>
-    </div>
-  </div>
-</section>
-
-{% endblock %}
+{% endblock %}  
