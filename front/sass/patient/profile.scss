@@ -1,4 +1,7 @@
 .patientProfile {
+  margin: 2em 0;
+  padding-bottom: 2em;
+  border-bottom: 1px solid #e5e5e5;
   .patientProfile-block {
     margin-top: 2em;
   }
@@ -11,6 +14,7 @@
   }
   .patient-name {
     font-weight: 500;
+    margin: 0;
   }
   .patient-star {
     margin-left: 0.5em;

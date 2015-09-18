@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% include "patient/header.html" %}
+<section class="patientBody">
+  <div class="container">
+    <div class="row">
+      <div class="block_3">
+      {% include "patient/navigation.html" %}    
+      </div>
+      <div class="block_9 block_padding">
+      {% include "patient/overview.html" %}        
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

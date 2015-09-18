@@ -168,11 +168,56 @@ def new_patient():
         return render_template('patient_details.html', patient={}, form=form)
 
 
-@screener.route('/patient_overview/<id>')
+@screener.route('/patient/<id>')
 @login_required
 def patient_overview(id):
     check_patient_permission(id)
     patient = Patient.query.get(id)
+    form = (
+        get_unsaved_form(request, patient, 'patient_details', PatientForm)
+        or PatientForm(obj=patient)
+    )
+    history = ActionLog.query.\
+        filter(or_(
+            and_(
+                ActionLog.row_id == id,
+                ActionLog.table_name == 'patient'
+            ),
+            and_(
+                ActionLog.row_id.in_([p.id for p in patient.phone_numbers]),
+                ActionLog.table_name == 'phone_number'
+            ),
+            and_(
+                ActionLog.row_id.in_([p.id for p in patient.addresses]),
+                ActionLog.table_name == 'address'
+            ),
+            and_(
+                ActionLog.row_id.in_([p.id for p in patient.emergency_contacts]),
+                ActionLog.table_name == 'emergency_contact'
+            ),
+            and_(
+                ActionLog.row_id.in_([p.id for p in patient.employers]),
+                ActionLog.table_name == 'employer'
+            ),
+            and_(
+                ActionLog.row_id.in_([p.id for p in patient.document_images]),
+                ActionLog.table_name == 'document_image'
+            ),
+            and_(
+                ActionLog.row_id.in_([p.id for p in patient.income_sources]),
+                ActionLog.table_name == 'income_source'
+            ),
+            and_(
+                ActionLog.row_id.in_([p.id for p in patient.household_members]),
+                ActionLog.table_name == 'household_member'
+            )
+        )).\
+        order_by(ActionLog.action_timestamp.desc())
+    # Filter out history entries that are only last modified/last modified by changes
+    history = [i for i in history if not (
+        i.changed_fields
+        and set(i.changed_fields).issubset(['last_modified', 'last_modified_by'])
+    )]
 
     # If this patient has a referral to the current organization in SENT status,
     # update it to RECEIVED
@@ -190,7 +235,9 @@ def patient_overview(id):
 
     return render_template(
         'patient_overview.html',
-        patient=patient
+        patient=patient,
+        form=form,
+        history=history
     )
 
 

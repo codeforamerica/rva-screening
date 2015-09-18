@@ -63,6 +63,7 @@ $notification-error-color: #FF4136;
     left: 0;
     padding: 17px 22px;
     font-size: 3em;
+    min-width: 80px;
     @media (max-width: $break) {
       font-size: 1.8em;
       padding: 5px;

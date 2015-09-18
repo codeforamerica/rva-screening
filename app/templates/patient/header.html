@@ -1,0 +1,67 @@
+<!-- patient profile -->
+<section class="patientProfile">
+  <div class="container">
+    <div class="row">
+      <div class="block_10">
+        <h1 class="patient-name">{{ patient.first_name or "" }} {{ patient.last_name or "" }} <span class="patient-star"><i class="fa fa-star-o"></i></span></h1>
+
+        <div class="row patientProfile-block">
+
+          <!-- BIRTHDAY -->
+          <div class="block_3 patientProfile-infoblock">
+            <span class="patient-descriptor">Birthday</span>
+            {% if patient.dob %}
+            <span class="patient-info">{{ patient.dob.strftime('%m/%d/%Y') }}</span>
+            {% else %}
+            <span class="patient-info"><a href="#">Enter patient birthday</a></span>
+            {% endif %}
+          </div>
+
+          <!-- PHONE NUMBER -->
+          <div class="block_3 patientProfile-infoblock">
+            <span class="patient-descriptor">Phone</span>
+
+            <!-- this just grabs the first phone number in the loop, we'll want to grab primary contact -->
+            {% for entry in form.phone_numbers %}
+              {% if loop.index < 2 %}
+              <span class="patient-info">{{ entry.phone_number.data }}</span>
+              {% endif %}
+            {% endfor %}
+            <span class="patient-descriptor"><a href="#">see all contact info</a></span>
+          </div>
+        </div>
+
+        <div class="row patientProfile-block">
+
+          <!-- ZIPSCREEN ID -->
+          <div class="block_3 patientProfile-infoblock">
+            <span class="patient-descriptor">Zipscreen ID</span>
+            <!-- how do we want to manage production IDs? Single digits seems a bit odd -->
+            <span class="patient-info patient-info-small">{{ patient.id }}</span>
+          </div>
+
+          <!-- MEDICAL HOME -->
+          <div class="block_3 patientProfile-infoblock">
+            <span class="patient-descriptor">Medical Home</span>
+            <span class="patient-info patient-info-small">TODO</span>
+          </div>
+
+          <!-- LAST EDIT -->
+          <div class="block_6">
+            <span class="patient-descriptor">Last edited by</span>
+            {% for entry in history %}
+              {% if loop.index < 2 %}
+              <span class="patient-info patient-info-small"><a href="{{ url_for('screener.user', user_id=entry.app_user_id) }}">{{entry.app_user.full_name}}</a> at <a href="{{ url_for('screener.service', service_id=entry.app_user.service.id) }}">{{entry.app_user.service.name}}</a></span>
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+      <!-- PATIENT IMAGE -->
+      <div class="block_2 patientProfile-image">
+        <img src="http://placehold.it/250x250"
+      </div>
+    </div>
+  </div>
+</section>

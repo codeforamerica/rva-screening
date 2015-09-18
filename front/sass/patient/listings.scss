@@ -30,6 +30,12 @@ $list-padding-large: 1em;
     }
   }
 
+  &.list_padding {
+    .list_row {
+      padding: 0.5em 0;
+    }
+  }
+
   &.list_padding_large {
     .list_row {
       a {
