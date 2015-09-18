@@ -4,24 +4,11 @@
 {% include "patient/header.html" %}
 <section class="patientBody">
   <div class="container">
-
-    <div class="notification notification_highlight">
-      <div class="notification_left">
-        <i class="fa fa-clock-o"></i>
-      </div>
-      <p><strong>Applied to Nominal (estimated) at Daily Planet</strong><br>
-      2 days ago from Bon Secours ED<span><a href="#">See full history (includes Bon Secours, RCHD)</a></span></p>
-      <a href="#" class="notification_right">
-        <p>Review</p>
-        <i class="fa fa-chevron-down"></i>
-      </a>
-    </div>
-
     <div class="row">
       <div class="block_3">
       {% include "patient/navigation.html" %}    
       </div>
-      <div class="block_9 block_padding">
+      <div class="block_9 patientContent">
       {% block patient_content %}{% endblock %}
       </div>
     </div>

@@ -1,7 +1,7 @@
 .box {
   border: $box-border;
   border-left-width: $box-border-left-width;
-  margin-top: $box-margin-top;
+  margin-bottom: $box-margin-top;
   padding-bottom: $box-padding-bottom;
   position: relative;
   &:before {

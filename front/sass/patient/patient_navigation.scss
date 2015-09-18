@@ -1,21 +1,7 @@
-// .nav_patient {
-//   background: $color-lightgray;
-// }
-
-.patient_options {
-  width: 45%;
-  text-align: right;
-  display: inline-block;
-}
-
 $pNav-li-color: #333;
 $pNav-li-bg: #e5e5e5;
-$pNav-sli-color: $pNav-li-color;
-$pNav-sli-bg: #f6f6f6;
-$pNav-sli-bgHover: darken($pNav-li-bg, 5);
-$pNav-sli-border: 4px solid #999;
-$pNav-li-bg-active: #7FDBFF;
-$pNav-li-color-active: #fff;
+$pNav-li-bg-active: lighten(#7FDBFF, 10);
+$pNav-li-border-active: 4px solid darken(#7FDBFF, 10);
 
 nav.patientNav {
   .patientNav_list,
@@ -37,7 +23,7 @@ nav.patientNav {
       }
       &.patientNav_li_active {
         background: $pNav-li-bg-active;
-        a { color: $pNav-li-color-active; }
+        border-left: $pNav-li-border-active;
       }
       background: $pNav-li-bg;
       margin-bottom: 3px;
@@ -49,16 +35,12 @@ nav.patientNav {
     .patientNav_subli {
       font-weight: 300;
       a {
-        color: $pNav-sli-color;
         display: block;
         padding: 0.5em 0.5em 0.5em 2em;
       }
-      &:hover {
-        background: $pNav-sli-bgHover;
-      }
       &.patientNav_subli_active {
-        border-left: $pNav-sli-border;
-        background: $pNav-sli-bg;
+        background: $pNav-li-bg-active;
+        border-left: $pNav-li-border-active;
         width: 120%; // arbitrary
       }
     }

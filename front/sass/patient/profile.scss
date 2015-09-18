@@ -1,3 +1,9 @@
+.patientContent {
+  @media (min-width: $break) {
+    padding-left: 1em;
+  }
+}
+
 .patientProfile {
   margin: 2em 0;
   padding-bottom: 2em;
