@@ -28,7 +28,7 @@ $notification-error-color: #FF4136;
   padding-left: 100px;
   padding-right: 100px;
   width: 100%;
-  margin-top: 1em;
+  // margin-top: 1em;
   @include notification_color($notification-bg-default);
   p {
     line-height: 1.5em;

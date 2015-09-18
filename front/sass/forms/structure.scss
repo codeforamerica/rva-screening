@@ -24,34 +24,33 @@ form li {
 
 // a wrapper for a full section of the form, such as "household size"
 .form_section {
-  margin-top: 3em;
+  margin-bottom: 3em;
   background-color: $color-lightgray;
 
   .form_section_title {
     position: relative;
-    background: $color-black;
-    color: $color-white;
-    padding: 0.4em 0.6em;
-    font-size: 1.3em;
-    font-weight: 600;
+    background: white;
+    padding: 0.4em 0;
+    font-size: 2em;
+    font-weight: 300;
     font-family: $font-header;
 
-    &:before {
-      color: $color-gray;
-      font-weight: 100;
-      font-size: 0.8em;
-      margin-right: 0.5em;
-      @extend %icon;
-    }
+    // &:before {
+    //   color: $color-gray;
+    //   font-weight: 100;
+    //   font-size: 0.8em;
+    //   margin-right: 0.5em;
+    //   @extend %icon;
+    // }
 
-    &.form_section_contact { @include fs_icon("\f095"); }
-    &.form_section_emergency { @include fs_icon("\f0a1"); }
-    &.form_section_household { @include fs_icon("\f0c0"); }
-    &.form_section_income { @include fs_icon("\f155"); }
-    &.form_section_documents { @include fs_icon("\f15c"); }
-    &.form_section_demographics { @include fs_icon("\f069"); }
-    &.form_section_employment { @include fs_icon("\f0ad"); }
-    &.form_section_insurance { @include fs_icon("\f0f1"); }
+    // &.form_section_contact { @include fs_icon("\f095"); }
+    // &.form_section_emergency { @include fs_icon("\f0a1"); }
+    // &.form_section_household { @include fs_icon("\f0c0"); }
+    // &.form_section_income { @include fs_icon("\f155"); }
+    // &.form_section_documents { @include fs_icon("\f15c"); }
+    // &.form_section_demographics { @include fs_icon("\f069"); }
+    // &.form_section_employment { @include fs_icon("\f0ad"); }
+    // &.form_section_insurance { @include fs_icon("\f0f1"); }
   }
 }
 

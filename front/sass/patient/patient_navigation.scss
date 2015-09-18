@@ -12,10 +12,17 @@ nav.patientNav {
   }
 
   .patientNav_list {
+
+    a {
+      color: $pNav-li-color;
+      display: block;
+    }
+
     .patientNav_li {
+      background: $pNav-li-bg;
+      margin-top: 3px;
+      font-weight: 500;
       a {
-        color: $pNav-li-color;
-        display: block;
         padding: 0.8em 1.2em;
         .fa {
           margin-right: 10px;
@@ -25,17 +32,12 @@ nav.patientNav {
         background: $pNav-li-bg-active;
         border-left: $pNav-li-border-active;
       }
-      background: $pNav-li-bg;
-      margin-bottom: 3px;
-      font-weight: 500;
     }
-  }
 
-  .patientNav_sublist {
     .patientNav_subli {
+      background: $pNav-li-bg;
       font-weight: 300;
       a {
-        display: block;
         padding: 0.5em 0.5em 0.5em 2em;
       }
       &.patientNav_subli_active {
