@@ -168,6 +168,32 @@ def new_patient():
         return render_template('patient_details.html', patient={}, form=form)
 
 
+@screener.route('/patient_overview/<id>')
+@login_required
+def patient_overview(id):
+    check_patient_permission(id)
+    patient = Patient.query.get(id)
+
+    # If this patient has a referral to the current organization in SENT status,
+    # update it to RECEIVED
+    sent_referrals = [
+        r for r in patient.referrals
+        if r.to_service_id == current_user.service_id
+        and r.in_sent_status()
+    ]
+    for referral in sent_referrals:
+        referral.mark_received()
+    if sent_referrals:
+        db.session.commit()
+
+    patient.update_stats()
+
+    return render_template(
+        'patient_overview.html',
+        patient=patient
+    )
+
+
 @screener.route('/patient_details/<id>', methods=['POST', 'GET'])
 @login_required
 def patient_details(id):
@@ -189,28 +215,12 @@ def patient_details(id):
             form=form,
             save_message=True
         )
-    else:
-        if request.method == 'GET':
-            # If this patient has a referral to the current organization in SENT status,
-            # update it to RECEIVED
-            sent_referrals = [
-                r for r in patient.referrals
-                if r.to_service_id == current_user.service_id
-                and r.in_sent_status()
-            ]
-            for referral in sent_referrals:
-                referral.mark_received()
-            if sent_referrals:
-                db.session.commit()
-
-            patient.update_stats()
-
-        return render_template(
-            'patient_details.html',
-            patient=patient,
-            form=form,
-            save_message=False
-        )
+    return render_template(
+        'patient_details.html',
+        patient=patient,
+        form=form,
+        save_message=False
+    )
 
 
 def update_patient(patient, form, files):
