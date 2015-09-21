@@ -10,13 +10,17 @@
           <div class="multiform_content">
             <div class="multiform_content_fields">
                 <div class="form_row">
-                  <img src="https://github.com/codeforamerica/rva-screening/blob/templating/images/w2.jpg?raw=true" alt="{{ _('preview of %(description)s', description=entry.file_description.data) }}">
+                  <a href="{{ url_for('screener.document_image', image_id=saved_document.id) }}" target="_blank">
+                    <img src="{{ url_for('screener.get_image', image_id=saved_document.id, thumbnail=True) }}" alt="{{ _('preview of %(description)s', description=entry.file_description.data) }}">
+                  </a>
                   {{ render_field(entry.file_description) }}
                 </div>
             </div>
             <div class="multiform_content_readonly">
               <span class="multiform_item">
-                <img src="https://github.com/codeforamerica/rva-screening/blob/templating/images/w2.jpg?raw=true" alt="{{ _('preview of %(description)s', description=entry.file_description.data) }}">
+                <a href="{{ url_for('screener.document_image', image_id=saved_document.id) }}" target="_blank">
+                  <img src="{{ url_for('screener.get_image', image_id=saved_document.id, thumbnail=True) }}" alt="{{ _('preview of %(description)s', description=entry.file_description.data) }}">
+                </a>
               </span><br>
               <span class="multiform_item multiform_item_description">{{ entry.file_description.data }}</span>
               <span class="multiform_item">{{ saved_document.created.strftime('%m-%d-%Y %H:%M:%S') }} by <a href="{{ url_for('screener.user', user_id=saved_document.created_by.id) }}">{{ saved_document.created_by.full_name }}</a>

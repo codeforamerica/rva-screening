@@ -1,5 +1,6 @@
 import datetime
 from StringIO import StringIO
+from werkzeug.datastructures import FileStorage
 from tests.unit.test_base import BaseTestCase
 from tests.unit.screener.utils import (
     get_user,
@@ -255,7 +256,7 @@ class TestScreener(BaseTestCase):
         patient = get_patient()
 
         # Check that multiple document image uploads save correctly
-        with open('tests/unit/screener/test_image.jpg') as test_image:
+        with open('tests/unit/screener/test_image.jpg', 'rb') as test_image:
             img_string_io = StringIO(test_image.read())
 
         post_data = dict(
@@ -289,9 +290,9 @@ class TestScreener(BaseTestCase):
             temp_visa_yn='',
             care_due_to_accident_yn=''
         )
-        post_data['document_images-0-file_name'] = (img_string_io, 'test_image.jpg')
+        post_data['document_images-0-file_name'] = FileStorage(img_string_io, filename='test_image.jpg')
         post_data['document_images-0-file_description'] = 'Test'
-        post_data['document_images-1-file_name'] = (img_string_io, 'test_image_2.jpg')
+        post_data['document_images-1-file_name'] = FileStorage(img_string_io, filename='test_image_2.jpg')
         post_data['document_images-1-file_description'] = 'Test 2'
 
         response = self.client.post(
