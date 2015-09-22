@@ -154,7 +154,7 @@ def new_patient():
 def patient_overview(id):
     check_patient_permission(id)
     patient = Patient.query.get(id)
-    
+
     # If this patient has a referral to the current organization in SENT status,
     # update it to RECEIVED
     sent_referrals = [
@@ -575,43 +575,45 @@ def index():
     all_patients = Patient.query.all()
 
     # ORGANIZATION-BASED QUERIES
-    org_users = [user.id for user in AppUser.query.filter(AppUser.service_id == current_user.service_id)]
+    org_users = [user.id for user in AppUser.query.filter(
+        AppUser.service_id == current_user.service_id
+    )]
 
     # Get patients that this organization referred out who have results entered
-    org_completed_referrals_outgoing = Patient.query.filter(
+    org_completed_referrals_outgoing = Patient.query.join(Patient.referrals).filter(
         Patient.referrals.any(
             and_(
                 PatientReferral.from_app_user_id.in_(org_users),
                 PatientReferral.status == 'COMPLETED'
             )
         )
-    )
+    ).order_by(func.coalesce(PatientReferral.last_modified, PatientReferral.created))
 
     # Get patients that this organization referred out who are waiting for results
-    org_open_referrals_outgoing = Patient.query.filter(
+    org_open_referrals_outgoing = Patient.query.join(Patient.referrals).filter(
         Patient.referrals.any(
             and_(
                 PatientReferral.from_app_user_id.in_(org_users),
                 PatientReferral.status.in_(('SENT', 'RECEIVED'))
             )
         )
-    )
+    ).order_by(func.coalesce(PatientReferral.last_modified, PatientReferral.created))
 
     # Get patients with open referrals at this user's organization
-    org_open_referrals_incoming = Patient.query.filter(
+    org_open_referrals_incoming = Patient.query.join(Patient.referrals).filter(
         Patient.referrals.any(and_(
             PatientReferral.to_service_id == current_user.service_id,
             PatientReferral.status.in_(('SENT', 'RECEIVED'))
         ))
-    )
+    ).order_by(func.coalesce(PatientReferral.last_modified, PatientReferral.created))
 
     # Get patients with completed referrals at this user's organization
-    org_completed_referrals_incoming = Patient.query.filter(
+    org_completed_referrals_incoming = Patient.query.join(Patient.referrals).filter(
         Patient.referrals.any(and_(
             PatientReferral.to_service_id == current_user.service_id,
             PatientReferral.status == 'COMPLETED'
         ))
-    )
+    ).order_by(func.coalesce(PatientReferral.last_modified, PatientReferral.created))
 
     # Get patients who were most recently screened and found eligible for this organization
     # more than 11 months ago
@@ -639,12 +641,13 @@ def index():
                 "patient.last_name, "
                 "patient.dob "
         ") subquery where most_recent_result < :eleven_months_ago "
+        "order by subquery.most_recent_result "
     )
     conn = db.get_engine(current_app).connect()
     org_need_renewal = conn.execute(
         query,
-        service_id = current_user.service_id,
-        eleven_months_ago = datetime.date.today() - relativedelta(months=11)
+        service_id=current_user.service_id,
+        eleven_months_ago=datetime.date.today() - relativedelta(months=11)
     ).fetchall()
 
     # USER-BASED QUERIES
@@ -658,27 +661,27 @@ def index():
             Patient.created > datetime.date.today() - datetime.timedelta(days=7),
             Patient.created_by_id == current_user.id
         )
-    ))
+    )).order_by(func.coalesce(Patient.last_modified, Patient.created))
 
     # Get patients this user referred out who have results entered
-    your_completed_referrals_outgoing = Patient.query.filter(
+    your_completed_referrals_outgoing = Patient.query.join(Patient.referrals).filter(
         Patient.referrals.any(
             and_(
                 PatientReferral.from_app_user_id == current_user.id,
                 PatientReferral.status == 'COMPLETED'
             )
         )
-    )
+    ).order_by(func.coalesce(PatientReferral.last_modified, PatientReferral.created))
 
     # Get patients this user referred out who are waiting for results
-    your_open_referrals_outgoing = Patient.query.filter(
+    your_open_referrals_outgoing = Patient.query.join(Patient.referrals).filter(
         Patient.referrals.any(
             and_(
                 PatientReferral.from_app_user_id == current_user.id,
                 PatientReferral.status.in_(('SENT', 'RECEIVED'))
             )
         )
-    )
+    ).order_by(func.coalesce(PatientReferral.last_modified, PatientReferral.created))
 
     # Queries to maybe add later:
     # Your starred patients
