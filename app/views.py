@@ -159,7 +159,6 @@ def patient_details(id):
     )
 
     if request.method == 'POST' and form.validate_on_submit():
-        import pdb; pdb.set_trace()
         update_patient(patient, form, request.files)
         db.session.commit()
         patient.update_stats()
@@ -250,7 +249,6 @@ def update_patient(patient, form, files):
     for index, entry in enumerate(form.document_images):
         if entry.file_name.data and entry.file_name.data.filename:
             # This is a new file
-            import pdb; pdb.set_trace()
             large_image = Image.open(entry.file_name.data.stream)
             small_image = large_image.copy()
 
