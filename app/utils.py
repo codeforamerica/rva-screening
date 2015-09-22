@@ -1,67 +1,18 @@
 # -*- coding: utf-8 -*-
-import os
+import datetime
 import json
+import pytz
 
-from boto.s3.connection import S3Connection
 from sqlalchemy import and_
-from werkzeug import secure_filename
 from werkzeug.datastructures import MultiDict
 
-from flask import current_app, send_from_directory, session, abort
+from flask import current_app, session, abort, render_template
 from flask.ext.login import login_user, current_user
+from flask.ext.security.utils import verify_password
+from flask_mail import Message
 
-from app import db, bcrypt
+from app import db, mail
 from app.models import AppUser, UnsavedForm
-
-
-def send_document_image(file_name):
-    """Serve an image file."""
-    if current_app.config['SCREENER_ENVIRONMENT'] == 'prod':
-        # conn = S3Connection(
-        #     aws_access_key_id=current_app.config['AWS_ACCESS_KEY_ID'],
-        #     aws_secret_access_key=current_app.config['AWS_SECRET_ACCESS_KEY']
-        # )
-        # bucket = conn.get_bucket(current_app.config['S3_BUCKET_NAME'])
-        # key = bucket.get_key(
-        #    '/'.join([current_app.config['S3_FILE_UPLOAD_DIR'],
-        #    file_name])
-        # )
-
-        # send_file(
-        #     key.get_file(file_name)
-        # )
-        pass
-    else:
-        return send_from_directory(os.path.join(
-            current_app.config['PROJECT_ROOT'],
-            current_app.config['UPLOAD_FOLDER']),
-            file_name
-        )
-
-
-def upload_file(file):
-    """Upload a file to AWS or local upload folder."""
-    if allowed_file(file.filename):
-        file_name = secure_filename(file.filename)
-        if current_app.config['SCREENER_ENVIRONMENT'] == 'prod':
-            conn = S3Connection(
-                aws_access_key_id=current_app.config['AWS_ACCESS_KEY_ID'],
-                aws_secret_access_key=current_app.config['AWS_SECRET_ACCESS_KEY']
-            )
-            bucket = conn.get_bucket(current_app.config['S3_BUCKET_NAME'])
-            _file = bucket.new_key('/'.join(
-                [current_app.config['S3_FILE_UPLOAD_DIR'], file_name]
-            ))
-            _file.set_contents_from_file(file)
-            _file.set_acl('public-read')
-        else:
-            file_path = os.path.join(
-                current_app.config['UPLOAD_FOLDER'],
-                file_name
-            )
-            file.save(file_path)
-
-        return file_name
 
 
 def allowed_file(filename):
@@ -92,7 +43,7 @@ def translate_object(obj, language_code):
 
 def login_helper(user_email, password):
     user = AppUser.query.filter(AppUser.email == user_email).first()
-    if user and bcrypt.check_password_hash(
+    if user and verify_password(
         user.password.encode('utf8'),
         password
     ):
@@ -137,9 +88,10 @@ def check_patient_permission(patient_id):
     """If the current user is a patient account, check whether they're viewing
     the patient linked to their own account. If not, abort.
     """
-    if current_user.is_patient_user() and current_user.patient_id != int(patient_id):
+    if current_user.is_patient_user() and not current_user.is_current_patient(patient_id):
         abort(403)
     return
+
 
 def days_from_today(field):
     '''Takes a python date object and returns days from today
@@ -158,6 +110,7 @@ def days_from_today(field):
     else:
         return field
 
+
 def format_days_from_today(field):
     '''Uses days_from_today to build readable "X days ago"
     '''
@@ -172,3 +125,22 @@ def format_days_from_today(field):
         return '{} day ago'.format(abs(days))
     else:
         return '{} days ago'.format(abs(days))
+
+
+def send_referral_notification_email(service, patient, from_app_user):
+    """Send an email to addresses associated with a service, notifying them that they've
+    been sent a new referral.
+    """
+    message = Message(
+        "New referral from " + from_app_user.full_name + " at " + from_app_user.service.name
+    )
+    message.recipients = [e.email for e in service.referral_emails]
+    if message.recipients:
+        message.html = render_template(
+            "emails/referral_notification.html",
+            service=service,
+            patient=patient,
+            from_app_user=from_app_user
+        )
+        mail.send(message)
+    return

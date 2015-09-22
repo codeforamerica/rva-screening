@@ -1,11 +1,14 @@
 import datetime
 from dateutil.relativedelta import relativedelta
+import io
 from itertools import chain
 from sqlalchemy import and_, or_, func
 from sqlalchemy.sql import text
 from werkzeug.datastructures import FileStorage
+from PIL import Image
 
 from flask import (
+    abort,
     Blueprint,
     render_template,
     request,
@@ -16,10 +19,11 @@ from flask import (
     current_app,
     jsonify
 )
-from flask.ext.login import logout_user, current_user, login_required
+from flask.ext.login import login_user, current_user
+from flask.ext.security import login_required, roles_accepted
+from flask.ext.security.forms import LoginForm
 
 from app import db, login_manager
-from app.decorators import view_all_patients_required
 from app.forms import PatientForm, PrescreenForm, ScreeningResultForm
 from app.models import (
     AppUser,
@@ -36,17 +40,14 @@ from app.models import (
     PatientReferral,
     SlidingScale,
     PatientScreeningResult,
-    UnsavedForm,
-    Permission
+    UnsavedForm
 )
 from app.prescreening import calculate_fpl, calculate_pre_screen_results
 from app.utils import (
-    upload_file,
-    send_document_image,
     translate_object,
-    login_helper,
     get_unsaved_form,
-    check_patient_permission
+    check_patient_permission,
+    send_referral_notification_email
 )
 
 
@@ -59,23 +60,11 @@ def before_request():
     session.modified = True
 
 
-@screener.route("/login", methods=["GET", "POST"])
-def login():
-    """Display login page and check credentials."""
-    if request.method == 'POST':
-        if login_helper(request.form['email'], request.form['password']):
-            return redirect(url_for('screener.home_page_redirect'))
-        else:
-            return render_template("login.html")
-    else:
-        return render_template("login.html")
-
-
-@screener.route("/home")
+@screener.route("/")
 @login_required
 def home_page_redirect():
     """Redirect the user to the home page appropriate for their role."""
-    if current_user.can(Permission.VIEW_ALL_PATIENTS):
+    if not current_user.is_patient_user():
         return redirect(url_for('screener.index'))
     elif current_user.patient_id is not None:
         return redirect(url_for(
@@ -91,17 +80,21 @@ def relogin():
     """Prompt the user to reauthenticate after 15 minutes of inactivity.
     After reauthentication, return to previous page and include any unsaved form data.
     """
-    if request.method == 'POST':
-        if login_helper(request.form['email'], request.form['password']):
-            return redirect(request.form['previous_page'])
-        else:
-            return render_template("relogin.html", user_email=request.form['email'])
+    form = LoginForm()
+    if form.validate_on_submit():
+        login_user(form.user, remember=form.remember.data)
+        user = AppUser.query.filter(AppUser.email == form.user.email).first()
+        user.authenticated = True
+        db.session.add(user)
+        db.session.commit()
+        return redirect(request.form['previous_page'])
     else:
         email = current_user.email
         return render_template(
             "relogin.html",
             email=email,
-            previous_page=request.referrer
+            previous_page=request.referrer,
+            login_user_form=form
         )
 
 
@@ -120,18 +113,6 @@ def unsaved_form():
     db.session.add(unsaved_form)
     db.session.commit()
     return jsonify()
-
-
-@screener.route("/logout", methods=["GET"])
-@login_required
-def logout():
-    """Log the user out and redirect to login page."""
-    user = current_user
-    user.authenticated = False
-    db.session.add(user)
-    db.session.commit()
-    logout_user()
-    return redirect(url_for('screener.login'))
 
 
 @screener.route("/ping", methods=["POST"])
@@ -273,15 +254,40 @@ def update_patient(patient, form, files):
                     for _ in range(len(form[field_name].entries) - row_index):
                         to_re_add.append(form[field_name].pop_entry())
                     to_re_add.pop()
-                    for row in to_re_add:
+                    for row in reversed(to_re_add):
                         form[field_name].append_entry(data=row.data)
 
-    # Upload any new document images
+    # Get binary data and create resized versions of any new document images
     for index, entry in enumerate(form.document_images):
         if entry.file_name.data and entry.file_name.data.filename:
-            entry.file_name.data = upload_file(entry.file_name.data)
+            # This is a new file
+            large_image = Image.open(entry.file_name.data.stream)
+            small_image = large_image.copy()
+
+            large_image_output, small_image_output = io.BytesIO(), io.BytesIO()
+            large_image.thumbnail(
+                current_app.config['LARGE_DOCUMENT_IMAGE_SIZE'],
+                Image.ANTIALIAS
+            )
+            large_image.save(large_image_output, format='JPEG')
+            small_image.thumbnail(
+                current_app.config['SMALL_DOCUMENT_IMAGE_SIZE'],
+                Image.ANTIALIAS
+            )
+            small_image.save(small_image_output, format='JPEG')
+
+            entry.data_full.data = entry.file_name.data.stream.getvalue()
+            entry.data_large.data = large_image_output.getvalue()
+            entry.data_small.data = small_image_output.getvalue()
+            entry.file_name.data = entry.file_name.data.filename
         else:
+            # This is an existing entry, so the file can't change, only the description
+            # Fill in the fields that aren't inputs from the saved data so
+            # that populate_obj doesn't overwrite them.
             entry.file_name.data = patient.document_images[index].file_name
+            entry.data_full.data = patient.document_images[index].data_full
+            entry.data_large.data = patient.document_images[index].data_large
+            entry.data_small.data = patient.document_images[index].data_small
 
     # Populate the patient object with all the updated info
     form.populate_obj(patient)
@@ -303,26 +309,19 @@ def delete(id):
 @login_required
 def document_image(image_id):
     """Display an uploaded document image."""
-    _image = DocumentImage.query.get(image_id)
+    _image = DocumentImage.query.get_or_404(image_id)
     check_patient_permission(_image.patient.id)
-    if current_app.config['SCREENER_ENVIRONMENT'] == 'prod':
-        file_path = 'http://s3.amazonaws.com/{bucket}/{uploaddir}/{filename}'.format(
-            bucket=current_app.config['S3_BUCKET_NAME'],
-            uploaddir=current_app.config['S3_FILE_UPLOAD_DIR'],
-            filename=_image.file_name
-        )
-    else:
-        file_path = '/documentimages/' + _image.file_name
-    return render_template('documentimage.html', file_path=file_path)
+    return render_template('documentimage.html', image_id=image_id)
 
 
-@screener.route('/documentimages/<filename>')
+@screener.route('/documentimages/<image_id>/<thumbnail>')
 @login_required
-def get_image(filename):
+def get_image(image_id, thumbnail):
     """Serve a document image file."""
-    document_image = DocumentImage.query.filter(file_name=filename)
-    check_patient_permission(document_image.patient.id)
-    return send_document_image(filename)
+    image = DocumentImage.query.get_or_404(image_id)
+    if thumbnail == 'True':
+        return current_app.response_class(image.data_small, mimetype='application/octet-stream')
+    return current_app.response_class(image.data_large, mimetype='application/octet-stream')
 
 
 @screener.route('/new_prescreening', methods=['POST', 'GET'])
@@ -515,6 +514,13 @@ def add_referral():
     )
     db.session.add(referral)
     db.session.commit()
+    service = Service.query.get(request.form['service_id'])
+    patient = Patient.query.get(request.form['patient_id'])
+    send_referral_notification_email(
+        service=service,
+        patient=patient,
+        from_app_user=current_user
+    )
     return jsonify()
 
 
@@ -559,9 +565,9 @@ def patient_screening_history(patient_id):
     return render_template('patient_screening_history.html', patient=patient, form=form)
 
 
-@screener.route('/')
+@screener.route('/index')
 @login_required
-@view_all_patients_required
+@roles_accepted('Staff', 'Admin', 'Superuser')
 def index():
     """Display the initial landing page, which lists patients in the
     network and allows users to search and filter them.
@@ -712,6 +718,11 @@ def service(service_id):
     return render_template('service_profile.html', service=service)
 
 
+@screener.route('/403')
+def throw_403():
+    abort(403)
+
+
 #########################################
 # Development-only routes
 #########################################
@@ -728,6 +739,7 @@ def template_prototyping():
 @login_required
 def mockup():
     return render_template('MOCKUPS.html')
+
 
 @screener.route('/style-guide')
 @login_required

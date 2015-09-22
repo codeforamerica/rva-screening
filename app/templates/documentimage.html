@@ -1,4 +1,4 @@
 {% extends "base.html" %}
 {% block content %}
-	<img src="{{ file_path }}">
+	<img src="{{ url_for('screener.get_image', image_id=image_id, thumbnail=False) }}"/>
 {% endblock %}

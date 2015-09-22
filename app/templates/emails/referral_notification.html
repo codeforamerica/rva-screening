@@ -1,0 +1,5 @@
+<p>{{ from_app_user.full_name }} at {{ from_app_user.service.name }} referred a patient to {{ service.name }}.</p>
+
+<p>Click the following link to review the referral: <a href="{{ url_for('screener.patient_details', id=patient.id, _external=True) }}">{{ url_for('screener.patient_details', id=patient.id, _external=True) }}</a></p>
+
+<p>--The ZipScreen team</p>
