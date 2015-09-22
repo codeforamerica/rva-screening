@@ -1,7 +1,9 @@
 import datetime
+import io
 from itertools import chain
 from sqlalchemy import and_, or_
 from werkzeug.datastructures import FileStorage
+from PIL import Image
 
 from flask import (
     abort,
@@ -40,8 +42,6 @@ from app.models import (
 )
 from app.prescreening import calculate_fpl, calculate_pre_screen_results
 from app.utils import (
-    upload_file,
-    send_document_image,
     translate_object,
     get_unsaved_form,
     check_patient_permission,
@@ -242,15 +242,40 @@ def update_patient(patient, form, files):
                     for _ in range(len(form[field_name].entries) - row_index):
                         to_re_add.append(form[field_name].pop_entry())
                     to_re_add.pop()
-                    for row in to_re_add:
+                    for row in reversed(to_re_add):
                         form[field_name].append_entry(data=row.data)
 
-    # Upload any new document images
+    # Get binary data and create resized versions of any new document images
     for index, entry in enumerate(form.document_images):
         if entry.file_name.data and entry.file_name.data.filename:
-            entry.file_name.data = upload_file(entry.file_name.data)
+            # This is a new file
+            large_image = Image.open(entry.file_name.data.stream)
+            small_image = large_image.copy()
+
+            large_image_output, small_image_output = io.BytesIO(), io.BytesIO()
+            large_image.thumbnail(
+                current_app.config['LARGE_DOCUMENT_IMAGE_SIZE'],
+                Image.ANTIALIAS
+            )
+            large_image.save(large_image_output, format='JPEG')
+            small_image.thumbnail(
+                current_app.config['SMALL_DOCUMENT_IMAGE_SIZE'],
+                Image.ANTIALIAS
+            )
+            small_image.save(small_image_output, format='JPEG')
+
+            entry.data_full.data = entry.file_name.data.stream.getvalue()
+            entry.data_large.data = large_image_output.getvalue()
+            entry.data_small.data = small_image_output.getvalue()
+            entry.file_name.data = entry.file_name.data.filename
         else:
+            # This is an existing entry, so the file can't change, only the description
+            # Fill in the fields that aren't inputs from the saved data so
+            # that populate_obj doesn't overwrite them.
             entry.file_name.data = patient.document_images[index].file_name
+            entry.data_full.data = patient.document_images[index].data_full
+            entry.data_large.data = patient.document_images[index].data_large
+            entry.data_small.data = patient.document_images[index].data_small
 
     # Populate the patient object with all the updated info
     form.populate_obj(patient)
@@ -272,26 +297,19 @@ def delete(id):
 @login_required
 def document_image(image_id):
     """Display an uploaded document image."""
-    _image = DocumentImage.query.get(image_id)
+    _image = DocumentImage.query.get_or_404(image_id)
     check_patient_permission(_image.patient.id)
-    if current_app.config['SCREENER_ENVIRONMENT'] == 'prod':
-        file_path = 'http://s3.amazonaws.com/{bucket}/{uploaddir}/{filename}'.format(
-            bucket=current_app.config['S3_BUCKET_NAME'],
-            uploaddir=current_app.config['S3_FILE_UPLOAD_DIR'],
-            filename=_image.file_name
-        )
-    else:
-        file_path = '/documentimages/' + _image.file_name
-    return render_template('documentimage.html', file_path=file_path)
+    return render_template('documentimage.html', image_id=image_id)
 
 
-@screener.route('/documentimages/<filename>')
+@screener.route('/documentimages/<image_id>/<thumbnail>')
 @login_required
-def get_image(filename):
+def get_image(image_id, thumbnail):
     """Serve a document image file."""
-    document_image = DocumentImage.query.filter(file_name=filename)
-    check_patient_permission(document_image.patient.id)
-    return send_document_image(filename)
+    image = DocumentImage.query.get_or_404(image_id)
+    if thumbnail == 'True':
+        return current_app.response_class(image.data_small, mimetype='application/octet-stream')
+    return current_app.response_class(image.data_large, mimetype='application/octet-stream')
 
 
 @screener.route('/new_prescreening', methods=['POST', 'GET'])

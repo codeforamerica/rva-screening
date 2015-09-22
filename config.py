@@ -44,6 +44,9 @@ class Config(object):
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
     MAIL_DEFAULT_SENDER = 'ZipScreen <richmond@codeforamerica.org>'
 
+    LARGE_DOCUMENT_IMAGE_SIZE = (900, 900)
+    SMALL_DOCUMENT_IMAGE_SIZE = (100, 100)
+
 
 class ProdConfig(Config):
     DEBUG = False

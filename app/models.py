@@ -322,6 +322,9 @@ class DocumentImage(BasicTable, db.Model):
     patient_id = db.Column(db.Integer, db.ForeignKey("patient.id"))
     file_name = db.Column(db.String(64))
     file_description = db.Column(db.String(64), info=_('Description'))
+    data_full = db.Column(db.LargeBinary)
+    data_large = db.Column(db.LargeBinary)
+    data_small = db.Column(db.LargeBinary)
 
 
 class PatientReferral(BasicTable, db.Model):

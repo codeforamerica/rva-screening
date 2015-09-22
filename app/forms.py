@@ -180,6 +180,11 @@ class DocumentImageForm(NoCsrfForm):
         _('Description'),
         [RequiredIf('file_name'), validators.Length(max=64)]
     )
+    # The fields below aren't used for input, they just allow us to automatically
+    # populate DocumentImage objects from the form object with populate_obj
+    data_full = fields.HiddenField()
+    data_large = fields.HiddenField()
+    data_small = fields.HiddenField()
 
 
 class PatientForm(Form):
