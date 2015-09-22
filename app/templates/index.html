@@ -5,35 +5,53 @@
     
   <div class="container">
 
-    <div class="block_3 sidebar">      
-      <button data-list="0" class="filter filter_statistic filter_active">
-        <span class="statistic_number">{{ all_patients | length }}</span>
-        <span class="statistic_text"><strong>Total patients in network</strong></span>
+    <div class="block_4 filter_actions">
+    
+      <button data-list="0" class="filter filter_active">
+        <i class="fa fa-home"></i> All patients at <strong>{{ user.service.name }}</strong> <span class="filter-count">({{ all_patients | length }})</span>
+      </button> 
+
+      <button data-list="1" class="filter filter_sub">
+        <i class="fa fa-home"></i> Completed outgoing referrals <span class="filter-count">({{ org_completed_referrals_outgoing.count() }})</span>
       </button>
 
-      <button data-list="1" class="filter filter_statistic">
-        <span class="statistic_number">{{ recently_updated.count() }}</span>
-        <span class="statistic_text">Patients updated at {{ current_user.service.name }} in last week </span>
+      <button data-list="2" class="filter filter_sub">
+        <i class="fa fa-home"></i> Open outgoing referrals <span class="filter-count">({{ org_open_referrals_outgoing.count() }})</span>
       </button>
 
-      <button data-list="2" class="filter filter_statistic">
-        <span class="statistic_number">{{ open_referrals.count() }}</span>
-        <span class="statistic_text">Patients with open referrals to {{ current_user.service.name }}</span>
+      <button data-list="3" class="filter filter_sub">
+        <i class="fa fa-home"></i> Completed incoming referrals <span class="filter-count">({{ org_completed_referrals_incoming.count() }})</span>
       </button>
 
-      <button data-list="3" class="filter filter_statistic">
-        <span class="statistic_number">{{ your_referrals.count() }}</span>
-        <span class="statistic_text">Patients you've referred elsewhere</span>
+      <button data-list="4" class="filter filter_sub">
+        <i class="fa fa-home"></i> Open incoming referrals <span class="filter-count">({{ org_open_referrals_incoming.count() }})</span>
       </button>
 
+      <button data-list="5" class="filter filter_sub">
+        <i class="fa fa-home"></i> Patients with renewal notices <span class="filter-count">({{ org_need_renewal | length }})</span>
+      </button>
+      <button data-list="6" class="filter">
+        <i class="fa fa-home"></i> <strong>Your</strong> recently updated patients <span class="filter-count">({{ your_recently_updated.count() }})</span>
+      </button>
+      <button data-list="7" class="filter filter_sub">
+        <i class="fa fa-home"></i> Your completed outgoing referrals <span class="filter-count">({{ your_completed_referrals_outgoing.count() }})</span>
+      </button>
+      <button data-list="8" class="filter filter_sub">
+        <i class="fa fa-home"></i> Your open outgoing referrals <span class="filter-count">({{ your_open_referrals_outgoing.count() }})</span>
+      </button>
     </div>
 
-    <div class="block_9 block_padding">
+    <div class="block_8 block_padding">
       {% for patient_list in [
         all_patients,
-        recently_updated,
-        open_referrals,
-        your_referrals
+        org_completed_referrals_outgoing,
+        org_open_referrals_outgoing,
+        org_open_referrals_incoming,
+        org_completed_referrals_incoming,
+        org_need_renewal,
+        your_recently_updated,
+        your_completed_referrals_outgoing,
+        your_open_referrals_outgoing
       ] %}
         <ul id="list-{{ loop.index - 1}}" class="list list_table list_filter {% if loop.index == 1 %} list_filter_active {% endif %}">
           {% for patient in patient_list %}

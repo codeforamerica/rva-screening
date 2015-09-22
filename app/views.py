@@ -579,7 +579,7 @@ def index():
                 PatientReferral.status == 'COMPLETED'
             )
         )
-    ).order_by(func.coalesce(PatientReferral.last_modified, PatientReferral.created))
+    )
 
     # Get patients that this organization referred out who are waiting for results
     org_open_referrals_outgoing = Patient.query.filter(
@@ -589,7 +589,7 @@ def index():
                 PatientReferral.status.in_(('SENT', 'RECEIVED'))
             )
         )
-    ).order_by(func.coalesce(PatientReferral.last_modified, PatientReferral.created))
+    )
 
     # Get patients with open referrals at this user's organization
     org_open_referrals_incoming = Patient.query.filter(
@@ -597,7 +597,7 @@ def index():
             PatientReferral.to_service_id == current_user.service_id,
             PatientReferral.status.in_(('SENT', 'RECEIVED'))
         ))
-    ).order_by(func.coalesce(PatientReferral.last_modified, PatientReferral.created))
+    )
 
     # Get patients with completed referrals at this user's organization
     org_completed_referrals_incoming = Patient.query.filter(
@@ -605,7 +605,7 @@ def index():
             PatientReferral.to_service_id == current_user.service_id,
             PatientReferral.status == 'COMPLETED'
         ))
-    ).order_by(func.coalesce(PatientReferral.last_modified, PatientReferral.created))
+    )
 
     # Get patients who were most recently screened and found eligible for this organization
     # more than 11 months ago
@@ -652,7 +652,7 @@ def index():
             Patient.created > datetime.date.today() - datetime.timedelta(days=7),
             Patient.created_by_id == current_user.id
         )
-    )).order_by(func.coalesce(Patient.last_modified, Patient.created))
+    ))
 
     # Get patients this user referred out who have results entered
     your_completed_referrals_outgoing = Patient.query.filter(
@@ -662,7 +662,7 @@ def index():
                 PatientReferral.status == 'COMPLETED'
             )
         )
-    ).order_by(func.coalesce(PatientReferral.last_modified, PatientReferral.created))
+    )
 
     # Get patients this user referred out who are waiting for results
     your_open_referrals_outgoing = Patient.query.filter(
@@ -672,7 +672,7 @@ def index():
                 PatientReferral.status.in_(('SENT', 'RECEIVED'))
             )
         )
-    ).order_by(func.coalesce(PatientReferral.last_modified, PatientReferral.created))
+    )
 
     # Queries to maybe add later:
     # Your starred patients
@@ -680,6 +680,7 @@ def index():
 
     return render_template(
         'index.html',
+        user=current_user,
         all_patients=all_patients,
         org_completed_referrals_outgoing=org_completed_referrals_outgoing,
         org_open_referrals_outgoing=org_open_referrals_outgoing,
