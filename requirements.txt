@@ -56,3 +56,4 @@ validators==0.8
 webassets==0.10.1
 Werkzeug==0.10.1
 WTForms==2.0.2
+xhtml2pdf==0.0.6
