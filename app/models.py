@@ -386,6 +386,19 @@ class Service(BasicTable, db.Model):
         backref='service'
     )
     translations = db.relationship('ServiceTranslation', backref='service', lazy='dynamic')
+    accepts_referrals_from = db.relationship(
+        'Service',
+        secondary='referral_permission',
+        primaryjoin='Service.id==ReferralPermission.to_service_id',
+        secondaryjoin='Service.id==ReferralPermission.from_service_id',
+        backref='can_send_referrals_to'
+    )
+
+
+class ReferralPermission(BasicTable, db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    from_service_id = db.Column(db.Integer, db.ForeignKey("service.id"))
+    to_service_id =  db.Column(db.Integer, db.ForeignKey("service.id"))
 
 
 class ServiceReferralEmail(BasicTable, db.Model):

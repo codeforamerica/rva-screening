@@ -425,6 +425,13 @@ def main(app=create_app()):
         )
 
         db.session.add_all([daily_planet, crossover, access_now, resource_centers])
+
+        # Set which services can refer to which
+        daily_planet.accepts_referrals_from.extend([crossover, resource_centers, access_now])
+        crossover.accepts_referrals_from.extend([daily_planet, resource_centers, access_now])
+        access_now.accepts_referrals_from.extend([daily_planet, crossover])
+        resource_centers.accepts_referrals_from.extend([daily_planet, crossover, access_now])
+
         db.session.commit()
         print 'Added service eligibility and sliding scale data'
 
