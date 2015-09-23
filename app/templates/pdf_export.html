@@ -1,0 +1,41 @@
+{% for field in form %}
+	{% if field.name not in ('document_images', 'csrf_token') %}
+		{% if field.type == 'FieldList' %}
+			<p><strong>{{ field.label.text }}</strong><p>
+			{% for entry in field.entries %}
+				{% for subfield in entry %}
+					<p>{{ subfield.label.text }}: {{ subfield.data }}</p>
+				{% endfor %}
+			{% endfor %}
+		{% else %}
+			<p>{{ field.label.text }}: {{ field.data }}</p>
+		{% endif %}
+	{% endif %}
+{% endfor %}
+<p><strong>{{ _("Referral History") }}</strong></p>
+{% for referral in patient.referrals %}
+	<p>{{ _("To") }}: {{ referral.to_service.name }}</p>
+	<p>{{ _("From") }}: {{ referral.from_app_user.full_name }} {{ _("at") }} {{ referral.from_app_user.service.name }}</p>
+	<p>{{ _("Created") }}: {{ referral.created.strftime('%m-%d-%Y %H:%M:%S') }}
+	<p>{{ _("Status") }}: {{ referral.status }}</p>
+	<p>{{ _("Notes") }}: {{ referral.notes }}</p>
+{% endfor %}
+
+<p><strong>{{ _("Screening Result History") }}</strong></p>
+{% for result in patient.screening_results %}
+	<p>{{ result.service.name }}</p>
+	<p>{{ _("Eligible?") }}: {{ result.eligible_yn }}</p>
+	<p>{{ _("Notes") }}: {{ result.notes }}</p>
+	<p>{{ _("Entered by") }} {{ result.created_by.full_name }} at {{ result.created.strftime('%m-%d-%Y %H:%M:%S') }}</p>
+{% endfor %}
+
+{% if patient.document_images.count() > 0 %}
+	<h3>Document Uploads</h3>
+{% endif %}
+{% for image in patient.document_images %}
+	<p>{{ image.file_description }}</p>
+	<p>Uploaded by {{ image.created_by.full_name }} at {{ image.created.strftime('%m-%d-%Y %H:%M:%S') }}</p>
+	{% if is_production == True %}
+		<img src="{{ url_for('screener.export_document_image', image_id=image.id, _external=True) }}"/>
+	{% endif %}
+{% endfor %}
