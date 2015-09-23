@@ -474,6 +474,10 @@ def patient_share(patient_id):
     patient = Patient.query.get(patient_id)
     patient.update_stats()
     services = Service.query.all()
+
+    allowed_referral_service_ids = [
+        service.id for service in current_user.service.can_send_referrals_to
+    ]
     # Get ids of services where the patient already has open referrals,
     # to prevent user from sending duplicates.
     open_referral_service_ids = [
@@ -497,6 +501,7 @@ def patient_share(patient_id):
         has_health_insurance=patient.insurance_status,
         is_eligible_for_medicaid="",
         referral_buttons=True,
+        allowed_referral_service_ids=allowed_referral_service_ids,
         open_referral_service_ids=open_referral_service_ids
     )
 
