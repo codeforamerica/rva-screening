@@ -6,9 +6,12 @@
   <div class="form_multiform form_multiform_read">
     <div class="multiform_content">
       <div class="multiform_content_fields">
-          {{ render_field(entry.phone_number
+          {{ render_field(entry.phone_number,
+                          class="field_third"
           ) }}
-          {{ render_field(entry.number_description) }}
+          {{ render_field(entry.number_description,
+                          class="field_third"
+          ) }}
       </div>
       <div class="multiform_content_readonly">
         <span class="multiform_item">{{ entry.phone_number.data }}</span><br>
@@ -26,16 +29,16 @@
       <div class="multiform_content_fields">
         <div class="row">
           {{ render_field(entry.phone_number, 
-                          class="block_3"
+                          class="field_third"
           ) }}
           {{ render_field(entry.number_description,
-                          class="block_9"
+                          class="field_third"
           ) }}
         </div>
       </div>
     </div>
   </div>
   {% endwith %}
-  <button data-clone-id="multiform_phone_numbers" class="button button_red button_small multiform_control_add">Add new phone number <i class="fa fa-plus"></i></button>
+  <button data-clone-id="multiform_phone_numbers" class="multiform_control_add">Add new phone number <i class="fa fa-plus"></i></button>
 </div>
 <div class="cf"></div>

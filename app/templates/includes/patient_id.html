@@ -1,19 +1,21 @@
 {% from "form_field_macros.html" import render_field %}
 
 <div class="form_row">
-  {{ render_field(form.first_name, class='block_4 field_required') }}
-  {{ render_field(form.middle_name, class='block_4') }}
-  {{ render_field(form.last_name, class='block_4 field_required') }}
+  {{ render_field(form.first_name, class='field_third field_required') }}
+  {{ render_field(form.middle_name, class='field_third') }}
+  {{ render_field(form.last_name, class='field_third field_required') }}
 </div>
 
 <div class="form_row">
   {{ render_field(form.dob, 
       type="date",
       max="2200-01-01",
-      min="1899-01-01"
+      min="1899-01-01",
+      class="field_third"
   ) }}
   {{ render_field(form.ssn, 
       placeholder="555-55-5555",
-      pattern="\d{3}-?\d{2}-?\d{4}"
+      pattern="\d{3}-?\d{2}-?\d{4}",
+      class="field_third"
   ) }}
 </div>

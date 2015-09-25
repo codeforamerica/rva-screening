@@ -15,7 +15,6 @@ TRANSGENDER_CHOICES = [
 ]
 
 LANGUAGE_CHOICES = [
-    ("",      ""),
     ("EN",    _("English")),
     ("ES",    _("Spanish")),
     ("AR",    _("Arabic")),

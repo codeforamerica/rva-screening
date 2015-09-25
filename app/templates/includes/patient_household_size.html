@@ -19,18 +19,18 @@
       <div class="multiform_content_fields">
           <div class="form_row">
             {{ render_field(entry.full_name,
-                          class="block_6"
+                          class="field_third"
             ) }}
             {{ render_field(entry.dob, 
                             type="date",
                             max="2200-01-01",
                             min="1899-01-01",
-                            class="block_3"
+                            class="field_third"
             ) }}
             {{ render_field(entry.ssn,
                             placeholder="555-55-5555",
                             pattern="\d{3}-?\d{2}-?\d{4}",
-                            class="block_3"
+                            class="field_third"
             ) }}
           </div>
           {{ render_field(entry.relationship) }}
@@ -53,18 +53,18 @@
       <div class="multiform_content_fields">
         <div class="row">
           {{ render_field(entry.full_name,
-                          class="block_6"
+                          class="field_third"
           ) }}
           {{ render_field(entry.dob, 
                           type="date",
                           max="2200-01-01",
                           min="1899-01-01",
-                          class="block_3"
+                          class="field_third"
           ) }}
           {{ render_field(entry.ssn,
                           placeholder="555-55-5555",
                           pattern="\d{3}-?\d{2}-?\d{4}",
-                          class="block_3"
+                          class="field_third"
           ) }}
         </div>
         {{ render_field(entry.relationship) }}
@@ -77,5 +77,8 @@
 
 <div class="cf"></div>
 
-{{ render_field(form.filed_taxes_yn, ['an']) }}
-{{ render_field(form.claimed_as_dependent_yn, ['an']) }}
+<div class="form_row">
+  {{ render_field(form.filed_taxes_yn, ['an'], class="field_quarter field_pad_right") }}
+  {{ render_field(form.claimed_as_dependent_yn, ['an'], class="field_quarter") }}
+</div>
+

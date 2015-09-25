@@ -1,8 +1,41 @@
 {% from "form_field_macros.html" import render_field, render_multifield %}
 
-{{ render_field(form.employment_status) }}
-{{ render_field(form.student_status) }}
-{{ render_field(form.spouse_employment_status) }}
+<div class="form_row row">
+  <div class="block_4">
+    {{ render_field(form.employment_status, class="") }}
+    {{ render_multifield(
+      "time_unemployed", _("How long have you been unemployed?"),
+      [
+        form.years_unemployed, 
+        form.months_unemployed
+      ], 
+      ['an'],
+      subclass="field_half"
+    ) }}
+    {{ render_field(form.years_at_current_employer, ['an']) }}
+  </div>
+
+  <div class="block_4 block_pad_left">
+    {{ render_field(form.spouse_employment_status, class="") }}
+    {{ render_multifield(
+      "spouse_time_unemployed", _("How long has your spouse been unemployed?"),
+      [
+        form.spouse_years_unemployed, 
+        form.spouse_months_unemployed
+      ], 
+      ['an'],
+      subclass="field_half"
+    ) }}
+    {{ render_field(form.spouse_years_at_current_employer, ['an']) }}
+  </div>
+
+  <div class="block_4 block_pad_left">
+    {{ render_field(form.student_status) }}
+    {{ render_field(form.education_level, ['an']) }}
+  </div>
+  
+</div>
+
 
 
 <div class="form_multiform_wrapper employers" id="employer_table">
@@ -12,11 +45,10 @@
     <div class="multiform_content">
       <div class="multiform_content_fields">
           <div class="form_row">
-            {{ render_field(entry.employer_name, class="block_6") }}
-            {{ render_field(entry.phone_number, class="block_6") }}
-            {{ render_field(entry.employer_name, class="block_6") }}
+            {{ render_field(entry.employer_name, class="field_third") }}
+            {{ render_field(entry.phone_number, class="field_third") }}
+            {{ render_field(entry.employee, class="field_third field_pad_left") }}
           </div>
-            {{ render_field(entry.employee) }}
       </div>
       <div class="multiform_content_readonly">
         <span class="multiform_item"><strong>{{ entry.employer_name.data }}</strong></span><br>
@@ -34,14 +66,11 @@
     <div class="multiform_content">
       <div class="multiform_content_fields">
         <div class="row">
-          {{ render_field(entry.employer_name,
-                                class="block_6"
-          ) }}
-          {{ render_field(entry.phone_number,
-                                class="block_6"
-          ) }}
+          {{ render_field(entry.employer_name, class="field_third") }}
+          {{ render_field(entry.phone_number, class="field_third") }}
+          {{ render_field(entry.employee, class="field_third field_pad_left") }}
         </div>
-        {{ render_field(entry.employee) }}
+        
       </div>
     </div>
   </div>
@@ -51,26 +80,3 @@
   
 </div>
 <div class="cf"></div>
-
-{{ render_multifield(
-  "time_unemployed", _("How long have you been unemployed?"),
-  [
-    form.years_unemployed, 
-    form.months_unemployed
-  ], 
-  ['an'],
-  subclass="block_4"
-) }}
-
-{{ render_multifield(
-  "spouse_time_unemployed", _("How long has your spouse been unemployed?"),
-  [
-    form.spouse_years_unemployed, 
-    form.spouse_months_unemployed
-  ], 
-  ['an'],
-  subclass="block_4"
-) }}
-
-{{ render_field(form.years_at_current_employer, ['an']) }}
-{{ render_field(form.spouse_years_at_current_employer, ['an']) }}

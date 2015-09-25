@@ -1,9 +1,11 @@
 // a label for a field or a multifield
 .field_label {
-  display: block;
+  display: table-cell;
   color: $field-label-color;
+  font-weight: 700;
   font-size: 0.9em;
-  margin-bottom: 0.3em;
+  height: 35px;
+  vertical-align: bottom;
 }
 
 // flags are short pieces of text that explain something about the field
@@ -25,7 +27,7 @@
 .field_input {
   width: 100%;
   &:focus {
-    outline: solid 1px $color-blue;
+    border: solid 1px $color-blue;
   }
 }
 
@@ -41,7 +43,7 @@
   display: block;
   padding: 0 0.5em;
   height: 2em; // i think this is legit?
-  border: 1px solid $field-border-color;
+  border: 1px solid #999;
   font-size: 0.9em;
   font-weight: 100;
   color: $color-black;
@@ -83,19 +85,7 @@
   }
 }
 
-.field_dob .field_input { width: 12em; }
-.field_ssn .field_input { width: 9em; }
-
 @media (min-width: $break) {
-  .field_first_name {}
-  .field_middle_name {}
-  .field_last_name {}
-
-  .field_phone_number { width: $width-third; }
-  .field_phone_number_description { width: $width-twothird; }
-
-  .field_address1 {}
-  .field_gender {}
 
   // expanded search fields
   .field_search_patient_name {
@@ -109,27 +99,19 @@
 }
 
 .q_unique {
-  position: relative;
-  padding: 1em;
-  background-color: darken($color-lightgray, 5);
-  &:before {
-    position: absolute;
-    top:0;
-    font-size: 10px;
-    padding: 3px 0;
-    text-align: center;
-    background: darken($color-lightgray, 5);
-    left: -24px;
-    width: 24px;
-    font-weight: 700;
-    color: $color-darkgray;
-    &:hover {
+  .field_label {
+    &:after {
+      font-weight: 300;
+      color: $color-darkgray;
     }
   }
+  
 }
 .q_an {
-  &:before {
-    content: "AN";
+  .field_label {
+    &:after {
+      content: "AN";
+    }
   }
 }
 

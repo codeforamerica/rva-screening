@@ -26,8 +26,8 @@
     <div class="multiform_content">
       <div class="multiform_content_fields">
         <div class="row">
-          {{ render_field(entry.source, class="block_6") }}
-          {{ render_field(entry.monthly_amount, class="block_6", type="number") }}
+          {{ render_field(entry.monthly_amount, class="field_third", type="number") }}
+          {{ render_field(entry.source, class="field_twothird") }}
         </div>
       </div>
     </div>
@@ -39,8 +39,10 @@
 
 <div class="cf"></div>
 
+<div class="form_row">
+  {{ render_field(form.how_food_and_shelter, ['an'], class="") }}
+  {{ render_field(form.how_other_expenses, ['an'], class="") }}  
+</div>
 
-{{ render_field(form.how_food_and_shelter, ['an']) }}
-{{ render_field(form.how_other_expenses, ['an']) }}
 
 

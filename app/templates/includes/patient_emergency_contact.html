@@ -7,10 +7,10 @@
     <div class="multiform_content">
       <div class="multiform_content_fields">
           <div class="form_row">
-            {{ render_field(entry.full_name, class="block_6") }}
-            {{ render_field(entry.phone_number, class="block_6") }}
+            {{ render_field(entry.full_name, class="field_third") }}
+            {{ render_field(entry.phone_number, class="field_third") }}
+            {{ render_field(entry.relationship, class="field_third") }}
           </div>
-          {{ render_field(entry.relationship) }}
       </div>
       <div class="multiform_content_readonly">
         <span class="multiform_item"><strong>{{ entry.full_name.data }}</strong></span><br>
@@ -28,14 +28,11 @@
     <div class="multiform_content">
       <div class="multiform_content_fields">
         <div class="row">
-          {{ render_field(entry.full_name,
-                                class="block_6"
-          ) }}
-          {{ render_field(entry.phone_number,
-                                class="block_6"
-          ) }}
+          {{ render_field(entry.full_name, class="field_third") }}
+          {{ render_field(entry.phone_number, class="field_third") }}
+          {{ render_field(entry.relationship, class="field_third") }}
         </div>
-        {{ render_field(entry.relationship) }}
+        
       </div>
     </div>
   </div>

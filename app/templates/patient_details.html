@@ -243,6 +243,16 @@ config.validations = [
         failure: reports.failure
       }
     ]
+  },
+  {
+    selector: fName('medicaid_date_effective') + ', ' + fName('ssd_date_effective'),
+    validators: [
+      {
+        type: "date",
+        success: reports.success,
+        failure: reports.failure
+      }
+    ]
   }
 ];
 
@@ -256,6 +266,8 @@ var EMPLOYED = [ "FT", "PT", "SEA" ];
 
 config.dependencies = [
   { target: "marital_status", child: "spouse_employment_status", 
+    type: "equals", comparator: "MAR" },
+    { target: "marital_status", child: "spouse_years_at_current_employer", 
     type: "equals", comparator: "MAR" },
   { target: "spouse_employment_status", child: "spouse_years_at_current_employer ", 
     type: "in", comparator: EMPLOYED },
@@ -281,7 +293,7 @@ config.dependencies = [
     type: "equals", comparator: "Y" },
   { target: "applied_for_ssd_yn", child: "ssd_date_effective",
     type: "equals", comparator: "Y" },
-  { target: "are_due_to_accident", child: "accident_work_related_yn",
+  { target: "care_due_to_accident_yn", child: "accident_work_related_yn",
     type: "equals", comparator: "Y" },
 
   { target: "race", child: "race_other",
@@ -291,7 +303,7 @@ config.dependencies = [
   { target: "housing_status", child: "housing_status_other",
     type: "equals", comparator: "OTH" },
   { target: "coverage_type", child: "coverage_type_other",
-    type: "equals", comparator: "OTH" },
+    type: "equals", comparator: "OTHER" },
 
   { target: "languages", child: "has_interpreter_yn",
     type: "does_not_contain", comparator: "EN" },
