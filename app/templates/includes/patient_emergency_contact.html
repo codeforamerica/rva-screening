@@ -24,7 +24,7 @@
 
   {% with %}
     {% set entry = form.emergency_contacts.append_entry() %}
-  <div class="form_multiform form_multiform_new" id="multiform_emergency_contacts">
+  <div class="form_multiform form_multiform_copy" id="multiform_emergency_contacts">
     <div class="multiform_content">
       <div class="multiform_content_fields">
         <div class="row">
@@ -37,7 +37,19 @@
     </div>
   </div>
   {% endwith %}
-  <button data-clone-id="multiform_emergency_contacts" class="button button_red button_small multiform_control_add">Add new emergency contact <i class="fa fa-plus"></i></button>
+
+  <button data-clone-id="multiform_emergency_contacts" class="form_multiform form_multiform_add multiform_control_add">
+    <div class="multiform_content">
+      <div class="multiform_content_readonly">
+        <span class="multiform_item"><strong>Add new emergency contact</strong></span><br>
+        <span class="multiform_item multiform_item_description">&nbsp;</span><br>
+      </div>
+    </div>
+    <div class="multiform_controls">
+      <i class="fa fa-plus"></i>
+    </div>
+  </button>
+
 </div>
 
 <div class="cf"></div>

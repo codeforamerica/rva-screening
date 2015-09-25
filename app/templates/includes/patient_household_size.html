@@ -48,7 +48,7 @@
 
   {% with %}
     {% set entry = form.household_members.append_entry() %}
-  <div class="form_multiform form_multiform_new" id="multiform_household_size">
+  <div class="form_multiform form_multiform_copy" id="multiform_household_size">
     <div class="multiform_content">
       <div class="multiform_content_fields">
         <div class="row">
@@ -72,7 +72,21 @@
     </div>
   </div>
   {% endwith %}
-  <button data-clone-id="multiform_household_size" class="button button_red button_small multiform_control_add">Add new household member <i class="fa fa-plus"></i></button>
+
+  <button data-clone-id="multiform_household_size" class="form_multiform form_multiform_add multiform_control_add">
+    <div class="multiform_content">
+      <div class="multiform_content_readonly">
+        <span class="multiform_item multiform_item_description">&nbsp;</span><br>
+        <span class="multiform_item"><strong>Add new household member</strong></span><br>
+        <span class="multiform_item multiform_item_description">&nbsp;</span><br>
+        <span class="multiform_item multiform_item_description">&nbsp;</span><br>
+      </div>
+    </div>
+    <div class="multiform_controls">
+      <i class="fa fa-plus"></i>
+    </div>
+  </button>
+
 </div>
 
 <div class="cf"></div>

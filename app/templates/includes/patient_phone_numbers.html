@@ -6,12 +6,8 @@
   <div class="form_multiform form_multiform_read">
     <div class="multiform_content">
       <div class="multiform_content_fields">
-          {{ render_field(entry.phone_number,
-                          class="field_third"
-          ) }}
-          {{ render_field(entry.number_description,
-                          class="field_third"
-          ) }}
+          {{ render_field(entry.phone_number, class="field_third") }}
+          {{ render_field(entry.number_description, class="field_twothird") }}
       </div>
       <div class="multiform_content_readonly">
         <span class="multiform_item">{{ entry.phone_number.data }}</span><br>
@@ -24,21 +20,29 @@
 
   {% with %}
     {% set entry = form.phone_numbers.append_entry() %}
-  <div class="form_multiform form_multiform_new" id="multiform_phone_numbers">
+  <div class="form_multiform form_multiform_copy" id="multiform_phone_numbers">
     <div class="multiform_content">
       <div class="multiform_content_fields">
         <div class="row">
-          {{ render_field(entry.phone_number, 
-                          class="field_third"
-          ) }}
-          {{ render_field(entry.number_description,
-                          class="field_third"
-          ) }}
+          {{ render_field(entry.phone_number, class="field_third") }}
+          {{ render_field(entry.number_description, class="field_twothird") }}
         </div>
       </div>
     </div>
   </div>
   {% endwith %}
-  <button data-clone-id="multiform_phone_numbers" class="multiform_control_add">Add new phone number <i class="fa fa-plus"></i></button>
+
+  <button data-clone-id="multiform_phone_numbers" class="form_multiform form_multiform_add multiform_control_add">
+    <div class="multiform_content">
+      <div class="multiform_content_readonly">
+        <span class="multiform_item"><strong>Add new phone number</strong></span><br>
+        <span class="multiform_item multiform_item_description">&nbsp;</span><br>
+      </div>
+    </div>
+    <div class="multiform_controls">
+      <i class="fa fa-plus"></i>
+    </div>
+  </button>
+
 </div>
 <div class="cf"></div>

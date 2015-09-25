@@ -33,7 +33,7 @@
 
   {% with %}
     {% set entry = form.addresses.append_entry() %}
-  <div class="form_multiform form_multiform_new" id="multiform_address">
+  <div class="form_multiform form_multiform_copy" id="multiform_address">
     <div class="multiform_content">
       <div class="multiform_content_fields">
         <div class="form_row">
@@ -51,7 +51,19 @@
     </div>    
   </div>
   {% endwith %} 
-  <button data-clone-id="multiform_address" class="button button_red button_small multiform_control_add"><i class="fa fa-plus"></i> Add a new address</button>
+
+  <button data-clone-id="multiform_address" class="form_multiform form_multiform_add multiform_control_add">
+    <div class="multiform_content">
+      <div class="multiform_content_readonly">
+        <span class="multiform_item multiform_item_description">&nbsp;</span><br>
+        <span class="multiform_item"><strong>Add a new address</strong></span><br>
+        <span class="multiform_item multiform_item_description">&nbsp;</span><br>
+      </div>
+    </div>
+    <div class="multiform_controls">
+      <i class="fa fa-plus"></i>
+    </div>
+  </button>
 
 </div>
 
