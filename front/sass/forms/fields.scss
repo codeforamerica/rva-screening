@@ -2,7 +2,7 @@
 .field_label {
   display: table-cell;
   color: $field-label-color;
-  font-weight: 700;
+  font-weight: 500;
   font-size: 0.9em;
   height: 35px;
   vertical-align: bottom;
@@ -43,7 +43,7 @@
   display: block;
   padding: 0 0.5em;
   height: 2em; // i think this is legit?
-  border: 1px solid #999;
+  border: 1px solid #c0c0c0;
   font-size: 0.9em;
   font-weight: 100;
   color: $color-black;

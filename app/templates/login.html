@@ -1,23 +1,8 @@
-{% extends "base.html" %}
-{% block content %}
-  {% from "security/_macros.html" import render_field_with_errors, render_field %}
-  {% include "security/_messages.html" %}
-  <div class="outer login_form_bkg">
-    <div class="inner">
-      <div class="login_form">
-        <form action="{{ url_for_security('login') }}" method="POST" name="login_user_form">
-          {{ login_user_form.hidden_tag() }}
-          {{ render_field_with_errors(login_user_form.email, class="field_input") }}
-          {{ render_field_with_errors(login_user_form.password, class="field_input") }}
-          {{ render_field(login_user_form.next) }}
-          {{ render_field(login_user_form.submit, class="button button_blue") }}
-          <a href="{{ url_for_security('forgot_password') }}">{{ _("Forgot password?") }}</a>
-        </form>
-      </div>
-    </div>
-  </div>
-{% endblock %}
-
-
-
-
+<html {{ _('lang="en"') }}>
+  {% include "includes/head.html" %}
+  <body>
+    {% include "includes/nav.html" %}
+    
+    {% block content %}{% endblock %}
+  </body>
+</html>

@@ -194,18 +194,26 @@ form li {
 .form_multiform {
   @include clearfix();
   position: relative;
-  border-top: 2px solid white;
-  padding: 0.5em;
+  border-top: 1px solid #e5e5e5;
+  padding: 0.5em 0.5em 0.5em 2em;
   text-align: left;
   font-size: 1em;
+  counter-increment: section;
+
+  &:before {
+    position: absolute;
+    left: 8px;
+    font-size: 12px;
+    color: #999;
+    top: 11px;
+    content: counters(section, " ");
+  }
 
   &.form_multiform_read,
   &.form_multiform_self {
     width: 100%;
     float: left;
-    background-color: #f6f6f6;
     position: relative;
-    border-right: 2px solid white;
     .multiform_content_fields {
       display: none;
     }
@@ -220,10 +228,13 @@ form li {
     float: left;
     width: 100%;
     position: relative;
-    padding: 0.5em 1em;
+    padding: 0.5em;
     background: lighten(#7FDBFF, 15);
     .multiform_content_fields {
       display: block;
+      .form_field {
+        margin-bottom: 0;
+      }
     }
     .multiform_content_readonly {
       display: none;
@@ -246,14 +257,15 @@ form li {
     float: left;
     width: 100%;
     padding: 0.5em 1em;
-    background: lighten(#7FDBFF, 15);
   }
 
   &.form_multiform_add {
     float: left;
     width: 100%;
+    font-weight: 400;
+    font-size: 0.8em;
     text-align: right;
-    background: #f6f6f6;
+    background: transparent;
     color: $ui-new;
     position: relative;
     border-left: none;
@@ -263,6 +275,9 @@ form li {
     &:hover {
       background: $ui-new;
       color: white;
+    }
+    &:before {
+      content: "";
     }
   }
 
@@ -285,25 +300,18 @@ form li {
 
   .multiform_controls {
     position: absolute;
-    right: 1em;
-    top: 50%;
-    margin-top: -14px;
+    right: 10px;
+    top: 4px;
     z-index: 10;
     .multiform_control {
       margin: 0;
       display: inline;
-      width: 30px;
+      width: 23px;
       padding: 0.4em;
       background: transparent;
       border: 1px solid $color-white;
       border-radius: 50%;
-    }
-  }
-
-  &.form_multiform_edit {
-    .multiform_controls {
-      top: 19px;
-      right: 4px;
+      font-size: 12px;
     }
   }
 }

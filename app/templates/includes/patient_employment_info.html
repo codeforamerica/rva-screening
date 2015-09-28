@@ -1,34 +1,47 @@
 {% from "form_field_macros.html" import render_field, render_multifield %}
 
 <div class="form_row row">
-    {{ render_field(form.employment_status, class="") }}
-    {{ render_multifield(
-      "time_unemployed", _("How long have you been unemployed?"),
-      [
-        form.years_unemployed, 
-        form.months_unemployed
-      ], 
-      ['an'],
-      class="field_child",
-      subclass="field_sub"
-    ) }}
-    {{ render_field(form.years_at_current_employer, ['an'], class="field_child") }}
 
-    {{ render_field(form.spouse_employment_status, class="") }}
-    {{ render_multifield(
-      "spouse_time_unemployed", _("How long has your spouse been unemployed?"),
-      [
-        form.spouse_years_unemployed, 
-        form.spouse_months_unemployed
-      ], 
-      ['an'],
-      class="field_child",
-      subclass="field_sub"
-    ) }}
-    {{ render_field(form.spouse_years_at_current_employer, ['an'], class="field_child") }}
+    <div class="block_4 block_pad_right">
+      {{ render_field(form.employment_status, class="") }}
+      {{ render_multifield(
+        "time_unemployed", _("How long have you been unemployed?"),
+        [
+          form.years_unemployed, 
+          form.months_unemployed
+        ], 
+        ['an'],
+        class="field_child",
+        subclass="field_sub field_half"
+      ) }}
+      {{ render_field(form.years_at_current_employer, ['an'], class="field_child") }}
+    </div>
 
-    {{ render_field(form.student_status,) }}
-    {{ render_field(form.education_level, ['an']) }}
+    <div class="block_4">
+      {{ render_field(form.spouse_employment_status, class="") }}
+      {{ render_multifield(
+        "spouse_time_unemployed", _("How long has your spouse been unemployed?"),
+        [
+          form.spouse_years_unemployed, 
+          form.spouse_months_unemployed
+        ], 
+        ['an'],
+        class="field_child",
+        subclass="field_sub field_half"
+      ) }}
+      {{ render_field(form.spouse_years_at_current_employer, ['an'], class="field_child") }}
+
+    </div>
+
+    <div class="block_4 block_pad_left">
+      {{ render_field(form.student_status) }}
+      {{ render_field(form.education_level, ['an']) }}
+    </div>
+    
+
+    
+
+    
   
 </div>
 

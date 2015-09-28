@@ -1,9 +1,16 @@
-.patientStatus {
+.patientOverview {
   margin: 0;
   padding: 0;
   list-style-type: none;
   li {
     padding: 0.5em;
-    border-bottom: 1px solid #f6f6f6;
+    font-size: 1.3em;
+    span {
+      font-size: 0.8em;
+      padding: 0.5em;
+      border-radius: 0.2em;
+      background-color: $ui-new;
+      color: white;
+    }
   }
 }
