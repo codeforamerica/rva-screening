@@ -1,7 +1,6 @@
 {% from "form_field_macros.html" import render_field, render_multifield %}
 
 <div class="form_row row">
-  <div class="block_4">
     {{ render_field(form.employment_status, class="") }}
     {{ render_multifield(
       "time_unemployed", _("How long have you been unemployed?"),
@@ -10,12 +9,11 @@
         form.months_unemployed
       ], 
       ['an'],
-      subclass="field_half"
+      class="field_child",
+      subclass="field_sub"
     ) }}
-    {{ render_field(form.years_at_current_employer, ['an']) }}
-  </div>
+    {{ render_field(form.years_at_current_employer, ['an'], class="field_child") }}
 
-  <div class="block_4 block_pad_left">
     {{ render_field(form.spouse_employment_status, class="") }}
     {{ render_multifield(
       "spouse_time_unemployed", _("How long has your spouse been unemployed?"),
@@ -24,15 +22,13 @@
         form.spouse_months_unemployed
       ], 
       ['an'],
-      subclass="field_half"
+      class="field_child",
+      subclass="field_sub"
     ) }}
-    {{ render_field(form.spouse_years_at_current_employer, ['an']) }}
-  </div>
+    {{ render_field(form.spouse_years_at_current_employer, ['an'], class="field_child") }}
 
-  <div class="block_4 block_pad_left">
-    {{ render_field(form.student_status) }}
+    {{ render_field(form.student_status,) }}
     {{ render_field(form.education_level, ['an']) }}
-  </div>
   
 </div>
 
@@ -50,10 +46,10 @@
             {{ render_field(entry.employee, class="field_third field_pad_left") }}
           </div>
       </div>
-      <div class="multiform_content_readonly">
-        <span class="multiform_item"><strong>{{ entry.employer_name.data }}</strong></span><br>
-        <span class="multiform_item">{{ entry.phone_number.data }}</span><br>
-        <span class="multiform_item multiform_item_description">{{ entry.employee.data }}</span>
+      <div class="multiform_content_readonly row">
+        <span class="multiform_item block_3"><strong>{{ entry.employer_name.data }}</strong></span>
+        <span class="multiform_item block_3">{{ entry.phone_number.data }}</span>
+        <span class="multiform_item block_3 multiform_item_description">{{ entry.employee.data }}</span>
       </div>
     </div>
     {% include "includes/multiform_controls.html" %}
@@ -79,13 +75,8 @@
   <button data-clone-id="multiform_employers" class="form_multiform form_multiform_add multiform_control_add">
     <div class="multiform_content">
       <div class="multiform_content_readonly">
-        <span class="multiform_item multiform_item_description">&nbsp;</span><br>
-        <span class="multiform_item"><strong>Add new employer</strong></span><br>
-        <span class="multiform_item multiform_item_description">&nbsp;</span><br>
+        <span class="multiform_item"><strong>Add new employer</strong> <i class="fa fa-plus"></i></span><br>
       </div>
-    </div>
-    <div class="multiform_controls">
-      <i class="fa fa-plus"></i>
     </div>
   </button>
   

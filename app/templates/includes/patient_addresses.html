@@ -20,10 +20,11 @@
         {{ render_field(entry.address_description) }}
       </div>
 
-      <div class="multiform_content_readonly">
-        <span class="multiform_item">{{ entry.address1.data }}</span>, <span class="multiform_item">{{ entry.address2.data }}</span><br>
-        <span class="multiform_item">{{ entry.city.data }}</span>, <span class="multiform_item">{{ entry.state.data }}</span> <span class="multiform_item">{{ entry.zip_code.data }}</span><br>
-        <span class="multiform_item multiform_item_description">{{ entry.address_description.data }}</span>
+      <div class="multiform_content_readonly row">
+        <span class="multiform_item block_3">{{ entry.address1.data }} {{ entry.address2.data }}</span>
+        <span class="multiform_item block_3">{{ entry.city.data }}, {{ entry.state.data }}</span>
+        <span class="multiform_item block_3">{{ entry.zip_code.data }}</span>
+        <span class="multiform_item block_3 multiform_item_description">{{ entry.address_description.data }}</span>
       </div>
     </div>
     
@@ -55,13 +56,8 @@
   <button data-clone-id="multiform_address" class="form_multiform form_multiform_add multiform_control_add">
     <div class="multiform_content">
       <div class="multiform_content_readonly">
-        <span class="multiform_item multiform_item_description">&nbsp;</span><br>
-        <span class="multiform_item"><strong>Add a new address</strong></span><br>
-        <span class="multiform_item multiform_item_description">&nbsp;</span><br>
+        <span class="multiform_item"><strong>Add a new address</strong> <i class="fa fa-plus"></i></span><br>
       </div>
-    </div>
-    <div class="multiform_controls">
-      <i class="fa fa-plus"></i>
     </div>
   </button>
 

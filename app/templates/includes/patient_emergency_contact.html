@@ -12,10 +12,10 @@
             {{ render_field(entry.relationship, class="field_third") }}
           </div>
       </div>
-      <div class="multiform_content_readonly">
-        <span class="multiform_item"><strong>{{ entry.full_name.data }}</strong></span><br>
-        <span class="multiform_item">{{ entry.phone_number.data }}</span><br>
-        <span class="multiform_item multiform_item_description">{{ entry.relationship.data }}</span>
+      <div class="multiform_content_readonly row">
+        <span class="multiform_item block_3"><strong>{{ entry.full_name.data }}</strong></span>
+        <span class="multiform_item block_3">{{ entry.phone_number.data }}</span>
+        <span class="multiform_item block_3 multiform_item_description">{{ entry.relationship.data }}</span>
       </div>
     </div>
     {% include "includes/multiform_controls.html" %}
@@ -41,12 +41,8 @@
   <button data-clone-id="multiform_emergency_contacts" class="form_multiform form_multiform_add multiform_control_add">
     <div class="multiform_content">
       <div class="multiform_content_readonly">
-        <span class="multiform_item"><strong>Add new emergency contact</strong></span><br>
-        <span class="multiform_item multiform_item_description">&nbsp;</span><br>
+        <span class="multiform_item"><strong>Add new emergency contact</strong> <i class="fa fa-plus"></i></span><br>
       </div>
-    </div>
-    <div class="multiform_controls">
-      <i class="fa fa-plus"></i>
     </div>
   </button>
 
