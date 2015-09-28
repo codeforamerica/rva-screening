@@ -9,9 +9,9 @@
           {{ render_field(entry.phone_number, class="field_third") }}
           {{ render_field(entry.number_description, class="field_twothird") }}
       </div>
-      <div class="multiform_content_readonly">
-        <span class="multiform_item">{{ entry.phone_number.data }}</span><br>
-        <span class="multiform_item multiform_item_description">{{ entry.number_description.data }}</span>
+      <div class="multiform_content_readonly row">
+        <span class="multiform_item block_3">{{ entry.phone_number.data }}</span>
+        <span class="multiform_item block_3 multiform_item_description">{{ entry.number_description.data }}</span>
       </div>
     </div>
     {% include "includes/multiform_controls.html" %}
@@ -35,12 +35,8 @@
   <button data-clone-id="multiform_phone_numbers" class="form_multiform form_multiform_add multiform_control_add">
     <div class="multiform_content">
       <div class="multiform_content_readonly">
-        <span class="multiform_item"><strong>Add new phone number</strong></span><br>
-        <span class="multiform_item multiform_item_description">&nbsp;</span><br>
+        <span class="multiform_item"><strong>Add new phone number</strong> <i class="fa fa-plus"></i></span><br>
       </div>
-    </div>
-    <div class="multiform_controls">
-      <i class="fa fa-plus"></i>
     </div>
   </button>
 

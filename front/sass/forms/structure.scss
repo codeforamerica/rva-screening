@@ -195,13 +195,13 @@ form li {
   @include clearfix();
   position: relative;
   border-top: 2px solid white;
-  padding: 1em;
+  padding: 0.5em;
   text-align: left;
   font-size: 1em;
 
   &.form_multiform_read,
   &.form_multiform_self {
-    width: 50%;
+    width: 100%;
     float: left;
     background-color: #f6f6f6;
     position: relative;
@@ -251,7 +251,8 @@ form li {
 
   &.form_multiform_add {
     float: left;
-    width: 50%;
+    width: 100%;
+    text-align: right;
     background: #f6f6f6;
     color: $ui-new;
     position: relative;
