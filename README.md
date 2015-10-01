@@ -2,7 +2,7 @@
 
 ### What
 
-A prototype of an application that will allow safety net health services in Richmond, VA to share patients' financial screening information more easily. For more information, check out our [blog](rva.codeforamerica.org).
+A prototype of an application that will allow safety net health services in Richmond, VA to share patients' financial screening information more easily. For more information, check out our [blog](http://rva.codeforamerica.org).
 
 ### Status
 
