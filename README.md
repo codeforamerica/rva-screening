@@ -21,7 +21,7 @@ Sam Matthews ([mapsam](//github.com/mapsam))
 The application is built with Python and [Flask](http://flask.pocoo.org/).
 
 **Environment variables**
-* `DATABASE_URL=[db connection string]` — For example, `postgresql://localhost/screener`
+* `DATABASE_URL=[db connection string]` — For example, `postgresql://localhost/rva-screening`
 
 **Install**
 * Install a PostgreSQL database ([how to](https://github.com/codeforamerica/howto/blob/master/PostgreSQL.md))
@@ -30,9 +30,14 @@ The application is built with Python and [Flask](http://flask.pocoo.org/).
 * Change into the project directory: ```cd rva-screening```
 * Install Python requirements: ```pip install -r requirements.txt```
 * Install front end requirements: ```npm install```
-* Create two databases: ```createdb screener```
-* Add the HSTORE extension: ```psql screener -c CREATE EXTENSION hstore;```
-
+* Create two databases: 
+```createdb rva-screening
+createdb rva-screening-test
+```
+* Add the HSTORE extension:
+```psql rva-screening -c CREATE EXTENSION hstore;
+psql rva-screening-test -c CREATE EXTENSION hstore;
+```
 
 * Set up the database: ```make new_db```
 * Create mock data, including user accounts: ```make data```
