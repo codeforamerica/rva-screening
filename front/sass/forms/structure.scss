@@ -25,15 +25,24 @@ form li {
 // a wrapper for a full section of the form, such as "household size"
 .form_section {
   margin-bottom: 3em;
+  box-shadow: 0 0 3px 0 rgba(0,0,0,0.6);
+  border-radius: 3px;
+  overflow: hidden;
   // background-color: $color-lightgray;
 
   .form_section_title {
     position: relative;
-    background: white;
     padding: 0.4em 0;
     font-size: 2em;
     font-weight: 300;
     font-family: $font-header;
+    background: $ui-new;
+    color: white;
+    padding: 10px;
+  }
+  .form_content {
+    background: white;
+    padding: 10px;
   }
 
   &.read-only {
@@ -266,14 +275,14 @@ form li {
     font-size: 0.8em;
     text-align: right;
     background: transparent;
-    color: $ui-new;
+    color: $ui-success;
     position: relative;
     border-left: none;
     border-bottom: none;
     border-right: 2px solid white;
     cursor: pointer;
     &:hover {
-      background: $ui-new;
+      background: $ui-success;
       color: white;
     }
     &:before {
@@ -302,7 +311,6 @@ form li {
     position: absolute;
     right: 10px;
     top: 4px;
-    z-index: 10;
     .multiform_control {
       margin: 0;
       display: inline;

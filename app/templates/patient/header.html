@@ -1,4 +1,4 @@
-<!-- patient profile -->
+{% if patient %}
 <section class="patientProfile">
   <div class="container">
     <div class="row">
@@ -22,11 +22,13 @@
             <span class="patient-descriptor">Phone</span>
 
             <!-- this just grabs the first phone number in the loop, we'll want to grab primary contact -->
+            {% if patient.phone_numbers %}
             {% for phone in patient.phone_numbers %}
               {% if loop.index < 2 %}
               <span class="patient-info">{{ phone.phone_number }}</span>
               {% endif %}
             {% endfor %}
+            {% endif %}
             <span class="patient-descriptor"><a href="#">see all contact info</a></span>
           </div>
         </div>
@@ -37,19 +39,21 @@
           <div class="block_3 patientProfile-infoblock">
             <span class="patient-descriptor">Zipscreen ID</span>
             <!-- how do we want to manage production IDs? Single digits seems a bit odd -->
-            <span class="patient-info patient-info-small">{{ patient.id }}</span>
+            <span class="patient-info patient-info-small">2015-0{{ patient.id }}</span>
           </div>
 
           <!-- MEDICAL HOME -->
           <div class="block_3 patientProfile-infoblock">
             <span class="patient-descriptor">Medical Home</span>
-            <span class="patient-info patient-info-small">TODO</span>
+            <span class="patient-info patient-info-small">Daily Planet</span>
           </div>
 
           <!-- LAST EDIT -->
           <div class="block_6">
+            {% if patient.last_modified_by %}
             <span class="patient-descriptor">Last edited by</span>
               <span class="patient-info patient-info-small"><a href="">{{ patient.last_modified_by.full_name }}</a> on <a href="">{{ patient.last_modified.strftime('%m/%d/%Y') }}</a></span>
+            {% endif %}
           </div>
         </div>
       </div>
@@ -62,3 +66,4 @@
 
   </div>
 </section>
+{% endif %}
