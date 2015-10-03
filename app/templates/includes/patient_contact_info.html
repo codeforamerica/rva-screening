@@ -1,9 +1,19 @@
 {% from "form_field_macros.html" import render_field %}
 
-  {% include "includes/patient_phone_numbers.html" %}
-
+<div class="form_row">
   {{ render_field(form.email) }}
+</div>
 
-  {% include "includes/patient_addresses.html" %}
+{% include "includes/patient_phone_numbers.html" %}
 
-  {{ render_field(form.has_transport_yn, ['an']) }}
+{% include "includes/patient_addresses.html" %}
+
+<div class="form_row">
+  {{ render_field(form.has_transport_yn, ['an'], class="field_half field_pad_right") }}
+  {{ render_field(form.housing_status, class="field_half has_other") }}
+  {{ render_field(form.housing_status_other, class="field_half field_float_right") }}
+</div>
+
+<div class="form_row">
+  
+</div>

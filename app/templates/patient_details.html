@@ -53,14 +53,14 @@
   {% endif %}
 
   <!-- id info -->
-  <div id="general" class="form_section">
+  <div id="general" class="">
     {% include "includes/patient_id.html" %}
   </div>
 
   <!--contact info-->
   <div id="contact" class="form_section">
     <div class="form_section_title form_section_contact">{{ _("Phone, Email, Address") }}</div>
-    <div class="expander-content">
+    <div class="form_content">
       {% include "includes/patient_contact_info.html" %}
     </div>
   </div>
@@ -68,7 +68,7 @@
   <!--contact info-->
   <div id="emergency-contact" class="form_section">
     <div class="form_section_title form_section_emergency">{{ _("Emergency Contacts") }}</div>
-    <div class="expander-content">
+    <div class="form_content">
       {% include "includes/patient_emergency_contact.html" %}
     </div>
   </div>
@@ -81,7 +81,7 @@
         {{ patient.household_members.count() + 1 }}
       {% endif %}
     </div>
-    <div class="expander-content">
+    <div class="form_content">
       {% include "includes/patient_household_size.html" %}
     </div>
   </div>
@@ -94,7 +94,7 @@
         ${{(patient.total_annual_income / 12) | int}}/{{ _("month") }}
       {% endif %}
     </div>
-    <div class="expander-content">
+    <div class="form_content">
       {% include "includes/patient_income_sources.html" %}
     </div>
   </div>
@@ -106,7 +106,7 @@
         ({{patient.document_images.count()}})
       {% endif %}
     </div>
-    <div class="expander-content">
+    <div class="form_content">
       {% include "includes/patient_docs.html" %}
     </div>
   </div>
@@ -114,7 +114,7 @@
   <!--demographics-->
   <div id="demographics" class="form_section">
     <div class="form_section_title form_section_demographics">{{ _("Demographic Questions") }}</div>
-    <div class="expander-content">
+    <div class="form_content">
       {% include "includes/patient_demographic_info.html" %}
     </div>
   </div>
@@ -122,7 +122,7 @@
   <!--employment-->
   <div id="employment" class="form_section">
     <div class="form_section_title form_section_employment">{{ _("Employment Information") }}</div>
-    <div class="expander-content">
+    <div class="form_content">
       {% include "includes/patient_employment_info.html" %}
     </div>
   </div>
@@ -130,14 +130,15 @@
   <!--insurance-->
   <div id="insurance" class="form_section">
     <div class="form_section_title form_section_insurance">{{ _("Insurance Information") }}</div>
-    <div class="expander-content">
+    <div class="form_content">
       {% include "includes/patient_insurance_info.html" %}
     </div>
   </div>
 
-  <!-- <div class="patient_details_actions"> -->
-    <!-- <div class="container"> -->
-      <button type="submit" class="button button_green">
+  <div class="patientStickyNav">
+    <div class="container">
+      <h3 style="float: left; margin: 0; margin-top: 7px;">{{ patient.first_name or "" }} {{ patient.last_name or "" }}</h3>
+      <button type="submit" class="button button_green button_right">
         <i class="fa fa-check"></i>
         {% if patient %}
           {{ _("Save patient info") }}
@@ -145,8 +146,8 @@
           {{ _("Save new patient info") }}
         {% endif %}
       </button>
-    <!-- </div> -->
-  <!-- </div> -->
+    </div>
+  </div>
 
 </form>
 
@@ -243,6 +244,16 @@ config.validations = [
         failure: reports.failure
       }
     ]
+  },
+  {
+    selector: fName('medicaid_date_effective') + ', ' + fName('ssd_date_effective'),
+    validators: [
+      {
+        type: "date",
+        success: reports.success,
+        failure: reports.failure
+      }
+    ]
   }
 ];
 
@@ -256,6 +267,8 @@ var EMPLOYED = [ "FT", "PT", "SEA" ];
 
 config.dependencies = [
   { target: "marital_status", child: "spouse_employment_status", 
+    type: "equals", comparator: "MAR" },
+    { target: "marital_status", child: "spouse_years_at_current_employer", 
     type: "equals", comparator: "MAR" },
   { target: "spouse_employment_status", child: "spouse_years_at_current_employer ", 
     type: "in", comparator: EMPLOYED },
@@ -281,7 +294,7 @@ config.dependencies = [
     type: "equals", comparator: "Y" },
   { target: "applied_for_ssd_yn", child: "ssd_date_effective",
     type: "equals", comparator: "Y" },
-  { target: "are_due_to_accident", child: "accident_work_related_yn",
+  { target: "care_due_to_accident_yn", child: "accident_work_related_yn",
     type: "equals", comparator: "Y" },
 
   { target: "race", child: "race_other",
@@ -291,7 +304,7 @@ config.dependencies = [
   { target: "housing_status", child: "housing_status_other",
     type: "equals", comparator: "OTH" },
   { target: "coverage_type", child: "coverage_type_other",
-    type: "equals", comparator: "OTH" },
+    type: "equals", comparator: "OTHER" },
 
   { target: "languages", child: "has_interpreter_yn",
     type: "does_not_contain", comparator: "EN" },

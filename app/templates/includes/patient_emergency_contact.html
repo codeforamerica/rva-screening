@@ -7,15 +7,15 @@
     <div class="multiform_content">
       <div class="multiform_content_fields">
           <div class="form_row">
-            {{ render_field(entry.full_name, class="block_6") }}
-            {{ render_field(entry.phone_number, class="block_6") }}
+            {{ render_field(entry.full_name, class="field_third") }}
+            {{ render_field(entry.phone_number, class="field_third") }}
+            {{ render_field(entry.relationship, class="field_third") }}
           </div>
-          {{ render_field(entry.relationship) }}
       </div>
-      <div class="multiform_content_readonly">
-        <span class="multiform_item"><strong>{{ entry.full_name.data }}</strong></span><br>
-        <span class="multiform_item">{{ entry.phone_number.data }}</span><br>
-        <span class="multiform_item multiform_item_description">{{ entry.relationship.data }}</span>
+      <div class="multiform_content_readonly row">
+        <span class="multiform_item block_3"><strong>{{ entry.full_name.data }}</strong></span>
+        <span class="multiform_item block_3">{{ entry.phone_number.data }}</span>
+        <span class="multiform_item block_3 multiform_item_description">{{ entry.relationship.data }}</span>
       </div>
     </div>
     {% include "includes/multiform_controls.html" %}
@@ -24,23 +24,28 @@
 
   {% with %}
     {% set entry = form.emergency_contacts.append_entry() %}
-  <div class="form_multiform form_multiform_new" id="multiform_emergency_contacts">
+  <div class="form_multiform form_multiform_copy" id="multiform_emergency_contacts">
     <div class="multiform_content">
       <div class="multiform_content_fields">
         <div class="row">
-          {{ render_field(entry.full_name,
-                                class="block_6"
-          ) }}
-          {{ render_field(entry.phone_number,
-                                class="block_6"
-          ) }}
+          {{ render_field(entry.full_name, class="field_third") }}
+          {{ render_field(entry.phone_number, class="field_third") }}
+          {{ render_field(entry.relationship, class="field_third") }}
         </div>
-        {{ render_field(entry.relationship) }}
+        
       </div>
     </div>
   </div>
   {% endwith %}
-  <button data-clone-id="multiform_emergency_contacts" class="button button_red button_small multiform_control_add">Add new emergency contact <i class="fa fa-plus"></i></button>
+
+  <button data-clone-id="multiform_emergency_contacts" class="form_multiform form_multiform_add multiform_control_add">
+    <div class="multiform_content">
+      <div class="multiform_content_readonly">
+        <span class="multiform_item"><strong>Add new emergency contact</strong> <i class="fa fa-plus"></i></span><br>
+      </div>
+    </div>
+  </button>
+
 </div>
 
 <div class="cf"></div>

@@ -34,7 +34,7 @@
 
   {% with %}
     {% set entry = form.document_images.append_entry() %}
-    <div class="form_multiform form_multiform_new" id="multiform_documents">
+    <div class="form_multiform form_multiform_copy" id="multiform_documents">
       <div class="multiform_content">
         <div class="multiform_content_fields">
           <div class="row">
@@ -45,6 +45,14 @@
       </div>
     </div>
   {% endwith %}
-  <button data-clone-id="multiform_documents" class="button button_red button_small multiform_control_add">Add new document <i class="fa fa-plus"></i></button>
+
+  <button data-clone-id="multiform_documents" class="form_multiform form_multiform_add multiform_control_add">
+    <div class="multiform_content">
+      <div class="multiform_content_readonly">
+        <span class="multiform_item"><strong>Add a new document</strong> <i class="fa fa-plus"></i></span><br>
+      </div>
+    </div>
+  </button>
+
 </div>
 <div class="cf"></div>

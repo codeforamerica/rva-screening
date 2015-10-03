@@ -25,23 +25,23 @@
         </ul>
       {% endif %}
 
-      <h3>{{ _("Please provide answers to the following questions.") }}</h3>
+      <p>{{ _("Please provide answers to the following questions. Click 'check eligibility' to learn more about which clinics and services you may be eligible for.") }}</p>
 
       <!--household size -->
       <div class="form_row">
-        {{ render_field(form.household_size, class="block_6") }}
+        {{ render_field(form.household_size, class="field_large field_auto") }}
       </div>
 
-      <!-- household income -->
       <div class="form_row">
-        {{ render_field(form.household_income, class="block_6") }}
+        {{ render_field(form.household_income, class="field_large field_auto", placeholder="350") }}
       </div>
 
-      <div class="form_row form_row_padding">
+      <div class="form_row">
+
         <!-- do you have health insurance? -->
-        <p>{{ form.has_health_insurance.label.text }}</p>
+        <h3 class="prescreen_title">{{ form.has_health_insurance.label.text }}</h3>
         {% for choice in form.has_health_insurance.choices %}
-          <label class="field_radio checkbox_small checkbox_blue">
+          <label class="field_radio checkbox_blue">
             <input type="radio" class="text" value="1" name="{{ form.has_health_insurance.label.text }}">
             <span class="field_checkbox_content">
               <span class="field_checkbox_content_title">{{ choice[1] }}</span>
@@ -52,11 +52,11 @@
 
       </div>
 
-      <div class="form_row form_row_padding">
+      <div class="form_row">
         <!-- are you eligible for medicare/medicaid? -->
-        <p>{{ form.eligible_for_medicaid.label.text }}</p>
+        <p class="prescreen_title">{{ form.eligible_for_medicaid.label.text }}</p>
         {% for choice in form.eligible_for_medicaid.choices %}
-          <label class="field_radio checkbox_small checkbox_blue">
+          <label class="field_radio checkbox_blue">
             <input type="radio" class="text" value="1" name="{{ form.eligible_for_medicaid.label.text }}">
             <span class="field_checkbox_content">
               <span class="field_checkbox_content_title">{{ choice[1] }}</span>
@@ -64,9 +64,10 @@
           </label>
         {% endfor %}
       </div>
-
-      <button class="button button_green"  type="submit">
-        {{ _("Check eligibility") }} <i class="fa fa-chevron-right"></i>
+      <br>
+      <br>
+      <button class="button button_green button_large"  type="submit">
+        {{ _("Check eligibility") }}
       </button>       
 
     </div>

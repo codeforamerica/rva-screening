@@ -253,11 +253,17 @@ class PatientForm(Form):
         choices=CONSTANTS.ETHNICITY_CHOICES,
         default="",
     )
+    ## testing out radio buttons in the general form
     languages = fields.SelectMultipleField(
         _('Language'),
         choices=CONSTANTS.LANGUAGE_CHOICES,
         default="",
     )
+    # languages = fields.RadioField(
+    #     _('Language'),
+    #     choices=CONSTANTS.LANGUAGE_CHOICES,
+    #     default="",
+    # )
     languages_other = fields.TextField(
         _('Please specify other languages'),
         [Optional(), validators.Length(max=64)]

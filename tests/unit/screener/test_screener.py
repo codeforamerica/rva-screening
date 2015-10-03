@@ -344,7 +344,7 @@ class TestScreener(BaseTestCase):
         patient = get_patient()
         response = self.client.get('/patient_history/{}'.format(patient.id))
         self.assert200(response)
-        self.assert_template_used('history.html')
+        self.assert_template_used('patient_history.html')
 
     def test_patient_share(self):
         """Test that the share patient page works as expected."""

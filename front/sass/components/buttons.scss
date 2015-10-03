@@ -85,6 +85,12 @@
     @include button_color($button-color-brightgreen);
   }
 
+  &.button_login {
+    width: 100%;
+    padding: 0.8em;
+    font-weight: 300;
+  }
+
   &.button_shared {
     background: white;
     border: 1px solid $button-color-green;

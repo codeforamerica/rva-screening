@@ -1,0 +1,39 @@
+.login_outer {
+  background-color: #e5e5e5;
+}
+
+.login_container {
+  max-width: 400px;
+  padding: 1em;
+  display: block;
+  margin: auto;
+  background: white;
+  border-radius: 3px;
+}
+
+.login_message {
+  font-size: 0.9em;
+  font-weight: 300;
+  padding: 1em 0;
+  text-align: center;
+  .fa {
+    font-size: 1.3em;
+    color: #c0c0c0;
+    display: block;
+    margin-bottom: 10px;
+  }
+}
+
+.login_action {
+  font-size: 0.9em;
+  color: $ui-new;
+}
+
+// login fields
+.form_field_login {
+  width: 100%;
+  margin: 0;
+  padding: 0.5em;
+  font-size: 1.3em;
+  font-weight: 300;
+}

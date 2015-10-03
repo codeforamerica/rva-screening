@@ -10,6 +10,7 @@
   margin-bottom: 2em;
   border-bottom: 1px solid #e5e5e5;
   background: #f6f6f6;
+  z-index: 10;
   .patientProfile-block {
     margin-top: 2em;
   }
@@ -52,5 +53,18 @@
   img {
     max-width: 100%;
     height: auto;
+  }
+}
+
+.patientStickyNav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 10px 0;
+  background: white;
+  box-shadow: 0 0 4px 0 rgba(0,0,0,0.6);
+  .button {
+    margin: 0;
   }
 }
