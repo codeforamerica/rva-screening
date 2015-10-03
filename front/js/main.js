@@ -50,6 +50,27 @@ var AppController = function ( options ) {
       multiform.check($(this));
       return;
     });
+
+    // sticky sidebar for patient nav
+    if ($('#stickyNav').length) {
+      var $nav = $('#stickyNav');
+      var navFromTop = $nav.offset().top
+      $(window).scroll(function(){
+        var fromTop = $(window).scrollTop();
+        console.log($('.patientStickyNav').height());
+        if($('.patientStickyNav').height()) fromTop += $('#nav').height();
+        if (fromTop > navFromTop) {
+          if (!$nav.hasClass('sticky')) {
+            $nav.css('width', $nav.width());
+            $nav.addClass('sticky');
+          }
+        } else {
+          $nav.css('width', 'auto');
+          $nav.removeClass('sticky');
+        }
+      });  
+    }
+    
   }
 
   // If we're on the print page, hide everything that shouldn't print

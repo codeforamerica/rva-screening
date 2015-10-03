@@ -1,5 +1,5 @@
 <nav class="patientNav">
-  <ul class="patientNav_list">
+  <ul class="patientNav_list" id="stickyNav">
     
     <li class="patientNav_li{% if request.path == url_for('screener.patient_overview', id=patient.id) %} patientNav_li_active{% endif %}"><a href="{{ url_for('screener.patient_overview', id=patient.id) }}"><i class="fa fa-user"></i>Eligibility Overview</a></li>
     
@@ -24,4 +24,5 @@
     
     <li class="patientNav_li"><a href="#"><i class="fa fa-bars"></i>More</a></li>
   </ul>
+  <div class="wedge">&nbsp;</div>
 </nav>
