@@ -10,9 +10,9 @@
       <div class="notification_left">
         <i class="fa fa-clock-o"></i>
       </div>
-      <p><strong>{{ patient.first_name }} {{ patient.last_name }} applied to Nominal (estimated) at Daily Planet</strong><br>
-      2 days ago from Bon Secours ED<span><a href="#">See full history (includes Bon Secours, RCHD)</a></span></p>
-      <a href="#" class="notification_right">
+      <p><strong>{{ patient.first_name }} {{ patient.last_name }} applied to Nominal (estimated) at {{ current_user.service.name }}</strong><br>
+      2 days ago from Bon Secours ED<span><a href="{{ url_for('screener.patient_screening_history', patient_id=patient.id) }}">See full history</a></span></p>
+      <a href="#eligibility-form" class="notification_right">
         <p>Review</p>
         <i class="fa fa-chevron-down"></i>
       </a>

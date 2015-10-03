@@ -169,9 +169,38 @@ def patient_overview(id):
 
     patient.update_stats()
 
+    form = ScreeningResultForm()
+    sliding_scale_options = SlidingScale.query.filter(
+        SlidingScale.service_id == current_user.service_id
+    )
+    form.sliding_scale_id.choices = [
+        (str(option.id), option.scale_name) for option in sliding_scale_options
+    ] or [("", "N/A")]
+
+    if form.validate_on_submit():
+        screening_result = PatientScreeningResult()
+        screening_result.service_id = current_user.service_id
+        screening_result.eligible_yn = form.eligible_yn.data
+        screening_result.sliding_scale_id = form.sliding_scale_id.data or None
+        screening_result.notes = form.notes.data
+        patient.screening_results.append(screening_result)
+
+        # If the patient has an open referral to the current organization, mark
+        # as completed
+        open_referrals = [
+            r for r in patient.referrals
+            if r.to_service_id == current_user.service.id
+            and r.in_received_status()
+        ]
+        for referral in open_referrals:
+            referral.mark_completed()
+
+        db.session.commit()
+
     return render_template(
         'patient_overview.html',
-        patient=patient
+        patient=patient,
+        form=form
     )
 
 

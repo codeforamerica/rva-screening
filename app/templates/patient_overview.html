@@ -1,8 +1,11 @@
+{% from "form_field_macros.html" import render_field %}
+
 {% extends "patient.html" %}
 {% block patient_content %}
 
+
 <ul class="patientOverview">
-  <li>{{ patient.first_name }} {{ patient.last_name }} was created on {{ patient.created.strftime('%m/%d/%Y') }} by {{ patient.created_by.full_name }}</li>
+  <li class="list_row">{{ patient.first_name }} {{ patient.last_name }} was created on {{ patient.created.strftime('%m/%d/%Y') }} by {{ patient.created_by.full_name }}</li>
   {% if patient.fpl_percentage %}
   <li class="list_row">
     Estimated Federal Poverty Level <span>% <strong>{{ '%0.2f'| format(patient.fpl_percentage|float) }}</strong></span>
@@ -26,6 +29,71 @@
     Documents <span><strong>{{patient.document_images.count()}}</strong> documents uploaded</span>
   </li>
   {% endif %}
+
+  {% if patient.insurance_status %}
+  <li class="list_row">
+    Does {{ patient.first_name }} have insurance?
+    {% if patient.insurance_status == "Y" %}
+    <span>Yes</span>{% if patient.coverage_type %}, with {% if patient.coverage_type == "OTHER" %}<span>{{ patient.coverage_type_other }}</span>{% else %}<span>{{ patient.coverage_type }}</span>{% endif %}{% endif %}
+    {% else %}
+    <span>No</span>
+    {% endif %}
+  </li>
+  {% endif %}
+
+  {% if patient.insurance_status %}
+  <li class="list_row">
+    {{ _("How long have you lived in the Greater Richmond Area?")}} <span>{{ patient.years_living_in_area }}</span> years, <span>{{ patient.months_living_in_area }}</span> months.
+  </li>
+  {% endif %}
 </ul>
+
+
+<h2>{{ current_user.service.name }} Eligibility</h2>
+
+<p>Is <strong>{{ patient.first_name }} {{ patient.last_name }}</strong> eligible for care at {{ current_user.service.name }}? Fill out the form below to submit {{ patient.first_name }}'s eligibility status for the rest of the network.</p>
+
+<div class="patientEligibilityForm" id="eligibility-form">
+  <form method="post">
+    {{ form.hidden_tag() }}
+
+    {% if form.errors %}
+      <ul class="alert_list alert_error">
+        {% for field_name, field_errors in form.errors|dictsort if field_errors %}
+          {% for error in field_errors %}
+            <li>{{ form[field_name].label }}: {{ error }}</li>
+          {% endfor %}
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+    <div class="form_row">
+      <p><strong>Message about {{ patient.first_name }}'s eligibility status.</strong></p>
+      {{ form.notes() }}
+    </div>
+
+    <div class="form_row">
+<!--         {% for choice in form.eligible_yn.choices %}
+        <label class="field_radio checkbox_blue checkbox_small">
+          <input type="radio" class="text" value="1" name="{{ form.eligible_yn.label.text }}">
+          <span class="field_checkbox_content">
+            <span class="field_checkbox_content_title">{{ choice[1] }}</span>
+          </span>
+        </label>
+      {% endfor %}
+-->        {{ render_field(form.sliding_scale_id, class='field_third') }}
+    </div>
+
+    <div class="form_row">
+      <button type="submit" class="button button_green">
+        {{ _("Patient is eligible for services") }}
+      </button>
+
+      <button type="submit" class="button button_red">
+        {{ _("Patient is not eligible for services") }}
+      </button>
+    </div>
+  </form>
+</div>
 
 {% endblock %}  

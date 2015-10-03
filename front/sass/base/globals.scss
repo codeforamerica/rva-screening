@@ -16,7 +16,12 @@ h4,
 h5,
 h6 {
   font-family: $font-header;
+  font-weight: 300;
 }
+
+// h2 {
+//   font-size: 1.5em;
+// }
 
 a {
   text-decoration: none;
