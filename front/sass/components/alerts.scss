@@ -10,7 +10,8 @@
 }
 
 // typically an unordered-list
-.alert_list {
+.alert_list,
+.login_container ul {
   @include list_reset();
   margin: $alert-margin;
   padding: $alert-padding;
@@ -34,4 +35,8 @@
   &.alert_success {
     @include alert($alert-color-success, "\f058");
   }
+}
+
+.login_container ul {
+  @include alert($alert-color-error, "\f06a");
 }

@@ -25,11 +25,7 @@ form li {
 // a wrapper for a full section of the form, such as "household size"
 .form_section {
   margin-bottom: 3em;
-  box-shadow: 0 0 3px 0 rgba(0,0,0,0.6);
-  border-radius: 3px;
-  overflow: hidden;
-  // background-color: $color-lightgray;
-
+  box-shadow: 0 0 5px 0 rgba(0,0,0,0.4);
   .form_section_title {
     position: relative;
     padding: 0.4em 0;

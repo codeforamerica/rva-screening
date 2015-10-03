@@ -73,7 +73,9 @@
     </div>
 
     <div class="form_row">
-<!--         {% for choice in form.eligible_yn.choices %}
+      <div class="field_third">
+      <p>Is {{ patient.first_name }} {{ patient.last_name }} eligible for services at {{ current_user.service.name }}?</p>
+      {% for choice in form.eligible_yn.choices %}
         <label class="field_radio checkbox_blue checkbox_small">
           <input type="radio" class="text" value="1" name="{{ form.eligible_yn.label.text }}">
           <span class="field_checkbox_content">
@@ -81,17 +83,21 @@
           </span>
         </label>
       {% endfor %}
--->        {{ render_field(form.sliding_scale_id, class='field_third') }}
+      </div>
+
+      {{ render_field(form.sliding_scale_id, class='field_third') }}
     </div>
 
     <div class="form_row">
-      <button type="submit" class="button button_green">
-        {{ _("Patient is eligible for services") }}
-      </button>
+     <!--  <button id="submit" name="submit" type="submit" value="Submit" class="button button_green">
+        {{ _("Submit") }}
+      </button> -->
 
-      <button type="submit" class="button button_red">
+      {{ form.submit() }}
+
+      <!-- <button type="submit" class="button button_red">
         {{ _("Patient is not eligible for services") }}
-      </button>
+      </button> -->
     </div>
   </form>
 </div>

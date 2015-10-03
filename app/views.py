@@ -149,9 +149,10 @@ def new_patient():
         return render_template('patient_details.html', patient={}, form=form)
 
 
-@screener.route('/patient_overview/<id>')
+@screener.route('/patient_overview/<id>', methods=['POST', 'GET'])
 @login_required
 def patient_overview(id):
+
     check_patient_permission(id)
     patient = Patient.query.get(id)
 

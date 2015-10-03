@@ -80,30 +80,42 @@
     {% if referral_buttons %}
     <div class="box-referral {% if service.id in open_referral_service_ids %}box-referral-active{% endif %} {% if service.eligible %}box-referral-eligible{% endif %}" onclick="sharePatientInfo(this, {{ patient.id }}, {{ current_user.id }}, {{ service. id}})">
 
-      
       {% if service.id in open_referral_service_ids %}
         <strong>{{ patient.first_name }} has been referred to {{ service.name }}</strong><br>
-        Referral was originally sent on {{ patient.last_modified.strftime('%m/%d/%Y') }} by {{ patient.last_modified_by.full_name }}
-      {% else %}
-        {% if service.eligible %}
-          <strong>Send application to {{ service.name }} and review the next steps</strong><br>
-          {{ patient.first_name }} is <i class="fa fa-check-circle-o"></i> eligible for services here.
-        {% else %}
-          <strong>Cannot send application to {{ service.name }} at this time</strong>
-          {{ patient.first_name }} is <i class="fa fa-times-circle-o"></i> not eligible for services here.
-        {% endif %}
-      {% endif %}
-      
+        Referral was originally sent on {{ patient.last_modified.strftime('%m/%d/%Y') }} by {{ patient.last_modified_by.full_name }}<br>
       
 
-  
+      {% else %}
+        {% if service.eligible %}
+          Estimated: {{ patient.first_name }} is <i class="fa fa-check-circle-o"></i> eligible for services here.<br>
+        {% else %}
+          Estimated: {{ patient.first_name }} is <i class="fa fa-times-circle-o"></i> not eligible for services here.<br>
+        {% endif %}
+      {% endif %}
+
+
+      {% if patient.screening_results %}
+        {% for r in patient.screening_results %}
+          {% if r.service_id == service.id %}
+
+            {% if r.eligible_yn == "Y" %}
+              {{ patient.first_name }} was marked as <strong>eligible</strong> for services at {{ service.name }} on {{ r.created.strftime('%m/%d/%Y') }}<br>
+            {% else %}
+              {{ patient.first_name }} was marked as <strong>ineligible</strong> for services at {{ service.name }} on {{ r.created.strftime('%m/%d/%Y') }}<br>
+              <small>If {{ patient.first_name }}'s information has changed, please resubmit.</small><br>
+            {% endif %}
+
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+      
       <div class="box-referral-right">
         {% if service.id in open_referral_service_ids %}
-        <i class="fa fa-circle"></i>
+        <span>Response is pending</span><i class="fa fa-circle"></i>
         {% elif service.eligible %}
-        <i class="fa fa-chevron-right"></i>
+        <span>Send to {{ service.name }}</span><i class="fa fa-chevron-right"></i>
         {% else %}
-        <i class="fa fa-times"></i>
+        <span>Cannot send application to {{ service.name }}</span><i class="fa fa-times"></i>
         {% endif %}
       </div>
 

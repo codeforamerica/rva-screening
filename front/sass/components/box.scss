@@ -43,12 +43,14 @@ $box-referral-color: #3D9970;
 
 .box-referral {
   width: 100%;
-  padding-right: 60px;
   position: relative;
   background: lighten(#aaaaaa, 25);
-  padding: 10px;
+  padding: 10px 175px 10px 10px;
   margin-top: 1em;
   cursor: pointer;
+  min-height: 53px;
+  font-size: 0.9em;
+  line-height: 1.3em;
   &:hover {
     opacity: 0.8;
   }
@@ -56,25 +58,29 @@ $box-referral-color: #3D9970;
     background: #aaaaaa;
     position: absolute;
     right: 0;
-    width: 60px;
-    top: 0;
+    top: 0;    
     height: 100%;
-    text-align: center;
-    font-size: 2em;
+    font-size: 1.4em;
+    width: 175px;
+    color: white;
+    padding-right: 35px;
+    line-height: 0.8em;
     .fa {
-      color: white;
-      margin-top: 13px;
+      position: absolute;
+      top: 10px;
+      // margin-top: -10px;
+      right: 10px;
+    }
+    span {
+      font-size: 13px;
+      display: block;
+      margin: 10px 35px 10px 10px;
     }
   }
 
-  &.box-referral-eligible {
-    background: lighten($box-referral-color, 25);
-    .box-referral-right {
-      background: $box-referral-color;
-    }
-  }
+  &.box-referral-eligible,
   &.box-referral-active {
-    background: lighten(#7FDBFF, 15);
+    background: lighten(#7FDBFF, 10);
     .box-referral-right {
       background: #7FDBFF;
     }
