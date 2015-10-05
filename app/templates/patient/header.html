@@ -19,17 +19,19 @@
 
           <!-- PHONE NUMBER -->
           <div class="block_3 patientProfile-infoblock">
-            <span class="patient-descriptor">Phone</span>
+            <span class="patient-descriptor">Contact</span>
 
             <!-- this just grabs the first phone number in the loop, we'll want to grab primary contact -->
-            {% if patient.phone_numbers %}
-            {% for phone in patient.phone_numbers %}
-              {% if loop.index < 2 %}
-              <span class="patient-info">{{ phone.phone_number }}</span>
-              {% endif %}
-            {% endfor %}
+            {% if patient.phone_numbers.count() > 0 %}
+              {% for phone in patient.phone_numbers %}
+                {% if loop.index < 2 %}
+                <span class="patient-info">{{ phone.phone_number }}</span>
+                <span class="patient-descriptor"><a href="{{ url_for('screener.patient_details', id=patient.id) }}#contact">see all contact info</a></span>
+                {% endif %}
+              {% endfor %}
+            {% else %}
+              <span class="patient-descriptor"><a href="{{ url_for('screener.patient_details', id=patient.id) }}#contact">Add contact info</a></span>
             {% endif %}
-            <span class="patient-descriptor"><a href="{{ url_for('screener.patient_details', id=patient.id) }}#contact">see all contact info</a></span>
           </div>
         </div>
 
@@ -52,7 +54,7 @@
           <div class="block_6">
             {% if patient.last_modified_by %}
             <span class="patient-descriptor">Last edited by</span>
-              <span class="patient-info patient-info-small"><a href="">{{ patient.last_modified_by.full_name }}</a> on <a href="">{{ patient.last_modified.strftime('%m/%d/%Y') }}</a></span>
+              <span class="patient-info patient-info-small"><a href="{{ url_for('screener.service', service_id=patient.last_modified_by.service.id) }}">{{ patient.last_modified_by.full_name }}</a> on {{ patient.last_modified.strftime('%m/%d/%Y') }}</span>
             {% endif %}
           </div>
         </div>
