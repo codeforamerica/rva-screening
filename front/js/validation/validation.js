@@ -74,8 +74,8 @@ var DEFAULT_VALIDATORS = {
     if(val==='') {
       return validationResult(true, val);
     }
-    // http://stackoverflow.com/a/18376010
-    var pattern = /^\(?[0-9]{3}(\-|\)) ?[0-9]{3}-[0-9]{4}$/;
+    // modified from http://stackoverflow.com/a/7288047
+    var pattern = /^[(]{0,1}[0-9]{3}[)]{0,1}[-\s]{0,1}[0-9]{3}[-\s]{0,1}[0-9]{4}$/;
     if (!val.match(pattern)) {
       return validationResult(false, val, 'Not a valid phone number!');
     } else {
