@@ -4,7 +4,6 @@
   @include clearfix();
   margin:auto;
   padding: 0 1em;
-  overflow-x: hidden; // for testing
   @media (min-width: $break) {
     width: $break - 2em;
   }
@@ -95,6 +94,15 @@ $login-background-color: rgba(255,255,255,0.6);
   }
   &.block_padding {
     padding: 1px 1.5em;
+  }
+  &.block_pad_left {
+    padding-left: 10px;
+  }
+  &.block_pad_right {
+    padding-right: 10px;
+  }
+  &.block_margin {
+    margin: 0 1.5em;
   }
 }
 

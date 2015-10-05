@@ -1,25 +1,37 @@
 {% from "form_field_macros.html" import render_field %}
 
-{{ render_field(form.last_healthcare) }}
-{{ render_field(form.insurance_status) }}
-
 <div class="form_row">
-{{ render_field(form.coverage_type) }}
-{{ render_field(form.coverage_type_other) }}
+  {{ render_field(form.insurance_status, class="field_third field_pad_right") }}  
+  {{ render_field(form.last_healthcare, class="field_twothird") }}
+  {{ render_field(form.coverage_type, class="field_third field_pad_right") }}
+  {{ render_field(form.coverage_type_other, class="field_third") }}
 </div>
 
-{{ render_field(form.has_prescription_coverage_yn, ['an']) }}
-{{ render_field(form.has_vcc, ['an']) }}
-{{ render_field(form.eligible_insurance_types, ['an']) }}
 
-{{ render_field(form.applied_for_vets_benefits_yn, ['an']) }}
-{{ render_field(form.eligible_for_vets_benefits_yn, ['an']) }}
+<div class="form_row">
+  {{ render_field(form.has_prescription_coverage_yn, ['an'], class="field_third field_pad_right") }}
+  {{ render_field(form.has_vcc, ['an'], class="field_third field_pad_right") }}
+  {{ render_field(form.eligible_insurance_types, ['an'], class="field_third") }}
+</div>
 
-{{ render_field(form.applied_for_medicaid_yn, ['an']) }}
-{{ render_field(form.medicaid_date_effective, ['an']) }}
-{{ render_field(form.applied_for_ssd_yn, ['an']) }}
-{{ render_field(form.ssd_date_effective, ['an']) }}
+<div class="form_row">
+  {{ render_field(form.eligible_for_vets_benefits_yn, ['an'], class="field_third field_pad_right") }}
+  {{ render_field(form.applied_for_vets_benefits_yn, ['an'], class="field_third") }}
+</div>
 
-{{ render_field(form.care_due_to_accident_yn, ['an']) }}
-{{ render_field(form.accident_work_related_yn, ['an']) }}
+<div class="form_row row">
+  <div class="block_4 block_pad_right">
+    {{ render_field(form.applied_for_medicaid_yn, ['an']) }}
+    {{ render_field(form.medicaid_date_effective, ['an'], type="date") }}  
+  </div>
 
+  <div class="block_4 block_pad_right">
+    {{ render_field(form.applied_for_ssd_yn, ['an']) }}
+    {{ render_field(form.ssd_date_effective, ['an'], type="date") }}  
+  </div>
+
+  <div class="block_4">
+    {{ render_field(form.care_due_to_accident_yn, ['an']) }}
+    {{ render_field(form.accident_work_related_yn, ['an']) }}
+  </div>
+</div>

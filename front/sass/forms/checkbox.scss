@@ -77,11 +77,11 @@
   }
 
   input[type="radio"] ~ .field_checkbox_content {
-    .field_checkbox_content_title {
-      &:before {
-        content:"\f10c";
-      }
-    }
+    // .field_checkbox_content_title {
+    //   &:before {
+    //     content:"\f10c";
+    //   }
+    // }
   }
 
   input[type="checkbox"]:checked ~ .field_checkbox_content {
@@ -99,9 +99,9 @@
 
   input[type="radio"]:checked ~ .field_checkbox_content {
     .field_checkbox_content_title {
-      &:before {
-        content:"\f111";
-      }
+      // &:before {
+      //   content:"\f111";
+      // }
     }
   }
 
@@ -117,10 +117,14 @@
 }
 
 // working checkbox examples
+.field_radio {
+  .field_checkbox_content {
+    // border-radius: 20px;
+  }
+}
 .field_checkbox,
 .field_radio {
   @include checkbox();
-  // button with extra content
   &.checkbox_extra {
     .field_checkbox_content {
       width: $checkbox-content-width;

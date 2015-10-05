@@ -2,9 +2,9 @@
   <div class="box {% if service.eligible %}box_eligibile{% else %}box_noteligibile{% endif %}"> 
     <a href="{{ url_for('screener.service', service_id=service.id) }}"><div class="box_title">
       {% if service.eligible %}
-        {{ _("You are likely eligible for") }} <strong>{{ service.name }}</strong>.
+        {{ _("Likely eligible for") }} <strong>{{ service.name }}</strong>.
       {% else %}
-        {{ _("You are likely not eligible for") }} <strong>{{ service.name }}</strong>.
+        {{ _("Likely not eligible for") }} <strong>{{ service.name }}</strong>.
       {% endif %}
       <span class="box_title_meta float_right">{{ _("View service") }} <i class="fa fa-chevron-right"></i></span>
     </div></a>
@@ -46,7 +46,7 @@
             
         {% if service.eligible and service.sliding_scale %}
           {% if service.sliding_scale != 'All' %}
-            <p>{{ _("You're likely to fall in the <strong>%(scale)s</strong> section of the sliding scale because your income is <strong>%(range)s</strong> of the Federal Poverty Level.", scale=service.sliding_scale, range=service.sliding_scale_range) }}</p>
+            <p>{{ _("Likely to fall in the <strong>%(scale)s</strong> section of the sliding scale because income is <strong>%(range)s</strong> of the Federal Poverty Level.", scale=service.sliding_scale, range=service.sliding_scale_range) }}</p>
           {% else %}
             <p>{{ _("Service fees:") }}</p>
           {% endif %}
@@ -76,23 +76,45 @@
           {{ _("Access Now provides service at no cost to the patient.") }}
         {% endif %}
       </div>
-      {% if referral_buttons and service.id in allowed_referral_service_ids %}
-        <button class="{% if service.id in open_referral_service_ids %} button_shared {% endif %} button button_right button_small button_blue" 
-          onclick="sharePatientInfo(
-            this,
-            {{ patient.id }},
-            {{ current_user.id }},
-            {{ service. id}}
-          )"
-        >
-          {% if service.id in open_referral_service_ids %}
-            {{ _("Referral sent!") }} <i class="fa fa-check"></i>
-          {% else %}
-            {{ _("Send Referral") }} <i class="fa fa-share"></i>
-          {% endif %}
-           
-        </button>
-      {% endif %}
+
     </div><!-- .prescreen-service-info -->
+    {% if referral_buttons %}
+    <div class="box-referral {% if service.id in open_referral_service_ids %}box-referral-active{% endif %} {% if service.eligible %}box-referral-eligible{% endif %}" onclick="sharePatientInfo(this, {{ patient.id }}, {{ current_user.id }}, {{ service. id}})">
+
+      {% if patient.referrals %}
+        {% for r in patient.referrals %}
+          {% if r.to_service_id == service.id %}
+            {{ patient.first_name }} was referred to {{ service.name }} on {{ r.created.strftime('%m/%d/%Y') }} by {{ r.created_by.full_name }} at {{ r.created_by.service.name }}<br>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+
+      {% if patient.screening_results %}
+        {% for r in patient.screening_results %}
+          {% if r.service_id == service.id %}
+
+            {% if r.eligible_yn == "Y" %}
+              {{ patient.first_name }} was marked as <strong>eligible</strong> for services at {{ service.name }} on {{ r.created.strftime('%m/%d/%Y') }}<br>
+            {% else %}
+              {{ patient.first_name }} was marked as <strong>ineligible</strong> for services at {{ service.name }} on {{ r.created.strftime('%m/%d/%Y') }}<br>
+            {% endif %}
+
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+
+      
+      {% if service.id in open_referral_service_ids or service.id in allowed_referral_service_ids %}
+        <div class="box-referral-right">
+          {% if service.id in open_referral_service_ids %}
+          <span>Response is pending</span><i class="fa fa-circle"></i>
+          {% elif service.id in allowed_referral_service_ids %}
+          <span>Refer to {{ service.name }}</span><i class="fa fa-chevron-right"></i>
+          {% endif %}
+        </div>
+      {% endif %}
+
+    </div>
+    {% endif %}
   </div><!-- .prescreen-service -->
 {% endfor %}

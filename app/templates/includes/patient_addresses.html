@@ -9,21 +9,22 @@
     <div class="multiform_content">
       <div class="multiform_content_fields">
         <div class="form_row">
-          {{ render_field(entry.address1) }}
-          {{ render_field(entry.address2) }}
+          {{ render_field(entry.address1, class="field_half") }}
+          {{ render_field(entry.address2, class="field_half") }}
         </div>
         <div class="form_row">
-          {{ render_field(entry.city) }}
-          {{ render_field(entry.state) }}
-          {{ render_field(entry.zip_code) }}
+          {{ render_field(entry.city, class="field_third") }}
+          {{ render_field(entry.state, class="field_sixth field_pad") }}
+          {{ render_field(entry.zip_code, class="field_quarter") }}
         </div>
         {{ render_field(entry.address_description) }}
       </div>
 
-      <div class="multiform_content_readonly">
-        <span class="multiform_item">{{ entry.address1.data }}</span>, <span class="multiform_item">{{ entry.address2.data }}</span><br>
-        <span class="multiform_item">{{ entry.city.data }}</span>, <span class="multiform_item">{{ entry.state.data }}</span> <span class="multiform_item">{{ entry.zip_code.data }}</span><br>
-        <span class="multiform_item multiform_item_description">{{ entry.address_description.data }}</span>
+      <div class="multiform_content_readonly row">
+        <span class="multiform_item block_3">{{ entry.address1.data }} {{ entry.address2.data }}</span>
+        <span class="multiform_item block_3">{{ entry.city.data }}, {{ entry.state.data }}</span>
+        <span class="multiform_item block_3">{{ entry.zip_code.data }}</span>
+        <span class="multiform_item block_3 multiform_item_description">{{ entry.address_description.data }}</span>
       </div>
     </div>
     
@@ -33,24 +34,32 @@
 
   {% with %}
     {% set entry = form.addresses.append_entry() %}
-  <div class="form_multiform form_multiform_new" id="multiform_address">
+  <div class="form_multiform form_multiform_copy" id="multiform_address">
     <div class="multiform_content">
       <div class="multiform_content_fields">
         <div class="form_row">
-          {{ render_field(entry.address1) }}
-          {{ render_field(entry.address2) }}
+          {{ render_field(entry.address1, class="field_half") }}
+          {{ render_field(entry.address2, class="field_half") }}
+          
         </div>
         <div class="form_row">
-          {{ render_field(entry.city) }}
-          {{ render_field(entry.state) }}
-          {{ render_field(entry.zip_code) }}
+          {{ render_field(entry.city, class="field_third") }}
+          {{ render_field(entry.state, class="field_sixth field_pad") }}
+          {{ render_field(entry.zip_code, class="field_sixth field_pad_right") }}
+          {{ render_field(entry.address_description, class="field_third") }}
         </div>
-        {{ render_field(entry.address_description) }}
       </div>
     </div>    
   </div>
   {% endwith %} 
-  <button data-clone-id="multiform_address" class="button button_red button_small multiform_control_add"><i class="fa fa-plus"></i> Add a new address</button>
+
+  <button data-clone-id="multiform_address" class="form_multiform form_multiform_add multiform_control_add">
+    <div class="multiform_content">
+      <div class="multiform_content_readonly">
+        <span class="multiform_item"><strong>Add a new address</strong> <i class="fa fa-plus"></i></span><br>
+      </div>
+    </div>
+  </button>
 
 </div>
 

@@ -9,25 +9,73 @@
 </style>
 
 <div class="row style-guide-filter-list">
-  <div class="block_3">      
-    <button data-list="0" class="filter filter_statistic filter_active">
-      <span class="statistic_number">5</span>
-      <span class="statistic_text"><strong>Tum laborum</strong></span>
+  <div class="block_4 filter_actions">
+
+    <button data-list="0" class="filter filter_active">
+      <i class="fa fa-home"></i> All patients at Daily Planet <span class="filter-count">(240)</span>
+    </button> 
+
+    <button data-list="1" class="filter filter_sub">
+      <i class="fa fa-send"></i> Pending outgoing referrals <span class="filter-count">(13)</span>
     </button>
 
-    <button data-list="1" class="filter filter_statistic">
-      <span class="statistic_number">4</span>
-      <span class="statistic_text">accusamus quos possimus</span>
+    <button data-list="0" class="filter filter_sub">
+      <i class="fa fa-arrow-right"></i> Pending incoming referrals <span class="filter-count">(5)</span>
     </button>
+
+    <button data-list="0" class="filter filter_sub">
+      <i class="fa fa-arrow-left"></i> Patients referred from Daily Planet <span class="filter-count">(32)</span>
+    </button>
+
+    <button data-list="0" class="filter filter_sub">
+      <i class="fa fa-arrow-right"></i> Patients referred to Daily Planet <span class="filter-count">(45)</span>
+    </button>
+
+    <button data-list="0" class="filter filter_sub">
+      <i class="fa fa-clock-o"></i> Outdated applications <span class="filter-count">(18)</span>
+    </button>
+
+    <button data-list="0" class="filter filter_sub">
+      <i class="fa fa-question-circle"></i> Not responding <span class="filter-count">(22)</span>
+    </button>
+
+    <button data-list="1" class="filter">
+      <i class="fa fa-user"></i> Your patients <span class="filter-count">(23)</span>
+    </button>
+
+    <button data-list="1" class="filter filter_sub">
+      <i class="fa fa-pencil"></i> Edited recently <span class="filter-count">(3)</span>
+    </button>
+
+    <button data-list="1" class="filter filter_sub">
+      <i class="fa fa-send-o"></i> Referred recently <span class="filter-count">(4)</span>
+    </button>
+
+    <button data-list="1" class="filter filter_sub">
+      <i class="fa fa-star"></i> Starred patients <span class="filter-count">(23)</span>
+    </button> 
+
+    <button data-list="1" class="filter">
+      <i class="fa fa-users"></i> All patients in network <span class="filter-count">(1,320)</span>
+    </button>
+
   </div>
 
-  <div class="block_9 block_padding">
+  <div class="block_8 block_padding">
     <ul id="list-0" class="list list_table list_filter list_filter_active">
-      <li class="list_row">Lorem ipsum dolor sit amet</li>
-      <li class="list_row">consectetur adipisicing elit</li>
-      <li class="list_row">Ea amet iusto ab nisi numquam</li>
-      <li class="list_row">Tum laborum fugit labore dolorem</li>
-      <li class="list_row">quam nemo accusamus quos possimus</li>
+      <li class="list_row"><div class="block_2">Today</div><div class="block_10"><strong>Patient name</strong> Uassumenda veniam, laborum magni rem voluptates, adipisci ea excepturi possimus obcaecati! Aspernatur nulla, animi.</div></li>
+      <li class="list_row"><div class="block_2">1 dah ago</div><div class="block_10"><strong>Patient name</strong> Uanimi nulla nihil autem commodi rerum dicta. Ipsum dicta veniam, voluptate nihil quod dolore doloremque labore!</div></li>
+      <li class="list_row"><div class="block_2">2 days ago</div><div class="block_10"><strong>Patient name</strong> Uvero culpa ex, quae neque qui voluptatum consequuntur similique ea sint iure quos reprehenderit.</div></li>
+      <li class="list_row"><div class="block_2">7 days ago</div><div class="block_10"><strong>Patient name</strong> Uea incidunt officia iusto, corporis harum! Eius eos, non maxime, laborum vel ut.</div></li>
+      <li class="list_row"><div class="block_2">10 days ago</div><div class="block_10"><strong>Patient name</strong> Uunde deleniti dolorem eos, beatae fugit quisquam ullam harum facilis sunt, voluptatem aut fuga!</div></li>
+    </ul>
+
+    <ul id="list-1" class="list list_table list_filter">
+      <li class="list_row"><div class="block_2">1 day ago</div><div class="block_10"><strong>Bumby Bottlesnap</strong> Uassumenda veniam, laborum magni rem voluptates, adipisci ea excepturi possimus obcaecati! Aspernatur nulla, animi.</div></li>
+      <li class="list_row"><div class="block_2">1 day ago</div><div class="block_10"><strong>Artin</strong> Uanimi nulla nihil autem commodi rerum dicta. Ipsum dicta veniam, voluptate nihil quod dolore doloremque labore!</div></li>
+      <li class="list_row"><div class="block_2">2 days ago</div><div class="block_10"><strong>Doctor X</strong> Uvero culpa ex, quae neque qui voluptatum consequuntur similique ea sint iure quos reprehenderit.</div></li>
+      <li class="list_row"><div class="block_2">3 days ago</div><div class="block_10"><strong>Malazar</strong> Uea incidunt officia iusto, corporis harum! Eius eos, non maxime, laborum vel ut.</div></li>
+      <li class="list_row"><div class="block_2">3 days ago</div><div class="block_10"><strong>Chip Skullcrusher</strong> Uunde deleniti dolorem eos, beatae fugit quisquam ullam harum facilis sunt, voluptatem aut fuga!</div></li>
     </ul>
 
     <ul id="list-1" class="list list_table list_filter">
@@ -41,32 +89,29 @@
 
 <pre class="style-guide-code">
 &lt;div class="row"&gt;
-&lt;div class="block_3"&gt;      
-  &lt;button data-list="0" class="filter filter_statistic filter_active"&gt;
-    &lt;span class="statistic_number"&gt;5&lt;/span&gt;
-    &lt;span class="statistic_text"&gt;&lt;strong&gt;Tum laborum&lt;/strong&gt;&lt;/span&gt;
-  &lt;/button&gt;
+  &lt;div class="block_4 filter_actions"&gt;
+    &lt;button data-list="0" class="filter filter_active"&gt;
+      &lt;i class="fa fa-home"&gt;&lt;/i&gt; All patients at Daily Planet &lt;span class="filter-count"&gt;(240)&lt;/span&gt;
+    &lt;/button&gt; 
+    &lt;button data-list="1" class="filter filter_sub"&gt;
+      &lt;i class="fa fa-send"&gt;&lt;/i&gt; Pending outgoing referrals &lt;span class="filter-count"&gt;(13)&lt;/span&gt;
+    &lt;/button&gt;
+  &lt;/div&gt;
 
-  &lt;button data-list="1" class="filter filter_statistic"&gt;
-    &lt;span class="statistic_number"&gt;4&lt;/span&gt;
-    &lt;span class="statistic_text"&gt;accusamus quos possimus&lt;/span&gt;
-  &lt;/button&gt;
-&lt;/div&gt;
+  &lt;div class="block_9 block_padding"&gt;
+    &lt;ul id="list-0" class="list list_table list_filter list_filter_active"&gt;
+      &lt;li class="list_row"&gt;Lorem ipsum dolor sit amet&lt;/li&gt;
+      &lt;li class="list_row"&gt;consectetur adipisicing elit&lt;/li&gt;
+      &lt;li class="list_row"&gt;Ea amet iusto ab nisi numquam&lt;/li&gt;
+      &lt;li class="list_row"&gt;Tum laborum fugit labore dolorem&lt;/li&gt;
+      &lt;li class="list_row"&gt;quam nemo accusamus quos possimus&lt;/li&gt;
+    &lt;/ul&gt;
 
-&lt;div class="block_9 block_padding"&gt;
-  &lt;ul id="list-0" class="list list_table list_filter list_filter_active"&gt;
-    &lt;li class="list_row"&gt;Lorem ipsum dolor sit amet&lt;/li&gt;
-    &lt;li class="list_row"&gt;consectetur adipisicing elit&lt;/li&gt;
-    &lt;li class="list_row"&gt;Ea amet iusto ab nisi numquam&lt;/li&gt;
-    &lt;li class="list_row"&gt;Tum laborum fugit labore dolorem&lt;/li&gt;
-    &lt;li class="list_row"&gt;quam nemo accusamus quos possimus&lt;/li&gt;
-  &lt;/ul&gt;
-
-  &lt;ul id="list-1" class="list list_table list_filter"&gt;
-    &lt;li class="list_row"&gt;Ea amet iusto ab nisi numquam&lt;/li&gt;
-    &lt;li class="list_row"&gt;Tum laborum fugit labore dolorem&lt;/li&gt;
-    &lt;li class="list_row"&gt;Lorem ipsum dolor sit amet&lt;/li&gt;
-    &lt;li class="list_row"&gt;quam nemo accusamus quos possimus&lt;/li&gt;
-  &lt;/ul&gt;
-&lt;/div&gt;
+    &lt;ul id="list-1" class="list list_table list_filter"&gt;
+      &lt;li class="list_row"&gt;Ea amet iusto ab nisi numquam&lt;/li&gt;
+      &lt;li class="list_row"&gt;Tum laborum fugit labore dolorem&lt;/li&gt;
+      &lt;li class="list_row"&gt;Lorem ipsum dolor sit amet&lt;/li&gt;
+      &lt;li class="list_row"&gt;quam nemo accusamus quos possimus&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/div&gt;
 &lt;/div&gt;</pre>

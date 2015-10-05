@@ -28,8 +28,14 @@ var DEFAULT_VALIDATORS = {
     // attempts default javascript date parsing
     var val = $elem.val();
     var parsed = new Date(val);
+    var today = new Date();
+    var todayNice = today.getMonth() + '/' + today.getDate() + '/' + today.getFullYear();
     if( isNaN(parsed) ){
-      return validationResult(false, val, 'Incorrect date');
+      return validationResult(false, val, 'This is not a valid date.');
+    } else if ( parsed > today ) {
+      return validationResult(false, val, 'Please enter a date before ' + todayNice);
+    } else if ( parsed < new Date(1900, 1, 1) ) {
+      return validationResult(false, val, 'Please enter date after 1/1/1900');
     } else {
       return validationResult(true, parsed);
     }

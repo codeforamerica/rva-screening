@@ -45,6 +45,31 @@ var AppController = function ( options ) {
       multiform.add($(this).attr('data-clone-id'));
       return;
     });
+    $('.multiform_control_check').on('click', function(e) {
+      e.preventDefault();
+      multiform.check($(this));
+      return;
+    });
+
+    // sticky sidebar for patient nav
+    if ($('#stickyNav').length) {
+      var $nav = $('#stickyNav');
+      var navFromTop = $nav.offset().top
+      $(window).scroll(function(){
+        var fromTop = $(window).scrollTop();
+        if($('.patientStickyNav').height()) fromTop += $('#nav').height();
+        if (fromTop > navFromTop) {
+          if (!$nav.hasClass('sticky')) {
+            $nav.css('width', $nav.width());
+            $nav.addClass('sticky');
+          }
+        } else {
+          $nav.css('width', 'auto');
+          $nav.removeClass('sticky');
+        }
+      });  
+    }
+    
   }
 
   // If we're on the print page, hide everything that shouldn't print
@@ -56,6 +81,7 @@ var AppController = function ( options ) {
 
 var multiform = {
   add: function(id) {
+    console.log(id);
     var clone = $('#'+id).clone();
     var elem_id = clone.find(":input")[0].id;
     var elem_num = parseInt(elem_id.replace(/.*-(\d{1,4})-.*/m, '$1')) + 1;
@@ -64,6 +90,8 @@ var multiform = {
       var new_elem_id = $(this).attr('id').replace('-' + (elem_num - 1) + '-', '-' + (elem_num) + '-');
       $(this).attr('name', new_elem_id).attr('id', new_elem_id).val('').removeAttr("checked");
     });
+    clone.removeClass('form_multiform_copy');
+    clone.addClass('form_multiform_new');
     $('#'+id).after(clone);
     // console.log(id, clone);
   },
@@ -81,12 +109,16 @@ var multiform = {
   },
   edit: function($button) {
     var entry = $button.parent().parent();
-    var entryForm = entry.find('.multiform_content_fields');
-    var entryRead = entry.find('.multiform_content_readonly');
-
     if (entry.hasClass('form_multiform_read')) {
       entry.removeClass('form_multiform_read');
       entry.addClass('form_multiform_edit');
+    }
+  },
+  check: function($button) {
+    var entry = $button.parent().parent();
+    if (entry.hasClass('form_multiform_edit')) {
+      entry.removeClass('form_multiform_edit');
+      entry.addClass('form_multiform_read');
     }
   }
 };
@@ -109,13 +141,13 @@ function convertForPrint() {
 **  the text within the button.
 **
 */
-function sharePatientInfo( btn, patient_id, app_user_id, service_id ) {
+function sharePatientInfo( elem, patient_id, app_user_id, service_id ) {
   $.post('/add_referral', {
     patient_id: patient_id,
     app_user_id: app_user_id,
     service_id: service_id
   }).done(function() {
-    $(btn).addClass('shared');
-    $(btn).text('Referral sent!');
+    $(elem).addClass('shared');
+    $(elem).text('Referral sent!');
   });
 }

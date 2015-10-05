@@ -1,0 +1,30 @@
+<nav class="patientNav">
+  <ul class="patientNav_list" id="stickyNav">
+    
+    <li class="patientNav_li{% if request.path == url_for('screener.patient_overview', id=patient.id) %} patientNav_li_active{% endif %}"><a href="{{ url_for('screener.patient_overview', id=patient.id) }}"><i class="fa fa-user"></i>Eligibility Overview</a></li>
+    
+    <li class="patientNav_li{% if request.path == url_for('screener.patient_details', id=patient.id) %} patientNav_li_active{% endif %}"><a href="{{ url_for('screener.patient_details', id=patient.id) }}"><i class="fa fa-pencil"></i>Patient Details</a>
+    </li>
+
+    {% if request.path == url_for('screener.patient_details', id=patient.id) %}
+    <li class="patientNav_subli"><a href="#general">General Info</a></li>
+    <li class="patientNav_subli"><a href="#contact">Contact</a></li>
+    <li class="patientNav_subli"><a href="#emergency-contact">Emergency Contacts</a></li>
+    <li class="patientNav_subli"><a href="#household">Household</a></li>
+    <li class="patientNav_subli"><a href="#income">Income</a></li>
+    <li class="patientNav_subli"><a href="#documents">Documents</a></li>
+    <li class="patientNav_subli"><a href="#demographics">Demographics</a></li>
+    <li class="patientNav_subli"><a href="#employment">Employment</a></li>
+    <li class="patientNav_subli"><a href="#insurance">Insurance</a></li>
+    {% endif %}
+    
+    <li class="patientNav_li{% if request.path == url_for('screener.patient_share', patient_id=patient.id) %} patientNav_li_active{% endif %}"><a href="{{ url_for('screener.patient_share', patient_id=patient.id) }}"><i class="fa fa-paper-plane"></i>Review & Send</a></li>
+
+    <li class="patientNav_li{% if request.path == url_for('screener.patient_screening_history', patient_id=patient.id) %} patientNav_li_active{% endif %}"><a href="{{ url_for('screener.patient_screening_history', patient_id=patient.id) }}"><i class="fa fa-clock-o"></i>Referral History</a></li>
+
+    <li class="patientNav_li{% if request.path == url_for('screener.patient_history', patient_id=patient.id) %} patientNav_li_active{% endif %}"><a href="{{ url_for('screener.patient_history', patient_id=patient.id) }}"><i class="fa fa-pencil-square"></i></i>Edit History</a></li>
+    
+    <!-- <li class="patientNav_li"><a href="#"><i class="fa fa-bars"></i>More</a></li> -->
+  </ul>
+  <div class="wedge">&nbsp;</div>
+</nav>

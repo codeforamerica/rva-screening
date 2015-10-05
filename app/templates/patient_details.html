@@ -1,4 +1,4 @@
-{% extends "patient_template.html" %}
+{% extends "patient.html" %}
 
 {% block patient_sidebar %}
 <h4>Service-specific questions</h4>
@@ -53,97 +53,98 @@
   {% endif %}
 
   <!-- id info -->
-  {% include "includes/patient_id.html" %}
+  <div id="general" class="">
+    {% include "includes/patient_id.html" %}
+  </div>
 
   <!--contact info-->
-  <div class="form_section">
+  <div id="contact" class="form_section">
     <div class="form_section_title form_section_contact">{{ _("Phone, Email, Address") }}</div>
-    <div class="expander-content">
+    <div class="form_content">
       {% include "includes/patient_contact_info.html" %}
     </div>
   </div>
 
   <!--contact info-->
-  <div class="form_section">
+  <div id="emergency-contact" class="form_section">
     <div class="form_section_title form_section_emergency">{{ _("Emergency Contacts") }}</div>
-    <div class="expander-content">
+    <div class="form_content">
       {% include "includes/patient_emergency_contact.html" %}
     </div>
   </div>
 
   <!--household-->
-  <div class="form_section">
+  <div id="household" class="form_section">
     <div class="form_section_title form_section_household">
       {{ _("Household Size") }}
       {% if patient.household_members %}: 
         {{ patient.household_members.count() + 1 }}
       {% endif %}
     </div>
-    <div class="expander-content">
+    <div class="form_content">
       {% include "includes/patient_household_size.html" %}
     </div>
   </div>
 
   <!--income-->
-  <div class="form_section">
+  <div id="income" class="form_section">
     <div class="form_section_title form_section_income">
       {{ _("Household Income") }}
       {% if patient.total_annual_income %}:
         ${{(patient.total_annual_income / 12) | int}}/{{ _("month") }}
       {% endif %}
     </div>
-    <div class="expander-content">
+    <div class="form_content">
       {% include "includes/patient_income_sources.html" %}
     </div>
   </div>
 
   <!--documents-->
-  <div class="form_section">
+  <div id="documents" class="form_section">
     <div class="form_section_title form_section_documents">{{ _("Document Uploads") }}
       {% if patient.document_images %}
         ({{patient.document_images.count()}})
       {% endif %}
     </div>
-    <div class="expander-content">
+    <div class="form_content">
       {% include "includes/patient_docs.html" %}
     </div>
   </div>
 
   <!--demographics-->
-  <div class="form_section">
+  <div id="demographics" class="form_section">
     <div class="form_section_title form_section_demographics">{{ _("Demographic Questions") }}</div>
-    <div class="expander-content">
+    <div class="form_content">
       {% include "includes/patient_demographic_info.html" %}
     </div>
   </div>
 
   <!--employment-->
-  <div class="form_section">
+  <div id="employment" class="form_section">
     <div class="form_section_title form_section_employment">{{ _("Employment Information") }}</div>
-    <div class="expander-content">
+    <div class="form_content">
       {% include "includes/patient_employment_info.html" %}
     </div>
   </div>
 
   <!--insurance-->
-  <div class="form_section">
+  <div id="insurance" class="form_section">
     <div class="form_section_title form_section_insurance">{{ _("Insurance Information") }}</div>
-    <div class="expander-content">
+    <div class="form_content">
       {% include "includes/patient_insurance_info.html" %}
     </div>
   </div>
 
-  <div class="patient_details_actions">
-    <div class="container">
-      <button type="submit" class="button button_green float_right" style="margin-right: 1em;">
-        <i class="fa fa-check"></i>
-        {% if patient %}
-          {{ _("Save patient info") }}
-        {% else %}
-          {{ _("Save new patient info") }}
-        {% endif %}
-      </button>
-    </div>
+  <div class="{% if request.path != "/new_patient" %}patientStickyNav{% endif %}">
+    <h3 style="float: left; margin: 0; margin-top: 7px;">{{ patient.first_name or "" }} {{ patient.last_name or "" }}</h3>
+    <button type="submit" class="button button_green button_right">
+      <i class="fa fa-check"></i>
+      {% if patient %}
+        {{ _("Save patient info") }}
+      {% else %}
+        {{ _("Save new patient info") }}
+      {% endif %}
+    </button>
   </div>
 
 </form>
@@ -241,6 +242,16 @@ config.validations = [
         failure: reports.failure
       }
     ]
+  },
+  {
+    selector: fName('medicaid_date_effective') + ', ' + fName('ssd_date_effective'),
+    validators: [
+      {
+        type: "date",
+        success: reports.success,
+        failure: reports.failure
+      }
+    ]
   }
 ];
 
@@ -254,6 +265,8 @@ var EMPLOYED = [ "FT", "PT", "SEA" ];
 
 config.dependencies = [
   { target: "marital_status", child: "spouse_employment_status", 
+    type: "equals", comparator: "MAR" },
+    { target: "marital_status", child: "spouse_years_at_current_employer", 
     type: "equals", comparator: "MAR" },
   { target: "spouse_employment_status", child: "spouse_years_at_current_employer ", 
     type: "in", comparator: EMPLOYED },
@@ -279,7 +292,7 @@ config.dependencies = [
     type: "equals", comparator: "Y" },
   { target: "applied_for_ssd_yn", child: "ssd_date_effective",
     type: "equals", comparator: "Y" },
-  { target: "are_due_to_accident", child: "accident_work_related_yn",
+  { target: "care_due_to_accident_yn", child: "accident_work_related_yn",
     type: "equals", comparator: "Y" },
 
   { target: "race", child: "race_other",
@@ -289,7 +302,7 @@ config.dependencies = [
   { target: "housing_status", child: "housing_status_other",
     type: "equals", comparator: "OTH" },
   { target: "coverage_type", child: "coverage_type_other",
-    type: "equals", comparator: "OTH" },
+    type: "equals", comparator: "OTHER" },
 
   { target: "languages", child: "has_interpreter_yn",
     type: "does_not_contain", comparator: "EN" },

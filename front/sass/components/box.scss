@@ -1,58 +1,88 @@
 .box {
-  border: $box-border;
-  border-left-width: $box-border-left-width;
-  margin-top: $box-margin-top;
-  padding-bottom: $box-padding-bottom;
+  background: #f6f6f6;
   position: relative;
-  &:before {
-    text-align: center;
-    width: $box-border-left-width;
-    position: absolute;
-    top: $box-border-left-width / 4;
-    left: -$box-border-left-width;
-    color: $color-white;
-    @extend %icon;
-  }
   &.box_eligibile {
-    border-color: $box-border-color-eligible;
-    &:before {
-      content:"\f00c";
-    }
+    // border-left: 5px solid #3D9970;
   }
   &.box_noteligibile {
-    &:before {
-      content:"\f00d";
-    } 
+    
+  }
+  &.box-referral-sent {
+    
   }
 
   .box_title {
-    padding: $box-title-padding;
+    padding: 1.5em 0.5em 0.5em;
     color: $box-title-text-color;
-    background: $box-title-background-color;
-    border-bottom: $box-title-border-bottom;
-    &:hover {
-      background: $box-title-background-hover;
-    }
+    font-size: 1.4em;
+    font-weight: 300;
+    &:hover {}
     .box_title_meta {
       float: right;
       font-size: $box-title-link-size;
+      font-size: 0.7em;
     }
   }
 
   .box_content {
-    padding: $box-content-padding;
-    color: $color-darkgray;
+    padding: 1em;
     font-size: $box-content-font-size;
     line-height: $box-content-line-height;
   }
 
   .box_item {
+    color: #999;
     padding: $box-service-padding;
-    &:nth-child(2n-1) {
-      background: $color-lightgray;
-    }
+    border-bottom: 1px solid #c0c0c0;
   }
   .box_item_price {
     float: right;
+  }
+}
+$box-referral-color: #3D9970;
+
+.box-referral {
+  width: 100%;
+  position: relative;
+  background: lighten(#aaaaaa, 25);
+  padding: 10px 175px 10px 10px;
+  margin-top: 1em;
+  cursor: pointer;
+  min-height: 53px;
+  font-size: 0.9em;
+  line-height: 1.3em;
+  &:hover {
+    opacity: 0.8;
+  }
+  .box-referral-right {
+    background: #aaaaaa;
+    position: absolute;
+    right: 0;
+    top: 0;    
+    height: 100%;
+    font-size: 1.4em;
+    width: 175px;
+    color: white;
+    padding-right: 35px;
+    line-height: 0.8em;
+    .fa {
+      position: absolute;
+      top: 10px;
+      // margin-top: -10px;
+      right: 10px;
+    }
+    span {
+      font-size: 13px;
+      display: block;
+      margin: 10px 35px 10px 10px;
+    }
+  }
+
+  &.box-referral-eligible,
+  &.box-referral-active {
+    background: lighten(#7FDBFF, 10);
+    .box-referral-right {
+      background: #7FDBFF;
+    }
   }
 }

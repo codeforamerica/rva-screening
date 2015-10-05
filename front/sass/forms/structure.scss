@@ -24,52 +24,38 @@ form li {
 
 // a wrapper for a full section of the form, such as "household size"
 .form_section {
-  margin-top: 3em;
-  background-color: $color-lightgray;
-
+  margin-bottom: 3em;
+  box-shadow: 0 0 5px 0 rgba(0,0,0,0.4);
   .form_section_title {
     position: relative;
-    background: $color-black;
-    color: $color-white;
-    padding: 0.4em 0.6em;
-    font-size: 1.3em;
-    font-weight: 600;
+    padding: 0.4em 0;
+    font-size: 2em;
+    font-weight: 300;
     font-family: $font-header;
+    background: $ui-new;
+    color: white;
+    padding: 10px;
+  }
+  .form_content {
+    background: white;
+    padding: 10px;
+  }
 
-    &:before {
-      color: $color-gray;
-      font-weight: 100;
-      font-size: 0.8em;
-      margin-right: 0.5em;
-      @extend %icon;
+  &.read-only {
+    .form_field {
+      input {
+        background: transparent;
+        border: none;
+        padding: 0;  
+      }
     }
-
-    &.form_section_contact { @include fs_icon("\f095"); }
-    &.form_section_emergency { @include fs_icon("\f0a1"); }
-    &.form_section_household { @include fs_icon("\f0c0"); }
-    &.form_section_income { @include fs_icon("\f155"); }
-    &.form_section_documents { @include fs_icon("\f15c"); }
-    &.form_section_demographics { @include fs_icon("\f069"); }
-    &.form_section_employment { @include fs_icon("\f0ad"); }
-    &.form_section_insurance { @include fs_icon("\f0f1"); }
   }
 }
 
 // a wrapping element for multiple fields that lie on one row
 .form_row {
   @include clearfix();
-  border-bottom: 1px solid $color-white;
-  background-color: $color-lightgray;
-  .form_field {
-    float: left;
-    @include bbox();
-    &:not(:first-child) {
-      margin-left: -1px;
-    }
-    &.form_field_right {
-      float: right;
-    }
-  }
+
   &.form_row_nopadding {
     .form_field {
       padding: 0;
@@ -82,10 +68,45 @@ form li {
 
 // a single input with associated label and help text
 .form_field {
-  display: block;
-  // margin-top: .2em;
-  padding: 1em;
-  position: relative;
+  @include bbox();
+  float: left;
+  margin-bottom: 1em;
+  width: 100%;
+  &:not(:first-child) {
+    margin-left: -1px;
+  }
+
+  &.field_half {
+    width: 50%;
+  }
+  &.field_third {
+    width: 33.333333333%;
+  }
+  &.field_twothird {
+    width: 66.666666666%;
+  }
+  &.field_quarter {
+    width: 25%;
+  }
+  &.field_sixth {
+    width: 16.6666666%
+  }
+
+  &.field_pad {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  &.field_pad_left {
+    padding-left: 10px;
+  }
+  &.field_pad_right {
+    padding-right: 10px;
+  }
+  &.field_float_right {
+    float: right;
+  }
+
+
   &.form_field_large {
     .field_input {
       font-size: 1.6em;
@@ -103,39 +124,8 @@ form li {
       }
     }
   }
-  // @media (max-width: $break) {
-  //   width: 100%;
-  // }
-  // @media (min-width: $break) {
-  //   float: left;
-  //   
-  // }
 }
 
-// .validation {}
-// .validation_valid,
-// .validation_invalid,
-// .validation_required {
-//   .field_label {
-//     &:after {
-//       @extend %icon;
-//       margin-left: 5px;
-//     }
-//   }
-// }
-// .validation_valid {
-//   @include validator("\f00c", $color-brightgreen);
-//   background-color: inherit;
-//   .field_input {
-//     border: 1px solid $field-border-color;
-//   }
-// }
-// .validation_invalid {
-//   @include validator("\f00d", $ui-error);
-// }
-// .validation_required {
-//   @include validator("\f06a", $ui-new);
-// }
 
 .validation_valid,
 .validation_invalid,
@@ -186,79 +176,133 @@ form li {
 }
 
 // two or more inputs that share a label & help text
-.form_multifield {}
-
-
-// MULTI FORMS
-// aka many-to-one
-
-.form_multiform_wrapper {
-  // margin-bottom: 3em;
-  border-bottom: 1px solid $color-gray;
+.multifield {
+  .subfields {
+    @include clearfix();
+  }
 }
 
 // a wrapper for a set of many to one forms
+.form_multiform_wrapper {}
 .form_multiform_collection {
+  @include clearfix();
   counter-reset: section;
 }
 // a form that may be repeated based on the number of items
 // also called many-to-one form
 .form_multiform_title {
-  padding: 1em 0 0.2em 1em;
+  font-weight: 900;
+  font-size: 1.2em;
+  text-transform: uppercase;
   margin: 0;
 }
 .form_multiform {
-  // padding: 0.5em 2em 2em;
   @include clearfix();
-  counter-increment: section;
   position: relative;
-  .form_field {
-    border: none;
-    padding: 0.3em;
-  }
-  border-top: 1px solid $color-gray;
-  &::before {
-    padding: 0.8em 0.5em;
-    width: 50px;
-    text-align: right;
-    float: left;
-    width: 5%;
-    top: 0;
-    color: $color-gray;
+  border-top: 1px solid #e5e5e5;
+  padding: 0.5em 0.5em 0.5em 2em;
+  text-align: left;
+  font-size: 1em;
+  counter-increment: section;
+
+  &:before {
+    position: absolute;
+    left: 8px;
+    font-size: 12px;
+    color: #999;
+    top: 11px;
     content: counters(section, " ");
   }
-  &.form_multiform_read {
+
+  &.form_multiform_read,
+  &.form_multiform_self {
+    width: 100%;
+    float: left;
+    position: relative;
     .multiform_content_fields {
       display: none;
     }
+    .multiform_controls {
+      .multiform_control_check {
+        visibility: hidden;
+      }      
+    }
   }
+
   &.form_multiform_edit {
+    float: left;
+    width: 100%;
+    position: relative;
+    padding: 0.5em;
+    background: lighten(#7FDBFF, 15);
     .multiform_content_fields {
       display: block;
+      .form_field {
+        margin-bottom: 0;
+      }
     }
     .multiform_content_readonly {
       display: none;
     }
-  }
-  &.form_multiform_new {
-    &:before {
-      @extend %icon;
-      content:"\f067";
+    .multiform_controls {
+      .multiform_control_check {
+        visibility: visible;
+      } 
+      .multiform_control_edit {
+        display: none;
+      }      
     }
   }
+
+  &.form_multiform_copy {
+    // display: none;
+    float: left;
+    width: 100%;
+    &:before {
+      content: "+";
+      font-size: 15px;
+    }
+  }
+
+  &.form_multiform_new {
+    float: left;
+    width: 100%;
+    padding: 0.5em 1em;
+    &:before {
+      content: "+";
+      font-size: 15px;
+    }
+  }
+
+  &.form_multiform_add {
+    float: left;
+    width: 100%;
+    font-weight: 400;
+    font-size: 0.8em;
+    text-align: right;
+    background: transparent;
+    color: $ui-success;
+    position: relative;
+    border-left: none;
+    border-bottom: none;
+    border-right: 2px solid white;
+    cursor: pointer;
+    &:hover {
+      background: $ui-success;
+      color: white;
+    }
+    &:before {
+      content: "";
+    }
+  }
+
   &.form_multiform_self {
     opacity: 0.5;
   }
   .multiform_content {
     float: left;
-    width: 80%;
-    @media (min-width: $break) {
-      width: 90%;
-    }
+    width: 100%;
     top: 0;
-    padding: 0.8em;
-    min-height: 65px;
-    border-left: 1px solid $color-gray;
     .multiform_content_readonly {}
     .multiform_content_fields {}
     .multiform_item {      
@@ -271,27 +315,19 @@ form li {
 
   .multiform_controls {
     position: absolute;
-    top: 0;
-    right: 0;
-    width: 30px;
+    right: 10px;
+    top: 4px;
     .multiform_control {
       margin: 0;
-      display: block;
-      width: 100%;
+      display: inline;
+      width: 23px;
       padding: 0.4em;
-      background: $color-lightgray;
-      border: none;
-      border-left: 2px solid $color-white;
-      border-bottom: 2px solid $color-white;
-      &.multiform_control_edit {}
-      &.multiform_control_remove {}
+      background: transparent;
+      border: 1px solid $color-white;
+      border-radius: 50%;
+      font-size: 12px;
     }
   }
-}
-
-.multiform_control_add {
-  margin: 0 0 1em;
-  float: right;
 }
 
 .form_multiform_deactivated {

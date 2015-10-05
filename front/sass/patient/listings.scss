@@ -30,72 +30,96 @@ $list-padding-large: 1em;
     }
   }
 
+  .list_row {
+    position: relative;
+    @include bbox();
+    @include clearfix();
+    display: block;
+    width: 100%;
+    a {
+      display:block;
+      @include clearfix();
+      padding: $list-padding;
+      color: black;
+    }
+    span {
+      display: block;
+      line-height: 1.5em;
+      font-size: 0.9em;
+    }
+    .list_row_item {
+      display:block;
+      @media (min-width: $break) {
+        float:left;
+        vertical-align: top;
+      }
+    }
+
+    
+
+    &.list_row_new,
+    &.list_row_warning,
+    &.list_row_updated {
+      &:before {
+        font-family: "FontAwesome";
+        font-size: 0.8em;
+        @media (min-width: $break) {
+          position:absolute;
+          left: -22px;
+          top: 11px;
+        }
+      }
+    }
+    &.list_row_new {
+      border-left: 5px solid lighten($ui-new, 20);
+    }
+    &.list_row_warning {
+      border-left: 5px solid lighten($ui-alert, 20);
+    }
+    &.list_row_updated {
+      border-left: 5px solid lighten($ui-success, 20);
+    }
+    &.list_row_outside_network {
+      opacity: 0.3;
+    }
+    &.list_row_addnew {
+      a {
+        color: $color-gray;  
+        .fa {
+          color: $ui-success;
+        }
+      }
+    }
+
+    &:hover {
+      background-color: #e5e5e5;
+    }
+  }
+
+  &.list_padding {
+    .list_row {
+      padding: 5px;
+    }
+  }
+
+  &.list_filter {
+    border-left: 2px solid #8dcaff;
+    margin-left: -2px;
+  }
+
+  &.list_alternate {
+    .list_row:nth-child(2n) {
+      background-color: #f6f6f6;
+      &:hover {
+        background-color: #e5e5e5;
+      }
+    }
+  }
+
   &.list_padding_large {
     .list_row {
       a {
         padding: $list-padding-large $list-padding;
-      }
-    }
-  }
-}
-
-.list_row {
-  position: relative;
-  @include bbox();
-  @include clearfix();
-  display: block;
-  width: 100%;
-  border-bottom: 1px solid #e5e5e5;
-  &:first-child {
-    border-top: 1px solid #e5e5e5;
-  }
-  a {
-    display:block;
-    @include clearfix();
-    padding: $list-padding;
-  }
-  .list_row_item {
-    display:block;
-    @media (min-width: $break) {
-      float:left;
-      vertical-align: top;
-    }
-  }
-
-  &:hover {
-    background-color: $color-lightgray;
-  }
-
-  &.list_row_new,
-  &.list_row_warning,
-  &.list_row_updated {
-    &:before {
-      font-family: "FontAwesome";
-      font-size: 0.8em;
-      @media (min-width: $break) {
-        position:absolute;
-        left: -22px;
-        top: 11px;
-      }
-    }
-  }
-  &.list_row_new {
-    border-left: 5px solid lighten($ui-new, 20);
-  }
-  &.list_row_warning {
-    border-left: 5px solid lighten($ui-alert, 20);
-  }
-  &.list_row_updated {
-    border-left: 5px solid lighten($ui-success, 20);
-  }
-  &.list_row_outside_network {
-    opacity: 0.3;
-  }
-  &.list_row_addnew {
-    a {
-      color: $color-gray;  
-      .fa {
-        color: $ui-success;
       }
     }
   }

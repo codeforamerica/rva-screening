@@ -1,8 +1,50 @@
 {% from "form_field_macros.html" import render_field, render_multifield %}
 
-{{ render_field(form.employment_status) }}
-{{ render_field(form.student_status) }}
-{{ render_field(form.spouse_employment_status) }}
+<div class="form_row row">
+
+    <div class="block_4 block_pad_right">
+      {{ render_field(form.employment_status, class="") }}
+      {{ render_multifield(
+        "time_unemployed", _("How long have you been unemployed?"),
+        [
+          form.years_unemployed, 
+          form.months_unemployed
+        ], 
+        ['an'],
+        class="field_child",
+        subclass="field_sub field_half"
+      ) }}
+      {{ render_field(form.years_at_current_employer, ['an'], class="field_child") }}
+    </div>
+
+    <div class="block_4">
+      {{ render_field(form.spouse_employment_status, class="") }}
+      {{ render_multifield(
+        "spouse_time_unemployed", _("How long has your spouse been unemployed?"),
+        [
+          form.spouse_years_unemployed, 
+          form.spouse_months_unemployed
+        ], 
+        ['an'],
+        class="field_child",
+        subclass="field_sub field_half"
+      ) }}
+      {{ render_field(form.spouse_years_at_current_employer, ['an'], class="field_child") }}
+
+    </div>
+
+    <div class="block_4 block_pad_left">
+      {{ render_field(form.student_status) }}
+      {{ render_field(form.education_level, ['an']) }}
+    </div>
+    
+
+    
+
+    
+  
+</div>
+
 
 
 <div class="form_multiform_wrapper employers" id="employer_table">
@@ -12,16 +54,15 @@
     <div class="multiform_content">
       <div class="multiform_content_fields">
           <div class="form_row">
-            {{ render_field(entry.employer_name, class="block_6") }}
-            {{ render_field(entry.phone_number, class="block_6") }}
-            {{ render_field(entry.employer_name, class="block_6") }}
+            {{ render_field(entry.employer_name, class="field_third") }}
+            {{ render_field(entry.phone_number, class="field_third") }}
+            {{ render_field(entry.employee, class="field_third field_pad_left") }}
           </div>
-            {{ render_field(entry.employee) }}
       </div>
-      <div class="multiform_content_readonly">
-        <span class="multiform_item"><strong>{{ entry.employer_name.data }}</strong></span><br>
-        <span class="multiform_item">{{ entry.phone_number.data }}</span><br>
-        <span class="multiform_item multiform_item_description">{{ entry.employee.data }}</span>
+      <div class="multiform_content_readonly row">
+        <span class="multiform_item block_3"><strong>{{ entry.employer_name.data }}</strong></span>
+        <span class="multiform_item block_3">{{ entry.phone_number.data }}</span>
+        <span class="multiform_item block_3 multiform_item_description">{{ entry.employee.data }}</span>
       </div>
     </div>
     {% include "includes/multiform_controls.html" %}
@@ -30,47 +71,27 @@
 
   {% with %}
     {% set entry = form.employers.append_entry() %}
-  <div class="form_multiform form_multiform_new" id="multiform_employers">
+  <div class="form_multiform form_multiform_copy" id="multiform_employers">
     <div class="multiform_content">
       <div class="multiform_content_fields">
         <div class="row">
-          {{ render_field(entry.employer_name,
-                                class="block_6"
-          ) }}
-          {{ render_field(entry.phone_number,
-                                class="block_6"
-          ) }}
+          {{ render_field(entry.employer_name, class="field_third") }}
+          {{ render_field(entry.phone_number, class="field_third") }}
+          {{ render_field(entry.employee, class="field_third field_pad_left") }}
         </div>
-        {{ render_field(entry.employee) }}
+        
       </div>
     </div>
   </div>
   {% endwith %}
 
-  <button data-clone-id="multiform_employers" class="button button_red button_small multiform_control_add">Add new emergency contact <i class="fa fa-plus"></i></button>
+  <button data-clone-id="multiform_employers" class="form_multiform form_multiform_add multiform_control_add">
+    <div class="multiform_content">
+      <div class="multiform_content_readonly">
+        <span class="multiform_item"><strong>Add new employer</strong> <i class="fa fa-plus"></i></span><br>
+      </div>
+    </div>
+  </button>
   
 </div>
 <div class="cf"></div>
-
-{{ render_multifield(
-  "time_unemployed", _("How long have you been unemployed?"),
-  [
-    form.years_unemployed, 
-    form.months_unemployed
-  ], 
-  ['an'],
-  subclass="block_4"
-) }}
-
-{{ render_multifield(
-  "spouse_time_unemployed", _("How long has your spouse been unemployed?"),
-  [
-    form.spouse_years_unemployed, 
-    form.spouse_months_unemployed
-  ], 
-  ['an'],
-  subclass="block_4"
-) }}
-
-{{ render_field(form.years_at_current_employer, ['an']) }}
-{{ render_field(form.spouse_years_at_current_employer, ['an']) }}

@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
+import datetime
 import json
+import pytz
 
 from sqlalchemy import and_
 from werkzeug.datastructures import MultiDict
@@ -89,6 +91,40 @@ def check_patient_permission(patient_id):
     if current_user.is_patient_user() and not current_user.is_current_patient(patient_id):
         abort(403)
     return
+
+
+def days_from_today(field):
+    '''Takes a python date object and returns days from today
+    '''
+    if isinstance(field, datetime.date):
+        return (
+            datetime.date(field.year, field.month, field.day) -
+            datetime.date.today()
+        ).days
+    elif isinstance(field, datetime.datetime):
+        field = field.replace(tzinfo=pytz.utc)
+        return (
+            datetime.datetime(field.year, field.month, field.day) -
+            datetime.datetime.now(pytz.utc)
+        ).days
+    else:
+        return field
+
+
+def format_days_from_today(field):
+    '''Uses days_from_today to build readable "X days ago"
+    '''
+    days = days_from_today(field)
+    if days == 0:
+        return 'Today'
+    elif days == 1:
+        return '{} day from now'.format(abs(days))
+    elif days > 1:
+        return '{} days from now'.format(abs(days))
+    elif days == -1:
+        return '{} day ago'.format(abs(days))
+    else:
+        return '{} days ago'.format(abs(days))
 
 
 def send_referral_notification_email(service, patient, from_app_user):

@@ -1,41 +1,75 @@
-.patient_profile {
-  margin-top: 1em;
-}
-
-// left-hand column typically
-.overview_patient {
-  border-top: 1px solid darken($color-lightgray, 10);
-  border-bottom: 1px solid darken($color-lightgray, 10);
-  padding-top: 1em;
-  .overview_patient_item {
-    cursor: default;
+.patientContent {
+  @media (min-width: $break) {
+    padding-left: 1em;
+  }
+  &.patientNew {
     display: block;
-    margin-bottom: 0.8em;
-    white-space: nowrap;
-    .fa {
-      color: $color-gray;
-      text-align: center;
-      width: 1em;
-    }
-    p {
-      font-size: 0.7em;
-      margin: 0;
-      color: $color-darkgray;
-    }
-    h2 {
-      font-size: 1.2em;
-      margin: 0;
-      color: $color-blue;
-    }
+    max-width: 700px;
+    margin: auto;
   }
 }
 
-.patient_details_actions {
+.patientProfile {
+  position: relative;
+  padding: 2em 0;
+  margin-bottom: 2em;
+  border-bottom: 1px solid #e5e5e5;
+  background: #f6f6f6;
+  z-index: 10;
+  .patientProfile-block {
+    margin-top: 2em;
+  }
+  .patientProfile-infoblock {
+    margin-bottom: 0.5em;
+  }
+  a {
+    color: #333;
+    text-decoration: underline;
+  }
+  .patient-name {
+    font-weight: 500;
+    margin: 0;
+  }
+  .patient-star {
+    margin-left: 0.5em;
+  }
+  .patient-descriptor {
+    display: block;
+    font-size: 0.9em;
+    font-weight: 300;
+  }
+  .patient-info {
+    display: block;
+    font-size: 2em;
+    font-weight: 300;
+    &.patient-info-small {
+      font-size: 1em;
+      font-weight: 700;
+    }
+  }
+}
+.patientProfile-image {
+  @media (max-width: $break) {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 100px;
+  }
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+.patientStickyNav {
   position: fixed;
-  bottom: 0;
+  top: 0;
   left: 0;
-  right: 0;
-  padding: 0 0 0.5em;
-  background: $color-white;
-  box-shadow: 0 0 5px 0px rgba(0,0,0,0.4);
+  width: 100%;
+  padding: 10px 20px;
+  background: white;
+  box-shadow: 0 0 4px 0 rgba(0,0,0,0.6);
+  .button {
+    margin: 0;
+  }
 }
