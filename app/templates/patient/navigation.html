@@ -21,6 +21,8 @@
     <li class="patientNav_li{% if request.path == url_for('screener.patient_share', patient_id=patient.id) %} patientNav_li_active{% endif %}"><a href="{{ url_for('screener.patient_share', patient_id=patient.id) }}"><i class="fa fa-paper-plane"></i>Review & Send</a></li>
 
     <li class="patientNav_li{% if request.path == url_for('screener.patient_screening_history', patient_id=patient.id) %} patientNav_li_active{% endif %}"><a href="{{ url_for('screener.patient_screening_history', patient_id=patient.id) }}"><i class="fa fa-clock-o"></i>Referral History</a></li>
+
+    <li class="patientNav_li{% if request.path == url_for('screener.patient_history', patient_id=patient.id) %} patientNav_li_active{% endif %}"><a href="{{ url_for('screener.patient_history', patient_id=patient.id) }}"><i class="fa fa-pencil-square"></i></i>Edit History</a></li>
     
     <li class="patientNav_li"><a href="#"><i class="fa fa-bars"></i>More</a></li>
   </ul>

@@ -13,7 +13,7 @@
             {% if patient.dob %}
             <span class="patient-info">{{ patient.dob.strftime('%m/%d/%Y') }}</span>
             {% else %}
-            <span class="patient-info"><a href="#">Enter patient birthday</a></span>
+            <span class="patient-info"><a href="{{ url_for('screener.patient_details', id=patient.id) }}">Enter patient birthday</a></span>
             {% endif %}
           </div>
 
@@ -29,7 +29,7 @@
               {% endif %}
             {% endfor %}
             {% endif %}
-            <span class="patient-descriptor"><a href="#">see all contact info</a></span>
+            <span class="patient-descriptor"><a href="{{ url_for('screener.patient_details', id=patient.id) }}#contact">see all contact info</a></span>
           </div>
         </div>
 

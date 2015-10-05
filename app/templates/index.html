@@ -12,7 +12,8 @@
       </button> 
 
       <button data-list="1" class="filter filter_sub">
-        Completed outgoing referrals <span class="filter-count">({{ org_completed_referrals_outgoing.count() }})</span>
+        Completed outgoing referrals <span class="filter-count">({{ org_completed_referrals_outgoing.count() }})
+        </span>
       </button>
 
       <button data-list="2" class="filter filter_sub">
@@ -30,6 +31,7 @@
       <button data-list="5" class="filter filter_sub">
         Patients with renewal notices <span class="filter-count">({{ org_need_renewal | length }})</span>
       </button>
+
       <button data-list="6" class="filter">
         <i class="fa fa-user"></i> <strong>Your</strong> recently updated patients <span class="filter-count">({{ your_recently_updated.count() }})</span>
       </button>
@@ -138,7 +140,7 @@
           </div>
         </a></li>
       {% endfor %}
-      </ol> 
+      </ol>
       
       <ol id="list-7" class="list list_table list_filter list_alternate list_padding">
       {% for patient in your_completed_referrals_outgoing %}
