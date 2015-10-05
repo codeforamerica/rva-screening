@@ -377,7 +377,10 @@ def new_prescreening():
         session['service_ids'] = request.form.getlist('services')
         return redirect(url_for('screener.prescreening_basic'))
     services = Service.query.all()
-    return render_template('new_prescreening.html', services=services)
+    return render_template(
+        'new_prescreening.html',
+        services=[s for s in services if s.has_screening_yn == 'Y']
+    )
 
 
 @screener.route('/prescreening_basic', methods=['POST', 'GET'])
@@ -535,7 +538,7 @@ def patient_share(patient_id):
             fpl=patient.fpl_percentage,
             has_health_insurance=patient.insurance_status,
             is_eligible_for_medicaid="",
-            service_ids=[s.id for s in services]
+            service_ids=[s.id for s in services if s.has_screening_yn == 'Y']
         ),
         household_size=patient.household_members.count() + 1,
         household_income=patient.total_annual_income,
