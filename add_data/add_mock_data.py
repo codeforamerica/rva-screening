@@ -272,9 +272,10 @@ def main(options=[]):
         add_roles.main(app)
         services = Service.query.all()
         app_users = add_users(services)
+        non_patient_app_users = AppUser.query.filter(AppUser.service_id != None)
 
         # Add patients with lots of data, referrals, and screening results
-        add_patients(app_users, services)
+        add_patients(non_patient_app_users, services)
 
         # Yay!
         print (

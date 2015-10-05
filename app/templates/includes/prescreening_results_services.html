@@ -76,6 +76,7 @@
           {{ _("Access Now provides service at no cost to the patient.") }}
         {% endif %}
       </div>
+
     </div><!-- .prescreen-service-info -->
     {% if referral_buttons %}
     <div class="box-referral {% if service.id in open_referral_service_ids %}box-referral-active{% endif %} {% if service.eligible %}box-referral-eligible{% endif %}" onclick="sharePatientInfo(this, {{ patient.id }}, {{ current_user.id }}, {{ service. id}})">
@@ -104,6 +105,7 @@
               {{ patient.first_name }} was marked as <strong>ineligible</strong> for services at {{ service.name }} on {{ r.created.strftime('%m/%d/%Y') }}<br>
               <small>If {{ patient.first_name }}'s information has changed, please resubmit.</small><br>
             {% endif %}
+
 
           {% endif %}
         {% endfor %}

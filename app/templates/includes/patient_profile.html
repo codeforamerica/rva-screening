@@ -54,5 +54,13 @@
     <i class="fa fa-folder-o"></i>
     {{ _("Archive Patient") }}
   </a>
+  <a class="button button_red button_inverse delete-patient button_small" href="{{ url_for('screener.export_pdf', patient_id=patient.id) }}">
+    <i class="fa fa-folder-o"></i>
+    {{ _("Export as PDF") }}
+  </a>
+  <a class="button button_red button_inverse delete-patient button_small" href="{{ url_for('screener.export_csv', patient_id=patient.id) }}">
+    <i class="fa fa-folder-o"></i>
+    {{ _("Export as CSV") }}
+  </a>
 
 </div>

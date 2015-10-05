@@ -1,3 +1,4 @@
+import csv
 import datetime
 from dateutil.relativedelta import relativedelta
 import io
@@ -6,6 +7,8 @@ from sqlalchemy import and_, or_, func
 from sqlalchemy.sql import text
 from werkzeug.datastructures import FileStorage
 from PIL import Image
+from cStringIO import StringIO
+from xhtml2pdf import pisa
 
 from flask import (
     abort,
@@ -17,7 +20,8 @@ from flask import (
     g,
     session,
     current_app,
-    jsonify
+    jsonify,
+    send_file
 )
 from flask.ext.login import login_user, current_user
 from flask.ext.security import login_required, roles_accepted
@@ -344,6 +348,15 @@ def document_image(image_id):
     return render_template('documentimage.html', image_id=image_id)
 
 
+@screener.route('/export_document_image/<image_id>')
+@login_required
+def export_document_image(image_id):
+    """Display an uploaded document image."""
+    _image = DocumentImage.query.get_or_404(image_id)
+    check_patient_permission(_image.patient.id)
+    return render_template('export_document_image.html', image_id=image_id)
+
+
 @screener.route('/documentimages/<image_id>/<thumbnail>')
 @login_required
 def get_image(image_id, thumbnail):
@@ -503,6 +516,10 @@ def patient_share(patient_id):
     patient = Patient.query.get(patient_id)
     patient.update_stats()
     services = Service.query.all()
+
+    allowed_referral_service_ids = [
+        service.id for service in current_user.service.can_send_referrals_to
+    ]
     # Get ids of services where the patient already has open referrals,
     # to prevent user from sending duplicates.
     open_referral_service_ids = [
@@ -526,6 +543,7 @@ def patient_share(patient_id):
         has_health_insurance=patient.insurance_status,
         is_eligible_for_medicaid="",
         referral_buttons=True,
+        allowed_referral_service_ids=allowed_referral_service_ids,
         open_referral_service_ids=open_referral_service_ids
     )
 
@@ -749,6 +767,65 @@ def service(service_id):
         current_app.config['BABEL_DEFAULT_LOCALE']
     )
     return render_template('service_profile.html', service=service)
+
+
+@screener.route('/export_csv/<patient_id>')
+@login_required
+def export_csv(patient_id):
+    """Create a CSV of a patient's information."""
+    check_patient_permission(patient_id)
+    patient = Patient.query.get(patient_id)
+    form = PatientForm(obj=patient)
+    fieldnames = []
+    data = {}
+    for field in form:
+        if field.name not in ('document_images', 'csrf_token'):
+            if field.type == 'FieldList':
+                for entry in field.entries:
+                    for subfield in entry:
+                        fieldnames.append(subfield.name)
+                        data[subfield.name] = subfield.data
+            else:
+                fieldnames.append(field.name)
+                data[field.name] = field.data
+
+    filename = 'zipscreen_patient_' + str(patient_id) + '.csv'
+    csvf = StringIO()
+    writer = csv.DictWriter(csvf, fieldnames=fieldnames)
+    writer.writeheader()
+    writer.writerow(data)
+    csvf.seek(0)
+    return send_file(
+        csvf,
+        mimetype="text/csv",
+        attachment_filename=filename,
+        as_attachment=True
+    )
+
+
+@screener.route('/export_pdf/<patient_id>')
+@login_required
+def export_pdf(patient_id):
+    """Create a PDF of a patient's information."""
+    check_patient_permission(patient_id)
+    patient = Patient.query.get(patient_id)
+    form = PatientForm(obj=patient)
+    filename = 'zipscreen_patient_' + str(patient_id) + '.pdf'
+    html = render_template(
+        'pdf_export.html',
+        patient=patient,
+        form=form,
+        is_production=current_app.config['IS_PRODUCTION']
+    )
+    pdf = StringIO()
+    pisa.CreatePDF(StringIO(html.encode('utf-8')), pdf)
+    pdf.seek(0)
+    return send_file(
+        pdf,
+        mimetype="application/pdf",
+        attachment_filename=filename,
+        as_attachment=True
+    )
 
 
 @screener.route('/403')

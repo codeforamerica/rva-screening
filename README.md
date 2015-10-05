@@ -2,7 +2,7 @@
 
 ### What
 
-A prototype of an application that will allow safety net health services in Richmond, VA to share patients' financial screening information more easily. For more information, check out our [blog](rva.codeforamerica.org).
+A prototype of an application that will allow safety net health services in Richmond, VA to share patients' financial screening information more easily. For more information, check out our [blog](http://rva.codeforamerica.org).
 
 ### Status
 
@@ -12,16 +12,16 @@ This project is in early development. We also discuss potential features and des
 
 The [2015 Code for America Fellows in Richmond, VA](http://www.codeforamerica.org/governments/rva-community-partners/):
 
-Ben Golder ([bengolder](//github.com/bengolder))  
-Emma Smithayer ([esmithayer](//github.com/esmithayer))  
-Sam Matthews ([svamatthews](//github.com/svmatthews))  
+Ben Golder ([bengolder](//github.com/bengolder))
+Emma Smithayer ([esmithayer](//github.com/esmithayer))
+Sam Matthews ([mapsam](//github.com/mapsam))
 
 ### How (Installation)
 
 The application is built with Python and [Flask](http://flask.pocoo.org/).
 
 **Environment variables**
-* `DATABASE_URL=[db connection string]` — For example, `postgresql://localhost/screener`
+* `DATABASE_URL=[db connection string]` — For example, `postgresql://localhost/rva-screening`
 
 **Install**
 * Install a PostgreSQL database ([how to](https://github.com/codeforamerica/howto/blob/master/PostgreSQL.md))
@@ -30,11 +30,15 @@ The application is built with Python and [Flask](http://flask.pocoo.org/).
 * Change into the project directory: ```cd rva-screening```
 * Install Python requirements: ```pip install -r requirements.txt```
 * Install front end requirements: ```npm install```
-* Create a database:
-```bash
-psql
-create database rva-screening;
+* Create two databases: 
+```createdb rva-screening
+createdb rva-screening-test
 ```
+* Add the HSTORE extension:
+```psql rva-screening -c CREATE EXTENSION hstore;
+psql rva-screening-test -c CREATE EXTENSION hstore;
+```
+
 * Set up the database: ```make new_db```
 * Create mock data, including user accounts: ```make data```
 * Start server: ```make run```
