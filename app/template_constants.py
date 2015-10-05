@@ -130,3 +130,12 @@ COVERAGE_TYPE_CHOICES = [
     ("BSCC",  _("Bon Secours CareCard")),
     ("OTHER", _("Other")),
 ]
+
+PHONE_DESCRIPTIONS = [
+    ("",         ""),
+    ("CELL",     _("Cell phone")),
+    ("HOME",     _("Home phone / landline")),
+    ("WORK",     _("Work number")),
+    ("RELATIVE", _("Relative's phone number")),
+    ("OTH",      _("Other"))
+]

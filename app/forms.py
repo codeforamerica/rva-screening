@@ -94,9 +94,10 @@ class PhoneNumberForm(NoCsrfForm):
         _('Phone number'),
         [Optional(), validators.Length(max=32), validate_phone_number]
     )
-    number_description = fields.TextField(
+    number_description = fields.SelectField(
         _('Description'),
-        [Optional(), validators.Length(max=64)]
+        choices=CONSTANTS.PHONE_DESCRIPTIONS,
+        default="",
     )
 
 
