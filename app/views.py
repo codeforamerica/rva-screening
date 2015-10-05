@@ -202,10 +202,18 @@ def patient_overview(id):
 
         db.session.commit()
 
+    services = Service.query.all()
+
     return render_template(
         'patient_overview.html',
         patient=patient,
-        form=form
+        form=form,
+        services=calculate_pre_screen_results(
+            fpl=patient.fpl_percentage,
+            has_health_insurance=patient.insurance_status,
+            is_eligible_for_medicaid="",
+            service_ids=[s.id for s in services]
+        )
     )
 
 

@@ -24,3 +24,14 @@
   padding: 10px;
   background: #f6f6f6;
 }
+
+.patientEstimation {
+  padding: 1px 10px;
+  background: #f6f6f6;
+  &.patientEstimation_eligible {
+    background: lighten($color-brightgreen, 30);
+  }
+  &.patientEstimation_noteligible {
+    background: lighten($color-red, 25);
+  }
+}
