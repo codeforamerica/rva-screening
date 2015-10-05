@@ -255,7 +255,13 @@ form li {
   }
 
   &.form_multiform_copy {
-    display: none;
+    // display: none;
+    float: left;
+    width: 100%;
+    &:before {
+      content: "+";
+      font-size: 15px;
+    }
   }
 
   &.form_multiform_new {
