@@ -111,9 +111,10 @@ class AddressForm(NoCsrfForm):
         default="VA",
     )
     zip_code = fields.TextField(_('ZIP'), [Optional(), validators.Length(max=10)])
-    address_description = fields.TextField(
+    address_description = fields.SelectField(
         _('What kind of address is this?'),
-        [Optional(), validators.Length(max=64)]
+        choices=CONSTANTS.ADDRESS_DESCRIPTIONS,
+        default="",
     )
 
 

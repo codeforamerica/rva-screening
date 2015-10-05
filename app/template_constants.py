@@ -139,3 +139,11 @@ PHONE_DESCRIPTIONS = [
     ("RELATIVE", _("Relative's phone number")),
     ("OTH",      _("Other"))
 ]
+
+ADDRESS_DESCRIPTIONS = [
+    ("",         ""),
+    ("OWN",      _("Personal address / own or rent")),
+    ("RELATIVE", _("Relative's address")),
+    ("HOMELESS", _("Homeless shelter address")),
+    ("OTH",      _("Other"))
+]
