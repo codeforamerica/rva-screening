@@ -2,6 +2,11 @@
   @media (min-width: $break) {
     padding-left: 1em;
   }
+  &.patientNew {
+    display: block;
+    max-width: 700px;
+    margin: auto;
+  }
 }
 
 .patientProfile {
@@ -61,7 +66,7 @@
   top: 0;
   left: 0;
   width: 100%;
-  padding: 10px 0;
+  padding: 10px 20px;
   background: white;
   box-shadow: 0 0 4px 0 rgba(0,0,0,0.6);
   .button {

@@ -57,7 +57,6 @@ var AppController = function ( options ) {
       var navFromTop = $nav.offset().top
       $(window).scroll(function(){
         var fromTop = $(window).scrollTop();
-        console.log($('.patientStickyNav').height());
         if($('.patientStickyNav').height()) fromTop += $('#nav').height();
         if (fromTop > navFromTop) {
           if (!$nav.hasClass('sticky')) {

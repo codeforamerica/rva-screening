@@ -135,18 +135,16 @@
     </div>
   </div>
 
-  <div class="patientStickyNav">
-    <div class="container">
-      <h3 style="float: left; margin: 0; margin-top: 7px;">{{ patient.first_name or "" }} {{ patient.last_name or "" }}</h3>
-      <button type="submit" class="button button_green button_right">
-        <i class="fa fa-check"></i>
-        {% if patient %}
-          {{ _("Save patient info") }}
-        {% else %}
-          {{ _("Save new patient info") }}
-        {% endif %}
-      </button>
-    </div>
+  <div class="{% if request.path != "/new_patient" %}patientStickyNav{% endif %}">
+    <h3 style="float: left; margin: 0; margin-top: 7px;">{{ patient.first_name or "" }} {{ patient.last_name or "" }}</h3>
+    <button type="submit" class="button button_green button_right">
+      <i class="fa fa-check"></i>
+      {% if patient %}
+        {{ _("Save patient info") }}
+      {% else %}
+        {{ _("Save new patient info") }}
+      {% endif %}
+    </button>
   </div>
 
 </form>

@@ -134,7 +134,7 @@
         <li class="list_row row"><a href="{{ url_for('screener.patient_overview', id=patient.id) }}">
           <div class="block_4"><strong>{{ patient.first_name }} {{ patient.last_name }}</strong></div>
           <div class="block_8">
-            <span>Last updated on {{ patient.last_modified.strftime('%m/%d/%Y') }}</span>
+            <span>Last updated on {{ patient.last_modified }}</span>
           </div>
         </a></li>
       {% endfor %}
