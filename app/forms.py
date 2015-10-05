@@ -347,24 +347,24 @@ class PatientForm(Form):
     ))
 
 
-    years_at_current_employer = fields.IntegerField(
-        _("Years at current employer"),
-        [Optional()],
-    )
-    spouse_years_at_current_employer = fields.IntegerField(
-        _("Spouse's years at current employer"),
-        [Optional()],
-    )
-    # years_at_current_employer = fields.SelectField(
-    #     _('Years at current employer'),
-    #     choices=CONSTANTS.TIME_AT_CURRENT_EMPLOYER,
-    #     default=""
+    # years_at_current_employer = fields.IntegerField(
+    #     _("Years at current employer"),
+    #     [Optional()],
     # )
-    # spouse_years_at_current_employer = fields.SelectField(
-    #     _('Spouse\'s years at current employer'),
-    #     choices=CONSTANTS.TIME_AT_CURRENT_EMPLOYER,
-    #     default=""
+    # spouse_years_at_current_employer = fields.IntegerField(
+    #     _("Spouse's years at current employer"),
+    #     [Optional()],
     # )
+    years_at_current_employer = fields.SelectField(
+        _('Years at current employer'),
+        choices=CONSTANTS.TIME_AT_CURRENT_EMPLOYER,
+        default=""
+    )
+    spouse_years_at_current_employer = fields.SelectField(
+        _('Spouse\'s years at current employer'),
+        choices=CONSTANTS.TIME_AT_CURRENT_EMPLOYER,
+        default=""
+    )
     
     
 

@@ -154,3 +154,9 @@ TIME_AT_CURRENT_EMPLOYER = [
     ("RELATIVE", _("1 to 2 years")),
     ("HOMELESS", _("More than 2 years"))
 ]
+
+TIME_IN_AREA = [
+    ("",               ""),
+    ("LESS THAN 6",    _("Less than 6 months")),
+    ("GREATER THAN 6", _("Greater than 6 months")),
+]
