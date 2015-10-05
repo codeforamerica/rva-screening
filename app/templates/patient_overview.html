@@ -5,7 +5,7 @@
 
 
 <ul class="patientOverview">
-  <li class="list_row">{{ patient.first_name }} {{ patient.last_name }} was created on {{ patient.created.strftime('%m/%d/%Y') }} by {{ patient.created_by.full_name }}</li>
+  <li class="list_row">Profile created on {{ patient.created.strftime('%m/%d/%Y') }} by {{ patient.created_by.full_name }}</li>
   {% if patient.fpl_percentage %}
   <li class="list_row">
     Estimated Federal Poverty Level <span>% <strong>{{ '%0.2f'| format(patient.fpl_percentage|float) }}</strong></span>
@@ -43,7 +43,7 @@
 
   {% if patient.insurance_status %}
   <li class="list_row">
-    {{ _("How long have you lived in the Greater Richmond Area?")}} <span>{{ patient.years_living_in_area }}</span> years, <span>{{ patient.months_living_in_area }}</span> months.
+    {{ _("Time lived in the Greater Richmond area")}} <span>{{ patient.years_living_in_area }}</span> years, <span>{{ patient.months_living_in_area }}</span> months.
   </li>
   {% endif %}
 </ul>
@@ -51,7 +51,7 @@
 
 <h2>{{ current_user.service.name }} Eligibility</h2>
 
-<p>Is <strong>{{ patient.first_name }} {{ patient.last_name }}</strong> eligible for care at {{ current_user.service.name }}? Fill out the form below to submit {{ patient.first_name }}'s eligibility status for the rest of the network.</p>
+<p>Is <strong>{{ patient.first_name }} {{ patient.last_name }}</strong> eligible for care at {{ current_user.service.name }}? Fill out the form below to submit {{ patient.first_name }}'s eligibility status.</p>
 
 <div class="patientEligibilityForm" id="eligibility-form">
   <form method="post">

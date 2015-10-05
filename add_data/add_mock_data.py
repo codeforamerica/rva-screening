@@ -238,6 +238,7 @@ def add_patients(app_users, services):
                 login_user(fake.random_element(app_users))
                 possible_service_ids = [s.id for s in services if s.id != current_user.service_id]
                 patient.referrals.append(fake.referrals(possible_service_ids))
+                db.session.commit()
                 logout_user()
             for _ in range(random.randint(0, 3)):
                 login_user(fake.random_element(app_users))
@@ -247,8 +248,8 @@ def add_patients(app_users, services):
                 patient.screening_results.append(
                     fake.screening_results(possible_sliding_scale_ids)
                 )
+                db.session.commit()
                 logout_user()
-            db.session.commit()
 
     print "Added patients with lots of data, referrals and screening results"
 
