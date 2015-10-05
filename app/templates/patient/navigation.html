@@ -24,7 +24,7 @@
 
     <li class="patientNav_li{% if request.path == url_for('screener.patient_history', patient_id=patient.id) %} patientNav_li_active{% endif %}"><a href="{{ url_for('screener.patient_history', patient_id=patient.id) }}"><i class="fa fa-pencil-square"></i></i>Edit History</a></li>
     
-    <li class="patientNav_li"><a href="#"><i class="fa fa-bars"></i>More</a></li>
+    <!-- <li class="patientNav_li"><a href="#"><i class="fa fa-bars"></i>More</a></li> -->
   </ul>
   <div class="wedge">&nbsp;</div>
 </nav>
