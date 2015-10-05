@@ -135,7 +135,7 @@
     </div>
   </div>
 
-  <div class="patientStickyNav">
+  <div class="{% if request.path != "/new_patient" %}patientStickyNav{% endif %}">
     <div class="container">
       <h3 style="float: left; margin: 0; margin-top: 7px;">{{ patient.first_name or "" }} {{ patient.last_name or "" }}</h3>
       <button type="submit" class="button button_green button_right">

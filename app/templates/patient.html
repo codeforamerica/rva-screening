@@ -8,10 +8,18 @@
     {% include "patient/header-alert.html" %}
     
     <div class="row">
-      <div class="block_3">
-      {% include "patient/navigation.html" %}    
-      </div>
-      <div class="block_9 patientContent">
+      
+      {% if request.path != "/new_patient" %}
+        <div class="block_3">
+        {% include "patient/navigation.html" %}    
+        </div>
+      {% endif %}
+
+      
+      <div class="{% if request.path != "/new_patient" %}block_9 {% else %}patientNew {% endif %}patientContent">
+      {% if request.path == "/new_patient" %}
+      <h1>Add new patient</h1>
+      {% endif %}
       {% block patient_content %}{% endblock %}
       </div>
     </div>
