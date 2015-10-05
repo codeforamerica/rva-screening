@@ -345,6 +345,8 @@ class PatientForm(Form):
     employers = fields.FieldList(fields.FormField(
         EmployerForm
     ))
+
+
     years_at_current_employer = fields.IntegerField(
         _("Years at current employer"),
         [Optional()],
@@ -353,6 +355,18 @@ class PatientForm(Form):
         _("Spouse's years at current employer"),
         [Optional()],
     )
+    # years_at_current_employer = fields.SelectField(
+    #     _('Years at current employer'),
+    #     choices=CONSTANTS.TIME_AT_CURRENT_EMPLOYER,
+    #     default=""
+    # )
+    # spouse_years_at_current_employer = fields.SelectField(
+    #     _('Spouse\'s years at current employer'),
+    #     choices=CONSTANTS.TIME_AT_CURRENT_EMPLOYER,
+    #     default=""
+    # )
+    
+    
 
     # HEALTHCARE/COVERAGE
     last_healthcare = fields.TextField(

@@ -147,3 +147,10 @@ ADDRESS_DESCRIPTIONS = [
     ("HOMELESS", _("Homeless shelter address")),
     ("OTH",      _("Other"))
 ]
+
+TIME_AT_CURRENT_EMPLOYER = [
+    ("",         ""),
+    ("OWN",      _("Less than 1 year")),
+    ("RELATIVE", _("1 to 2 years")),
+    ("HOMELESS", _("More than 2 years"))
+]
