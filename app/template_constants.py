@@ -150,9 +150,9 @@ ADDRESS_DESCRIPTIONS = [
 
 TIME_AT_CURRENT_EMPLOYER = [
     ("",         ""),
-    ("OWN",      _("Less than 1 year")),
-    ("RELATIVE", _("1 to 2 years")),
-    ("HOMELESS", _("More than 2 years"))
+    ("LESS",      _("Less than 1 year")),
+    ("MIDDLE", _("1 to 2 years")),
+    ("MORE", _("More than 2 years"))
 ]
 
 TIME_IN_AREA = [

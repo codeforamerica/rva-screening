@@ -93,7 +93,6 @@ var multiform = {
     clone.removeClass('form_multiform_copy');
     clone.addClass('form_multiform_new');
     $('#'+id).after(clone);
-    // console.log(id, clone);
   },
   remove: function($button) {
     var entry = $button.parent().parent();
@@ -103,9 +102,11 @@ var multiform = {
       if ($(this).attr('type') == 'date') {
         $(this).attr('value', 'mm/dd/yyyy');
       }
+      if ($(this).is('select')) {
+        $(this).val('');
+      }
     });
     entry.hide();
-    // entry.remove(); // removes from DOM, not from db until page save
   },
   edit: function($button) {
     var entry = $button.parent().parent();

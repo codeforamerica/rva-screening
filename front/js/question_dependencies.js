@@ -14,25 +14,44 @@ var DEPENDENCY_PROCESSORS = {
 };
 
 function registerConditionalDisplay(d){
-  // parse the dependency and get elements
-  var target = $("."+d.target+" [name='"+d.target+"']");
-  var child = $("."+d.child);
-  var processor = DEPENDENCY_PROCESSORS[d.type];
-  var comparator = d.comparator;
+  // if the dependency exists within a many-to-one relationship
+  if(d.manyToOne) {
+    var completeBool = true;
+    var completeCount = 0;
+    while (completeBool) {
+      tempTarget = d.target.replace('X', completeCount);
+      tempChild = d.child.replace('X', completeCount);
+      if (!$('#'+tempTarget).length) {
+        completeBool = false;
+      } else {
+        setDisplay(tempTarget, tempChild, d.type, d.comparator);
+      }
+      completeCount++;
+    }
+  // otherwise parse the single dependency and get elements
+  } else {
+    setDisplay(d.target, d.child, d.type, d.comparator);
+  }
+}
+
+function setDisplay(target, child, type, comparator) {
+  var $target = $("."+target+" [name='"+target+"']");
+  var $child = $("."+child);
+  var processor = DEPENDENCY_PROCESSORS[type];
+  var comp = comparator;
   // make a function to hide or show the child element
   var displayFunction = function(){
     // console.log("parent:", target[0], "child:", child[0]);
     // console.log("changed to", target.val());
     // console.log("met criteria:", processor(target.val(), comparator));
-    if( processor(target.val(), comparator) ){
-      child.show();
+    if( processor($target.val(), comp) ){
+      $child.show();
     } else {
-      child.hide();
+      $child.hide();
     };
   }
   // set the event listener to trigger the function
-  target.on("change", function(e){ displayFunction(); });
+  $target.on("change", function(e){ displayFunction(); });
   // trigger the function
   displayFunction();
 }
-

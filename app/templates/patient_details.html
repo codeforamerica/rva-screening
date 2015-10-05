@@ -295,6 +295,11 @@ config.dependencies = [
   { target: "care_due_to_accident_yn", child: "accident_work_related_yn",
     type: "equals", comparator: "Y" },
 
+  { target: "phone_numbers-X-number_description", child: "phone_numbers-X-number_description_other",
+    type: "equals", comparator: "OTH", manyToOne: true},
+  { target: "addresses-X-address_description", child: "addresses-X-address_description_other",
+    type: "equals", comparator: "OTH", manyToOne: true},
+
   { target: "race", child: "race_other",
     type: "equals", comparator: "OTH" },
   { target: "languages", child: "languages_other",
