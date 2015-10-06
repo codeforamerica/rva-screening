@@ -4,7 +4,7 @@ import json
 import pytz
 
 from sqlalchemy import and_
-from werkzeug.datastructures import MultiDict
+from werkzeug.datastructures import MultiDict, FileStorage
 
 from flask import current_app, session, abort, render_template
 from flask.ext.login import login_user, current_user
@@ -12,7 +12,17 @@ from flask.ext.security.utils import verify_password
 from flask_mail import Message
 
 from app import db, mail
-from app.models import AppUser, UnsavedForm
+from app.models import (
+    AppUser,
+    UnsavedForm,
+    IncomeSource,
+    PhoneNumber,
+    Address,
+    EmergencyContact,
+    HouseholdMember,
+    Employer,
+    DocumentImage
+)
 
 
 def allowed_file(filename):
@@ -144,3 +154,32 @@ def send_referral_notification_email(service, patient, from_app_user):
         )
         mail.send(message)
     return
+
+
+def remove_blank_rows(form):
+    for field_name, class_name in [
+        ('income_sources', IncomeSource),
+        ('phone_numbers', PhoneNumber),
+        ('addresses', Address),
+        ('emergency_contacts', EmergencyContact),
+        ('household_members', HouseholdMember),
+        ('employers', Employer),
+        ('document_images', DocumentImage)
+    ]:
+        if form[field_name]:
+            remove_blank_rows_helper(form[field_name])
+
+
+def remove_blank_rows_helper(field):
+    # If the last row in a many-to-one section doesn't have any data, don't save it
+    if not bool([val for key, val in field[-1].data.iteritems() if (
+        val != ''
+        and val is not None
+        and key != 'id'
+        and not (key in ['state', 'employee'])
+        and not (
+            type(val) is FileStorage
+            and val.filename == ''
+        )
+    )]):
+        field.pop_entry()

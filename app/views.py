@@ -51,7 +51,9 @@ from app.utils import (
     translate_object,
     get_unsaved_form,
     check_patient_permission,
-    send_referral_notification_email
+    send_referral_notification_email,
+    remove_blank_rows,
+    remove_blank_rows_helper
 )
 
 
@@ -150,6 +152,9 @@ def new_patient():
         db.session.commit()
         return redirect(url_for('screener.patient_details', id=patient.id))
     else:
+        # Delete empty rows at end of many-to-one tables
+        remove_blank_rows(form)
+
         return render_template('patient_details.html', patient={}, form=form)
 
 
@@ -238,6 +243,10 @@ def patient_details(id):
             form=form,
             save_message=True
         )
+
+    # Delete empty rows at end of many-to-one tables
+    remove_blank_rows(form)
+
     return render_template(
         'patient_details.html',
         patient=patient,
@@ -259,17 +268,7 @@ def update_patient(patient, form, files):
     ]:
         if form[field_name]:
             # If the last row in a many-to-one section doesn't have any data, don't save it
-            if not bool([val for key, val in form[field_name][-1].data.iteritems() if (
-                val != ''
-                and val is not None
-                and key != 'id'
-                and not (key in ['state', 'employee'])
-                and not (
-                    type(val) is FileStorage
-                    and val.filename == ''
-                )
-            )]):
-                form[field_name].pop_entry()
+            remove_blank_rows_helper(form[field_name])
 
             # Add a new child object for each new item in a many-to-one section
             new_row_count = len(form[field_name].entries) - getattr(patient, field_name).count()
@@ -385,7 +384,10 @@ def new_prescreening():
         session['service_ids'] = request.form.getlist('services')
         return redirect(url_for('screener.prescreening_basic'))
     services = Service.query.all()
-    return render_template('new_prescreening.html', services=services)
+    return render_template(
+        'new_prescreening.html',
+        services=[s for s in services if s.has_screening_yn == 'Y']
+    )
 
 
 @screener.route('/prescreening_basic', methods=['POST', 'GET'])
@@ -543,7 +545,7 @@ def patient_share(patient_id):
             fpl=patient.fpl_percentage,
             has_health_insurance=patient.insurance_status,
             is_eligible_for_medicaid="",
-            service_ids=[s.id for s in services]
+            service_ids=[s.id for s in services if s.has_screening_yn == 'Y']
         ),
         household_size=patient.household_members.count() + 1,
         household_income=patient.total_annual_income,

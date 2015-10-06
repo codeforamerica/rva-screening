@@ -5,9 +5,14 @@
   <div class="form_multiform form_multiform_self">
     <div class="multiform_content">
       <div class="multiform_content_readonly row">
-        <span class="multiform_item block_3"><strong>{{ form.first_name.data }} {{ form.last_name.data }}</strong></span>
-        <span class="multiform_item block_3">DoB: {{ form.dob.data }}</span>
-        <span class="multiform_item block_3">SSN: {{ form.ssn.data }}</span>
+        <span class="multiform_item block_3">
+          {% if form.first_name.data and form.last_name.data %}
+            <strong>{{ form.first_name.data }} {{ form.last_name.data }}</strong></span>
+          {% else %}
+            <strong>{{ _("Self") }}</strong></span>
+          {% endif %}
+        <span class="multiform_item block_3">DoB: {{ form.dob.data if form.dob.data}}</span>
+        <span class="multiform_item block_3">SSN: {{ form.ssn.data if form.ssn.data}}</span>
         <span class="multiform_item block_3 multiform_item_description">Current Patient</span>
       </div>
     </div>

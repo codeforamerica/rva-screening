@@ -24,6 +24,7 @@ def main(app=create_app()):
             website_url='http://www.dailyplanetva.org/',
             main_contact_name='Teresa Kimm',
             main_contact_phone='(804) 783-2505',
+            has_screening_yn='Y',
             fpl_cutoff=None,
             uninsured_only_yn='N',
             medicaid_ineligible_only_yn='N',
@@ -178,6 +179,7 @@ def main(app=create_app()):
             website_url='http://www.crossoverministry.org/',
             main_contact_name='Alex Chamberlain',
             main_contact_phone='(804) 521-8263',
+            has_screening_yn='Y',
             fpl_cutoff=200,
             uninsured_only_yn='Y',
             medicaid_ineligible_only_yn='N',
@@ -255,6 +257,7 @@ def main(app=create_app()):
             website_url='http://www.ramdocs.org/?page=AccessNow',
             main_contact_name='Elizabeth Wong',
             main_contact_phone='(804) 643-6631',
+            has_screening_yn='Y',
             fpl_cutoff=200,
             uninsured_only_yn='Y',
             medicaid_ineligible_only_yn='Y',
@@ -283,6 +286,7 @@ def main(app=create_app()):
             website_url='http://www.vdh.virginia.gov/LHD/richmondcity/clinic.htm',
             main_contact_name='Amy Popovich',
             main_contact_phone='(804) 205-3733',
+            has_screening_yn='Y',
             fpl_cutoff=None,
             uninsured_only_yn='N',
             medicaid_ineligible_only_yn='N',
@@ -424,13 +428,143 @@ def main(app=create_app()):
             ]
         )
 
-        db.session.add_all([daily_planet, crossover, access_now, resource_centers])
+        oar = Service(
+            name='OAR',
+            description='OAR of Richmond is the leading reentry service provider for \
+            former offenders returning to the Richmond, Virginia area. OAR provides \
+            services in 5 local jails and Reentry Services in our downtown Richmond, \
+            Virginia office.',
+            website_url='http://www.oarric.org/',
+            main_contact_name='Sara Conlon',
+            main_contact_phone='(804) 643-2746',
+            has_screening_yn='N',
+            referral_emails=[
+                ServiceReferralEmail(
+                    email="richmond@codeforamerica.org"
+                )
+            ],
+            locations=[
+                ServiceLocation(
+                    name="Downtown Office",
+                    address="1 North 3rd Street, Suite 200, Richmond, VA 23219",
+                    latitude=37.541445,
+                    longitude=-77.441671
+                )
+            ]
+        )
+
+        careavan = Service(
+            name='Care-A-Van',
+            description='The Bon Secours Care-A-Van is a free medical service that provides \
+            primary care to uninsured adults and children the Greater Richmond community. \
+            The Care-A-Van team is bilingual (Spanish/English) and composed of physicians, \
+            nurse practitioners, registered nurses, patient care technicians, licensed \
+            practical nurses, drivers, registrars, trained medical interpreters, registered \
+            dieticians, licensed clinical social workers, and outreach workers.  Community \
+            partners, including free clinics, local health agencies, and numerous faith-based \
+            community organizations, collaborate with us.',
+            website_url='http://richmond.bonsecours.com/about-us-mission-and-outreach-community-health-services-care-a-van.html',
+            main_contact_name='Julie Bondy',
+            main_contact_phone='(804) 545-1920',
+            has_screening_yn='N',
+            referral_emails=[
+                ServiceReferralEmail(
+                    email="richmond@codeforamerica.org"
+                )
+            ],
+            locations=[
+                ServiceLocation(
+                    name="St. Joseph's Outreach Clinic",
+                    address="8000 Brook Road Richmond, VA 23227",
+                    latitude=37.632279,
+                    longitude=-77.459105
+                )
+            ]
+        )
+
+        bon_secours_ed = Service(
+            name='Bon Secours Emergency Department',
+            description='In 1824, the sisters of Bon Secours were founded in Paris. Bon \
+            Secours means \'good help\' and it was in 1881 that the sisters expanded their \
+            healing mission to the U.S., eventually establishing a non-profit Catholic \
+            healthcare system. Our goal has always been to provide compassionate, quality \
+            healthcare to those in need. This ambition is not only embraced by our doctors \
+            and nurses, but by everyone. That\'s what we mean by Complete Health.',
+            website_url='http://richmond.bonsecours.com/',
+            main_contact_name='Kara Weiland',
+            main_contact_phone='804-225-1704',
+            has_screening_yn='N',
+            referral_emails=[
+                ServiceReferralEmail(
+                    email="richmond@codeforamerica.org"
+                )
+            ],
+            locations=[
+                ServiceLocation(
+                    name="Richmond Community Hospital",
+                    address="1500 N. 28th Street Richmond, VA 23223",
+                    latitude=37.540270,
+                    longitude=-77.406993
+                )
+            ]
+        )
+
+        rchbp = Service(
+            name='Richmond Center for High Blood Pressure',
+            description='We are a nurse-run, free clinic offering health care services to \
+            the uninsured citizens of Greater Richmond. For more than 30 years, the Center \
+            has been preventing Strokes, Heart Attacks and Kidney Failure by detecting and \
+            helping to manage high blood pressure, diabetes, and high cholesterol among the \
+            uninsured population of Greater Richmond. The Center serves as a model for \
+            chronic disease management for adult patients.',
+            website_url='http://www.rahbpc.org/',
+            main_contact_name='Kim Lewis',
+            main_contact_phone='804-359-9375',
+            has_screening_yn='Y',
+            fpl_cutoff=200,
+            uninsured_only_yn='Y',
+            medicaid_ineligible_only_yn='Y',
+            residence_requirement_yn='N',
+            time_in_area_requirement_yn='N',
+            referral_emails=[
+                ServiceReferralEmail(
+                    email="richmond@codeforamerica.org"
+                )
+            ],
+            locations=[
+                ServiceLocation(
+                    name="Main Office",
+                    address="1200 West Cary Street Richmond, VA 23220",
+                    latitude=37.544835,
+                    longitude=-77.456712
+                )
+            ]
+        )
+
+        all_services = [
+            daily_planet,
+            crossover,
+            access_now,
+            resource_centers,
+            oar,
+            careavan,
+            bon_secours_ed,
+            rchbp
+        ]
+
+        db.session.add_all(all_services)
 
         # Set which services can refer to which
-        daily_planet.accepts_referrals_from.extend([crossover, resource_centers, access_now])
-        crossover.accepts_referrals_from.extend([daily_planet, resource_centers, access_now])
-        access_now.accepts_referrals_from.extend([daily_planet, crossover])
-        resource_centers.accepts_referrals_from.extend([daily_planet, crossover, access_now])
+        for service in [s for s in all_services if s.name != 'Access Now']:
+            service.accepts_referrals_from.extend(
+                [s for s in all_services if s.name != service.name]
+            )
+        access_now.accepts_referrals_from.extend([
+            daily_planet,
+            crossover,
+            careavan,
+            rchbp
+        ])
 
         db.session.commit()
         print 'Added service eligibility and sliding scale data'
