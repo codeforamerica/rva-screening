@@ -42,9 +42,7 @@ var Search = function ( options ) {
     var valueLName = $('#field_search_patient_last_name').val();
     var valueDob = $('#field_search_patient_dob').val();
     var valueSsn = $('#field_search_patient_ssn').val();
-    console.log(valueFName, valueLName, valueDob, valueSsn);
     var res = JSON.search( S.data, '//*[contains(fname, "'+valueFName+'") and contains(lname, "'+valueLName+'") and contains(dob, "'+valueDob+'") and contains(ssn, "'+valueSsn+'")]' );
-    console.log(S.data, res);
     var results = translateResults(res, valueFName + ' ' + valueLName);
 
     if (res.length > S.data.total) {
