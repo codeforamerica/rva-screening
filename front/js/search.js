@@ -38,11 +38,14 @@ var Search = function ( options ) {
 
   $(this.elementClass).on('keyup', function(e){
 
-    var valueName = $('#field_search_patient_name').val();
+    var valueFName = $('#field_search_patient_first_name').val();
+    var valueLName = $('#field_search_patient_last_name').val();
     var valueDob = $('#field_search_patient_dob').val();
     var valueSsn = $('#field_search_patient_ssn').val();
-    var res = JSON.search( S.data, '//*[contains(name, "'+valueName+'") or contains(dob, "'+valueDob+'") or contains(ssn, "'+valueSsn+'")]' );
-    var results = translateResults(res, valueName);
+    console.log(valueFName, valueLName, valueDob, valueSsn);
+    var res = JSON.search( S.data, '//*[contains(fname, "'+valueFName+'") and contains(lname, "'+valueLName+'") and contains(dob, "'+valueDob+'") and contains(ssn, "'+valueSsn+'")]' );
+    console.log(S.data, res);
+    var results = translateResults(res, valueFName + ' ' + valueLName);
 
     if (res.length > S.data.total) {
       var html = "";
@@ -84,9 +87,9 @@ var templates = {
       
       var anchor = document.createElement('a');
       anchor.href = patient.url;
-      anchor.innerHTML += '<span class="list_row_item list_row_name">' + patient.name + '</span>';
+      anchor.innerHTML += '<span class="list_row_item list_row_name">' + patient.fname + ' ' + patient.lname + '</span>';
       anchor.innerHTML += '<span class="list_row_item list_row_dob">' + patient.dob + '</span>';
-      anchor.innerHTML += '<span class="list_row_item list_row_edits">Some extra information</span>';
+      anchor.innerHTML += '<span class="list_row_item list_row_edits">' + patient.created + '</span>';
 
       li.appendChild(anchor);
       elem.appendChild(li);
@@ -107,9 +110,10 @@ var templates = {
     elem.className = 'no_results';
     elem.innerHTML = '<p><i class="fa fa-exclamation-circle"></i> No patients matched <strong>' + data.none[0].name + '</strong></p>';
     
-    var newPatient = document.createElement('a');
+    var newPatient = document.createElement('button');
     newPatient.className = 'button button_blue button_fat button_add';
-    newPatient.href = newPatientUrl || '/new_patient';
+    newPatient.setAttribute('type', 'submit');
+    // newPatient.href = newPatientUrl || '/new_patient';
     newPatient.innerHTML = 'Create a new patient record with ' + data.none[0].name;
     
     elem.appendChild(newPatient);

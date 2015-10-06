@@ -88,6 +88,22 @@ class PrescreenForm(Form):
         default="",
     )
 
+class SearchPatientForm(Form):
+    search_patient_first_name = fields.TextField(
+        _('First Name')
+    )
+    search_patient_last_name = fields.TextField(
+        _('Last Name')
+    )
+    search_patient_dob = fields.DateField(
+        _('Date of birth'),
+        validators=[Optional()]
+    )
+    search_patient_ssn = fields.TextField(
+        _('Social security number'),
+        [Optional(), validators.Length(max=11), validate_ssn]
+    )
+
 
 class PhoneNumberForm(NoCsrfForm):
     phone_number = fields.TextField(

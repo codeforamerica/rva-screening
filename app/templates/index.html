@@ -197,9 +197,11 @@
 
   {% for patient in all_patients %}
   temp = {
-    name: '{% if patient.middle_name %} {{ patient.first_name ~ ' ' ~ patient.middle_name ~ ' ' ~ patient.last_name }} {% else %} {{ patient.first_name ~ ' ' ~ patient.last_name }} {% endif %}',
+    fname: '{{ patient.first_name }}',
+    lname: '{{ patient.last_name }}',
     dob: '{{ patient.dob }}',
     ssn: '{{ patient.ssn }}',
+    created: 'Created on {{ patient.created.strftime("%m/%d/%Y") }} at {{ patient.created_by.service.name }}',
     url: '{{ url_for('screener.patient_overview', id=patient.id) }}'
   };
   tempSearchData.list.push(temp);
