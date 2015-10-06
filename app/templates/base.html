@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html {{ _('lang="en"') }}>
   {% include "includes/head.html" %}
   <body>
@@ -12,9 +13,9 @@
     <script>
     window.onload = init();
     function init() {
-      window.App = new AppController({
-        foo: 'bar'
-      });
+      // window.App = new AppController({
+      //   foo: 'bar'
+      // });
 
       window.menu = new Menu({
         id: 'nav'
