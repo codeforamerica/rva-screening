@@ -15,17 +15,20 @@
         <div class="form_row">
           {{ render_field(entry.city, class="field_third") }}
           {{ render_field(entry.state, class="field_sixth field_pad") }}
-          {{ render_field(entry.zip_code, class="field_quarter") }}
+          {{ render_field(entry.zip_code, class="field_quarter field_pad_right") }}
+          {{ render_field(entry.address_description, class="field_quarter") }}
         </div>
-        {{ render_field(entry.address_description) }}
-        {{ render_field(entry.address_description_other) }}
+        
+        <div class="form_row">
+          {{ render_field(entry.address_description_other, class="field_half field_float_right") }}
+        </div>
       </div>
 
       <div class="multiform_content_readonly row">
         <span class="multiform_item block_3">{{ entry.address1.data }} {{ entry.address2.data }}</span>
         <span class="multiform_item block_3">{{ entry.city.data }}, {{ entry.state.data }}</span>
         <span class="multiform_item block_3">{{ entry.zip_code.data }}</span>
-        <span class="multiform_item block_3 multiform_item_description">{{ entry.address_description.data }}</span>
+        <span class="multiform_item block_3 multiform_item_description">{{ entry.address_description.data }} {% if entry.address_description_other.data %} ({{ entry.address_description_other.data }}){% endif %}</span>
       </div>
     </div>
     
@@ -46,9 +49,11 @@
         <div class="form_row">
           {{ render_field(entry.city, class="field_third") }}
           {{ render_field(entry.state, class="field_sixth field_pad") }}
-          {{ render_field(entry.zip_code, class="field_sixth field_pad_right") }}
-          {{ render_field(entry.address_description, class="field_third") }}
-          {{ render_field(entry.address_description_other, class="field_third") }}
+          {{ render_field(entry.zip_code, class="field_quarter field_pad_right") }}
+          {{ render_field(entry.address_description, class="field_quarter") }}
+        </div>
+        <div class="form_row">
+          {{ render_field(entry.address_description_other, class="field_half field_float_right") }}
         </div>
       </div>
     </div>    

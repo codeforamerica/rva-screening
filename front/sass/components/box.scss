@@ -78,11 +78,17 @@ $box-referral-color: #3D9970;
     }
   }
 
-  &.box-referral-eligible,
-  &.box-referral-active {
+  &.box-referral-eligible {
     background: lighten(#7FDBFF, 10);
     .box-referral-right {
       background: #7FDBFF;
+    }
+  }
+  &.box-referral-active,
+  &.box-referral-sent {
+    background: lighten(#FFDC00, 30);
+    .box-referral-right {
+      background: #FFDC00;
     }
   }
 }

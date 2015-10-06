@@ -148,7 +148,7 @@ function sharePatientInfo( elem, patient_id, app_user_id, service_id ) {
     app_user_id: app_user_id,
     service_id: service_id
   }).done(function() {
-    $(elem).addClass('shared');
+    $(elem).addClass('box-referral-sent');
     $(elem).text('Referral sent!');
   });
 }

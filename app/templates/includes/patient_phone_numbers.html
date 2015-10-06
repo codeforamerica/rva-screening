@@ -8,11 +8,11 @@
       <div class="multiform_content_fields">
           {{ render_field(entry.phone_number, class="field_third") }}
           {{ render_field(entry.number_description, class="field_twothird field_pad_left") }}
-          {{ render_field(entry.number_description_other, class="field_third") }}
+          {{ render_field(entry.number_description_other, class="field_twothird field_float_right") }}
       </div>
       <div class="multiform_content_readonly row">
         <span class="multiform_item block_3">{{ entry.phone_number.data }}</span>
-        <span class="multiform_item block_9 multiform_item_description">{{ entry.number_description.data }}</span>
+        <span class="multiform_item block_9 multiform_item_description">{{ entry.number_description.data }}{% if entry.number_description_other.data %} ({{ entry.number_description_other.data }}){% endif %}</span>
       </div>
     </div>
     {% include "includes/multiform_controls.html" %}
@@ -27,7 +27,7 @@
         <div class="row">
           {{ render_field(entry.phone_number, class="field_third") }}
           {{ render_field(entry.number_description, class="field_twothird field_pad_left") }}
-          {{ render_field(entry.number_description_other, class="field_third") }}
+          {{ render_field(entry.number_description_other, class="field_twothird field_float_right") }}
         </div>
       </div>
     </div>
