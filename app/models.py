@@ -373,6 +373,7 @@ class Service(BasicTable, db.Model):
     website_url = db.Column(db.String(128))
     main_contact_name = db.Column(db.String(64))
     main_contact_phone = db.Column(db.String(32))
+    has_screening_yn = db.Column(db.String(1))
     fpl_cutoff = db.Column(db.Integer)
     uninsured_only_yn = db.Column(db.String(1))
     medicaid_ineligible_only_yn = db.Column(db.String(1))

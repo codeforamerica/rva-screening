@@ -18,7 +18,7 @@
     <li class="patientNav_subli"><a href="#insurance">Insurance</a></li>
     {% endif %}
     
-    <li class="patientNav_li{% if request.path == url_for('screener.patient_share', patient_id=patient.id) %} patientNav_li_active{% endif %}"><a href="{{ url_for('screener.patient_share', patient_id=patient.id) }}"><i class="fa fa-paper-plane"></i>Review & Send</a></li>
+    <li class="patientNav_li{% if request.path == url_for('screener.patient_share', patient_id=patient.id) %} patientNav_li_active{% endif %}"><a href="{{ url_for('screener.patient_share', patient_id=patient.id) }}"><i class="fa fa-paper-plane"></i>Eligibility and Referral</a></li>
 
     <li class="patientNav_li{% if request.path == url_for('screener.patient_screening_history', patient_id=patient.id) %} patientNav_li_active{% endif %}"><a href="{{ url_for('screener.patient_screening_history', patient_id=patient.id) }}"><i class="fa fa-clock-o"></i>Referral History</a></li>
 
