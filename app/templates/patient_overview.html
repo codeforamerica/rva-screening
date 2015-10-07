@@ -3,114 +3,122 @@
 {% extends "patient.html" %}
 {% block patient_content %}
 
+<div class="box">
+  <div class="box_title">Overview</div>
+  <div class="box_content">
+    <ul class="patientOverview">
+      <li class="list_row">Profile created on {{ patient.created.strftime('%m/%d/%Y') }} by {{ patient.created_by.full_name }}</li>
+      {% if patient.fpl_percentage %}
+      <li class="list_row">
+        Estimated Federal Poverty Level <span>% <strong>{{ '%0.2f'| format(patient.fpl_percentage|float) }}</strong></span>
+      </li>
+      {% endif %}
 
-<ul class="patientOverview">
-  <li class="list_row">Profile created on {{ patient.created.strftime('%m/%d/%Y') }} by {{ patient.created_by.full_name }}</li>
-  {% if patient.fpl_percentage %}
-  <li class="list_row">
-    Estimated Federal Poverty Level <span>% <strong>{{ '%0.2f'| format(patient.fpl_percentage|float) }}</strong></span>
-  </li>
-  {% endif %}
+      {% if patient.total_annual_income %}
+      <li class="list_row">
+         Monthly Income <span><i class="fa fa-usd"></i> <strong>{{(patient.total_annual_income / 12) | int}} </strong>/ {{ _("month") }}</span>
+      </li>
+      {% endif %}
 
-  {% if patient.total_annual_income %}
-  <li class="list_row">
-     Monthly Income <span><i class="fa fa-usd"></i> <strong>{{(patient.total_annual_income / 12) | int}} </strong>/ {{ _("month") }}</span>
-  </li>
-  {% endif %}
+      {% if patient.household_members %}
+      <li class="list_row">
+        Household Size <span><strong>{{ patient.household_members.count() + 1 }}</strong> household members</span>
+      </li>
+      {% endif %}
 
-  {% if patient.household_members %}
-  <li class="list_row">
-    Household Size <span><strong>{{ patient.household_members.count() + 1 }}</strong> household members</span>
-  </li>
-  {% endif %}
+      {% if patient.document_images %}
+      <li class="list_row">
+        Documents <span><strong>{{patient.document_images.count()}}</strong> documents uploaded</span>
+      </li>
+      {% endif %}
 
-  {% if patient.document_images %}
-  <li class="list_row">
-    Documents <span><strong>{{patient.document_images.count()}}</strong> documents uploaded</span>
-  </li>
-  {% endif %}
+      {% if patient.insurance_status %}
+      <li class="list_row">
+        Does {{ patient.first_name }} have insurance?
+        {% if patient.insurance_status == "Y" %}
+        <span>Yes</span>{% if patient.coverage_type %}, with {% if patient.coverage_type == "OTHER" %}<span>{{ patient.coverage_type_other }}</span>{% else %}<span>{{ patient.coverage_type }}</span>{% endif %}{% endif %}
+        {% else %}
+        <span>No</span>
+        {% endif %}
+      </li>
+      {% endif %}
 
-  {% if patient.insurance_status %}
-  <li class="list_row">
-    Does {{ patient.first_name }} have insurance?
-    {% if patient.insurance_status == "Y" %}
-    <span>Yes</span>{% if patient.coverage_type %}, with {% if patient.coverage_type == "OTHER" %}<span>{{ patient.coverage_type_other }}</span>{% else %}<span>{{ patient.coverage_type }}</span>{% endif %}{% endif %}
-    {% else %}
-    <span>No</span>
+      {% if patient.insurance_status %}
+      <li class="list_row">
+        {{ _("Time lived in the Greater Richmond area")}} <span>{{ patient.years_living_in_area }}</span> years, <span>{{ patient.months_living_in_area }}</span> months.
+      </li>
+      {% endif %}
+    </ul>
+
+  </div>
+</div>
+
+
+<div class="box">
+  <div class="box_title">{{ current_user.service.name }} Eligibility</div>
+
+
+  {% for service in services %}
+    {% if service.id == current_user.service_id %}
+      {% if service.eligible %}
+      <div class="patientEstimation patientEstimation_eligible">
+        <p class="color-success"><i class="fa fa-check"></i> {{ patient.first_name }} {{ patient.last_name }} is <strong>likely eligible</strong> for services at {{ service.name }}</p>
+        <p><small>Results are based on FPL calculations, household size, whether or not {{ patient.first_name }} has health insurance, and if {{ patient.first_name }} is eligible for Medicaid.</small></p>
+      </div>
+      {% else %}
+      <div class="patientEstimation patientEstimation_noteligible">
+        <p class="color-success"><i class="fa fa-times"></i> {{ patient.first_name }} {{ patient.last_name }} is likely <strong>not eligible</strong> for services at {{ service.name }}</p>
+        <p><small>Results are based on FPL calculations, household size, whether or not {{ patient.first_name }} has health insurance, and if {{ patient.first_name }} is eligible for Medicaid. You can edit these details in <a href="{{ url_for('screener.patient_details', id=patient.id) }}">{{ patient.first_name}}'s patient details page.</a></small></p>
+      </div>
+      {% endif %}
     {% endif %}
-  </li>
-  {% endif %}
+  {% endfor %}
 
-  {% if patient.insurance_status %}
-  <li class="list_row">
-    {{ _("Time lived in the Greater Richmond area")}} <span>{{ patient.years_living_in_area }}</span> years, <span>{{ patient.months_living_in_area }}</span> months.
-  </li>
-  {% endif %}
-</ul>
+  <div class="patientEligibilityForm box_content" id="eligibility-form">
+    <p>Can you confirm or deny the above estimation? Is {{ patient.first_name }} eligible for care at {{ current_user.service.name }}? Fill out the form below to submit {{ patient.first_name }}'s eligibility status.</p>
 
+    <form method="post">
+      {{ form.hidden_tag() }}
 
-<h2>{{ current_user.service.name }} Eligibility</h2>
-
-{% for service in services %}
-  {% if service.id == current_user.service_id %}
-    {% if service.eligible %}
-    <div class="patientEstimation patientEstimation_eligible">
-      <p class="color-success"><i class="fa fa-check"></i> {{ patient.first_name }} {{ patient.last_name }} is <strong>likely eligible</strong> for services at {{ service.name }}</p>
-      <p><small>Results are based on FPL calculations, household size, whether or not {{ patient.first_name }} has health insurance, and if {{ patient.first_name }} is eligible for Medicaid.</small></p>
-    </div>
-    {% else %}
-    <div class="patientEstimation patientEstimation_noteligible">
-      <p class="color-success"><i class="fa fa-times"></i> {{ patient.first_name }} {{ patient.last_name }} is likely <strong>not eligible</strong> for services at {{ service.name }}</p>
-      <p><small>Results are based on FPL calculations, household size, whether or not {{ patient.first_name }} has health insurance, and if {{ patient.first_name }} is eligible for Medicaid. You can edit these details in <a href="{{ url_for('screener.patient_details', id=patient.id) }}">{{ patient.first_name}}'s patient details page.</a></small></p>
-    </div>
-    {% endif %}
-  {% endif %}
-{% endfor %}
-
-<div class="patientEligibilityForm" id="eligibility-form">
-  <p>Can you confirm or deny the above estimation? Is {{ patient.first_name }} eligible for care at {{ current_user.service.name }}? Fill out the form below to submit {{ patient.first_name }}'s eligibility status.</p>
-
-  <form method="post">
-    {{ form.hidden_tag() }}
-
-    {% if form.errors %}
-      <ul class="alert_list alert_error">
-        {% for field_name, field_errors in form.errors|dictsort if field_errors %}
-          {% for error in field_errors %}
-            <li>{{ form[field_name].label }}: {{ error }}</li>
+      {% if form.errors %}
+        <ul class="alert_list alert_error">
+          {% for field_name, field_errors in form.errors|dictsort if field_errors %}
+            {% for error in field_errors %}
+              <li>{{ form[field_name].label }}: {{ error }}</li>
+            {% endfor %}
           {% endfor %}
-        {% endfor %}
-      </ul>
-    {% endif %}
+        </ul>
+      {% endif %}
 
-    <div class="form_row">
-      <p><strong>Message about {{ patient.first_name }}'s eligibility status.</strong></p>
-      {{ form.notes() }}
-    </div>
-
-    <div class="form_row">
-      <div class="field_third">
-        
-        <p><strong>Is {{ patient.first_name }} {{ patient.last_name }} eligible for services at {{ current_user.service.name }}?</strong></p>
-        {{ form.eligible_yn }}
-      
+      <div class="form_row">
+        <p><strong>Message about {{ patient.first_name }}'s eligibility status.</strong></p>
+        {{ form.notes() }}
       </div>
 
-      {{ render_field(form.sliding_scale_id, class='field_third') }}
-    </div>
+      <div class="form_row">
+        <div class="field_third">
+          
+          <p><strong>Is {{ patient.first_name }} {{ patient.last_name }} eligible for services at {{ current_user.service.name }}?</strong></p>
+          {{ form.eligible_yn }}
+        
+        </div>
 
-    <div class="form_row">
-     <!--  <button id="submit" name="submit" type="submit" value="Submit" class="button button_green">
-        {{ _("Submit") }}
-      </button> -->
+        {{ render_field(form.sliding_scale_id, class='field_third') }}
+      </div>
 
-      {{ form.submit() }}
+      <div class="form_row">
+       <!--  <button id="submit" name="submit" type="submit" value="Submit" class="button button_green">
+          {{ _("Submit") }}
+        </button> -->
 
-      <!-- <button type="submit" class="button button_red">
-        {{ _("Patient is not eligible for services") }}
-      </button> -->
-    </div>
-  </form>
+        {{ form.submit() }}
+
+        <!-- <button type="submit" class="button button_red">
+          {{ _("Patient is not eligible for services") }}
+        </button> -->
+      </div>
+    </form>
+  </div>
 </div>
 
 {% endblock %}  

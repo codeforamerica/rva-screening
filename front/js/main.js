@@ -54,10 +54,9 @@ var AppController = function ( options ) {
     // sticky sidebar for patient nav
     if ($('#stickyNav').length) {
       var $nav = $('#stickyNav');
-      var navFromTop = $nav.offset().top
+      var navFromTop = $nav.offset().top;
       $(window).scroll(function(){
         var fromTop = $(window).scrollTop();
-        if($('.patientStickyNav').height()) fromTop += $('#nav').height();
         if (fromTop > navFromTop) {
           if (!$nav.hasClass('sticky')) {
             $nav.css('width', $nav.width());

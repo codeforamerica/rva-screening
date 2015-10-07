@@ -1,33 +1,33 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div class="container">
+<div class="container container_bump">
 
     <form method="post">
 
-      <div class="block_3 block_padding">
-        <h4>{{ _('Prescreener') }}</h4>
+      <div class="block_3">
+        <h2>{{ _('Prescreener') }}</h2>
         <button type="submit" class="filter filter_active" href="">1. Select Services</button>
         <button type="submit" class="filter" href="">2. General Information</button>
         <button type="submit" class="filter" href="">3. Results</button>
       </div>
 
-      <div class="block_9">
-        <h3>{{ _("Which services would you like to check your eligibility for?") }}</h3>
-    
-        {% for service in services %}
-          <label class="field_checkbox checkbox_blue checkbox_full">
-            <input type="checkbox" class="text" value="{{service.id}}" name="services" checked="true">
-            <span class="field_checkbox_content">
-              <span class="field_checkbox_content_title">{{service.name}}</span>
-            </span>
-          </label>
-        {% endfor %}
-        <br> 
-        <button class="button button_green"  type="submit">
-          {{ _("Check eligibility") }} <i class="fa fa-chevron-right"></i>
-        </button>
-
+      <div class="block_9 box">
+        <div class="box_title">{{ _("Which services would you like to check your eligibility for?") }}</div>
+        <div class="box_content">
+          {% for service in services %}
+            <label class="field_checkbox checkbox_blue checkbox_full">
+              <input type="checkbox" class="text" value="{{service.id}}" name="services" checked="true">
+              <span class="field_checkbox_content">
+                <span class="field_checkbox_content_title">{{service.name}}</span>
+              </span>
+            </label>
+          {% endfor %}
+          <br> 
+          <button class="button button_green"  type="submit">
+            {{ _("Check eligibility") }} <i class="fa fa-chevron-right"></i>
+          </button>
+        </div>
       </div>
     </form>
   </div>

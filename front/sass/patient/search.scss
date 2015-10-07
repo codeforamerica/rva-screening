@@ -1,6 +1,6 @@
 .section_search {
   padding: 3em 0;
-  background-color: $section_search_background_color;
+  background-color: $white;
   box-shadow: 0 0 4px 0px rgba(0,0,0,0.6);
   margin-bottom: 1em;
 }
@@ -23,10 +23,13 @@
 
 .list_search {
   .list_row {
-    opacity: 0.5;
+    opacity: 0.6;
     &:hover {
       opacity: 1;
       background: transparent;
+      .patient_search_result_item {
+        background: $blue;
+      }
     }
   }
   .patient_search_result_item {
@@ -47,51 +50,4 @@
   .patient_search_button {
     margin-top: 0;
   }
-}
-
-
-.search_results_spinner {
-  display: block;
-  text-align: center;
-}
-
-// to spin things infinitely
-@-webkit-keyframes rotating {
-  from {
-    -ms-transform: rotate(0deg);
-    -moz-transform: rotate(0deg);
-    -webkit-transform: rotate(0deg);
-    -o-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  to {
-    -ms-transform: rotate(360deg);
-    -moz-transform: rotate(360deg);
-    -webkit-transform: rotate(360deg);
-    -o-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
-@keyframes rotating {
-  from {
-    -ms-transform: rotate(0deg);
-    -moz-transform: rotate(0deg);
-    -webkit-transform: rotate(0deg);
-    -o-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  to {
-    -ms-transform: rotate(360deg);
-    -moz-transform: rotate(360deg);
-    -webkit-transform: rotate(360deg);
-    -o-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
-.spinner {
-  -webkit-animation: rotating 2s linear infinite;
-  -moz-animation: rotating 2s linear infinite;
-  -ms-animation: rotating 2s linear infinite;
-  -o-animation: rotating 2s linear infinite;
-  animation: rotating 2s linear infinite;
 }

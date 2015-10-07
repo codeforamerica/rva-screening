@@ -10,7 +10,7 @@
 
 .service_details {
   p {
-    margin: 0.4em;
+    color: $text;
     .fa {
       color: $color-gray;
       margin-right: 5px;
@@ -19,7 +19,9 @@
 }
 
 .service_description {
-  margin: 2em 0;
+  color: $text;
+  line-height: 1.5em;
+  margin-bottom: 1em;
 }
 
 .service_locations {
