@@ -172,8 +172,9 @@ class Patient(BasicTable, db.Model):
     housing_status = db.Column(db.String(16), info=_('Housing status'))
     housing_status_other = db.Column(db.String(32), info=_('Housing status - Other'))
 
-    years_living_in_area = db.Column(db.Integer, info=_('Years living in area'))
-    months_living_in_area = db.Column(db.Integer, info=_('Months living in area'))
+    time_in_area = db.Column(db.String(16), info=_('How long have you lived in the Greater Richmond area?'))
+    # years_living_in_area = db.Column(db.Integer, info=_('Years living in area'))
+    # months_living_in_area = db.Column(db.Integer, info=_('Months living in area'))
     city_or_county_of_residence = db.Column(
         db.String(64),
         info=_('City or County of Residence')
@@ -192,11 +193,8 @@ class Patient(BasicTable, db.Model):
     spouse_months_unemployed = db.Column(db.Integer, info=_('Spouse\'s months unemployed'))
     spouse_employment_changes = db.Column(db.String(16), info=_('Spouse\'s employment changes'))
     employers = db.relationship('Employer', backref='patient', lazy='dynamic')
-    years_at_current_employer = db.Column(db.Integer, info=('Years at current employer'))
-    spouse_years_at_current_employer = db.Column(
-        db.Integer,
-        info=('Spouse\'s years at current employer')
-    )
+    years_at_current_employer = db.Column(db.String(32), info=('Years at current employer'))
+    spouse_years_at_current_employer = db.Column(db.String(32), info=('Spouse\'s years at current employer'))
 
     # Healthcare/coverage
     last_healthcare = db.Column(db.String(128), info=_('Last healthcare received'))
@@ -270,7 +268,9 @@ class PhoneNumber(BasicTable, db.Model):
     patient_id = db.Column(db.Integer, db.ForeignKey("patient.id"))
     phone_number = db.Column(db.String(32), info=_('Phone number'))
     number_description = db.Column(db.String(64), info=_('Description'))
+    number_description_other = db.Column(db.String(64), info=_('Phone description - Other'))
     primary_yn = db.Column(db.String(1), info=_('Primary number?'))
+    
 
 
 class Address(BasicTable, db.Model):
@@ -282,6 +282,7 @@ class Address(BasicTable, db.Model):
     state = db.Column(db.String(2), info=_('State'))
     zip_code = db.Column(db.String(10), info=_('ZIP'))
     address_description = db.Column(db.String(64), info=_('Description'))
+    address_description_other = db.Column(db.String(64), info=_('Address description - Other'))
 
 
 class EmergencyContact(BasicTable, db.Model):

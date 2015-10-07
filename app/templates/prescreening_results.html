@@ -3,8 +3,8 @@
 
 <div class="container">
 
-  <div class="block_3 block_padding">
-    <h4>{{ _('Prescreener') }}</h4>
+  <div class="block_3">
+    <h2>{{ _('Prescreener') }}</h2>
     <a class="filter" href="{{ url_for('screener.new_prescreening') }}">1. Select Services</a>
     <a class="filter" href="{{ url_for('screener.prescreening_basic') }}">2. General Information</a>
     <button type="submit" class="filter filter_active" href="">3. Results</button>
@@ -12,16 +12,16 @@
     <h4>{{ _('Patient Information') }}</h4>
     <div class="overview_patient">
       <div class="overview_patient_item">
-        <p>{{ _('Federal Poverty Level percentage') }}</p>
-        <h2>{{ fpl | int }}%</h2>
+        <p><strong>{{ _('Federal Poverty Level percentage') }}</strong><br>
+        {{ fpl | int }}%</p>
       </div>
       <div class="overview_patient_item">
-        <p>{{ _('Annual household income') }}</p>
-        <h2>${{ household_income }}</h2>
+        <p><strong>{{ _('Annual household income') }}</strong><br>
+        ${{ household_income }}</p>
       </div>
       <div class="overview_patient_item">
-        <p>{{ _('Household size') }}</p>
-        <h2>{{ household_size }}</h2>
+        <p><strong>{{ _('Household size') }}</strong><br>
+        {{ household_size }}</p>
       </div>
       <!-- <div class="overview_patient_item">
         <p>{{ _('Has insurance') }}</p>

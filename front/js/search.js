@@ -38,11 +38,12 @@ var Search = function ( options ) {
 
   $(this.elementClass).on('keyup', function(e){
 
-    var valueName = $('#field_search_patient_name').val();
+    var valueFName = $('#field_search_patient_first_name').val();
+    var valueLName = $('#field_search_patient_last_name').val();
     var valueDob = $('#field_search_patient_dob').val();
     var valueSsn = $('#field_search_patient_ssn').val();
-    var res = JSON.search( S.data, '//*[contains(name, "'+valueName+'") or contains(dob, "'+valueDob+'") or contains(ssn, "'+valueSsn+'")]' );
-    var results = translateResults(res, valueName);
+    var res = JSON.search( S.data, '//*[contains(fname, "'+valueFName+'") and contains(lname, "'+valueLName+'") and contains(dob, "'+valueDob+'") and contains(ssn, "'+valueSsn+'")]' );
+    var results = translateResults(res, valueFName + ' ' + valueLName);
 
     if (res.length > S.data.total) {
       var html = "";
@@ -76,7 +77,7 @@ var templates = {
   },
   list: function(data) {
     var elem = document.createElement('ul');
-    elem.className = 'list list_table';
+    elem.className = 'list list_table list_search';
     for (var p = 0; p < data.patients.length; p++) {
       var patient = data.patients[p];
       var li = document.createElement('li');
@@ -84,35 +85,37 @@ var templates = {
       
       var anchor = document.createElement('a');
       anchor.href = patient.url;
-      anchor.innerHTML += '<span class="list_row_item list_row_name">' + patient.name + '</span>';
-      anchor.innerHTML += '<span class="list_row_item list_row_dob">' + patient.dob + '</span>';
-      anchor.innerHTML += '<span class="list_row_item list_row_edits">Some extra information</span>';
+      anchor.innerHTML += '<div class="block_3 patient_search_result_item">' + patient.fname + '</div>';
+      anchor.innerHTML += '<div class="block_3 patient_search_result_item">' + patient.lname + '</div>';
+      anchor.innerHTML += '<div class="block_3 patient_search_result_item">' + patient.dob + '</div>';
+      anchor.innerHTML += '<div class="block_3 patient_search_result_item">' + patient.ssn + '</div>';
 
       li.appendChild(anchor);
       elem.appendChild(li);
     }
-    var newPatient = document.createElement('a');
-    newPatient.href = newPatientUrl;
-    newPatient.innerHTML = '<i class="fa fa-plus"></i> Not the right <strong>' + data.none[0].name + '</strong>? Add them as a new patient.';
 
-    var addNew = document.createElement('li');
-    addNew.className = 'list_row list_row_addnew';
-    addNew.appendChild(newPatient);
-    elem.appendChild(addNew);
+
+    var newPatient = document.createElement('li');
+    newPatient.href = newPatientUrl;
+    newPatient.innerHTML = '<div class="block_12"><button class="button button_blue button_fat patient_search_button" type="submit">Add <strong>' + data.none[0].name + '</strong> as a new patient</button></div>';
+    elem.appendChild(newPatient);
 
     return elem;
   },
   noresults: function(data) {
-    var elem = document.createElement('div');
-    elem.className = 'no_results';
-    elem.innerHTML = '<p><i class="fa fa-exclamation-circle"></i> No patients matched <strong>' + data.none[0].name + '</strong></p>';
+    var elem = document.createElement('ul');
+    elem.className = 'list list_table list_search';
     
-    var newPatient = document.createElement('a');
-    newPatient.className = 'button button_blue button_fat button_add';
-    newPatient.href = newPatientUrl || '/new_patient';
-    newPatient.innerHTML = 'Create a new patient record with ' + data.none[0].name;
-    
+    var li = document.createElement('li');
+    li.className = 'list_row'
+    elem.innerHTML = '<div class="block_12 patient_search_result_item patient_search_noresults"><i class="fa fa-exclamation-circle"></i> No patients matched <strong>' + data.none[0].name + '</strong></div>';    
+    elem.appendChild(li);
+
+    var newPatient = document.createElement('li');
+    newPatient.href = newPatientUrl;
+    newPatient.innerHTML = '<div class="block_12"><button class="button button_blue button_fat patient_search_button" type="submit">Add <strong>' + data.none[0].name + '</strong> as a new patient</button></div>';
     elem.appendChild(newPatient);
+  
     return elem;
   }
 };

@@ -39,113 +39,117 @@
   {{ form.hidden_tag() }}
 
   {% if form.errors %}
-    <ul class="alert_list alert_error">
+    <div class="notification notification_error">
+      <i class="fa fa-exclamation-circle"></i>
         {% for field_name, field_errors in form.errors|dictsort if field_errors %}
-            {% for error in field_errors %}
-                <li>{{ form[field_name].label }}: {{ error }}</li>
-            {% endfor %}
+          {% for error in field_errors %}
+            {{ form[field_name].label }}: {{ error }}<br>
+          {% endfor %}
         {% endfor %}
-    </ul>
+    </div>
   {% elif save_message %}
-    <ul class="alert_list alert_success">
-      <li>Update successful!</li>
-    </ul>
+    <div class="notification notification_success">
+      <i class="fa fa-check"></i>
+      <strong>Update successful!</strong>
+    </div>
   {% endif %}
 
   <!-- id info -->
-  <div id="general" class="">
-    {% include "includes/patient_id.html" %}
+  <div id="general" class="box">
+    <div class="box_title form_section_contact">{{ _("Basics") }}</div>
+    <div class="box_content">
+      {% include "includes/patient_id.html" %}
+    </div>
   </div>
 
   <!--contact info-->
-  <div id="contact" class="form_section">
-    <div class="form_section_title form_section_contact">{{ _("Phone, Email, Address") }}</div>
-    <div class="form_content">
+  <div id="contact" class="box">
+    <div class="box_title form_section_contact">{{ _("Phone, Email, Address") }}</div>
+    <div class="box_content">
       {% include "includes/patient_contact_info.html" %}
     </div>
   </div>
 
   <!--contact info-->
-  <div id="emergency-contact" class="form_section">
-    <div class="form_section_title form_section_emergency">{{ _("Emergency Contacts") }}</div>
-    <div class="form_content">
+  <div id="emergency-contact" class="box">
+    <div class="box_title form_section_emergency">{{ _("Emergency Contacts") }}</div>
+    <div class="box_content">
       {% include "includes/patient_emergency_contact.html" %}
     </div>
   </div>
 
   <!--household-->
-  <div id="household" class="form_section">
-    <div class="form_section_title form_section_household">
+  <div id="household" class="box">
+    <div class="box_title form_section_household">
       {{ _("Household Size") }}
       {% if patient.household_members %}: 
         {{ patient.household_members.count() + 1 }}
       {% endif %}
     </div>
-    <div class="form_content">
+    <div class="box_content">
       {% include "includes/patient_household_size.html" %}
     </div>
   </div>
 
   <!--income-->
-  <div id="income" class="form_section">
-    <div class="form_section_title form_section_income">
+  <div id="income" class="box">
+    <div class="box_title form_section_income">
       {{ _("Household Income") }}
       {% if patient.total_annual_income %}:
         ${{(patient.total_annual_income / 12) | int}}/{{ _("month") }}
       {% endif %}
     </div>
-    <div class="form_content">
+    <div class="box_content">
       {% include "includes/patient_income_sources.html" %}
     </div>
   </div>
 
   <!--documents-->
-  <div id="documents" class="form_section">
-    <div class="form_section_title form_section_documents">{{ _("Document Uploads") }}
+  <div id="documents" class="box">
+    <div class="box_title form_section_documents">{{ _("Document Uploads") }}
       {% if patient.document_images %}
         ({{patient.document_images.count()}})
       {% endif %}
     </div>
-    <div class="form_content">
+    <div class="box_content">
       {% include "includes/patient_docs.html" %}
     </div>
   </div>
 
   <!--demographics-->
-  <div id="demographics" class="form_section">
-    <div class="form_section_title form_section_demographics">{{ _("Demographic Questions") }}</div>
-    <div class="form_content">
+  <div id="demographics" class="box">
+    <div class="box_title form_section_demographics">{{ _("Demographic Questions") }}</div>
+    <div class="box_content">
       {% include "includes/patient_demographic_info.html" %}
     </div>
   </div>
 
   <!--employment-->
-  <div id="employment" class="form_section">
-    <div class="form_section_title form_section_employment">{{ _("Employment Information") }}</div>
-    <div class="form_content">
+  <div id="employment" class="box">
+    <div class="box_title form_section_employment">{{ _("Employment Information") }}</div>
+    <div class="box_content">
       {% include "includes/patient_employment_info.html" %}
     </div>
   </div>
 
   <!--insurance-->
-  <div id="insurance" class="form_section">
-    <div class="form_section_title form_section_insurance">{{ _("Insurance Information") }}</div>
-    <div class="form_content">
+  <div id="insurance" class="box form_section">
+    <div class="box_title form_section_insurance">{{ _("Insurance Information") }}</div>
+    <div class="box_content">
       {% include "includes/patient_insurance_info.html" %}
     </div>
   </div>
 
-  <div class="{% if request.path != "/new_patient" %}patientStickyNav{% endif %}">
-    <h3 style="float: left; margin: 0; margin-top: 7px;">{{ patient.first_name or "" }} {{ patient.last_name or "" }}</h3>
-    <button type="submit" class="button button_green button_right">
-      <i class="fa fa-check"></i>
-      {% if patient %}
-        {{ _("Save patient info") }}
-      {% else %}
-        {{ _("Save new patient info") }}
-      {% endif %}
-    </button>
-  </div>
+  {% if request.path == "/new_patient" %}
+  <button type="submit" class="button button_green button_fat">
+    <i class="fa fa-check"></i>
+    {% if patient %}
+      {{ _("Save patient") }}
+    {% else %}
+      {{ _("Save new patient") }}
+    {% endif %}
+  </button>
+  {% endif %}
 
 </form>
 
@@ -295,6 +299,10 @@ config.dependencies = [
   { target: "care_due_to_accident_yn", child: "accident_work_related_yn",
     type: "equals", comparator: "Y" },
 
+  { target: "phone_numbers-X-number_description", child: "phone_numbers-X-number_description_other",
+    type: "equals", comparator: "OTH", manyToOne: true},
+  { target: "addresses-X-address_description", child: "addresses-X-address_description_other",
+    type: "equals", comparator: "OTH", manyToOne: true},
   { target: "race", child: "race_other",
     type: "equals", comparator: "OTH" },
   { target: "languages", child: "languages_other",

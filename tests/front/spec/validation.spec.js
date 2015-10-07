@@ -128,7 +128,7 @@ describe('Validation', function() {
     //   expect(res.passed).to.equal(false);
     // });
 
-    it('phone: fails with no dashes', function() {
+    it('phone: passes with no dashes', function() {
       var testValidator = new v('.validation', []);
       createField('input', {
         id: 'phone',
@@ -137,7 +137,7 @@ describe('Validation', function() {
         value: '1231231234'
       }, 'test-form');
       var res = testValidator.validationFunctions['phone']($('#phone'));
-      expect(res.passed).to.equal(false);
+      expect(res.passed).to.equal(true);
     });
 
     it('phone: passes with proper dashes', function() {

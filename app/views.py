@@ -28,7 +28,7 @@ from flask.ext.security import login_required, roles_accepted
 from flask.ext.security.forms import LoginForm
 
 from app import db, login_manager
-from app.forms import PatientForm, PrescreenForm, ScreeningResultForm
+from app.forms import PatientForm, PrescreenForm, ScreeningResultForm, SearchPatientForm
 from app.models import (
     AppUser,
     Patient,
@@ -152,10 +152,20 @@ def new_patient():
         db.session.commit()
         return redirect(url_for('screener.patient_details', id=patient.id))
     else:
+        index_search = {}
+        if 'first_name' in session and session['first_name']:
+            index_search['first_name'] = session['first_name']
+        if 'last_name' in session and session['last_name']:
+            index_search['last_name'] = session['last_name']
+        if 'dob' in session and session['dob']:
+            index_search['dob'] = 'test'
+        if 'ssn' in session and session['ssn']:
+            index_search['ssn'] = session['ssn']
+
         # Delete empty rows at end of many-to-one tables
         remove_blank_rows(form)
 
-        return render_template('patient_details.html', patient={}, form=form)
+        return render_template('patient_details.html', patient={}, form=form, index_search=index_search)
 
 
 @screener.route('/patient_overview/<id>', methods=['POST', 'GET'])
@@ -625,13 +635,22 @@ def patient_screening_history(patient_id):
     return render_template('patient_screening_history.html', patient=patient, form=form)
 
 
-@screener.route('/index')
+@screener.route('/index', methods=['POST', 'GET'])
 @login_required
 @roles_accepted('Staff', 'Admin', 'Superuser')
 def index():
+    form = SearchPatientForm()
+    if request.method == 'POST':
+        session['first_name'] = form.search_patient_first_name.data
+        session['last_name'] = form.search_patient_last_name.data
+        # session['dob'] = form.search_patient_dob.data
+        session['ssn'] = form.search_patient_ssn.data
+        return redirect(url_for('screener.new_patient'))
+
     """Display the initial landing page, which lists patients in the
     network and allows users to search and filter them.
-    """
+    """        
+
     all_patients = Patient.query.all()
 
     # ORGANIZATION-BASED QUERIES
@@ -758,7 +777,8 @@ def index():
         org_need_renewal=org_need_renewal,
         your_recently_updated=your_recently_updated,
         your_completed_referrals_outgoing=your_completed_referrals_outgoing,
-        your_open_referrals_outgoing=your_open_referrals_outgoing
+        your_open_referrals_outgoing=your_open_referrals_outgoing,
+        form=form
     )
 
 

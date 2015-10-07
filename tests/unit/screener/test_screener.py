@@ -114,8 +114,9 @@ class TestScreener(BaseTestCase):
             marital_status='MAR',
             veteran_yn='N',
             housing_status='REN',
-            years_living_in_area='5',
-            months_living_in_area='1',
+            # years_living_in_area='5',
+            # months_living_in_area='1',
+            time_in_area='LESS THAN 6',
             city_or_county_of_residence='Richmond',
             temp_visa_yn='N',
             student_status='Not a student',
@@ -125,8 +126,8 @@ class TestScreener(BaseTestCase):
             months_unemployed='6',
             spouse_years_unemployed='1',
             spouse_months_unemployed='11',
-            years_at_current_employer='0',
-            spouse_years_at_current_employer='10',
+            years_at_current_employer='LESS',
+            spouse_years_at_current_employer='LESS',
             last_healthcare='Last year at VCU ED',
             insurance_status='N',
             coverage_type='VCC',
@@ -147,21 +148,21 @@ class TestScreener(BaseTestCase):
             how_other_expenses='Gets money from father'
         )
         post_data['phone_numbers-0-phone_number'] = '(111) 111-1111'
-        post_data['phone_numbers-0-number_description'] = 'cell'
+        post_data['phone_numbers-0-number_description'] = 'CELL'
         post_data['phone_numbers-1-phone_number'] = '(222) 222-2222'
-        post_data['phone_numbers-1-number_description'] = 'home'
+        post_data['phone_numbers-1-number_description'] = 'HOME'
         post_data['addresses-0-address1'] = '1 Main St.'
         post_data['addresses-0-address2'] = 'Apt. 1'
         post_data['addresses-0-city'] = 'Richmond'
         post_data['addresses-0-state'] = 'VA'
         post_data['addresses-0-zip'] = '11111'
-        post_data['addresses-0-address_description'] = 'home'
+        post_data['addresses-0-address_description'] = 'OWN'
         post_data['addresses-1-address1'] = '1 Maple St.'
         post_data['addresses-1-address2'] = ''
         post_data['addresses-1-city'] = 'Richmond'
         post_data['addresses-1-state'] = 'VA'
         post_data['addresses-1-zip'] = '11111'
-        post_data['addresses-1-address_description'] = 'mother\'s'
+        post_data['addresses-1-address_description'] = 'RELATIVE'
         post_data['emergency_contacts-0-full_name'] = 'Jane Johnson'
         post_data['emergency_contacts-0-relationship'] = 'mother'
         post_data['emergency_contacts-0-phone_number'] = '(111) 111-1111'
@@ -224,7 +225,7 @@ class TestScreener(BaseTestCase):
 
         # Check that updated many-to-one fields save correctly
         post_data['phone_numbers-0-phone_number'] = '(333) 333-3333'
-        post_data['phone_numbers-0-number_description'] = 'work'
+        post_data['phone_numbers-0-number_description'] = 'WORK'
         response = self.client.post(
             '/patient_details/{}'.format(patient.id),
             data=post_data,
@@ -233,7 +234,7 @@ class TestScreener(BaseTestCase):
         self.assert200(response)
         saved_patient = Patient.query.first()
         self.assertEquals(saved_patient.phone_numbers[0].phone_number, '(333) 333-3333')
-        self.assertEquals(saved_patient.phone_numbers[0].number_description, 'work')
+        self.assertEquals(saved_patient.phone_numbers[0].number_description, 'WORK')
         self.assert_template_used('patient_details.html')
 
         # Check that deleting many-to-one fields works as expected
@@ -247,7 +248,7 @@ class TestScreener(BaseTestCase):
         self.assert200(response)
         self.assertEquals(saved_patient.phone_numbers.count(), 1)
         self.assertEquals(saved_patient.phone_numbers[0].phone_number, '(222) 222-2222')
-        self.assertEquals(saved_patient.phone_numbers[0].number_description, 'home')
+        self.assertEquals(saved_patient.phone_numbers[0].number_description, 'HOME')
         self.assert_template_used('patient_details.html')
 
     # def test_document_image(self):

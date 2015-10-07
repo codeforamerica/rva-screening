@@ -8,7 +8,6 @@
   {{ render_field(form.race_other, class="field_quarter field_float_right") }}
 </div>
 
-
 <div class="form_row">
   {{ render_field(form.languages, class="block_6 has_other", class="field_third") }}
   {{ render_field(form.languages_other, class="field_third") }}
@@ -21,18 +20,7 @@
 </div>
 
 <div class="form_row">
-  {{ render_multifield(
-    "time_living_in_area",
-    _("How long have you lived in the Greater Richmond Area?"),
-    [
-      form.years_living_in_area, 
-      form.months_living_in_area
-    ], 
-    ['an'],
-    subclass="field_sixth"
-  ) }}
-  {{ render_field(form.city_or_county_of_residence, ['an'], class="field_third") }}
+  {{ render_field(form.time_in_area, class="field_third") }}
+  {{ render_field(form.city_or_county_of_residence, ['an'], class="field_third field_pad_left") }}
   {{ render_field(form.temp_visa_yn, ['an'], class="field_third field_pad_left") }}
 </div>
-
-  

@@ -39,7 +39,7 @@ $list-padding-large: 1em;
     a {
       display:block;
       @include clearfix();
-      padding: $list-padding;
+      // padding: $list-padding;
       color: black;
     }
     span {
@@ -103,8 +103,8 @@ $list-padding-large: 1em;
   }
 
   &.list_filter {
-    border-left: 2px solid #8dcaff;
-    margin-left: -2px;
+    // border-left: 2px solid #8dcaff;
+    // margin-left: -2px;
   }
 
   &.list_alternate {
@@ -122,31 +122,6 @@ $list-padding-large: 1em;
         padding: $list-padding-large $list-padding;
       }
     }
-  }
-}
-
-.list_row_name {
-  color: $color-fuscia;
-  @media (min-width: $break) {
-    width: 25%;
-  }
-}
-
-.list_row_dob {
-  font-weight: 100;
-  color: $color-gray;
-  font-family: monospace;
-  @media (min-width: $break) {
-    width: 20%;
-  }
-}
-
-.list_row_edits {
-  color: $color-black;
-  font-size: 0.9em;
-  @media (min-width: $break) {
-    text-align: right;
-    width: 55%;
   }
 }
 
