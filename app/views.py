@@ -179,6 +179,13 @@ def patient_overview(id):
 
     patient.update_stats()
 
+    prescreen_results = calculate_pre_screen_results(
+        fpl=patient.fpl_percentage,
+        has_health_insurance=patient.insurance_status,
+        is_eligible_for_medicaid="",
+        service_ids=[current_user.service_id]
+    )
+
     form = ScreeningResultForm()
     sliding_scale_options = SlidingScale.query.filter(
         SlidingScale.service_id == current_user.service_id
@@ -213,12 +220,7 @@ def patient_overview(id):
         'patient_overview.html',
         patient=patient,
         form=form,
-        services=calculate_pre_screen_results(
-            fpl=patient.fpl_percentage,
-            has_health_insurance=patient.insurance_status,
-            is_eligible_for_medicaid="",
-            service_ids=[s.id for s in services]
-        )
+        service=prescreen_results[0]
     )
 
 
