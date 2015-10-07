@@ -16,7 +16,7 @@
 					<a href="{{ url_for('screener.service', service_id=referral.from_app_user.service.id) }}">{{ referral.from_app_user.service.name }}</a><i class="fa fa-chevron-right"></i><a href="{{ url_for('screener.service', service_id=referral.to_service.id) }}">{{ referral.to_service.name }}</a>
 				</h2>
 				<p><a href="{{ url_for('screener.user', user_id=referral.from_app_user.id) }}">{{ referral.from_app_user.full_name }}</a></p>
-				<p><strong>{{ _("Referral Status") }}:</strong> {{ referral.status }}</p>
+				<p><strong>{{ _("Referral Status") }}:</strong> {% if referral.status in ('SENT', 'RECEIVED') %} sent, waiting for response {% else %} screening result received {% endif %}</p>
 				{% if referral.notes %}
 				<p class="history_notes"><strong>{{ _("Notes") }}</strong><br>
 				{{ referral.notes or "" }}</p>
