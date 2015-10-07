@@ -5,10 +5,6 @@
   margin-bottom: 1em;
 }
 
-.patient_search_form {
-  margin-bottom: 1.5em;
-}
-
 .search_results {}
 
 .button_add_new_patient {
@@ -24,6 +20,35 @@
     width: auto;
   }
 }
+
+.list_search {
+  .list_row {
+    opacity: 0.5;
+    &:hover {
+      opacity: 1;
+      background: transparent;
+    }
+  }
+  .patient_search_result_item {
+    font-size: 1.6em;
+    background: white;
+    border: 1px solid #c0c0c0;
+    padding: 0.4em;
+    margin-top: -1px;
+    &:not(:first-child) {
+      margin-left: -1px;
+    }
+  }
+  .patient_search_noresults {
+    background: white;
+    opacity: 0.8;
+    border: none;
+  }
+  .patient_search_button {
+    margin-top: 0;
+  }
+}
+
 
 .search_results_spinner {
   display: block;
