@@ -193,7 +193,6 @@ def patient_overview(id):
     form.sliding_scale_id.choices = [
         (str(option.id), option.scale_name) for option in sliding_scale_options
     ] or [("", "N/A")]
-
     if form.validate_on_submit():
         screening_result = PatientScreeningResult()
         screening_result.service_id = current_user.service_id
@@ -214,13 +213,18 @@ def patient_overview(id):
 
         db.session.commit()
 
-    services = Service.query.all()
+    past_results = [r for r in patient.screening_results if r.service_id == current_user.service_id]
+    new_form = ScreeningResultForm(formdata=None)
+    new_form.sliding_scale_id.choices = [
+        (str(option.id), option.scale_name) for option in sliding_scale_options
+    ] or [("", "N/A")]
 
     return render_template(
         'patient_overview.html',
         patient=patient,
-        form=form,
-        service=prescreen_results[0]
+        form=new_form,
+        service=prescreen_results[0],
+        past_results=past_results
     )
 
 
