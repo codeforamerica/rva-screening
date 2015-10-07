@@ -46,6 +46,7 @@ def calculate_pre_screen_results(
                     and sliding_scale.fpl_high is None
                 )
             ):
+                sliding_scale_id = sliding_scale.id
                 sliding_scale_name = sliding_scale.scale_name
                 sliding_scale_fees = sliding_scale.sliding_scale_fees
                 if sliding_scale.fpl_high:
@@ -66,6 +67,7 @@ def calculate_pre_screen_results(
             'residence_requirement_yn': service.residence_requirement_yn,
             'time_in_area_requirement_yn': service.time_in_area_requirement_yn,
             'sliding_scale': sliding_scale_name,
+            'sliding_scale_id': str(sliding_scale_id),
             'sliding_scale_range': sliding_scale_range,
             'sliding_scale_fees': sliding_scale_fees,
             'id': service.id

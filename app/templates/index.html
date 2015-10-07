@@ -12,20 +12,20 @@
       </button> 
 
       <button data-list="1" class="filter filter_sub">
-        Completed outgoing referrals <span class="filter-count">({{ org_completed_referrals_outgoing.count() }})
+        Outgoing referrals with responses <span class="filter-count">({{ org_completed_referrals_outgoing.count() }})
         </span>
       </button>
 
       <button data-list="2" class="filter filter_sub">
-        Open outgoing referrals <span class="filter-count">({{ org_open_referrals_outgoing.count() }})</span>
+        Outgoing referrals waiting for responses <span class="filter-count">({{ org_open_referrals_outgoing.count() }})</span>
       </button>
 
       <button data-list="3" class="filter filter_sub">
-        Completed incoming referrals <span class="filter-count">({{ org_completed_referrals_incoming.count() }})</span>
+        Incoming referrals with responses <span class="filter-count">({{ org_completed_referrals_incoming.count() }})</span>
       </button>
 
       <button data-list="4" class="filter filter_sub">
-        Open incoming referrals <span class="filter-count">({{ org_open_referrals_incoming.count() }})</span>
+        Incoming referrals waiting for responses <span class="filter-count">({{ org_open_referrals_incoming.count() }})</span>
       </button>
 
       <button data-list="5" class="filter filter_sub">
@@ -36,10 +36,10 @@
         <i class="fa fa-user"></i> <strong>Your</strong> recently updated patients <span class="filter-count">({{ your_recently_updated.count() }})</span>
       </button>
       <button data-list="7" class="filter filter_sub">
-        Your completed outgoing referrals <span class="filter-count">({{ your_completed_referrals_outgoing.count() }})</span>
+        Outgoing referrals with responses <span class="filter-count">({{ your_completed_referrals_outgoing.count() }})</span>
       </button>
       <button data-list="8" class="filter filter_sub">
-        Your open outgoing referrals <span class="filter-count">({{ your_open_referrals_outgoing.count() }})</span>
+        Outgoing referrals waiting for responses <span class="filter-count">({{ your_open_referrals_outgoing.count() }})</span>
       </button>
     </div>
 
@@ -50,7 +50,7 @@
         <li class="list_row row"><a href="{{ url_for('screener.patient_overview', id=patient.id) }}">
           <div class="block_4"><strong>{{ patient.first_name }} {{ patient.last_name }}</strong></div>
           <div class="block_8">
-            <span>Created by {{ patient.created_by.full_name }} at {{ patient.created_by.service.name }}</span>
+            <span>Created by {{ patient.created_by.full_name }} at {{ patient.created_by.service.name }} on {{ patient.created.strftime('%m/%d/%Y') }}</span>
           </div>
         </a></li>
       {% endfor %}
@@ -79,7 +79,7 @@
             {% for referral in patient.referrals %}
             {% if referral.from_app_user.service.id == current_user.service.id %}
             {% if referral.status == "SENT" or referral.status == "RECEIVED" %}
-            <span>Referred to {{ referral.to_service.name }} on {{ referral.created.strftime('%m/%d/%Y') }} [{{ referral.status|lower }}]</span>
+            <span>Referred to {{ referral.to_service.name }} on {{ referral.created.strftime('%m/%d/%Y') }}</span>
             {% endif %}
             {% endif %}
             {% endfor %}
@@ -111,7 +111,7 @@
             {% for referral in patient.referrals %}
             {% if referral.to_service_id == current_user.service.id %}
             {% if referral.status == "SENT" or referral.status == "RECEIVED" %}
-            <span>From {{ referral.from_app_user.full_name }} ({{ referral.from_app_user.service.name }}) on {{ referral.created.strftime('%m/%d/%Y') }} [{{ referral.status|lower }}]</span>
+            <span>From {{ referral.from_app_user.full_name }} ({{ referral.from_app_user.service.name }}) on {{ referral.created.strftime('%m/%d/%Y') }}</span>
             {% endif %}
             {% endif %}
             {% endfor %}
@@ -125,7 +125,7 @@
         <li class="list_row row"><a href="{{ url_for('screener.patient_overview', id=patient.id) }}">
           <div class="block_4"><strong>{{ patient.first_name }} {{ patient.last_name }}</strong></div>
           <div class="block_8">
-            <span>Last updated on {{ patient.last_modified.strftime('%m/%d/%Y') }}</span>
+            <span>Last updated on {{ patient.last_modified.strftime('%m/%d/%Y') if patient.last_modified }}</span>
           </div>
         </a></li>
       {% endfor %}
@@ -136,7 +136,7 @@
         <li class="list_row row"><a href="{{ url_for('screener.patient_overview', id=patient.id) }}">
           <div class="block_4"><strong>{{ patient.first_name }} {{ patient.last_name }}</strong></div>
           <div class="block_8">
-            <span>Last updated on {{ patient.last_modified }}</span>
+            <span>Last updated on {{ patient.last_modified.strftime('%m/%d/%Y %-I:%M:%S %p') if patient.last_modified }}</span>
           </div>
         </a></li>
       {% endfor %}
@@ -165,7 +165,7 @@
             {% for referral in patient.referrals %}
             {% if referral.from_app_user_id == current_user.id %}
             {% if referral.status == "SENT" or referral.status == "RECEIVED" %}
-            <span>Referral sent to {{ referral.to_service.name }} on {{ referral.created.strftime('%m/%d/%Y') }} [{{ referral.status|lower }}]</span>
+            <span>Referral sent to {{ referral.to_service.name }} on {{ referral.created.strftime('%m/%d/%Y') }}</span>
             {% endif %}
             {% endif %}
             {% endfor %}
