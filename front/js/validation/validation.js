@@ -224,6 +224,7 @@ Validator.prototype = {
   dirt: function() {
     this.$root.addClass('validation_dirty');
     this.dirty = true;
+    $('#patient_details_form_save').removeClass('button_green_presave').addClass('button_green').text('Save changes');
   }
 
 

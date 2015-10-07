@@ -100,4 +100,14 @@
       background: white;
     }
   }
+
+  &.button_green_presave {
+    background: $blue;
+    color: $text;
+  }
+  &.button_save {
+    width: 100%;
+    margin: 0 0 1em;
+    border-radius: 2px;
+  }
 }

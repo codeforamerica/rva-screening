@@ -2,6 +2,7 @@
   margin: 0;
   padding: 0;
   list-style-type: none;
+  background: $white;
   li {
     padding: 0.5em;
     font-size: 1em;
@@ -11,8 +12,8 @@
       font-size: 0.9em;
       padding: 5px 7px;
       border-radius: 0.2em;
-      color: $ui-new;
-      background-color: lighten(#e5e5e5, 5);
+      color: $text;
+      background-color: $blue;
     }
     &:hover {
       background: transparent;
@@ -20,18 +21,12 @@
   }
 }
 
-.patientEligibilityForm {
-  padding: 10px;
-  background: #f6f6f6;
-}
-
 .patientEstimation {
-  padding: 1px 10px;
-  background: #f6f6f6;
+  padding: 1em;
   &.patientEstimation_eligible {
-    background: lighten(#3D9970, 30);
+    background: $green;
   }
   &.patientEstimation_noteligible {
-    background: lighten($color-red, 25);
+    background: $red;
   }
 }

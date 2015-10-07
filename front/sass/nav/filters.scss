@@ -6,7 +6,13 @@ $filter-icon-hover: $filter-active-color;
 $filter-count-color: #c0c0c0;
 
 .filter_actions {
-  border-right: $filter-container-border;
+  // border-right: $filter-container-border;
+}
+
+.filter_lists {
+  .box_content {
+    min-height: 500px;  
+  }
 }
 
 .filter {
@@ -16,7 +22,7 @@ $filter-count-color: #c0c0c0;
   border: none;
   width: 100%;
   text-align: left;
-  background: white;
+  background: transparent;
   cursor: pointer;
   color: #333;
   font-weight: 400;
@@ -24,13 +30,16 @@ $filter-count-color: #c0c0c0;
     padding-left: 2em;
   }
   &:hover {
-    .fa {
-      color: $filter-icon-hover;
-    }
+    background: $blue;
   }
   &.filter_active {
     border-left: $filter-active-border;
-    background: $filter-active-bg;
+    border: 1px solid #e5e5e5;
+    border-right: none;
+    width: 100.3%;
+    z-index: 100;
+    position: relative;
+    background: $white;
     .fa {
       color: #333;
     }

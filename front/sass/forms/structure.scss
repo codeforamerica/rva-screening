@@ -1,6 +1,4 @@
-.form {
-  // font-size: 1.5em;
-}
+.form {}
 
 // temporary since we are still using some bootstrap
 label {
@@ -20,36 +18,6 @@ textarea {
 }
 form li {
   list-style-type: none;
-}
-
-// a wrapper for a full section of the form, such as "household size"
-.form_section {
-  margin-bottom: 3em;
-  box-shadow: 0 0 5px 0 rgba(0,0,0,0.4);
-  .form_section_title {
-    position: relative;
-    padding: 0.4em 0;
-    font-size: 2em;
-    font-weight: 300;
-    font-family: $font-header;
-    background: $ui-new;
-    color: white;
-    padding: 10px;
-  }
-  .form_content {
-    background: white;
-    padding: 10px;
-  }
-
-  &.read-only {
-    .form_field {
-      input {
-        background: transparent;
-        border: none;
-        padding: 0;  
-      }
-    }
-  }
 }
 
 // a wrapping element for multiple fields that lie on one row

@@ -1,9 +1,10 @@
 {% extends "patient.html" %}
 {% block patient_content %}
 
-<h2>{{ _("Referrals")}}</h2>
-<div class="history_referrals">
-	
+
+<div class="box history_referrals">
+	<div class="box_title">{{ _("Referrals")}}</div>
+	<div class="box_content">
 	{% for referral in patient.referrals %}
 		<div class="history_item history_referral history_item_{{ referral.status }} row">
 			<div class="block_2 history_date">
@@ -23,10 +24,12 @@
 			</div>
 		</div>
 	{% endfor %}
+	</div>
 </div>
 
-<h2>{{ _("Screening Results") }}</h2>
-<div class="history_results">
+<div class="history_results box">
+	<div class="box_title">{{ _("Screening Results") }}</div>
+	<div class="box_content">
 	{% for result in patient.screening_results %}
 		<div class="history_item history_screening {{ _('results_item_eligible') if result.eligible_yn == 'Y' else _('results_item_ineligible') }} row">
 			<div class="block_2 history_date">
@@ -46,6 +49,7 @@
 			</div>
 		</div>
 	{% endfor %}
+	</div>
 </div>
 
 {% endblock %}
