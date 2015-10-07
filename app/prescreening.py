@@ -38,6 +38,7 @@ def calculate_pre_screen_results(
         sliding_scale_name = None
         sliding_scale_range = None
         sliding_scale_fees = None
+        sliding_scale_id = None
         for sliding_scale in service.sliding_scales:
             if (
                 (sliding_scale.fpl_low <= fpl < sliding_scale.fpl_high)
