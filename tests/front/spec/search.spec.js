@@ -115,7 +115,7 @@ describe('search.js', function() {
       var results = translateResults(JSON.search(searchData, '//*[contains(name, "Waka")]'), 'Nade');
       var html = templates.render('noresults', results);
       $('#results_container').html(html);
-      expect(document.getElementsByClassName('no_results').length).to.equal(1);
+      expect(document.getElementsByClassName('patient_search_noresults').length).to.equal(1);
     });
   });
 

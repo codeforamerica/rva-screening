@@ -97,7 +97,7 @@ var templates = {
 
     var newPatient = document.createElement('li');
     newPatient.href = newPatientUrl;
-    newPatient.innerHTML = '<div class="block_12"><button class="button button_blue button_large patient_search_button" type="submit">Add <strong>' + data.none[0].name + '</strong> as a new patient</button></div>';
+    newPatient.innerHTML = '<div class="block_12"><button class="button button_blue button_fat patient_search_button" type="submit">Add <strong>' + data.none[0].name + '</strong> as a new patient</button></div>';
     elem.appendChild(newPatient);
 
     return elem;
@@ -113,7 +113,7 @@ var templates = {
 
     var newPatient = document.createElement('li');
     newPatient.href = newPatientUrl;
-    newPatient.innerHTML = '<div class="block_12"><button class="button button_blue button_large patient_search_button" type="submit">Add <strong>' + data.none[0].name + '</strong> as a new patient</button></div>';
+    newPatient.innerHTML = '<div class="block_12"><button class="button button_blue button_fat patient_search_button" type="submit">Add <strong>' + data.none[0].name + '</strong> as a new patient</button></div>';
     elem.appendChild(newPatient);
   
     return elem;

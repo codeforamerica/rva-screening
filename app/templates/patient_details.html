@@ -39,13 +39,14 @@
   {{ form.hidden_tag() }}
 
   {% if form.errors %}
-    <ul class="notification notification_error">
+    <div class="notification notification_error">
+      <i class="fa fa-exclamation-circle"></i>
         {% for field_name, field_errors in form.errors|dictsort if field_errors %}
-            {% for error in field_errors %}
-                <li>{{ form[field_name].label }}: {{ error }}</li>
-            {% endfor %}
+          {% for error in field_errors %}
+            {{ form[field_name].label }}: {{ error }}<br>
+          {% endfor %}
         {% endfor %}
-    </ul>
+    </div>
   {% elif save_message %}
     <div class="notification notification_success">
       <i class="fa fa-check"></i>

@@ -14,8 +14,6 @@
     left: 28px;
     top: 12px;
     font-size: 2em;
-    color: #555;
-    opacity: 0.2;
   }
 
   a {
@@ -35,14 +33,30 @@
 
   &.notification_success {
     background: $green;
+    border-left: 8px solid darken($green, 22);
+    .fa {
+      color: darken($green, 6);
+    }
   }
   &.notification_error {
     background: $red;
+    border-left: 8px solid darken($red, 22);
+    .fa {
+      color: darken($red, 6);
+    }
   }
   &.notification_info {
     background: $blue;
+    border-left: 8px solid darken($blue, 22);
+    .fa {
+      color: darken($blue, 6);
+    }
   }
   &.notification_highlight {
     background: $yellow;
+    border-left: 8px solid darken($yellow, 22);
+    .fa {
+      color: darken($yellow, 6);
+    }
   }
 }
