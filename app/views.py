@@ -152,20 +152,20 @@ def new_patient():
         db.session.commit()
         return redirect(url_for('screener.patient_details', id=patient.id))
     else:
-
-        if session['first_name']:
-            form.first_name.data = session['first_name']
-        if session['last_name']:
-            form.last_name.data = session['last_name']
-        if session['dob']:
-            form.dob.data = session['dob']
-        if session['ssn']:
-            form.ssn.data = session['ssn']
+        index_search = {}
+        if 'first_name' in session and session['first_name']:
+            index_search['first_name'] = session['first_name']
+        if 'last_name' in session and session['last_name']:
+            index_search['last_name'] = session['last_name']
+        if 'dob' in session and session['dob']:
+            index_search['dob'] = 'test'
+        if 'ssn' in session and session['ssn']:
+            index_search['ssn'] = session['ssn']
 
         # Delete empty rows at end of many-to-one tables
         remove_blank_rows(form)
 
-        return render_template('patient_details.html', patient={}, form=form)
+        return render_template('patient_details.html', patient={}, form=form, index_search=index_search)
 
 
 @screener.route('/patient_overview/<id>', methods=['POST', 'GET'])
@@ -641,7 +641,7 @@ def index():
     if request.method == 'POST':
         session['first_name'] = form.search_patient_first_name.data
         session['last_name'] = form.search_patient_last_name.data
-        session['dob'] = form.search_patient_dob.data
+        # session['dob'] = form.search_patient_dob.data
         session['ssn'] = form.search_patient_ssn.data
         return redirect(url_for('screener.new_patient'))
 

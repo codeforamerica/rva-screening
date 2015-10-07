@@ -97,7 +97,7 @@ class SearchPatientForm(Form):
     )
     search_patient_dob = fields.DateField(
         _('Date of birth'),
-        validators=[Optional()]
+        [Optional()]
     )
     search_patient_ssn = fields.TextField(
         _('Social security number'),
