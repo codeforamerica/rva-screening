@@ -126,11 +126,6 @@
         {% endif %}
 
         <div class="form_row">
-          <p><strong>Message about {{ patient.first_name }}'s eligibility status.</strong></p>
-          {{ form.notes() }}
-        </div>
-
-        <div class="form_row">
           <div class="field_third">
             
             <p><strong>Is {{ patient.first_name }} {{ patient.last_name }} eligible for services at {{ current_user.service.name }}?</strong></p>
@@ -139,6 +134,11 @@
           </div>
 
           {{ render_field(form.sliding_scale_id, class='field_third') }}
+        </div>
+
+        <div class="form_row">
+          <p><strong>Message about {{ patient.first_name }}'s eligibility status.</strong></p>
+          {{ form.notes() }}
         </div>
 
         <div class="form_row">
