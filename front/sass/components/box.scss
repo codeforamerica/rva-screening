@@ -28,6 +28,19 @@
   .box_item_price {
     float: right;
   }
+  &.box_transparent {
+    .box_title,
+    .box_content {
+      background: transparent;
+      border: none;
+      padding: 0;
+    }
+    .box_title {
+      border-bottom: 1px solid #e5e5e5;
+      padding-bottom: 0.5em;
+      margin-bottom: 0.5em;
+    }
+  }
 }
 
 

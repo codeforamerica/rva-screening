@@ -1,0 +1,52 @@
+.documents {}
+.document {
+  float: left;
+  width: 25%;
+
+  .document_inner {
+    padding: 0.5em;
+    background: $white;
+    margin: 0 1em 1em 0;
+    height: 160px;
+    border-radius: 2px;
+    border: 1px solid #e5e5e5;
+    &:hover {
+      border: 1px solid $text;
+    }
+  }
+
+  .document_image {
+    border: none;
+    width: 100%;
+    height: 100px;
+    margin-bottom: 5px;
+    background-position: center center;
+    -webkit-background-size: cover; 
+       -moz-background-size: cover; 
+         -o-background-size: cover; 
+            background-size: cover;
+    text-align: center;
+  }
+  .document_name {
+    color: $text;
+    font-weight: 700;
+    font-size: 0.9em;
+    height: 20px;
+  }
+  .document_date {
+    color: lighten($text, 20);
+    font-size: 0.8em;
+    float: right;
+  }
+
+  &.document_add {
+    text-align: center;
+    .fa {
+      display: block;
+      margin-top: 40px;
+      margin-bottom: 10px;
+      color: $green;
+      font-size: 2em;
+    }
+  }
+}

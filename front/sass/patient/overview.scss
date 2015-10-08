@@ -30,3 +30,50 @@
     background: $red;
   }
 }
+
+.patientPastResults {
+  .past_result {
+    color: $text;
+    position: relative;
+    margin-left: -1em;
+    margin-right: -1em;
+    border-top: 1px solid #e5e5e5;
+    padding: 1em;
+    padding-left: 2.7em;
+    .fa {
+      position: absolute;
+      left: 15px;
+      top: 15px;
+      font-size: 1.2em;
+    }
+    .past_result_content {
+      font-size: 0.9em;
+      margin-top: 1em;
+      .past_result_left,
+      .past_result_right {
+        line-height: 1.4em;
+        margin-top: 8px;
+      }
+      .past_result_left {
+        float: left;
+        width: 17%;
+        text-align: right;
+        font-weight: 500;
+      }
+      .past_result_right {
+        float: right;
+        width: 81.5%;
+      }
+    }
+    &.past_result_eligible {
+      .fa {
+        color: $green;
+      }
+    }
+    &.past_result_noteligible {
+      .fa {
+        color: $red;
+      }
+    }
+  }
+}
