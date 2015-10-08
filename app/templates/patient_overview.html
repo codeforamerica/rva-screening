@@ -98,8 +98,8 @@
         <strong>{{ result.created_by.full_name }}</strong> added on {{ result.created.strftime('%m/%d/%Y') }}
         <div class="past_result_content">
           <span class="past_result_left">Eligible</span> <span class="past_result_right">{% if result.eligible_yn == "Y" %}Yes{% else %}No{% endif %}</span>
-          <span class="past_result_left">Sliding scale</span> <span class="past_result_right">{{ result.sliding_scale.scale_name }}</span></p>
-          <span class="past_result_left">Notes</span> <span class="past_result_right">{{ result.notes }}</span></p>
+          <span class="past_result_left">Sliding scale</span> <span class="past_result_right">{% if result.sliding_scale.scale_name %}{{ result.sliding_scale.scale_name }}{% else %}n/a{% endif %}</span></p>
+          <span class="past_result_left">Notes</span> <span class="past_result_right">{% if result.notes %}{{ result.notes }}{% else %}No notes provided.{% endif %}</span></p>
         </div>
       </div>
     {% endfor %}
