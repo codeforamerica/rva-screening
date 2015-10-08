@@ -1,0 +1,18 @@
+.details {
+  .detail {
+    font-size: 0.9em;
+    margin-top: 10px;
+    line-height: 1.4em;
+    @include clearfix();
+    .detail_left {
+      float: left;
+      width: 17%;
+      text-align: right;
+      font-weight: 500;
+    }
+    .detail_right {
+      float: right;
+      width: 81.5%;
+    }
+  }
+}

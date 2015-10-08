@@ -1,10 +1,30 @@
 {% extends "base.html" %}
 {% block content %}
-  <div class="user">
-    <h1>{{user.full_name}}</h1>
-    <a href="{{ url_for('screener.service', service_id=user.service_id) }}">{{user.service.name}}</a>
-    <p class="email">{{user.email}}</p>
-    <p class="phone-number">{{user.phone_number}}</p>
-    <p class="work-hours">Full-time, Mon - Fri, 8am - 4pm</p>
+  <div class="container container_bump">
+    <div class="user box">
+      <div class="box_title">{{user.full_name}}</div>
+      <div class="box_content">
+        <div class="details">
+          
+          <div class="detail">
+            <span class="detail_left">Service</span><span class="detail_right"><a href="{{ url_for('screener.service', service_id=user.service_id) }}">{{user.service.name}}</a></span>
+          </div>
+
+          <div class="detail">
+            <span class="detail_left">Email</span><span class="detail_right">{{user.email}}</span>
+          </div>
+
+          <div class="detail">
+            <span class="detail_left">Phone</span><span class="detail_right">{% if user.phone %}{{user.phone}}{% else %}None specified. Try calling {{ user.service.name }} at {{ user.service.main_contact_phone }}{% endif %}</span>
+          </div>
+
+          <div class="detail">
+            <span class="detail_left">Work hours</span><span class="detail_right">Full-time, Mon - Fri, 8am - 4pm</span>
+          </div>
+
+        </div>
+      </div>
+    </div>
   </div>
+
 {% endblock %}
