@@ -2,7 +2,7 @@ from flask.ext.babel import gettext as _
 
 YN_CHOICES = [("", ""), ("Y", _("Yes")), ("N", _("No"))]
 YN_NONULL_CHOICES = [("Y", _("Yes")), ("N", _("No"))]
-YNN_CHOICES = [("", ""), ("Y", _("Yes")), ("N", _("No")), ("", _("Not Sure"))]
+YNN_CHOICES = [("", ""), ("Y", _("Yes")), ("N", _("No")), ("NS", _("Not Sure"))]
 YNN_NONULL_CHOICES = [("Y", _("Yes")), ("N", _("No")), ("", _("Not Sure"))]
 YNNA_CHOICES = [("", ""), ("Y", _("Yes")), ("N", _("No")), ("A", _("N/A - Not Applicable"))]
 

@@ -402,7 +402,8 @@ class PatientForm(Form):
     )
     has_prescription_coverage_yn = fields.SelectField(
         _('Do you have prescription drug coverage?'),
-        choices=CONSTANTS.YNN_NONULL_CHOICES
+        choices=CONSTANTS.YNN_CHOICES,
+        default=""
     )
     has_vcc = fields.SelectField(
         _("Do you have a VCC Card?"),
@@ -424,7 +425,7 @@ class PatientForm(Form):
     )
     eligible_for_vets_benefits_yn = fields.SelectField(
         _("Are you eligible for veteran's benefits?"),
-        choices=CONSTANTS.YNN_NONULL_CHOICES,
+        choices=CONSTANTS.YNN_CHOICES,
         default=""
     )
     applied_for_medicaid_yn = fields.SelectField(
