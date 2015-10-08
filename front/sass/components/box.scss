@@ -1,35 +1,25 @@
 .box {
-  background: #f6f6f6;
-  position: relative;
-  &.box_eligibile {
-    // border-left: 5px solid #3D9970;
-  }
-  &.box_noteligibile {
-    
-  }
-  &.box-referral-sent {
-    
-  }
-
+  margin-bottom: 1em;
   .box_title {
-    padding: 1.5em 0.5em 0.5em;
-    color: $box-title-text-color;
-    font-size: 1.4em;
+    position: relative;
+    font-size: 1.3em;
     font-weight: 300;
-    &:hover {}
-    .box_title_meta {
-      float: right;
-      font-size: $box-title-link-size;
-      font-size: 0.7em;
-    }
+    font-family: $font-header;
+    color: #555;
+    background: $med-gray;
+    border: 1px solid #e5e5e5;
+    border-bottom: none;
+    padding: 0.3em 0.8em;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
   }
-
   .box_content {
+    background: white;
     padding: 1em;
-    font-size: $box-content-font-size;
-    line-height: $box-content-line-height;
+    border: 1px solid #e5e5e5;
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
   }
-
   .box_item {
     color: #999;
     padding: $box-service-padding;
@@ -38,7 +28,56 @@
   .box_item_price {
     float: right;
   }
+  &.box_transparent {
+    .box_title,
+    .box_content {
+      background: transparent;
+      border: none;
+      padding: 0;
+    }
+    .box_title {
+      border-bottom: 1px solid #e5e5e5;
+      padding-bottom: 0.5em;
+      margin-bottom: 0.5em;
+    }
+  }
 }
+
+
+// .box {
+//   background: $white;
+//   position: relative;
+//   &.box_eligibile {
+//     // border-left: 5px solid #3D9970;
+//   }
+//   &.box_noteligibile {
+    
+//   }
+//   &.box-referral-sent {
+    
+//   }
+
+//   .box_title {
+//     padding: 1.5em 0.5em 0.5em;
+//     color: $box-title-text-color;
+//     font-size: 1.4em;
+//     font-weight: 300;
+//     &:hover {}
+//     .box_title_meta {
+//       float: right;
+//       font-size: $box-title-link-size;
+//       font-size: 0.7em;
+//     }
+//   }
+
+//   .box_content {
+//     padding: 1em;
+//     font-size: $box-content-font-size;
+//     line-height: $box-content-line-height;
+//   }
+
+//   
+// }
 $box-referral-color: #3D9970;
 
 .box-referral {
@@ -78,11 +117,17 @@ $box-referral-color: #3D9970;
     }
   }
 
-  &.box-referral-eligible,
-  &.box-referral-active {
+  &.box-referral-eligible {
     background: lighten(#7FDBFF, 10);
     .box-referral-right {
       background: #7FDBFF;
+    }
+  }
+  &.box-referral-active,
+  &.box-referral-sent {
+    background: lighten(#FFDC00, 30);
+    .box-referral-right {
+      background: #FFDC00;
     }
   }
 }

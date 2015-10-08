@@ -88,16 +88,34 @@ class PrescreenForm(Form):
         default="",
     )
 
+class SearchPatientForm(Form):
+    search_patient_first_name = fields.TextField(
+        _('First Name')
+    )
+    search_patient_last_name = fields.TextField(
+        _('Last Name')
+    )
+    search_patient_dob = fields.DateField(
+        _('Date of birth'),
+        [Optional()]
+    )
+    search_patient_ssn = fields.TextField(
+        _('Social security number'),
+        [Optional(), validators.Length(max=11), validate_ssn]
+    )
+
 
 class PhoneNumberForm(NoCsrfForm):
     phone_number = fields.TextField(
         _('Phone number'),
         [Optional(), validators.Length(max=32), validate_phone_number]
     )
-    number_description = fields.TextField(
+    number_description = fields.SelectField(
         _('Description'),
-        [Optional(), validators.Length(max=64)]
+        choices=CONSTANTS.PHONE_DESCRIPTIONS,
+        default="",
     )
+    number_description_other = fields.TextField(_('Phone description - Other'), [Optional(), validators.Length(max=64)])
 
 
 class AddressForm(NoCsrfForm):
@@ -110,10 +128,12 @@ class AddressForm(NoCsrfForm):
         default="VA",
     )
     zip_code = fields.TextField(_('ZIP'), [Optional(), validators.Length(max=10)])
-    address_description = fields.TextField(
+    address_description = fields.SelectField(
         _('What kind of address is this?'),
-        [Optional(), validators.Length(max=64)]
+        choices=CONSTANTS.ADDRESS_DESCRIPTIONS,
+        default="",
     )
+    address_description_other = fields.TextField(_('Address description - Other'), [Optional(), validators.Length(max=64)])
 
 
 class EmergencyContactForm(NoCsrfForm):
@@ -299,8 +319,13 @@ class PatientForm(Form):
 
     # How long have you lived in the greater Richmond area?
     # .time_living_in_area is parent node
-    years_living_in_area = fields.IntegerField(_("Years"), [Optional()])
-    months_living_in_area = fields.IntegerField(_("Months"), [Optional()])
+    # years_living_in_area = fields.IntegerField(_("Years"), [Optional()])
+    # months_living_in_area = fields.IntegerField(_("Months"), [Optional()])
+    time_in_area = fields.SelectField(
+        _('How long have you lived in the Greater Richmond area?'),
+        choices=CONSTANTS.TIME_IN_AREA,
+        default=""
+    )
     city_or_county_of_residence = fields.TextField(
         _('City or County of Residence'),
         [validators.Length(max=64)]
@@ -343,14 +368,18 @@ class PatientForm(Form):
     employers = fields.FieldList(fields.FormField(
         EmployerForm
     ))
-    years_at_current_employer = fields.IntegerField(
-        _("Years at current employer"),
-        [Optional()],
+    years_at_current_employer = fields.SelectField(
+        _('Years at current employer'),
+        choices=CONSTANTS.TIME_AT_CURRENT_EMPLOYER,
+        default=""
     )
-    spouse_years_at_current_employer = fields.IntegerField(
-        _("Spouse's years at current employer"),
-        [Optional()],
+    spouse_years_at_current_employer = fields.SelectField(
+        _('Spouse\'s years at current employer'),
+        choices=CONSTANTS.TIME_AT_CURRENT_EMPLOYER,
+        default=""
     )
+    
+    
 
     # HEALTHCARE/COVERAGE
     last_healthcare = fields.TextField(

@@ -1,106 +1,62 @@
-$notification-bg-default: #aaaaaa;
-$notification-color-default: #333;
-$notification-highlight-color: #FFDC00;
-$notification-success-color: #3D9970;
-$notification-info-color: #7FDBFF;
-$notification-error-color: #FF4136;
-
-@mixin notification_color($bg: $notification-bg-default, $bg2: lighten($bg, 30), $color: $notification-color-default) {
-  background: $bg2;
-  .notification_left,
-  .notification_right {
-    background: $bg;
-    color: $color;
-  }
-  .notification_right {
-    @media (max-width: $break) {
-      background: transparent;
-    }
-  }
-}
-
 .notification {
   position: relative;
-  display: table;
-  padding: 1em;
   margin-bottom: 1em;
-  height: 82px;
-  max-height: 82px;
-  padding-left: 100px;
-  padding-right: 100px;
+  padding: 1em;
+  padding-left: 90px;
   width: 100%;
-  // margin-top: 1em;
-  @include notification_color($notification-bg-default);
-  p {
-    line-height: 1.5em;
-    span {
-      float: right;
-    }
-    a {
-      color: #333;
-      text-decoration: underline;
-    }
+  font-size: 1em;
+  line-height: 1.5em;
+  border-radius: 2px;
+  color: #555;
+
+  .fa {
+    position: absolute;
+    left: 28px;
+    top: 12px;
+    font-size: 2em;
   }
+
+  a {
+    color: #555;
+    text-decoration: underline;
+  }
+
   @media (max-width: $break) {
     padding: 10px;
-    p {
-      span {
-        display: block;
-        float: none;
-      }
-    }
-  }
-  .notification_left,
-  .notification_right {
-    position: absolute;
-    top: 0;
-    text-align: center;
-    @media (max-width: $break) {
-      position: relative;
-      display: block;
-    }
-  }
-  .notification_left {
-    left: 0;
-    padding: 17px 22px;
-    font-size: 3em;
-    min-width: 80px;
-    @media (max-width: $break) {
-      font-size: 1.8em;
-      padding: 5px;
-    }
-  }
-  .notification_right {
-    right: 0;
-    height: 100%;
-    padding: 24px 20px;
-    @media (max-width: $break) {
-      padding: 5px;
-      background: transparent;
-      // text-align: left;
-    }
-    p {
-      margin: 0;
-      padding: 0;
-      font-size: 0.8em;
-      font-weight: 800;
-      text-transform: uppercase;
-    }
+    padding-left: 50px;
     .fa {
-      font-size: 1.5em;
+      top: 10px;
+      left: 10px;
+      font-size: 2em;
     }
   }
 
   &.notification_success {
-    @include notification_color(lighten($notification-success-color, 10));
+    background: $green;
+    border-left: 8px solid darken($green, 22);
+    .fa {
+      color: darken($green, 6);
+    }
   }
   &.notification_error {
-    @include notification_color(lighten($notification-error-color, 8), lighten($notification-error-color, 25));
+    background: $red;
+    border-left: 8px solid darken($red, 22);
+    .fa {
+      color: darken($red, 6);
+    }
   }
   &.notification_info {
-    @include notification_color($notification-info-color, lighten($notification-info-color, 15));
+    background: $blue;
+    border-left: 8px solid darken($blue, 22);
+    .fa {
+      color: darken($blue, 6);
+    }
   }
   &.notification_highlight {
-    @include notification_color($notification-highlight-color);
+    background: $yellow;
+    border-left: 8px solid darken($yellow, 22);
+    .fa {
+      color: darken($yellow, 6);
+    }
   }
 }

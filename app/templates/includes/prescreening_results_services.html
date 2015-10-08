@@ -77,7 +77,6 @@
         {% endif %}
       </div>
 
-    </div><!-- .prescreen-service-info -->
     {% if referral_buttons %}
     <div class="box-referral {% if service.id in open_referral_service_ids %}box-referral-active{% endif %} {% if service.eligible %}box-referral-eligible{% endif %}" onclick="sharePatientInfo(this, {{ patient.id }}, {{ current_user.id }}, {{ service. id}})">
 
@@ -113,8 +112,8 @@
           {% endif %}
         </div>
       {% endif %}
-
     </div>
     {% endif %}
+    </div><!-- .prescreen-service-info -->
   </div><!-- .prescreen-service -->
 {% endfor %}

@@ -54,10 +54,9 @@ var AppController = function ( options ) {
     // sticky sidebar for patient nav
     if ($('#stickyNav').length) {
       var $nav = $('#stickyNav');
-      var navFromTop = $nav.offset().top
+      var navFromTop = $nav.offset().top;
       $(window).scroll(function(){
         var fromTop = $(window).scrollTop();
-        if($('.patientStickyNav').height()) fromTop += $('#nav').height();
         if (fromTop > navFromTop) {
           if (!$nav.hasClass('sticky')) {
             $nav.css('width', $nav.width());
@@ -93,7 +92,6 @@ var multiform = {
     clone.removeClass('form_multiform_copy');
     clone.addClass('form_multiform_new');
     $('#'+id).after(clone);
-    // console.log(id, clone);
   },
   remove: function($button) {
     var entry = $button.parent().parent();
@@ -103,9 +101,11 @@ var multiform = {
       if ($(this).attr('type') == 'date') {
         $(this).attr('value', 'mm/dd/yyyy');
       }
+      if ($(this).is('select')) {
+        $(this).val('');
+      }
     });
     entry.hide();
-    // entry.remove(); // removes from DOM, not from db until page save
   },
   edit: function($button) {
     var entry = $button.parent().parent();
@@ -147,7 +147,7 @@ function sharePatientInfo( elem, patient_id, app_user_id, service_id ) {
     app_user_id: app_user_id,
     service_id: service_id
   }).done(function() {
-    $(elem).addClass('shared');
+    $(elem).addClass('box-referral-sent');
     $(elem).text('Referral sent!');
   });
 }

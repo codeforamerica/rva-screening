@@ -130,3 +130,33 @@ COVERAGE_TYPE_CHOICES = [
     ("BSCC",  _("Bon Secours CareCard")),
     ("OTHER", _("Other")),
 ]
+
+PHONE_DESCRIPTIONS = [
+    ("",         ""),
+    ("CELL",     _("Cell phone")),
+    ("HOME",     _("Home phone / landline")),
+    ("WORK",     _("Work number")),
+    ("RELATIVE", _("Relative's phone number")),
+    ("OTH",      _("Other"))
+]
+
+ADDRESS_DESCRIPTIONS = [
+    ("",         ""),
+    ("OWN",      _("Personal address / own or rent")),
+    ("RELATIVE", _("Relative's address")),
+    ("HOMELESS", _("Homeless shelter address")),
+    ("OTH",      _("Other"))
+]
+
+TIME_AT_CURRENT_EMPLOYER = [
+    ("",         ""),
+    ("LESS",      _("Less than 1 year")),
+    ("MIDDLE", _("1 to 2 years")),
+    ("MORE", _("More than 2 years"))
+]
+
+TIME_IN_AREA = [
+    ("",               ""),
+    ("LESS THAN 6",    _("Less than 6 months")),
+    ("GREATER THAN 6", _("Greater than 6 months")),
+]

@@ -4,9 +4,7 @@
   {% include "includes/search_form.html" %}
     
   <div class="container">
-
     <div class="block_4 filter_actions">
-    
       <button data-list="0" class="filter filter_active">
         <i class="fa fa-home"></i> All patients at <strong>{{ user.service.name }}</strong> <span class="filter-count">({{ all_patients | length }})</span>
       </button> 
@@ -42,143 +40,138 @@
         Outgoing referrals waiting for responses <span class="filter-count">({{ your_open_referrals_outgoing.count() }})</span>
       </button>
     </div>
-
-    <div class="block_8">
-
-      <ol id="list-0" class="list list_table list_filter list_alternate list_filter_active list_padding">
-      {% for patient in all_patients %}
-        <li class="list_row row"><a href="{{ url_for('screener.patient_overview', id=patient.id) }}">
-          <div class="block_4"><strong>{{ patient.first_name }} {{ patient.last_name }}</strong></div>
-          <div class="block_8">
-            <span>Created by {{ patient.created_by.full_name }} at {{ patient.created_by.service.name }} on {{ patient.created.strftime('%m/%d/%Y') }}</span>
-          </div>
-        </a></li>
-      {% endfor %}
-      </ol> 
-      
-      <ol id="list-1" class="list list_table list_filter list_alternate list_padding">
-      {% for patient in org_completed_referrals_outgoing %}
-        <li class="list_row row"><a href="{{ url_for('screener.patient_overview', id=patient.id) }}">
-          <div class="block_4"><strong>{{ patient.first_name }} {{ patient.last_name }}</strong></div>
-          <div class="block_8">
-            {% for referral in patient.referrals %}
-            {% if referral.from_app_user.service.id == current_user.service.id and referral.status == "COMPLETED" %}
-            <span>Referral to {{ referral.to_service.name }} was completed on {{ referral.last_modified or referral.created.strftime('%m/%d/%Y') }}</span>
-            {% endif %}
-            {% endfor %}
-          </div>
-        </a></li>
-      {% endfor %}
-      </ol> 
-      
-      <ol id="list-2" class="list list_table list_filter list_alternate list_padding">
-      {% for patient in org_open_referrals_outgoing %}
-        <li class="list_row row"><a href="{{ url_for('screener.patient_overview', id=patient.id) }}">
-          <div class="block_4"><strong>{{ patient.first_name }} {{ patient.last_name }}</strong></div>
-          <div class="block_8">
-            {% for referral in patient.referrals %}
-            {% if referral.from_app_user.service.id == current_user.service.id %}
-            {% if referral.status == "SENT" or referral.status == "RECEIVED" %}
-            <span>Referred to {{ referral.to_service.name }} on {{ referral.created.strftime('%m/%d/%Y') }}</span>
-            {% endif %}
-            {% endif %}
-            {% endfor %}
-          </div>
-        </a></li>
-      {% endfor %}
-      </ol>
-      
-      <ol id="list-3" class="list list_table list_filter list_alternate list_padding">
-      {% for patient in org_completed_referrals_incoming %}
-        <li class="list_row row"><a href="{{ url_for('screener.patient_overview', id=patient.id) }}">
-          <div class="block_4"><strong>{{ patient.first_name }} {{ patient.last_name }}</strong></div>
-          <div class="block_8">
-            {% for referral in patient.referrals %}
-            {% if referral.to_service_id == current_user.service.id and referral.status == "COMPLETED" %}
-            <span>From {{ referral.from_app_user.full_name }} ({{ referral.from_app_user.service.name }}) on {{ referral.last_modified or referral.created.strftime('%m/%d/%Y') }}</span>
-            {% endif %}
-            {% endfor %}
-          </div>
-        </a></li>
-      {% endfor %}
-      </ol> 
-      
-      <ol id="list-4" class="list list_table list_filter list_alternate list_padding">
-      {% for patient in org_open_referrals_incoming %}
-        <li class="list_row row"><a href="{{ url_for('screener.patient_overview', id=patient.id) }}">
-          <div class="block_4"><strong>{{ patient.first_name }} {{ patient.last_name }}</strong></div>
-          <div class="block_8">
-            {% for referral in patient.referrals %}
-            {% if referral.to_service_id == current_user.service.id %}
-            {% if referral.status == "SENT" or referral.status == "RECEIVED" %}
-            <span>From {{ referral.from_app_user.full_name }} ({{ referral.from_app_user.service.name }}) on {{ referral.created.strftime('%m/%d/%Y') }}</span>
-            {% endif %}
-            {% endif %}
-            {% endfor %}
-          </div>
-        </a></li>
-      {% endfor %}
-      </ol>
-      
-      <ol id="list-5" class="list list_table list_filter list_alternate list_padding">
-      {% for patient in org_need_renewal %}
-        <li class="list_row row"><a href="{{ url_for('screener.patient_overview', id=patient.id) }}">
-          <div class="block_4"><strong>{{ patient.first_name }} {{ patient.last_name }}</strong></div>
-          <div class="block_8">
-            <span>Last updated on {{ patient.last_modified.strftime('%m/%d/%Y') if patient.last_modified }}</span>
-          </div>
-        </a></li>
-      {% endfor %}
-      </ol>
-      
-      <ol id="list-6" class="list list_table list_filter list_alternate list_padding">
-      {% for patient in your_recently_updated %}
-        <li class="list_row row"><a href="{{ url_for('screener.patient_overview', id=patient.id) }}">
-          <div class="block_4"><strong>{{ patient.first_name }} {{ patient.last_name }}</strong></div>
-          <div class="block_8">
-            <span>Last updated on {{ patient.last_modified.strftime('%m/%d/%Y %-I:%M:%S %p') if patient.last_modified }}</span>
-          </div>
-        </a></li>
-      {% endfor %}
-      </ol>
-      
-      <ol id="list-7" class="list list_table list_filter list_alternate list_padding">
-      {% for patient in your_completed_referrals_outgoing %}
-        <li class="list_row row"><a href="{{ url_for('screener.patient_overview', id=patient.id) }}">
-          <div class="block_4"><strong>{{ patient.first_name }} {{ patient.last_name }}</strong></div>
-          <div class="block_8">
-            {% for referral in patient.referrals %}
-            {% if referral.from_app_user_id == current_user.id and referral.status == "COMPLETED" %}
-            <span>Referral to {{ referral.to_service.name }} completed on {{ referral.last_modified or referral.created.strftime('%m/%d/%Y') }}</span>
-            {% endif %}
-            {% endfor %}
-          </div>
-        </a></li>
-      {% endfor %}
-      </ol> 
-      
-      <ol id="list-8" class="list list_table list_filter list_alternate list_padding">
-      {% for patient in your_open_referrals_outgoing %}
-        <li class="list_row row"><a href="{{ url_for('screener.patient_overview', id=patient.id) }}">
-          <div class="block_4"><strong>{{ patient.first_name }} {{ patient.last_name }}</strong></div>
-          <div class="block_8">
-            {% for referral in patient.referrals %}
-            {% if referral.from_app_user_id == current_user.id %}
-            {% if referral.status == "SENT" or referral.status == "RECEIVED" %}
-            <span>Referral sent to {{ referral.to_service.name }} on {{ referral.created.strftime('%m/%d/%Y') }}</span>
-            {% endif %}
-            {% endif %}
-            {% endfor %}
-          </div>
-        </a></li>
-      {% endfor %}
-      </ol> 
-
-
-
-    
+    <div class="block_8 box filter_lists">
+      <div class="box_content">
+        <ol id="list-0" class="list list_table list_filter list_alternate list_filter_active list_padding">
+        {% for patient in all_patients %}
+          <li class="list_row row"><a href="{{ url_for('screener.patient_overview', id=patient.id) }}">
+            <div class="block_4"><strong>{{ patient.first_name }} {{ patient.last_name }}</strong></div>
+            <div class="block_8">
+              <span>Created by {{ patient.created_by.full_name }} at {{ patient.created_by.service.name }} on {{ patient.created.strftime('%m/%d/%Y') }}</span>
+            </div>
+          </a></li>
+        {% endfor %}
+        </ol> 
+        
+        <ol id="list-1" class="list list_table list_filter list_alternate list_padding">
+        {% for patient in org_completed_referrals_outgoing %}
+          <li class="list_row row"><a href="{{ url_for('screener.patient_overview', id=patient.id) }}">
+            <div class="block_4"><strong>{{ patient.first_name }} {{ patient.last_name }}</strong></div>
+            <div class="block_8">
+              {% for referral in patient.referrals %}
+              {% if referral.from_app_user.service.id == current_user.service.id and referral.status == "COMPLETED" %}
+              <span>Referral to {{ referral.to_service.name }} was completed on {{ referral.last_modified or referral.created.strftime('%m/%d/%Y') }}</span>
+              {% endif %}
+              {% endfor %}
+            </div>
+          </a></li>
+        {% endfor %}
+        </ol> 
+        
+        <ol id="list-2" class="list list_table list_filter list_alternate list_padding">
+        {% for patient in org_open_referrals_outgoing %}
+          <li class="list_row row"><a href="{{ url_for('screener.patient_overview', id=patient.id) }}">
+            <div class="block_4"><strong>{{ patient.first_name }} {{ patient.last_name }}</strong></div>
+            <div class="block_8">
+              {% for referral in patient.referrals %}
+              {% if referral.from_app_user.service.id == current_user.service.id %}
+              {% if referral.status == "SENT" or referral.status == "RECEIVED" %}
+              <span>Referred to {{ referral.to_service.name }} on {{ referral.created.strftime('%m/%d/%Y') }}</span>
+              {% endif %}
+              {% endif %}
+              {% endfor %}
+            </div>
+          </a></li>
+        {% endfor %}
+        </ol>
+        
+        <ol id="list-3" class="list list_table list_filter list_alternate list_padding">
+        {% for patient in org_completed_referrals_incoming %}
+          <li class="list_row row"><a href="{{ url_for('screener.patient_overview', id=patient.id) }}">
+            <div class="block_4"><strong>{{ patient.first_name }} {{ patient.last_name }}</strong></div>
+            <div class="block_8">
+              {% for referral in patient.referrals %}
+              {% if referral.to_service_id == current_user.service.id and referral.status == "COMPLETED" %}
+              <span>From {{ referral.from_app_user.full_name }} ({{ referral.from_app_user.service.name }}) on {{ referral.last_modified or referral.created.strftime('%m/%d/%Y') }}</span>
+              {% endif %}
+              {% endfor %}
+            </div>
+          </a></li>
+        {% endfor %}
+        </ol> 
+        
+        <ol id="list-4" class="list list_table list_filter list_alternate list_padding">
+        {% for patient in org_open_referrals_incoming %}
+          <li class="list_row row"><a href="{{ url_for('screener.patient_overview', id=patient.id) }}">
+            <div class="block_4"><strong>{{ patient.first_name }} {{ patient.last_name }}</strong></div>
+            <div class="block_8">
+              {% for referral in patient.referrals %}
+              {% if referral.to_service_id == current_user.service.id %}
+              {% if referral.status == "SENT" or referral.status == "RECEIVED" %}
+              <span>From {{ referral.from_app_user.full_name }} ({{ referral.from_app_user.service.name }}) on {{ referral.created.strftime('%m/%d/%Y') }}</span>
+              {% endif %}
+              {% endif %}
+              {% endfor %}
+            </div>
+          </a></li>
+        {% endfor %}
+        </ol>
+        
+        <ol id="list-5" class="list list_table list_filter list_alternate list_padding">
+        {% for patient in org_need_renewal %}
+          <li class="list_row row"><a href="{{ url_for('screener.patient_overview', id=patient.id) }}">
+            <div class="block_4"><strong>{{ patient.first_name }} {{ patient.last_name }}</strong></div>
+            <div class="block_8">
+              <span>Last updated on {{ patient.last_modified.strftime('%m/%d/%Y') if patient.last_modified }}</span>
+            </div>
+          </a></li>
+        {% endfor %}
+        </ol>
+        
+        <ol id="list-6" class="list list_table list_filter list_alternate list_padding">
+        {% for patient in your_recently_updated %}
+          <li class="list_row row"><a href="{{ url_for('screener.patient_overview', id=patient.id) }}">
+            <div class="block_4"><strong>{{ patient.first_name }} {{ patient.last_name }}</strong></div>
+            <div class="block_8">
+              <span>Last updated on {{ patient.last_modified.strftime('%m/%d/%Y %-I:%M:%S %p') if patient.last_modified }}</span>
+            </div>
+          </a></li>
+        {% endfor %}
+        </ol>
+        
+        <ol id="list-7" class="list list_table list_filter list_alternate list_padding">
+        {% for patient in your_completed_referrals_outgoing %}
+          <li class="list_row row"><a href="{{ url_for('screener.patient_overview', id=patient.id) }}">
+            <div class="block_4"><strong>{{ patient.first_name }} {{ patient.last_name }}</strong></div>
+            <div class="block_8">
+              {% for referral in patient.referrals %}
+              {% if referral.from_app_user_id == current_user.id and referral.status == "COMPLETED" %}
+              <span>Referral to {{ referral.to_service.name }} completed on {{ referral.last_modified or referral.created.strftime('%m/%d/%Y') }}</span>
+              {% endif %}
+              {% endfor %}
+            </div>
+          </a></li>
+        {% endfor %}
+        </ol> 
+        
+        <ol id="list-8" class="list list_table list_filter list_alternate list_padding">
+        {% for patient in your_open_referrals_outgoing %}
+          <li class="list_row row"><a href="{{ url_for('screener.patient_overview', id=patient.id) }}">
+            <div class="block_4"><strong>{{ patient.first_name }} {{ patient.last_name }}</strong></div>
+            <div class="block_8">
+              {% for referral in patient.referrals %}
+              {% if referral.from_app_user_id == current_user.id %}
+              {% if referral.status == "SENT" or referral.status == "RECEIVED" %}
+              <span>Referral sent to {{ referral.to_service.name }} on {{ referral.created.strftime('%m/%d/%Y') }}</span>
+              {% endif %}
+              {% endif %}
+              {% endfor %}
+            </div>
+          </a></li>
+        {% endfor %}
+        </ol> 
+      </div>
     </div>
-
   </div>
 {% endblock %}
 
@@ -197,9 +190,11 @@
 
   {% for patient in all_patients %}
   temp = {
-    name: '{% if patient.middle_name %} {{ patient.first_name ~ ' ' ~ patient.middle_name ~ ' ' ~ patient.last_name }} {% else %} {{ patient.first_name ~ ' ' ~ patient.last_name }} {% endif %}',
+    fname: '{{ patient.first_name }}',
+    lname: '{{ patient.last_name }}',
     dob: '{{ patient.dob }}',
     ssn: '{{ patient.ssn }}',
+    created: 'Created on {{ patient.created.strftime("%m/%d/%Y") }} at {{ patient.created_by.service.name }}',
     url: '{{ url_for('screener.patient_overview', id=patient.id) }}'
   };
   tempSearchData.list.push(temp);

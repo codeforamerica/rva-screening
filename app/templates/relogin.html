@@ -3,24 +3,22 @@
 {% from "security/_macros.html" import render_field_with_errors, render_field %}
 {% include "security/_messages.html" %}
 
-<div class="outer login_outer">
-  <div class="inner">
-    <div class="login_container">
-      <div class="login_message">
-        <i class="fa fa-clock-o"></i>
-        Your session has timed out. Please re-enter your password to continue.
-      </div>
-      <form action="{{ url_for('screener.relogin') }}" method="POST" name="login_user_form">
-        {{ login_user_form.hidden_tag() }}
-        {{ render_field_with_errors(login_user_form.email, value=email, class="form_field_login") }}
-        {{ render_field_with_errors(login_user_form.password, class="form_field_login") }}
-        {{ render_field(login_user_form.submit, class="button button_blue", class="button button_blue button_login") }}
-        <p><a class="login_action" href="{{ url_for_security('logout') }}">Log in as a different user</a></p> 
-        <span class="hidden">
-          <input type="hidden" name="previous_page" value="{{ previous_page }}">
-        </span>
-      </form>
+<div class="box login_container">
+  <div class="box_content">
+    <div class="login_message">
+      <i class="fa fa-clock-o"></i>
+      Your session has timed out. Please re-enter your password to continue.
     </div>
+    <form action="{{ url_for('screener.relogin') }}" method="POST" name="login_user_form">
+      {{ login_user_form.hidden_tag() }}
+      {{ render_field_with_errors(login_user_form.email, value=email, class="form_field_login") }}
+      {{ render_field_with_errors(login_user_form.password, class="form_field_login") }}
+      {{ render_field(login_user_form.submit, class="button button_blue", class="button button_blue button_login") }}
+      <p><a class="login_action" href="{{ url_for_security('logout') }}">Log in as a different user</a></p> 
+      <span class="hidden">
+        <input type="hidden" name="previous_page" value="{{ previous_page }}">
+      </span>
+    </form>
   </div>
 </div>
 

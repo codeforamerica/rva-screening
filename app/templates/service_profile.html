@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div class="container">
+<div class="container container_bump">
   <div class="block_4">
     <h1>{{ service.name }}</h1>
     <div class="service_details">
@@ -29,35 +29,41 @@
     </div>
   </div>
 
-  <div class="block_8 block_padding">
-    <div class="service_description">
-      {{ service.description }}
-    </div>
-    
-    <div id="service-map" class="map_service"></div>
-
-    <div class="service_users">
-      <h3>{{ _("Users at %(service)s", service=service.name) }}</h3>
-      <div class="table-wrapper">
-        <table class="table table-condensed">
-          <thead>
-            <tr>
-              <th>{{ _("Name") }}</th>
-              <th>{{ _("Phone") }}</th>
-              <th>{{ _("Email") }}</th>
-            </tr>
-          </thead>
-
-          {% for user in service.users %}
-            <tr>
-              <td><a href="{{ url_for('screener.user', user_id=user.id) }}"><strong>{{ user.full_name }}</strong></a></td>
-              <td><a href="{{ user.phone }}">{{ user.phone_number }}</a></td>
-              <td><a href="{{ user.email }}">{{ user.email }}</a></td>
-            </tr>
-          {% endfor %}
-        </table>
+  <div class="block_8">
+    <div class="box">
+      <div class="box_content">
+        <div class="service_description">
+          {{ service.description }}
+        </div>
+        
+        <div id="service-map" class="map_service"></div>
       </div>
     </div>
+
+    <div class="service_users box">
+        <div class="box_title">{{ _("Users at %(service)s", service=service.name) }}</div>
+        <div class="box_content">
+          <div class="table-wrapper">
+            <table class="table table-condensed">
+              <thead>
+                <tr>
+                  <th>{{ _("Name") }}</th>
+                  <th>{{ _("Phone") }}</th>
+                  <th>{{ _("Email") }}</th>
+                </tr>
+              </thead>
+
+              {% for user in service.users %}
+                <tr>
+                  <td><a href="{{ url_for('screener.user', user_id=user.id) }}"><strong>{{ user.full_name }}</strong></a></td>
+                  <td><a href="{{ user.phone }}">{{ user.phone_number }}</a></td>
+                  <td><a href="{{ user.email }}">{{ user.email }}</a></td>
+                </tr>
+              {% endfor %}
+            </table>
+          </div>
+        </div>
+      </div>
   </div>
 </div>
 
