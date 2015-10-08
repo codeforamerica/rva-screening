@@ -2,7 +2,7 @@
   position: relative;
   margin-bottom: 1em;
   padding: 1em;
-  padding-left: 90px;
+  padding-left: 50px;
   width: 100%;
   font-size: 1em;
   line-height: 1.5em;
@@ -11,14 +11,9 @@
 
   .fa {
     position: absolute;
-    left: 28px;
+    left: 15px;
     top: 12px;
     font-size: 2em;
-  }
-
-  a {
-    color: #555;
-    text-decoration: underline;
   }
 
   @media (max-width: $break) {
@@ -33,30 +28,26 @@
 
   &.notification_success {
     background: $green;
-    border-left: 8px solid darken($green, 22);
     .fa {
-      color: darken($green, 6);
+      color: $text;
     }
   }
   &.notification_error {
     background: $red;
-    border-left: 8px solid darken($red, 22);
     .fa {
-      color: darken($red, 6);
+      color: $text;
     }
   }
   &.notification_info {
     background: $blue;
-    border-left: 8px solid darken($blue, 22);
     .fa {
-      color: darken($blue, 6);
+      color: $text;
     }
   }
   &.notification_highlight {
     background: $yellow;
-    border-left: 8px solid darken($yellow, 22);
     .fa {
-      color: darken($yellow, 6);
+      color: $text;
     }
   }
 }

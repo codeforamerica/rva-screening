@@ -2,11 +2,18 @@
   {% for referral in patient.referrals %}
     {% if referral.status == "SENT" or referral.status == "RECEIVED" %}
       {% if referral.to_service_id == current_user.service.id %}
-        <div class="notification notification_highlight">
+        <div class="notification notification_highlight row">
           <i class="fa fa-clock-o"></i>
-          <strong>{{ patient.first_name }} {{ patient.last_name }} applied to Nominal (estimated) at {{ current_user.service.name }}</strong><br>
-          On {{ referral.created.strftime('%m/%d/%Y') }} from {{ referral.from_app_user.full_name }} at {{ referral.from_app_user.service.name }} <a href="{{ url_for('screener.patient_screening_history', patient_id=patient.id) }}">See full history</a><br>
-          <a href="#eligibility-form">Review</a>
+          
+          <div class="block_10">
+            <strong>{{ patient.first_name }} {{ patient.last_name }} applied to Nominal (estimated) at {{ current_user.service.name }}</strong><br>
+            On {{ referral.created.strftime('%m/%d/%Y') }} from {{ referral.from_app_user.full_name }} at {{ referral.from_app_user.service.name }} <a href="{{ url_for('screener.patient_screening_history', patient_id=patient.id) }}">See full history</a><br>
+          </div>
+
+          <div class="block_2">
+            <a class="button button_black button_full" href="#eligibility-form">Review</a>
+          </div>
+          
         </div>
       {% endif %}
     {% endif %}
