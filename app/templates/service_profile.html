@@ -2,18 +2,30 @@
 {% block content %}
 
 <div class="container container_bump">
-  <div class="block_4">
+  <div class="block_12">
     <h1>{{ service.name }}</h1>
-    <div class="service_details">
-      <p><i class="fa fa-user"></i> {{ service.main_contact_name }}</p>
-      <p><i class="fa fa-phone"></i> <a href="tel:">{{ service.main_contact_phone }}</a></p>
-      <p><span class="fa fa-link"></span> <a href="{{ service.website_url }}">website</a></p>
+  </div>
+
+  <div class="block_4 block_pad_right">
+    <div class="box">
+      <div class="box_content details details_third">
+        <div class="detail">
+          <span class="detail_left">Main contact</span><span class="detail_right">{{ service.main_contact_name }}</span>
+        </div>
+        
+        <div class="detail">
+          <span class="detail_left">Phone</span><span class="detail_right">{{ service.main_contact_phone }}</span>
+        </div>
+        
+        <div class="detail">
+          <span class="detail_left">Website</span><span class="detail_right"><a href="{{ service.website_url }}">{{ service.website_url }}</a></span>
+        </div>
+      </div>
     </div>
 
-    <div class="service_locations">
-
-      <h3>{{ _("Location(s)") }}</h3>
-
+    <div class="service_locations box">
+      <div class="box_title">{{ _("Location(s)") }}</div>
+      <div class="box_content">
       {% for location in service.locations %}
         <div class="location" 
              data-name="{{ location.name }}" 
@@ -25,7 +37,7 @@
           <span class="location_address">{{ location.address }}</span> 
         </div>
       {% endfor %} 
-
+      </div>
     </div>
   </div>
 

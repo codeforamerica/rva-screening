@@ -94,6 +94,7 @@ body.menu_open {
     display: block;
     padding: 1em;
     color: $text;
+    text-decoration: none;
     &:hover {
       background: $light-gray;
     }

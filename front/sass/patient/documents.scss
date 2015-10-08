@@ -2,6 +2,9 @@
 .document {
   float: left;
   width: 25%;
+  a {
+    text-decoration: none;
+  }
 
   .document_inner {
     padding: 0.5em;
