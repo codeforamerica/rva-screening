@@ -97,12 +97,12 @@ var multiform = {
     var entry = $button.parent().parent();
     var entryForm = entry.find('.multiform_content_fields');
     entryForm.find('.field_input').each(function(){
-      $(this).attr('value', '');
+      $(this).trigger('change').attr('value', '');
       if ($(this).attr('type') == 'date') {
-        $(this).attr('value', 'mm/dd/yyyy');
+        $(this).trigger('change').attr('value', 'mm/dd/yyyy');
       }
       if ($(this).is('select')) {
-        $(this).val('');
+        $(this).trigger('change').val('');
       }
     });
     entry.hide();
