@@ -32,7 +32,6 @@ gulp.task('js', function() {
 
 var vendorJSFiles = [
   './node_modules/jquery/dist/jquery.js',
-  // './node_modules/bootstrap/dist/js/bootstrap.js',
   './front/vendor/**/**.js'
 ];
 
@@ -43,7 +42,6 @@ gulp.task('vendorJS', function(){
 });
 
 var vendorCSSFiles = [
-  // './node_modules/bootstrap/dist/css/bootstrap.css',
   './node_modules/font-awesome/css/font-awesome.css',
   './front/vendor/**/**.css'
 ];

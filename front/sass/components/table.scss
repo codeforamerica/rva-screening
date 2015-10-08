@@ -1,0 +1,28 @@
+.table {
+  border-collapse: collapse;
+  font-size: 0.9em;
+  width: 100%;
+  
+  td, th {
+    border: none;
+    padding: 5px;
+  }
+
+  td {
+    max-width: 300px;
+    overflow: scroll;
+  }
+  
+  tr {
+    border-bottom: 1px solid #e5e5e5;
+    &:nth-child(2n) {
+      background: #f6f6f6;
+    }
+  }
+  
+  th {
+    font-weight: 500;
+    text-align: left;
+    border-bottom: 1px solid $dark-gray;
+  } 
+}
