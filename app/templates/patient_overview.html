@@ -96,10 +96,10 @@
       <div class="past_result cf {% if result.eligible_yn == "Y" %}past_result_eligible{% else %}past_result_noteligible{% endif %}">
         {% if result.eligible_yn == "Y" %}<i class="fa fa-check"></i>{% else %}<i class="fa fa-times"></i>{% endif %}
         <strong>{{ result.created_by.full_name }}</strong> added on {{ result.created.strftime('%m/%d/%Y') }}
-        <div class="past_result_content">
-          <span class="past_result_left">Eligible</span> <span class="past_result_right">{% if result.eligible_yn == "Y" %}Yes{% else %}No{% endif %}</span>
-          <span class="past_result_left">Sliding scale</span> <span class="past_result_right">{% if result.sliding_scale.scale_name %}{{ result.sliding_scale.scale_name }}{% else %}n/a{% endif %}</span></p>
-          <span class="past_result_left">Notes</span> <span class="past_result_right">{% if result.notes %}{{ result.notes }}{% else %}No notes provided.{% endif %}</span></p>
+        <div class="details">
+          <div class="detail"><span class="detail_left">Eligible</span> <span class="detail_right">{% if result.eligible_yn == "Y" %}Yes{% else %}No{% endif %}</span></div>
+          <div class="detail"><span class="detail_left">Sliding scale</span> <span class="detail_right">{% if result.sliding_scale.scale_name %}{{ result.sliding_scale.scale_name }}{% else %}n/a{% endif %}</span></p></div>
+          <div class="detail"><span class="detail_left">Notes</span> <span class="detail_right">{% if result.notes %}{{ result.notes }}{% else %}No notes provided.{% endif %}</span></div>
         </div>
       </div>
     {% endfor %}

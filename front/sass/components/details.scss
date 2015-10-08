@@ -1,0 +1,35 @@
+.details {
+  .detail {
+    font-size: 0.9em;
+    margin-top: 10px;
+    line-height: 1.4em;
+    @include clearfix();
+    .detail_left {
+      float: left;
+      width: 17%;
+      text-align: right;
+      font-weight: 500;
+    }
+    .detail_right {
+      float: right;
+      width: 81.5%;
+    }
+  }
+  &.details_half {
+    .detail_left {
+      width: 49%;
+    }
+    .detail_right {
+      width: 49%;
+    }
+  }
+
+  &.details_third {
+    .detail_left {
+      width: 32%;
+    }
+    .detail_right {
+      width: 66%;
+    }
+  }
+}
