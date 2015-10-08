@@ -84,19 +84,30 @@
     </div>
   {% endif %}
 
-  {% if past_results | length == 0 %}
-    <p>{{ patient.first_name }} has no previous screening results at {{ current_user.service.name }}.</p>
-  {% else %}
-    <p>Previous screening results at {{ current_user.service.name }}:</p>
-  {% endif %}
-  {% for result in past_results %}
-    <p>Eligible: {% if result.eligible_yn == "Y" %}Yes{% else %}No{% endif %}</p>
-    <p>Sliding scale: {{ result.sliding_scale.scale_name }}</p>
-    <p>Notes: {{ result.notes }}</p>
-    <p>Added by {{ result.created_by.full_name }} at {{ result.created.strftime('%m-%d-%Y %H:%M:%S')}}</p>
-  {% endfor %}
 
+  <div class="box_content">
+    <div class="patientPastResults">
+    {% if past_results | length == 0 %}
+      <h2>{{ patient.first_name }} has no previous screening results at {{ current_user.service.name }}.</h2>
+    {% else %}
+      <h2>Previous screening results at {{ current_user.service.name }}:</h2>
+    {% endif %}
+    {% for result in past_results %}
+      <div class="past_result cf {% if result.eligible_yn == "Y" %}past_result_eligible{% else %}past_result_noteligible{% endif %}">
+        {% if result.eligible_yn == "Y" %}<i class="fa fa-check"></i>{% else %}<i class="fa fa-times"></i>{% endif %}
+        <strong>{{ result.created_by.full_name }}</strong> added on {{ result.created.strftime('%m/%d/%Y') }}
+        <div class="past_result_content">
+          <span class="past_result_left">Eligible</span> <span class="past_result_right">{% if result.eligible_yn == "Y" %}Yes{% else %}No{% endif %}</span>
+          <span class="past_result_left">Sliding scale</span> <span class="past_result_right">{{ result.sliding_scale.scale_name }}</span></p>
+          <span class="past_result_left">Notes</span> <span class="past_result_right">{{ result.notes }}</span></p>
+        </div>
+      </div>
+    {% endfor %}
+    </div>
+  </div>
+</div>
 
+<div class="box">
   <div class="box_content">
     <div class="patientEligibilityForm" id="eligibility-form">
       <p>Can you confirm or deny this estimate? Is {{ patient.first_name }} eligible for care at {{ current_user.service.name }}? Fill out the form below to submit {{ patient.first_name }}'s eligibility status.</p>
@@ -145,7 +156,6 @@
     </div>
   </div>
 </div>
-
 
 
 
