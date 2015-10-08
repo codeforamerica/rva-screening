@@ -69,95 +69,93 @@
 
 
 
-
-<div class="box">
-  <div class="box_title">{{ current_user.service.name }} Eligibility</div>
-  {% if service.eligible %}
-    <div class="patientEstimation patientEstimation_eligible">
-      <p class="color-success"><i class="fa fa-check"></i> {{ patient.first_name }} {{ patient.last_name }} is <strong>likely eligible</strong> for services at {{ service.name }}{% if service.sliding_scale and service.sliding_scale != 'All' %} at the <strong>{{ service.sliding_scale }}</strong> section of the sliding scale{% endif %}.</p>
-      <p><small>Results are based on FPL calculations, household size, insurance status, and Medicaid eligibility.</small></p>
-    </div>
-  {% else %}
-    <div class="patientEstimation patientEstimation_noteligible">
-      <p class="color-success"><i class="fa fa-times"></i> {{ patient.first_name }} {{ patient.last_name }} is likely <strong>not eligible</strong> for services at {{ service.name }}</p>
-      <p><small>Results are based on FPL calculations, household size, insurance status, and Medicaid eligibility. You can edit these details in <a href="{{ url_for('screener.patient_details', id=patient.id) }}">{{ patient.first_name}}'s patient details page.</a></small></p>
-    </div>
-  {% endif %}
-
-
-  <div class="box_content">
-    <div class="patientPastResults">
-    {% if past_results | length == 0 %}
-      <h2>{{ patient.first_name }} has no previous screening results at {{ current_user.service.name }}.</h2>
-    {% else %}
-      <h2>Previous screening results at {{ current_user.service.name }}:</h2>
-    {% endif %}
-    {% for result in past_results %}
-      <div class="past_result cf {% if result.eligible_yn == "Y" %}past_result_eligible{% else %}past_result_noteligible{% endif %}">
-        {% if result.eligible_yn == "Y" %}<i class="fa fa-check"></i>{% else %}<i class="fa fa-times"></i>{% endif %}
-        <strong>{{ result.created_by.full_name }}</strong> added on {{ result.created.strftime('%m/%d/%Y') }}
-        <div class="details">
-          <div class="detail"><span class="detail_left">Eligible</span> <span class="detail_right">{% if result.eligible_yn == "Y" %}Yes{% else %}No{% endif %}</span></div>
-          <div class="detail"><span class="detail_left">Sliding scale</span> <span class="detail_right">{% if result.sliding_scale.scale_name %}{{ result.sliding_scale.scale_name }}{% else %}n/a{% endif %}</span></p></div>
-          <div class="detail"><span class="detail_left">Notes</span> <span class="detail_right">{% if result.notes %}{{ result.notes }}{% else %}No notes provided.{% endif %}</span></div>
-        </div>
+{% if current_user.service.has_screening_yn == 'Y' %}
+  <div class="box">
+    <div class="box_title">{{ current_user.service.name }} Eligibility</div>
+    {% if service.eligible %}
+      <div class="patientEstimation patientEstimation_eligible">
+        <p class="color-success"><i class="fa fa-check"></i> {{ patient.first_name }} {{ patient.last_name }} is <strong>likely eligible</strong> for services at {{ service.name }}{% if service.sliding_scale and service.sliding_scale != 'All' %} at the <strong>{{ service.sliding_scale }}</strong> section of the sliding scale{% endif %}.</p>
+        <p><small>Results are based on FPL calculations, household size, insurance status, and Medicaid eligibility.</small></p>
       </div>
-    {% endfor %}
+    {% else %}
+      <div class="patientEstimation patientEstimation_noteligible">
+        <p class="color-success"><i class="fa fa-times"></i> {{ patient.first_name }} {{ patient.last_name }} is likely <strong>not eligible</strong> for services at {{ service.name }}</p>
+        <p><small>Results are based on FPL calculations, household size, insurance status, and Medicaid eligibility. You can edit these details in <a href="{{ url_for('screener.patient_details', id=patient.id) }}">{{ patient.first_name}}'s patient details page.</a></small></p>
+      </div>
+    {% endif %}
+
+
+    <div class="box_content">
+      <div class="patientPastResults">
+      {% if past_results | length == 0 %}
+        <h2>{{ patient.first_name }} has no previous screening results at {{ current_user.service.name }}.</h2>
+      {% else %}
+        <h2>Previous screening results at {{ current_user.service.name }}:</h2>
+      {% endif %}
+      {% for result in past_results %}
+        <div class="past_result cf {% if result.eligible_yn == "Y" %}past_result_eligible{% else %}past_result_noteligible{% endif %}">
+          {% if result.eligible_yn == "Y" %}<i class="fa fa-check"></i>{% else %}<i class="fa fa-times"></i>{% endif %}
+          <strong>{{ result.created_by.full_name }}</strong> added on {{ result.created.strftime('%m/%d/%Y') }}
+          <div class="details">
+            <div class="detail"><span class="detail_left">Eligible</span> <span class="detail_right">{% if result.eligible_yn == "Y" %}Yes{% else %}No{% endif %}</span></div>
+            <div class="detail"><span class="detail_left">Sliding scale</span> <span class="detail_right">{% if result.sliding_scale.scale_name %}{{ result.sliding_scale.scale_name }}{% else %}n/a{% endif %}</span></p></div>
+            <div class="detail"><span class="detail_left">Notes</span> <span class="detail_right">{% if result.notes %}{{ result.notes }}{% else %}No notes provided.{% endif %}</span></div>
+          </div>
+        </div>
+      {% endfor %}
+      </div>
     </div>
   </div>
-</div>
 
-<div class="box">
-  <div class="box_content">
-    <div class="patientEligibilityForm" id="eligibility-form">
-      <p>Can you confirm or deny this estimate? Is {{ patient.first_name }} eligible for care at {{ current_user.service.name }}? Fill out the form below to submit {{ patient.first_name }}'s eligibility status.</p>
+  <div class="box">
+    <div class="box_content">
+      <div class="patientEligibilityForm" id="eligibility-form">
+        <p>Can you confirm or deny this estimate? Is {{ patient.first_name }} eligible for care at {{ current_user.service.name }}? Fill out the form below to submit {{ patient.first_name }}'s eligibility status.</p>
 
-      <form method="post">
-        {{ form.hidden_tag() }}
+        <form method="post">
+          {{ form.hidden_tag() }}
 
-        {% if form.errors %}
-          <ul class="alert_list alert_error">
-            {% for field_name, field_errors in form.errors|dictsort if field_errors %}
-              {% for error in field_errors %}
-                <li>{{ form[field_name].label }}: {{ error }}</li>
+          {% if form.errors %}
+            <ul class="alert_list alert_error">
+              {% for field_name, field_errors in form.errors|dictsort if field_errors %}
+                {% for error in field_errors %}
+                  <li>{{ form[field_name].label }}: {{ error }}</li>
+                {% endfor %}
               {% endfor %}
-            {% endfor %}
-          </ul>
-        {% endif %}
+            </ul>
+          {% endif %}
 
-        <div class="form_row">
-          <div class="field_third">
+          <div class="form_row">
+            <div class="field_third">
+              
+              <p><strong>Is {{ patient.first_name }} {{ patient.last_name }} eligible for services at {{ current_user.service.name }}?</strong></p>
+              {{ form.eligible_yn }}
             
-            <p><strong>Is {{ patient.first_name }} {{ patient.last_name }} eligible for services at {{ current_user.service.name }}?</strong></p>
-            {{ form.eligible_yn }}
-          
+            </div>
+
+            {{ render_field(form.sliding_scale_id, class='field_third') }}
           </div>
 
-          {{ render_field(form.sliding_scale_id, class='field_third') }}
-        </div>
+          <div class="form_row">
+            <p><strong>Message about {{ patient.first_name }}'s eligibility status.</strong></p>
+            {{ form.notes() }}
+          </div>
 
-        <div class="form_row">
-          <p><strong>Message about {{ patient.first_name }}'s eligibility status.</strong></p>
-          {{ form.notes() }}
-        </div>
+          <div class="form_row">
+           <!--  <button id="submit" name="submit" type="submit" value="Submit" class="button button_green">
+              {{ _("Submit") }}
+            </button> -->
 
-        <div class="form_row">
-         <!--  <button id="submit" name="submit" type="submit" value="Submit" class="button button_green">
-            {{ _("Submit") }}
-          </button> -->
+            {{ form.submit() }}
 
-          {{ form.submit() }}
-
-          <!-- <button type="submit" class="button button_red">
-            {{ _("Patient is not eligible for services") }}
-          </button> -->
-        </div>
-      </form>
+            <!-- <button type="submit" class="button button_red">
+              {{ _("Patient is not eligible for services") }}
+            </button> -->
+          </div>
+        </form>
+      </div>
     </div>
   </div>
-</div>
-
-
-
+{% endif %}
 
 {% endblock %}  
