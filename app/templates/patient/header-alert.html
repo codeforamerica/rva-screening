@@ -6,7 +6,7 @@
           <i class="fa fa-clock-o"></i>
           
           <div class="block_10">
-            <strong>{{ patient.first_name }} {{ patient.last_name }} applied to Nominal (estimated) at {{ current_user.service.name }}</strong><br>
+            <strong>{{ patient.first_name }} {{ patient.last_name }} applied to {{ current_user.service.name }}</strong><br>
             On {{ referral.created.strftime('%m/%d/%Y') }} from {{ referral.from_app_user.full_name }} at {{ referral.from_app_user.service.name }} <a href="{{ url_for('screener.patient_screening_history', patient_id=patient.id) }}">See full history</a><br>
           </div>
 

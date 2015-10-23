@@ -252,7 +252,7 @@ class PatientForm(Form):
     gender = fields.SelectField(
         _('Gender'),
         choices=CONSTANTS.GENDER_CHOICES,
-        default=_('No Answer')
+        default="",
     )
     transgender = fields.SelectField(
         _('Transgender'),

@@ -30,11 +30,14 @@
           {% if entry.action == 'I' %}
             <td>Added {{entry.table_name | replace('_', ' ')}} with fields:<br>
               {% for field, value in entry.row_data.iteritems() %}
-                {% if value != None and field not in (
+                {% if value != None and value != '' and field not in (
                   'id',
                   'created',
                   'created_by_id',
-                  'patient_id'
+                  'patient_id',
+                  'data_full',
+                  'data_large',
+                  'data_small'
                 ) %}
                   {{readable_names[field] or field}}: {{value}}<br>
                 {% endif %}
@@ -46,8 +49,8 @@
                 Updated {{entry.table_name | replace('_', ' ')}}:<br>
               {% endif %}
               {% for field, value in entry.changed_fields.iteritems() %}
-                {% if field not in ('last_modified', 'last_modified_by_id') %}
-                  Changed {{readable_names[field] or field}} from {{entry.row_data[field]}} to {{value}}<br>
+                {% if field not in ('last_modified', 'last_modified_by_id') and (entry.row_data[field] or value)%}
+                  Changed {{readable_names[field] or field}} from '{{entry.row_data[field] or ''}}' to '{{value}}'<br>
                 {% endif %}
               {% endfor %}
             </td>

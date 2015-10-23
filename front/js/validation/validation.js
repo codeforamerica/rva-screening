@@ -28,12 +28,14 @@ var DEFAULT_VALIDATORS = {
     // attempts default javascript date parsing
     var val = $elem.val();
     var parsed = new Date(val);
-    var today = new Date();
-    var todayNice = today.getMonth() + '/' + today.getDate() + '/' + today.getFullYear();
+    var nextYear = new Date(new Date().setYear(new Date().getFullYear() + 1))
+    var nextYearNice = nextYear.getMonth() + '/' + nextYear.getDate() + '/' + nextYear.getFullYear();
     if( isNaN(parsed) ){
       return validationResult(false, val, 'This is not a valid date.');
-    } else if ( parsed > today ) {
-      return validationResult(false, val, 'Please enter a date before ' + todayNice);
+    } else if ( parsed > nextYear ) {
+      // Allow entering dates up to a year in the future because users sometimes want to 
+      // enter future Medicaid effective dates etc
+      return validationResult(false, val, 'Please enter a date before ' + nextYearNice);
     } else if ( parsed < new Date(1900, 1, 1) ) {
       return validationResult(false, val, 'Please enter date after 1/1/1900');
     } else {
@@ -62,7 +64,7 @@ var DEFAULT_VALIDATORS = {
     if(val==='') {
       return validationResult(true, val);
     }
-    var pattern = /^\d{3}-\d{2}-\d{4}$/;
+    var pattern = /^\d{3}-?\d{2}-?\d{4}$/;
     if (!val.match(pattern)) {
       return validationResult(false, val, 'Not a valid social security number.');
     } else {
