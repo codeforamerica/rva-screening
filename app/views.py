@@ -503,12 +503,18 @@ def patient_history(patient_id):
             )
         )).\
         order_by(ActionLog.action_timestamp.desc())
-    # Filter out history entries that are only last modified/last modified by changes
+
+    # Filter out history entries that only contain changes to fields we don't want to
+    # show in edit history
     history = [i for i in history if not (
         i.changed_fields
         and set(i.changed_fields).issubset([
             'last_modified',
-            'last_modified_by',
+            'last_modified_by_id',
+            'id',
+            'created',
+            'created_by_id',
+            'patient_id',
             'data_full',
             'data_large',
             'data_small'
