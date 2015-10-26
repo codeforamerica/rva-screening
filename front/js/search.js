@@ -15,8 +15,15 @@ var Search = function ( options ) {
 
   this.options = options;
   this.elementClass = options.elementClass;
-  this.data = options.searchData;
-  var S = this;
+  this.raw = options.searchData;
+
+  var searchOptions = {
+    keys: ['fname', 'lname', 'dob', 'ssn'],   // keys to search in
+    includeScore: true,
+    threshold: 0.5      // we should play around with this
+  };
+
+  this.fuse = new Fuse(this.raw.list, searchOptions);
 
   // if there is no elementClass to work with, throw an error
   if (!options.elementClass) {
@@ -25,16 +32,12 @@ var Search = function ( options ) {
   }
 
   // ensure search data exist
-  if (!this.data) {
+  if (!options.searchData.list) {
     var err = new Error('Cannot find the searchData option. Please include it as an option when initializing search.');
     throw err;
   }
 
-  // check search data length
-  if (this.data.total != this.data.list.length) {
-    var err = new Error('Search Data: It looks like the specified length vs the actual length are different.');
-    throw err;
-  }
+  var S = this;
 
   $(this.elementClass).on('keyup', function(e){
 
@@ -42,10 +45,13 @@ var Search = function ( options ) {
     var valueLName = $('#field_search_patient_last_name').val();
     var valueDob = $('#field_search_patient_dob').val();
     var valueSsn = $('#field_search_patient_ssn').val();
-    var res = JSON.search( S.data, '//*[contains(fname, "'+valueFName+'") and contains(lname, "'+valueLName+'") and contains(dob, "'+valueDob+'") and contains(ssn, "'+valueSsn+'")]' );
+    console.log(S.fuse);
+    var res = S.fuse.search(valueFName+valueLName+valueDob+valueSsn);
+    console.log(res);
+    // var res = JSON.search( S.data, '//*[contains(fname, "'+valueFName+'") and contains(lname, "'+valueLName+'") and contains(dob, "'+valueDob+'") and contains(ssn, "'+valueSsn+'")]' );
     var results = translateResults(res, valueFName + ' ' + valueLName);
 
-    if (res.length > S.data.total) {
+    if (res.length > S.raw.total) {
       var html = "";
     } else if (!res.length) {
       var html = templates.render('noresults', results);
@@ -60,7 +66,7 @@ var Search = function ( options ) {
 }
 
 function translateResults(r, n) {
-  return { 
+  return {
     patients: r,
     none:[
       {
@@ -84,11 +90,15 @@ var templates = {
       li.className = 'list_row';
       
       var anchor = document.createElement('a');
-      anchor.href = patient.url;
-      anchor.innerHTML += '<div class="block_3 patient_search_result_item">' + patient.fname + '</div>';
-      anchor.innerHTML += '<div class="block_3 patient_search_result_item">' + patient.lname + '</div>';
-      anchor.innerHTML += '<div class="block_3 patient_search_result_item">' + patient.dob + '</div>';
-      anchor.innerHTML += '<div class="block_3 patient_search_result_item">' + patient.ssn + '</div>';
+      anchor.href = patient.item.url;
+      var fn = (patient.item.fname.length ? patient.item.fname : 'None');
+      var ln = (patient.item.lname.length ? patient.item.lname : 'None');
+      var bd = (patient.item.dob.length ? patient.item.dob : 'None');
+      var ss = (patient.item.ssn.length ? patient.item.ssn : 'None');
+      anchor.innerHTML += '<div class="block_3 patient_search_result_item">' + fn + '</div>';
+      anchor.innerHTML += '<div class="block_3 patient_search_result_item">' + ln + '</div>';
+      anchor.innerHTML += '<div class="block_3 patient_search_result_item">' + bd + '</div>';
+      anchor.innerHTML += '<div class="block_3 patient_search_result_item">' + ss + '</div>';
 
       li.appendChild(anchor);
       elem.appendChild(li);
