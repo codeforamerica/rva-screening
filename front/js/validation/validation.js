@@ -203,6 +203,7 @@ Validator.prototype = {
 
     // detect any changes in the form, pass with proper scope using $.proxy()
     $('.validation :input').on('change', prx);
+    $('.validation :input').on('keydown', prx);
 
     $(window).on('beforeunload', function(event) {
       var e = event.originalEvent;
