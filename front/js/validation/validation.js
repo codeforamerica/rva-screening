@@ -141,7 +141,6 @@ Validator.prototype = {
         if( result.passed ){
           target.trigger(typeScope + 'success', [result]);
         } else if (result.passed === 'clear') {
-          console.log(target);
           target.trigger(typeScope + 'clear', [result]);
         } else {
           target.trigger(typeScope + 'failure', [result]);
@@ -267,19 +266,14 @@ function fName(s){
 
 reports = {
   "default": function(e, result) {
-    // console.log(e.type, arguments);
   },
   "failure": function(e, result) {
-    // console.log(e.type, arguments);
-    // console.error(result.message); 
     validationHTML(arguments[0].currentTarget, 'validation_invalid');
   },
   "success": function(e, result) {
-    // console.log(e.type, arguments);
     validationHTML(arguments[0].currentTarget, 'validation_valid');
   },
   "required": function(e, result) {
-    // console.log(e.type, arguments);
     validationHTML(arguments[0].currentTarget, 'validation_required');
   }
 }
