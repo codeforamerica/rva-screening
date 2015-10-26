@@ -29,6 +29,7 @@
           </td>
           {% if entry.action == 'I' %}
             <td>Added {{entry.table_name | replace('_', ' ')}} with fields:<br>
+              <ul>
               {% for field, value in entry.row_data.iteritems() %}
                 {% if value != None and field not in (
                   'id',
@@ -36,20 +37,23 @@
                   'created_by_id',
                   'patient_id'
                 ) %}
-                  {{readable_names[field] or field}}: {{value}}<br>
+                  <li>{{readable_names[field] or field}}: {{value}}</li>
                 {% endif %}
               {% endfor %}
+              </ul>
             </td>
           {% elif entry.action == 'U' %}
             <td>
               {% if entry.table_name != 'patient' %}
                 Updated {{entry.table_name | replace('_', ' ')}}:<br>
               {% endif %}
+              <ul>
               {% for field, value in entry.changed_fields.iteritems() %}
                 {% if field not in ('last_modified', 'last_modified_by_id') %}
-                  Changed {{readable_names[field] or field}} from {{entry.row_data[field]}} to {{value}}<br>
+                  <li>Changed {{readable_names[field] or field}} from {{entry.row_data[field]}} to {{value}}</li>
                 {% endif %}
               {% endfor %}
+              </ul>
             </td>
           {% endif %}
       {% endfor %}
