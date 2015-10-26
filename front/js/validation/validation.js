@@ -6,6 +6,9 @@ function validationResult(res, val, message){
 var DEFAULT_VALIDATORS = {
   "currency": function ($elem) {
     var val = $elem.val();
+    if(val==='') {
+      return validationResult(true, val);
+    }
     // parse as currency - via http://stackoverflow.com/a/559178/399726
     var cleaned = val.replace(/[^0-9\.]+/g,"");
     var parsed = Math.round( parseFloat(cleaned));
