@@ -3,7 +3,7 @@ from app import template_constants as CONSTANTS
 from flask.ext.babel import gettext as _
 from flask_wtf import Form
 from flask_wtf.file import FileField, FileAllowed
-from wtforms import fields, validators
+from wtforms import fields, validators, widgets
 from wtforms import Form as NoCsrfForm
 from wtforms.validators import InputRequired, DataRequired, Email, ValidationError, Optional
 
@@ -259,10 +259,11 @@ class PatientForm(Form):
         choices=CONSTANTS.TRANSGENDER_CHOICES,
         default="",
     )
-    race = fields.SelectField(
+    race = fields.SelectMultipleField(
         _('Race'),
         choices=CONSTANTS.RACE_CHOICES,
-        default="",
+        option_widget=widgets.CheckboxInput(),
+        widget=widgets.ListWidget(prefix_label=False),
     )
     race_other = fields.TextField(
         _('Please specify other race'),
@@ -273,17 +274,12 @@ class PatientForm(Form):
         choices=CONSTANTS.ETHNICITY_CHOICES,
         default="",
     )
-    ## testing out radio buttons in the general form
     languages = fields.SelectMultipleField(
         _('Language'),
         choices=CONSTANTS.LANGUAGE_CHOICES,
-        default="",
+        option_widget=widgets.CheckboxInput(),
+        widget=widgets.ListWidget(prefix_label=False)
     )
-    # languages = fields.RadioField(
-    #     _('Language'),
-    #     choices=CONSTANTS.LANGUAGE_CHOICES,
-    #     default="",
-    # )
     languages_other = fields.TextField(
         _('Please specify other languages'),
         [Optional(), validators.Length(max=64)]

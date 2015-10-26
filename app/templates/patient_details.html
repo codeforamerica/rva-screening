@@ -303,17 +303,18 @@ config.dependencies = [
     type: "equals", comparator: "OTH", manyToOne: true},
   { target: "addresses-X-address_description", child: "addresses-X-address_description_other",
     type: "equals", comparator: "OTH", manyToOne: true},
+
   { target: "race", child: "race_other",
-    type: "equals", comparator: "OTH" },
+    type: "checked", comparator: "OTH" },
   { target: "languages", child: "languages_other",
-    type: "contains", comparator: "OTH" },
+    type: "checked", comparator: "OTH" },
+
   { target: "housing_status", child: "housing_status_other",
     type: "equals", comparator: "OTH" },
   { target: "coverage_type", child: "coverage_type_other",
     type: "equals", comparator: "OTHER" },
-
   { target: "languages", child: "has_interpreter_yn",
-    type: "does_not_contain", comparator: "EN" },
+    type: "does_not_contain", comparator: "EN" }
 ];
 
 </script>

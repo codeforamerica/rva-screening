@@ -211,7 +211,7 @@ Validator.prototype = {
 
       // if the form isn't dirty, or if the user is clicking the save button
       if (!V.dirty || e.target.activeElement.getAttribute('type') === 'submit') {
-          return undefined;
+        return undefined;
       }
 
       (e || window.event).returnValue = confirmationMessage; //Gecko + IE

@@ -12,6 +12,20 @@
 </label>
 {% endmacro %}
 
+{% macro render_check(field, providers=[], class='') -%}
+<div class="form_field field_checkboxes {{field.name}}
+  {%- if class %} {{class}}{% endif %}
+  {%- if providers|length > 0 %} q_unique {% endif -%}
+  {%- for provider in providers %} q_{{provider}}{% endfor -%}
+  ">
+  <label class="field_label">
+  {{ field.label.text }}
+  </label>
+  {{ field(class="field_input", **kwargs) }}
+  <span class="field_verification"></span>
+</div>
+{% endmacro %}
+
 {% macro render_multifield(multifield_slug, multifield_label, subfields, providers=[], class='', subclass='') -%}
 <div class="multifield {{multifield_slug}}
   {%- if class %} {{class}}{% endif %}
