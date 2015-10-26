@@ -74,6 +74,21 @@ form li {
     float: right;
   }
 
+  &.field_checkboxes {
+    @include clearfix;
+    .field_input {
+      border: none;
+      height: auto;
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      li {
+        width: 50%;
+        float: left;
+      }
+    }
+  }
+
 
   &.form_field_large {
     .field_input {

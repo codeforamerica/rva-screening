@@ -1,17 +1,20 @@
-{% from "form_field_macros.html" import render_field, render_multifield %}
+{% from "form_field_macros.html" import render_field, render_multifield, render_check %}
 
 <div class="form_row">
-  {{ render_field(form.gender, class="field_quarter") }}
-  {{ render_field(form.transgender, class="field_quarter field_pad") }}
-  {{ render_field(form.ethnicity, class="field_quarter field_pad_right") }}
-  {{ render_field(form.race, class="field_quarter has_other") }}
-  {{ render_field(form.race_other, class="field_quarter field_float_right") }}
+  {{ render_field(form.gender, class="field_third") }}
+  {{ render_field(form.transgender, class="field_third field_pad") }}
+  {{ render_field(form.ethnicity, class="field_third field_pad_right") }}
 </div>
 
 <div class="form_row">
-  {{ render_field(form.languages, class="block_6 has_other", class="field_third") }}
+  {{ render_check(form.race, class="field_twothird has_other") }}
+  {{ render_field(form.race_other, class="field_third") }}
+</div>
+
+<div class="form_row">
+  {{ render_check(form.languages, class="field_twothird has_other") }}
   {{ render_field(form.languages_other, class="field_third") }}
-  {{ render_field(form.has_interpreter_yn, ['an'], class="field_third field_pad_left") }}
+  {{ render_field(form.has_interpreter_yn, ['an'], class="field_third") }}
 </div>
 
 <div class="form_row">

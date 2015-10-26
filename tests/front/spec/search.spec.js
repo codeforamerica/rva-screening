@@ -2,7 +2,7 @@ describe('search.js', function() {
 
   var search, searchInput, s;
 
-  var searchData = {list:[{dob:"1962-04-14",name:"Rick Nader",ssn:"504-38-1775",url:"/patient_details/1"},{dob:"2000-02-17",name:"Samir Nasri",ssn:"222-22-2222",url:"/patient_details/4"}],total:2};
+  var searchData = {list:[{dob:"1962-04-14",fname:"Rick",lname:"Nader",ssn:"504-38-1775",url:"/patient_details/1"},{dob:"2000-02-17",fname:"Samir",lname:"Nasri",ssn:"222-22-2222",url:"/patient_details/4"}],total:2};
   var badSearchData = {lists:[{name:'WakaFlaka'},{name:'FlakaBadaka'}],total:3}
   var successfulSearchResults = [{dob:"1962-04-14",name:"Rick Nader",ssn:"504-38-1775",url:"/patient_details/1"}];
   var generalSearchResults = [{dob:"1962-04-14",name:"Rick Nader",ssn:"504-38-1775",url:"/patient_details/1"},{dob:"2000-02-17",name:"Samir Nasri",ssn:"222-22-2222",url:"/patient_details/4"}];
@@ -51,72 +51,63 @@ describe('search.js', function() {
     });
   });
 
-  describe('Utilites', function() {
-    it('Defiant.js exists', function() {
-      expect(typeof Defiant).to.equal('object');
-    });
-
-    it('Defiant.render() is a function', function() {
-      expect(typeof Defiant.render).to.equal('function');
-    });
-
-    it('JSON.search() is a function', function() {
-      expect(typeof JSON.search).to.equal('function');
-    });
-  });
-
   describe('Results', function() {
 
-    it('Throws error if no search data', function() {
-      expect(function() {  })
+    var searchOptions = {
+      keys: ['fname', 'lname', 'dob', 'ssn'],   // keys to search in
+      includeScore: true,
+      threshold: 0.5      // we should play around with this
+    };
+    var f = new Fuse(searchData.list, searchOptions);
+
+    it('Unsuccessful Fuse.search() returns empty array', function() {
+      var res = f.search('x');
+      expect(res.length).to.equal(0);
     });
 
-    it('Unsuccessful JSON.search() returns empty array', function() {
-      var res = JSON.search(searchData, '//*[contains(name, "Waka")]');
-      expect(res).to.deep.equal(unsuccessfulSearchResults);
+    it('Vague Fuse.search() returns fuzzy response', function() {
+      var res = f.search('a');
+      expect(res.length).to.equal(2);
     });
 
-    it('Successful JSON.search() returns success object when searching by name', function() {
-      var res = JSON.search(searchData, '//*[contains(name, "Nade")]');
-      expect(res).to.deep.equal(successfulSearchResults);
+    it('Explicit Fuse.search() returns specific response', function() {
+      var res = f.search('Rick');
+      expect(res.length).to.equal(1);
     });
 
-    it('General JSON.search() returns all matches', function() {
-      var res = JSON.search(searchData, '//*[contains(name, "na")]');
-      expect(res).to.deep.equal(generalSearchResults);
-    });
-
-    it('Results are translated for rendering template properly', function() {
-      var res = JSON.search(searchData, '//*[contains(name, "Nade")]');
-      var results = translateResults(res, "Nade"); // function from search.js
-      expect(results).to.deep.equal(successfulResultsTranslation);
-    });
-
-    // TODO: write tests that search by ssn and dob
   });
 
   describe('Templates', function() {
-    it('renders proper list on successful response', function() {
+
+    var searchOptions = {
+      keys: ['fname', 'lname', 'dob', 'ssn'],   // keys to search in
+      includeScore: true,
+      threshold: 0.5      // we should play around with this
+    };
+    var f = new Fuse(searchData.list, searchOptions);
+    
+    it('Renders a proper list on successful response', function() {
       window.newPatientUrl = '/url'; // this is suuuuuper hacky
       var resultsContainer = document.createElement('div');
       resultsContainer.id = 'results_container';
       document.body.appendChild(resultsContainer);
-      var results = translateResults(JSON.search(searchData, '//*[contains(name, "Nade")]'), 'Nade');
+      var results = translateResults(f.search('a'));
       var html = templates.render('list', results);
       $('#results_container').html(html);
-      expect(document.getElementsByTagName('li').length).to.equal(2);
+      expect(document.getElementsByTagName('li').length).to.equal(3); // three includes "add new" button
     });
 
-    it('renders proper "no result" response on unsuccessful response', function() {
+    it('Renders an empty list on empty response, but has "add new" button', function() {
       window.newPatientUrl = '/url'; // this is suuuuuper hacky
       var resultsContainer = document.createElement('div');
       resultsContainer.id = 'results_container';
       document.body.appendChild(resultsContainer);
-      var results = translateResults(JSON.search(searchData, '//*[contains(name, "Waka")]'), 'Nade');
-      var html = templates.render('noresults', results);
+      var results = translateResults(f.search('x'));
+      var html = templates.render('list', results);
       $('#results_container').html(html);
-      expect(document.getElementsByClassName('patient_search_noresults').length).to.equal(1);
+      expect(document.getElementsByTagName('li').length).to.equal(1); // three includes "add new" button
     });
+
   });
 
 });

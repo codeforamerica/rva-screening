@@ -44,18 +44,6 @@ describe('Validation', function() {
       expect(res.passed).to.equal(true);
     });
 
-    it('currency: improper input returns false validation result', function() {
-      var testValidator = new v('.validation', []);
-      createField('input', {
-        id: 'income',
-        name: 'make-money-get-paid',
-        type: 'number',
-        value: '3o0'
-      }, 'test-form');
-      var res = testValidator.validationFunctions['currency']($('#income'));
-      expect(res.passed).to.equal(false);
-    });
-
     it('ssn: proper input returns true validation result', function() {
       var testValidator = new v('.validation', []);
       createField('input', {
@@ -306,7 +294,7 @@ describe('Validation', function() {
         type: 'date',
         value: '1914-06-18'
       }, 'test-form');
-      var res = testValidator.validationFunctions['currency']($('#dob'));
+      var res = testValidator.validationFunctions['dob']($('#dob'));
       expect(res.passed).to.equal(true);
     });
 
@@ -320,7 +308,7 @@ describe('Validation', function() {
         type: 'date',
         value: 'waka'
       }, 'test-form');
-      var res = testValidator.validationFunctions['currency']($('#dob'));
+      var res = testValidator.validationFunctions['dob']($('#dob'));
       expect(res.passed).to.equal(false);
     });
 
