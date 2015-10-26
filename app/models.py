@@ -337,6 +337,12 @@ class PatientReferral(BasicTable, db.Model):
     to_service = db.relationship("Service")
     status = db.Column(db.String(9), info='Status')
     notes = db.Column(db.Text, info='Notes')
+    screening_result = db.relationship(
+        'PatientScreeningResult',
+        backref='screening_result',
+        lazy='dynamic'
+    )
+    comments = db.relationship('PatientReferralComment', backref='referral', lazy='dynamic')
 
     def mark_sent(self):
         self.status = 'SENT'
@@ -348,9 +354,16 @@ class PatientReferral(BasicTable, db.Model):
         self.status = 'COMPLETED'
 
 
+class PatientReferralComment(BasicTable, db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    patient_referral_id = db.Column(db.Integer, db.ForeignKey("patient_referral.id"))
+    notes = db.Column(db.Text, info='Notes')
+
+
 class PatientScreeningResult(BasicTable, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     patient_id = db.Column(db.Integer, db.ForeignKey("patient.id"))
+    patient_referral_id = db.Column(db.Integer, db.ForeignKey("patient_referral.id"))
     service_id = db.Column(db.Integer, db.ForeignKey("service.id"))
     service = db.relationship("Service")
     eligible_yn = db.Column(db.String(1))
