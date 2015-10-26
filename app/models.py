@@ -344,12 +344,6 @@ class PatientReferral(BasicTable, db.Model):
     def in_sent_status(self):
         return self.status == 'SENT'
 
-    def mark_received(self):
-        self.status = 'RECEIVED'
-
-    def in_received_status(self):
-        return self.status == 'RECEIVED'
-
     def mark_completed(self):
         self.status = 'COMPLETED'
 

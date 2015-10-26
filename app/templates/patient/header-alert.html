@@ -1,6 +1,6 @@
 {% if patient and request.path == url_for('screener.patient_overview', id=patient.id) %}
   {% for referral in patient.referrals %}
-    {% if referral.status == "SENT" or referral.status == "RECEIVED" %}
+    {% if referral.status == "SENT" %}
       {% if referral.to_service_id == current_user.service.id %}
         <div class="notification notification_highlight row">
           <i class="fa fa-clock-o"></i>

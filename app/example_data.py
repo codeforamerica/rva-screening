@@ -29,5 +29,5 @@ PHONE_TYPES = (
     "shelter phone"
 )
 REFERRAL_STATUSES = (
-    "SENT", "RECEIVED", "COMPLETED"
+    "SENT", "COMPLETED"
 )

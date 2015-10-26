@@ -176,19 +176,6 @@ def patient_overview(id):
 
     check_patient_permission(id)
     patient = Patient.query.get(id)
-
-    # If this patient has a referral to the current organization in SENT status,
-    # update it to RECEIVED
-    sent_referrals = [
-        r for r in patient.referrals
-        if r.to_service_id == current_user.service_id
-        and r.in_sent_status()
-    ]
-    for referral in sent_referrals:
-        referral.mark_received()
-    if sent_referrals:
-        db.session.commit()
-
     patient.update_stats()
 
     prescreen_results = calculate_pre_screen_results(
@@ -219,7 +206,7 @@ def patient_overview(id):
         open_referrals = [
             r for r in patient.referrals
             if r.to_service_id == current_user.service.id
-            and r.in_received_status()
+            and r.in_sent_status()
         ]
         for referral in open_referrals:
             referral.mark_completed()
@@ -565,7 +552,7 @@ def patient_share(patient_id):
     # to prevent user from sending duplicates.
     open_referral_service_ids = [
         r.to_service_id for r in patient.referrals
-        if (r.in_sent_status() or r.in_received_status())
+        if (r.in_sent_status() or r.in_sent_status())
     ]
 
     return render_template(
@@ -644,7 +631,7 @@ def patient_screening_history(patient_id):
         open_referrals = [
             r for r in patient.referrals
             if r.to_service_id == current_user.service.id
-            and r.in_received_status()
+            and r.in_sent_status()
         ]
         for referral in open_referrals:
             referral.mark_completed()
@@ -717,7 +704,7 @@ def index():
         Patient.referrals.any(
             and_(
                 PatientReferral.from_app_user_id.in_(org_users),
-                PatientReferral.status.in_(('SENT', 'RECEIVED'))
+                PatientReferral.status == 'SENT'
             )
         )
     ).group_by(
@@ -738,7 +725,7 @@ def index():
     ).join(Patient.referrals).filter(
         Patient.referrals.any(and_(
             PatientReferral.to_service_id == current_user.service_id,
-            PatientReferral.status.in_(('SENT', 'RECEIVED'))
+            PatientReferral.status == 'SENT'
         ))
     ).group_by(
         Patient.id, Patient.first_name, Patient.last_name
@@ -859,7 +846,7 @@ def index():
         Patient.referrals.any(
             and_(
                 PatientReferral.from_app_user_id == current_user.id,
-                PatientReferral.status.in_(('SENT', 'RECEIVED'))
+                PatientReferral.status == 'SENT'
             )
         )
     ).group_by(
