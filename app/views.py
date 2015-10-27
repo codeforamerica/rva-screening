@@ -28,7 +28,7 @@ from flask.ext.security import login_required, roles_accepted
 from flask.ext.security.forms import LoginForm
 
 from app import db, login_manager
-from app.forms import PatientForm, PrescreenForm, ScreeningResultForm, SearchPatientForm
+from app.forms import PatientForm, PrescreenForm, ScreeningResultForm, SearchPatientForm, ReferralCommentForm
 from app.models import (
     AppUser,
     Patient,
@@ -42,6 +42,7 @@ from app.models import (
     Service,
     ActionLog,
     PatientReferral,
+    PatientReferralComment,
     SlidingScale,
     PatientScreeningResult,
     UnsavedForm
@@ -609,33 +610,13 @@ def patient_screening_history(patient_id):
     check_patient_permission(patient_id)
     patient = Patient.query.get(patient_id)
     patient.update_stats()
-    form = ScreeningResultForm()
-    sliding_scale_options = SlidingScale.query.filter(
-        SlidingScale.service_id == current_user.service_id
-    )
-    # Add the current organization's sliding scale options to the dropdown
-    form.sliding_scale_id.choices = [
-        (str(option.id), option.scale_name) for option in sliding_scale_options
-    ] or [("", "N/A")]
+    form = ReferralCommentForm()
 
     if form.validate_on_submit():
-        screening_result = PatientScreeningResult()
-        screening_result.service_id = current_user.service_id
-        screening_result.eligible_yn = form.eligible_yn.data
-        screening_result.sliding_scale_id = form.sliding_scale_id.data or None
-        screening_result.notes = form.notes.data
-        patient.screening_results.append(screening_result)
-
-        # If the patient has an open referral to the current organization, mark
-        # as completed
-        open_referrals = [
-            r for r in patient.referrals
-            if r.to_service_id == current_user.service.id
-            and r.in_sent_status()
-        ]
-        for referral in open_referrals:
-            referral.mark_completed()
-
+        referral_comment = PatientReferralComment()
+        referral_comment.patient_referral_id = form.referral_id.data
+        referral_comment.notes = form.notes.data
+        db.session.add(referral_comment)
         db.session.commit()
 
     return render_template('patient_screening_history.html', patient=patient, form=form)
