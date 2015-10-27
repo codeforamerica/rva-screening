@@ -5,7 +5,7 @@ $(document).ready(function(){
   **  checkbox values
   **
   */
-  var serviceFilters = $('.patient_details_filter .field_checkbox input[type="checkbox"]');
+  var serviceFilters = $('.patient_details_filter .service_question_filter input[type="checkbox"]');
   serviceFilters.on('change', function(e) {
     serviceFilterChange($(this));
   });
