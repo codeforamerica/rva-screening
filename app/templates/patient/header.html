@@ -54,7 +54,7 @@
           <div class="block_6">
             {% if patient.last_modified_by %}
             <span class="patient-descriptor">Last edited by</span>
-              <span class="patient-info patient-info-small"><a href="{{ url_for('screener.service', service_id=patient.last_modified_by.service.id) }}">{{ patient.last_modified_by.full_name }}</a> on {{ patient.last_modified.strftime('%m/%d/%Y') }}</span>
+              <span class="patient-info patient-info-small"><a href="{{ url_for('screener.user', user_id=patient.last_modified_by_id) }}">{{ patient.last_modified_by.full_name }}</a> on {{ patient.last_modified.strftime('%m/%d/%Y') }}</span>
             {% endif %}
           </div>
         </div>

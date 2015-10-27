@@ -270,8 +270,6 @@ var EMPLOYED = [ "FT", "PT", "SEA" ];
 config.dependencies = [
   { target: "marital_status", child: "spouse_employment_status", 
     type: "equals", comparator: "MAR" },
-    { target: "marital_status", child: "spouse_years_at_current_employer", 
-    type: "equals", comparator: "MAR" },
   { target: "spouse_employment_status", child: "spouse_years_at_current_employer ", 
     type: "in", comparator: EMPLOYED },
   { target: "employment_status", child: "employers",

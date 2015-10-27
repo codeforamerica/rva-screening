@@ -49,6 +49,16 @@ class RequiredIf(InputRequired):
             super(RequiredIf, self).__call__(form, field)
 
 
+class ReferralCommentForm(Form):
+    referral_id = fields.IntegerField()
+    notes = fields.TextAreaField(
+        _('Notes'),
+        [Optional(), validators.Length(max=1000)]
+    )
+    submit = fields.SubmitField(
+        _('Save')
+    )
+
 class ScreeningResultForm(Form):
     eligible_yn = fields.RadioField(
         _('Is this patient eligible for care at your organization?'),
@@ -252,7 +262,7 @@ class PatientForm(Form):
     gender = fields.SelectField(
         _('Gender'),
         choices=CONSTANTS.GENDER_CHOICES,
-        default=_('No Answer')
+        default="",
     )
     transgender = fields.SelectField(
         _('Transgender'),

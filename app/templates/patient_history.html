@@ -28,16 +28,19 @@
             </a>
           </td>
           {% if entry.action == 'I' %}
-            <td>Added {{entry.table_name | replace('_', ' ')}} with fields:<br>
+            <td>Updated {{entry.table_name | replace('_', ' ')}}:<br>
               <ul>
               {% for field, value in entry.row_data.iteritems() %}
-                {% if value != None and field not in (
+                {% if value != None and value != '' and field not in (
                   'id',
                   'created',
                   'created_by_id',
-                  'patient_id'
+                  'patient_id',
+                  'data_full',
+                  'data_large',
+                  'data_small'
                 ) %}
-                  <li>{{readable_names[field] or field}}: {{value}}</li>
+                  <li>Set {{readable_names[field] or field}} to '{{value}}'</li>
                 {% endif %}
               {% endfor %}
               </ul>
@@ -49,8 +52,22 @@
               {% endif %}
               <ul>
               {% for field, value in entry.changed_fields.iteritems() %}
-                {% if field not in ('last_modified', 'last_modified_by_id') %}
-                  <li>Changed {{readable_names[field] or field}} from {{entry.row_data[field]}} to {{value}}</li>
+                {% if field not in (
+                  'id',
+                  'created',
+                  'created_by_id',
+                  'patient_id',
+                  'data_full',
+                  'data_large',
+                  'data_small',
+                  'last_modified',
+                  'last_modified_by_id'
+                ) and (entry.row_data[field] or value) %}
+                  {% if entry.row_data[field] %}
+                    <li>Set {{readable_names[field] or field}} to '{{value}}'</li>
+                  {% else %}
+                    <li>Changed {{readable_names[field] or field}} from '{{entry.row_data[field] or ''}}' to '{{value}}'</li>
+                  {% endif %}
                 {% endif %}
               {% endfor %}
               </ul>
