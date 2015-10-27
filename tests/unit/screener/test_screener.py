@@ -452,9 +452,22 @@ class TestScreener(BaseTestCase):
         self.assert200(response)
         self.assert_template_used('patient_screening_history.html')
 
+    def test_patient_overview(self):
+        """Test that the patient overview and screening result page works as expected."""
+        add_service_data.main(self.app)
+        user = get_user()
+        user.service = Service.query.filter(Service.name == 'Daily Planet').first()
+        self.login()
+        patient = get_patient(user)
+
+        # Make sure the page loads as expected
+        response = self.client.get('/patient_overview/{}'.format(patient.id))
+        self.assert200(response)
+        self.assert_template_used('patient_overview.html')
+
         # Make sure you can save a new screening result
         response = self.client.post(
-            '/patient_screening_history/{}'.format(patient.id),
+            '/patient_overview/{}'.format(patient.id),
             data=dict(
                 eligible_yn='Y',
                 sliding_scale_id=user.service.sliding_scales[0].id,
@@ -464,7 +477,7 @@ class TestScreener(BaseTestCase):
         )
         self.assert200(response)
         # User should stay on the same page after saving
-        self.assert_template_used('patient_screening_history.html')
+        self.assert_template_used('patient_overview.html')
         screening_result = Patient.query.first().screening_results[0]
         self.assertEquals(screening_result.service_id, user.service_id)
         self.assertEquals(screening_result.eligible_yn, 'Y')

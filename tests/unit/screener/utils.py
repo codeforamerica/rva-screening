@@ -1,6 +1,9 @@
 from flask.ext.security.utils import encrypt_password
+from flask.ext.login import current_user
+from flask import current_app, g, session
 from app.models import AppUser, Service, Patient, Role
 from app import db
+import datetime
 
 
 def insert_roles():
@@ -49,14 +52,14 @@ def insert_service():
     return service
 
 
-def get_patient():
+def get_patient(user=None):
     existing_patient = Patient.query.first()
     if not existing_patient:
-        return insert_patient()
+        return insert_patient(user)
     return existing_patient
 
 
-def insert_patient():
+def insert_patient(user=None):
     patient = Patient(
         first_name='John',
         last_name='Richmond',
@@ -65,4 +68,9 @@ def insert_patient():
     )
     db.session.add(patient)
     db.session.commit()
+    
+    if user:
+        patient.created_by = user
+        db.session.commit()
+
     return patient
