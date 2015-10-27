@@ -6,6 +6,9 @@ function validationResult(res, val, message){
 var DEFAULT_VALIDATORS = {
   "currency": function ($elem) {
     var val = $elem.val();
+    if(val==='') {
+      return validationResult(true, val);
+    }
     // parse as currency - via http://stackoverflow.com/a/559178/399726
     var cleaned = val.replace(/[^0-9\.]+/g,"");
     var parsed = Math.round( parseFloat(cleaned));
@@ -140,7 +143,6 @@ Validator.prototype = {
         if( result.passed ){
           target.trigger(typeScope + 'success', [result]);
         } else if (result.passed === 'clear') {
-          console.log(target);
           target.trigger(typeScope + 'clear', [result]);
         } else {
           target.trigger(typeScope + 'failure', [result]);
@@ -203,6 +205,7 @@ Validator.prototype = {
 
     // detect any changes in the form, pass with proper scope using $.proxy()
     $('.validation :input').on('change', prx);
+    $('.validation :input').on('keydown', prx);
 
     $(window).on('beforeunload', function(event) {
       var e = event.originalEvent;
@@ -210,7 +213,7 @@ Validator.prototype = {
 
       // if the form isn't dirty, or if the user is clicking the save button
       if (!V.dirty || e.target.activeElement.getAttribute('type') === 'submit') {
-          return undefined;
+        return undefined;
       }
 
       (e || window.event).returnValue = confirmationMessage; //Gecko + IE
@@ -266,19 +269,14 @@ function fName(s){
 
 reports = {
   "default": function(e, result) {
-    // console.log(e.type, arguments);
   },
   "failure": function(e, result) {
-    // console.log(e.type, arguments);
-    // console.error(result.message); 
     validationHTML(arguments[0].currentTarget, 'validation_invalid');
   },
   "success": function(e, result) {
-    // console.log(e.type, arguments);
     validationHTML(arguments[0].currentTarget, 'validation_valid');
   },
   "required": function(e, result) {
-    // console.log(e.type, arguments);
     validationHTML(arguments[0].currentTarget, 'validation_required');
   }
 }

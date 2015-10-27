@@ -9,12 +9,8 @@ describe('Vendor Libraries', function() {
       expect(typeof L).to.equal('object');
     });
 
-    it('Defiant.js', function() {
-      expect(typeof Defiant).to.equal('object');
+    it('Fuse.js', function() {
+      expect(typeof Fuse).to.equal('function');
     });
-
-    it('list.js', function() {
-      expect(typeof List).to.equal('function');
-    }); 
   });
 });

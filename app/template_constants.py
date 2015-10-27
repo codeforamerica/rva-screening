@@ -18,7 +18,7 @@ LANGUAGE_CHOICES = [
     ("EN",    _("English")),
     ("ES",    _("Spanish")),
     ("AR",    _("Arabic")),
-    ("OTH", _("Other"))
+    ("OTH",   _("Other"))
 ]
 
 STATE_CHOICES = [
@@ -95,13 +95,12 @@ MARITAL_STATUS_CHOICES = [
 ]
 
 RACE_CHOICES = [
-    ("",      ""),
     ("AIAN",  _("American Indian/Alaskan Native")),
     ("A",     _("Asian")),
     ("AA",    _("Black or African-American")),
     ("NHPI",  _("Native Hawaiian/Pacific Islander")),
     ("W",     _("White")),
-    ("OTH", _("Other"))
+    ("OTH",   _("Other"))
 ]
 
 ETHNICITY_CHOICES = [

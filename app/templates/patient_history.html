@@ -29,6 +29,7 @@
           </td>
           {% if entry.action == 'I' %}
             <td>Updated {{entry.table_name | replace('_', ' ')}}:<br>
+              <ul>
               {% for field, value in entry.row_data.iteritems() %}
                 {% if value != None and value != '' and field not in (
                   'id',
@@ -39,15 +40,17 @@
                   'data_large',
                   'data_small'
                 ) %}
-                  Set {{readable_names[field] or field}} to '{{value}}'<br>
+                  <li>Set {{readable_names[field] or field}} to '{{value}}'</li>
                 {% endif %}
               {% endfor %}
+              </ul>
             </td>
           {% elif entry.action == 'U' %}
             <td>
               {% if entry.table_name != 'patient' %}
                 Updated {{entry.table_name | replace('_', ' ')}}:<br>
               {% endif %}
+              <ul>
               {% for field, value in entry.changed_fields.iteritems() %}
                 {% if field not in (
                   'id',
@@ -61,12 +64,13 @@
                   'last_modified_by_id'
                 ) and (entry.row_data[field] or value) %}
                   {% if entry.row_data[field] %}
-                    Set {{readable_names[field] or field}} to '{{value}}'<br>
+                    <li>Set {{readable_names[field] or field}} to '{{value}}'</li>
                   {% else %}
-                    Changed {{readable_names[field] or field}} from '{{entry.row_data[field] or ''}}' to '{{value}}'<br>
+                    <li>Changed {{readable_names[field] or field}} from '{{entry.row_data[field] or ''}}' to '{{value}}'</li>
                   {% endif %}
                 {% endif %}
               {% endfor %}
+              </ul>
             </td>
           {% endif %}
       {% endfor %}

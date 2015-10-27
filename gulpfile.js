@@ -32,6 +32,7 @@ gulp.task('js', function() {
 
 var vendorJSFiles = [
   './node_modules/jquery/dist/jquery.js',
+  './node_modules/fuse.js/src/fuse.js',
   './front/vendor/**/**.js'
 ];
 

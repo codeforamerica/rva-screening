@@ -11,6 +11,9 @@ var DEPENDENCY_PROCESSORS = {
   "does_not_contain": function(answer, comparator){
     return $.inArray(comparator, answer) == -1;
   },
+  "checked": function(answer, comparator) {
+    return answer.indexOf(comparator) > -1;
+  }
 };
 
 function registerConditionalDisplay(d){
@@ -44,7 +47,19 @@ function setDisplay(target, child, type, comparator) {
     // console.log("parent:", target[0], "child:", child[0]);
     // console.log("changed to", target.val());
     // console.log("met criteria:", processor(target.val(), comparator));
-    if( processor($target.val(), comp) ){
+
+    var targetVal;
+    if (type !== 'checked') {
+      targetVal = $target.val();
+    } else {
+      targetVal = '';
+      $target.each(function() {
+        if ($(this).is(':checked')) targetVal += $(this).val();
+      });
+      console.log(targetVal);
+    }
+
+    if( processor(targetVal, comp) ){
       $child.show();
     } else {
       $child.hide();

@@ -5,11 +5,12 @@
     
   <div class="container">
     <div class="block_4 filter_actions">
-      <button data-list="0" class="filter filter_active">
+      <h4 class="filter_title"><i class="fa fa-home"></i> <strong>{{ user.service.name }}</strong></h4>
+<!--       <button data-list="0" class="filter filter_active">
         <i class="fa fa-home"></i> All patients at <strong>{{ user.service.name }}</strong> <span class="filter-count">({{ all_patients | length }})</span>
       </button> 
-
-      <button data-list="1" class="filter filter_sub">
+ -->
+      <button data-list="1" class="filter filter_sub filter_active">
         Outgoing referrals with responses <span class="filter-count">({{ org_completed_referrals_outgoing.count() }})
         </span>
       </button>
@@ -30,9 +31,12 @@
         Patients with renewal notices <span class="filter-count">({{ org_need_renewal | length }})</span>
       </button>
 
-      <button data-list="6" class="filter">
+      <h4 class="filter_title"><i class="fa fa-user"></i> <strong>Your</strong> patients <span class="filter-count">({{ your_recently_updated.count() }})</h4>
+
+<!--       <button data-list="6" class="filter">
         <i class="fa fa-user"></i> <strong>Your</strong> recently updated patients <span class="filter-count">({{ your_recently_updated.count() }})</span>
       </button>
+ -->      
       <button data-list="7" class="filter filter_sub">
         Outgoing referrals with responses <span class="filter-count">({{ your_completed_referrals_outgoing.count() }})</span>
       </button>
@@ -42,7 +46,7 @@
     </div>
     <div class="block_8 box filter_lists">
       <div class="box_content">
-        <ol id="list-0" class="list list_table list_filter list_alternate list_filter_active list_padding">
+        <!-- <ol id="list-0" class="list list_table list_filter list_alternate list_filter_active list_padding">
         {% for patient in all_patients %}
           <li class="list_row row"><a href="{{ url_for('screener.patient_overview', id=patient.id) }}">
             <div class="block_4"><strong>{{ patient.first_name }} {{ patient.last_name }} DOB: {{ patient.dob.strftime('%m/%d/%Y') }}</strong></div>
@@ -51,9 +55,9 @@
             </div>
           </a></li>
         {% endfor %}
-        </ol> 
+        </ol>  -->
         
-        <ol id="list-1" class="list list_table list_filter list_alternate list_padding">
+        <ol id="list-1" class="list list_table list_filter list_alternate list_padding list_filter_active">
         {% for patient in org_completed_referrals_outgoing %}
           <li class="list_row row"><a href="{{ url_for('screener.patient_overview', id=patient.id) }}">
             <div class="block_4"><strong>{{ patient.first_name }} {{ patient.last_name }} DOB: {{ patient.dob.strftime('%m/%d/%Y') }}</strong></div>
@@ -108,7 +112,7 @@
         {% endfor %}
         </ol>
         
-        <ol id="list-6" class="list list_table list_filter list_alternate list_padding">
+        <!-- <ol id="list-6" class="list list_table list_filter list_alternate list_padding">
         {% for patient in your_recently_updated %}
           <li class="list_row row"><a href="{{ url_for('screener.patient_overview', id=patient.id) }}">
             <div class="block_4"><strong>{{ patient.first_name }} {{ patient.last_name }} DOB: {{ patient.dob.strftime('%m/%d/%Y') }}</strong></div>
@@ -117,7 +121,7 @@
             </div>
           </a></li>
         {% endfor %}
-        </ol>
+        </ol> -->
         
         <ol id="list-7" class="list list_table list_filter list_alternate list_padding">
         {% for patient in your_completed_referrals_outgoing %}
@@ -162,7 +166,7 @@
   temp = {
     fname: '{{ patient.first_name }}',
     lname: '{{ patient.last_name }}',
-    dob: '{{ patient.dob }}',
+    dob: '{{ patient.dob.strftime("%m/%d/%Y") }}',
     ssn: '{{ patient.ssn }}',
     created: 'Created on {{ patient.created.strftime("%m/%d/%Y") }} at {{ patient.created_by.service.name }}',
     url: '{{ url_for('screener.patient_overview', id=patient.id) }}'
