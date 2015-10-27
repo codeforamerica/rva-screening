@@ -2,11 +2,11 @@ from flask.ext.babel import gettext as _
 
 YN_CHOICES = [("", ""), ("Y", _("Yes")), ("N", _("No"))]
 YN_NONULL_CHOICES = [("Y", _("Yes")), ("N", _("No"))]
-YNN_CHOICES = [("", ""), ("Y", _("Yes")), ("N", _("No")), ("NS", _("Not Sure"))]
+YNN_CHOICES = [("", ""), ("Y", _("Yes")), ("N", _("No")), ("S", _("Not Sure"))]
 YNN_NONULL_CHOICES = [("Y", _("Yes")), ("N", _("No")), ("", _("Not Sure"))]
 YNNA_CHOICES = [("", ""), ("Y", _("Yes")), ("N", _("No")), ("A", _("N/A - Not Applicable"))]
 
-GENDER_CHOICES = [("", _('No Answer')), ("F", _("Female")), ("M", _("Male"))]
+GENDER_CHOICES = [("", ""), ("F", _("Female")), ("M", _("Male"))]
 TRANSGENDER_CHOICES = [
     ("",    ""),
     ("No",  _("Not transgender")),
@@ -157,5 +157,5 @@ TIME_AT_CURRENT_EMPLOYER = [
 TIME_IN_AREA = [
     ("",               ""),
     ("LESS THAN 6",    _("Less than 6 months")),
-    ("GREATER THAN 6", _("Greater than 6 months")),
+    ("GREATER THAN 6", _("More than 6 months")),
 ]

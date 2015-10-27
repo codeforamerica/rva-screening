@@ -28,7 +28,7 @@ from flask.ext.security import login_required, roles_accepted
 from flask.ext.security.forms import LoginForm
 
 from app import db, login_manager
-from app.forms import PatientForm, PrescreenForm, ScreeningResultForm, SearchPatientForm
+from app.forms import PatientForm, PrescreenForm, ScreeningResultForm, SearchPatientForm, ReferralCommentForm
 from app.models import (
     AppUser,
     Patient,
@@ -42,6 +42,7 @@ from app.models import (
     Service,
     ActionLog,
     PatientReferral,
+    PatientReferralComment,
     SlidingScale,
     PatientScreeningResult,
     UnsavedForm
@@ -95,13 +96,15 @@ def relogin():
         db.session.commit()
         return redirect(request.form['previous_page'])
     else:
-        email = current_user.email
-        return render_template(
-            "relogin.html",
-            email=email,
-            previous_page=request.referrer,
-            login_user_form=form
-        )
+        if hasattr(current_user, 'email'):
+            email = current_user.email
+            return render_template(
+                "relogin.html",
+                email=email,
+                previous_page=request.referrer,
+                login_user_form=form
+            )
+        return redirect(url_for('security.login'))
 
 
 @screener.route("/unsaved_form", methods=["POST"])
@@ -174,19 +177,6 @@ def patient_overview(id):
 
     check_patient_permission(id)
     patient = Patient.query.get(id)
-
-    # If this patient has a referral to the current organization in SENT status,
-    # update it to RECEIVED
-    sent_referrals = [
-        r for r in patient.referrals
-        if r.to_service_id == current_user.service_id
-        and r.in_sent_status()
-    ]
-    for referral in sent_referrals:
-        referral.mark_received()
-    if sent_referrals:
-        db.session.commit()
-
     patient.update_stats()
 
     prescreen_results = calculate_pre_screen_results(
@@ -200,9 +190,10 @@ def patient_overview(id):
     sliding_scale_options = SlidingScale.query.filter(
         SlidingScale.service_id == current_user.service_id
     )
-    form.sliding_scale_id.choices = [
+    form.sliding_scale_id.choices = [("", "N/A")] + [
         (str(option.id), option.scale_name) for option in sliding_scale_options
-    ] or [("", "N/A")]
+    ]
+
     if form.validate_on_submit():
         screening_result = PatientScreeningResult()
         screening_result.service_id = current_user.service_id
@@ -216,7 +207,7 @@ def patient_overview(id):
         open_referrals = [
             r for r in patient.referrals
             if r.to_service_id == current_user.service.id
-            and r.in_received_status()
+            and r.in_sent_status()
         ]
         for referral in open_referrals:
             referral.mark_completed()
@@ -225,9 +216,9 @@ def patient_overview(id):
 
     past_results = [r for r in patient.screening_results if r.service_id == current_user.service_id]
     new_form = ScreeningResultForm(formdata=None)
-    new_form.sliding_scale_id.choices = [
+    new_form.sliding_scale_id.choices = [("", "N/A")] + [
         (str(option.id), option.scale_name) for option in sliding_scale_options
-    ] or [("", "N/A")]
+    ]
 
     return render_template(
         'patient_overview.html',
@@ -500,10 +491,22 @@ def patient_history(patient_id):
             )
         )).\
         order_by(ActionLog.action_timestamp.desc())
-    # Filter out history entries that are only last modified/last modified by changes
+
+    # Filter out history entries that only contain changes to fields we don't want to
+    # show in edit history
     history = [i for i in history if not (
         i.changed_fields
-        and set(i.changed_fields).issubset(['last_modified', 'last_modified_by'])
+        and set(i.changed_fields).issubset([
+            'last_modified',
+            'last_modified_by_id',
+            'id',
+            'created',
+            'created_by_id',
+            'patient_id',
+            'data_full',
+            'data_large',
+            'data_small'
+        ])
     )]
 
     services = dict((x.id, x) for x in Service.query.all())
@@ -550,7 +553,7 @@ def patient_share(patient_id):
     # to prevent user from sending duplicates.
     open_referral_service_ids = [
         r.to_service_id for r in patient.referrals
-        if (r.in_sent_status() or r.in_received_status())
+        if (r.in_sent_status() or r.in_sent_status())
     ]
 
     return render_template(
@@ -607,33 +610,13 @@ def patient_screening_history(patient_id):
     check_patient_permission(patient_id)
     patient = Patient.query.get(patient_id)
     patient.update_stats()
-    form = ScreeningResultForm()
-    sliding_scale_options = SlidingScale.query.filter(
-        SlidingScale.service_id == current_user.service_id
-    )
-    # Add the current organization's sliding scale options to the dropdown
-    form.sliding_scale_id.choices = [
-        (str(option.id), option.scale_name) for option in sliding_scale_options
-    ] or [("", "N/A")]
+    form = ReferralCommentForm()
 
     if form.validate_on_submit():
-        screening_result = PatientScreeningResult()
-        screening_result.service_id = current_user.service_id
-        screening_result.eligible_yn = form.eligible_yn.data
-        screening_result.sliding_scale_id = form.sliding_scale_id.data or None
-        screening_result.notes = form.notes.data
-        patient.screening_results.append(screening_result)
-
-        # If the patient has an open referral to the current organization, mark
-        # as completed
-        open_referrals = [
-            r for r in patient.referrals
-            if r.to_service_id == current_user.service.id
-            and r.in_received_status()
-        ]
-        for referral in open_referrals:
-            referral.mark_completed()
-
+        referral_comment = PatientReferralComment()
+        referral_comment.patient_referral_id = form.referral_id.data
+        referral_comment.notes = form.notes.data
+        db.session.add(referral_comment)
         db.session.commit()
 
     return render_template('patient_screening_history.html', patient=patient, form=form)
@@ -662,41 +645,99 @@ def index():
         AppUser.service_id == current_user.service_id
     )]
 
-    # Get patients that this organization referred out who have results entered
-    org_completed_referrals_outgoing = Patient.query.join(Patient.referrals).filter(
-        Patient.referrals.any(
-            and_(
-                PatientReferral.from_app_user_id.in_(org_users),
-                PatientReferral.status == 'COMPLETED'
-            )
+    # Get patients that this organization referred out who have results entered in last month
+    org_completed_referrals_outgoing = db.session.query(
+        Patient.id,
+        Patient.first_name,
+        Patient.last_name,
+        Patient.dob,
+        func.max(func.coalesce(PatientReferral.last_modified, PatientReferral.created)).label(
+            "referral_last_modified"
+        ) 
+    ).join(Patient.referrals).filter(
+        and_(
+            Patient.referrals.any(
+                and_(
+                    PatientReferral.from_app_user_id.in_(org_users),
+                    PatientReferral.status == 'COMPLETED'
+                )
+            ),
+            func.coalesce(
+                PatientReferral.last_modified, PatientReferral.created
+            ) > datetime.date.today() - relativedelta(months=1)
         )
-    ).order_by(func.coalesce(PatientReferral.last_modified, PatientReferral.created))
+    ).group_by(
+        Patient.id, Patient.first_name, Patient.last_name
+    ).order_by(
+        func.max(func.coalesce(PatientReferral.last_modified, PatientReferral.created))
+    )
 
     # Get patients that this organization referred out who are waiting for results
-    org_open_referrals_outgoing = Patient.query.join(Patient.referrals).filter(
+    org_open_referrals_outgoing = db.session.query(
+        Patient.id,
+        Patient.first_name,
+        Patient.last_name,
+        Patient.dob,
+        func.max(func.coalesce(PatientReferral.last_modified, PatientReferral.created)).label(
+            "referral_last_modified"
+        ) 
+    ).join(Patient.referrals).filter(
         Patient.referrals.any(
             and_(
                 PatientReferral.from_app_user_id.in_(org_users),
-                PatientReferral.status.in_(('SENT', 'RECEIVED'))
+                PatientReferral.status == 'SENT'
             )
         )
-    ).order_by(func.coalesce(PatientReferral.last_modified, PatientReferral.created))
+    ).group_by(
+        Patient.id, Patient.first_name, Patient.last_name
+    ).order_by(
+        func.max(func.coalesce(PatientReferral.last_modified, PatientReferral.created))
+    )
 
     # Get patients with open referrals at this user's organization
-    org_open_referrals_incoming = Patient.query.join(Patient.referrals).filter(
+    org_open_referrals_incoming = db.session.query(
+        Patient.id,
+        Patient.first_name,
+        Patient.last_name,
+        Patient.dob,
+        func.max(func.coalesce(PatientReferral.last_modified, PatientReferral.created)).label(
+            "referral_last_modified"
+        )       
+    ).join(Patient.referrals).filter(
         Patient.referrals.any(and_(
             PatientReferral.to_service_id == current_user.service_id,
-            PatientReferral.status.in_(('SENT', 'RECEIVED'))
+            PatientReferral.status == 'SENT'
         ))
-    ).order_by(func.coalesce(PatientReferral.last_modified, PatientReferral.created))
+    ).group_by(
+        Patient.id, Patient.first_name, Patient.last_name
+    ).order_by(
+        func.max(func.coalesce(PatientReferral.last_modified, PatientReferral.created))
+    )
 
-    # Get patients with completed referrals at this user's organization
-    org_completed_referrals_incoming = Patient.query.join(Patient.referrals).filter(
-        Patient.referrals.any(and_(
-            PatientReferral.to_service_id == current_user.service_id,
-            PatientReferral.status == 'COMPLETED'
-        ))
-    ).order_by(func.coalesce(PatientReferral.last_modified, PatientReferral.created))
+    # Get patients with completed referrals at this user's organization in last month
+    org_completed_referrals_incoming = db.session.query(
+        Patient.id,
+        Patient.first_name,
+        Patient.last_name,
+        Patient.dob,
+        func.max(func.coalesce(PatientReferral.last_modified, PatientReferral.created)).label(
+            "referral_last_modified"
+        )
+    ).join(Patient.referrals).filter(
+        and_(
+            Patient.referrals.any(and_(
+                PatientReferral.to_service_id == current_user.service_id,
+                PatientReferral.status == 'COMPLETED'
+            )),
+            func.coalesce(
+                PatientReferral.last_modified, PatientReferral.created
+            ) > datetime.date.today() - relativedelta(months=1)
+        )
+    ).group_by(
+        Patient.id, Patient.first_name, Patient.last_name
+    ).order_by(
+        func.max(func.coalesce(PatientReferral.last_modified, PatientReferral.created))
+    )
 
     # Get patients who were most recently screened and found eligible for this organization
     # more than 11 months ago
@@ -747,24 +788,53 @@ def index():
     )).order_by(func.coalesce(Patient.last_modified, Patient.created))
 
     # Get patients this user referred out who have results entered
-    your_completed_referrals_outgoing = Patient.query.join(Patient.referrals).filter(
-        Patient.referrals.any(
-            and_(
-                PatientReferral.from_app_user_id == current_user.id,
-                PatientReferral.status == 'COMPLETED'
-            )
+    your_completed_referrals_outgoing = db.session.query(
+        Patient.id,
+        Patient.first_name,
+        Patient.last_name,
+        Patient.dob,
+        func.max(func.coalesce(PatientReferral.last_modified, PatientReferral.created)).label(
+            "referral_last_modified"
         )
-    ).order_by(func.coalesce(PatientReferral.last_modified, PatientReferral.created))
+    ).join(Patient.referrals).filter(
+        and_(
+            Patient.referrals.any(
+                and_(
+                    PatientReferral.from_app_user_id == current_user.id,
+                    PatientReferral.status == 'COMPLETED'
+                )
+            ),
+            func.coalesce(
+                PatientReferral.last_modified, PatientReferral.created
+            ) > datetime.date.today() - relativedelta(months=1)
+        )
+    ).group_by(
+        Patient.id, Patient.first_name, Patient.last_name
+    ).order_by(
+        func.max(func.coalesce(PatientReferral.last_modified, PatientReferral.created))
+    )
 
     # Get patients this user referred out who are waiting for results
-    your_open_referrals_outgoing = Patient.query.join(Patient.referrals).filter(
+    your_open_referrals_outgoing = db.session.query(
+        Patient.id,
+        Patient.first_name,
+        Patient.last_name,
+        Patient.dob,
+        func.max(func.coalesce(PatientReferral.last_modified, PatientReferral.created)).label(
+            "referral_last_modified"
+        )
+    ).join(Patient.referrals).filter(
         Patient.referrals.any(
             and_(
                 PatientReferral.from_app_user_id == current_user.id,
-                PatientReferral.status.in_(('SENT', 'RECEIVED'))
+                PatientReferral.status == 'SENT'
             )
         )
-    ).order_by(func.coalesce(PatientReferral.last_modified, PatientReferral.created))
+    ).group_by(
+        Patient.id, Patient.first_name, Patient.last_name
+    ).order_by(
+        func.max(func.coalesce(PatientReferral.last_modified, PatientReferral.created))
+    )
 
     # Queries to maybe add later:
     # Your starred patients

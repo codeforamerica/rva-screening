@@ -11,8 +11,6 @@ from flask.ext.security.utils import encrypt_password
 from app import create_app
 from app.example_data import (
     RELATIONSHIPS,
-    ADDRESS_TYPES,
-    PHONE_TYPES,
     REFERRAL_STATUSES
 )
 from app.models import (
@@ -133,7 +131,7 @@ class PatientProvider(BaseProvider):
     def phone_numbers(self):
         return PhoneNumber(
             phone_number=formatted_phone_number(),
-            number_description=fake.random_element(PHONE_TYPES),
+            number_description=choice(constants.PHONE_DESCRIPTIONS),
         )
 
     def household_members(self):
@@ -171,7 +169,7 @@ class PatientProvider(BaseProvider):
             city=fake.city(),
             state=choice(constants.STATE_CHOICES),
             zip_code=fake.postcode(),
-            address_description=fake.random_element(ADDRESS_TYPES)
+            address_description=choice(constants.ADDRESS_DESCRIPTIONS)
         )
 
     def employers(self):
