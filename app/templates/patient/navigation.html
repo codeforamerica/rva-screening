@@ -4,7 +4,9 @@
   {% endif %}
   <ul class="patientNav_list">
     
-    <li class="patientNav_li{% if request.path == url_for('screener.patient_overview', id=patient.id) %} patientNav_li_active{% endif %}"><a href="{{ url_for('screener.patient_overview', id=patient.id) }}"><i class="fa fa-user"></i>Eligibility Overview</a></li>
+    {% if not current_user.is_patient_user() %}
+      <li class="patientNav_li{% if request.path == url_for('screener.patient_overview', id=patient.id) %} patientNav_li_active{% endif %}"><a href="{{ url_for('screener.patient_overview', id=patient.id) }}"><i class="fa fa-user"></i>Eligibility Overview</a></li>
+    {% endif %}
     
     <li class="patientNav_li{% if request.path == url_for('screener.patient_details', id=patient.id) %} patientNav_li_active{% endif %}"><a href="{{ url_for('screener.patient_details', id=patient.id) }}"><i class="fa fa-pencil"></i>Patient Details</a>
     </li>

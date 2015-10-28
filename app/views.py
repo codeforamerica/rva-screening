@@ -175,6 +175,7 @@ def new_patient():
 
 @screener.route('/patient_overview/<id>', methods=['POST', 'GET'])
 @login_required
+@roles_accepted('Staff', 'Admin', 'Superuser')
 def patient_overview(id):
 
     check_patient_permission(id)
@@ -555,9 +556,13 @@ def patient_share(patient_id):
     patient.update_stats()
     services = Service.query.all()
 
-    allowed_referral_service_ids = [
-        service.id for service in current_user.service.can_send_referrals_to
-    ]
+    if not current_user.is_patient_user() and current_user.service:
+        allowed_referral_service_ids = [
+            service.id for service in current_user.service.can_send_referrals_to
+        ]
+    else:
+        allowed_referral_service_ids = []
+
     # Get ids of services where the patient already has open referrals,
     # to prevent user from sending duplicates.
     open_referral_service_ids = [
