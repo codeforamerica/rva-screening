@@ -1,0 +1,7 @@
+<p>Hi there,</p>
+
+<p>{{ commented_user.full_name }} at {{ commented_user.service.name }} added a new comment to a referral.</p>
+
+<p>Click the following link to review the comment: <a href="{{ url_for('screener.patient_overview', id=patient.id, _external=True) }}">{{ url_for('screener.patient_overview', id=patient.id, _external=True) }}</a></p>
+
+<p>--The ZipScreen team</p>

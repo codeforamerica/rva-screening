@@ -140,17 +140,19 @@
   };
 
   {% for patient in all_patients %}
-  temp = {
-    fname: '{{ patient.first_name }}',
-    lname: '{{ patient.last_name }}',
-    dob: '{{ patient.dob.strftime("%m/%d/%Y") }}',
-    ssn: '{{ patient.ssn }}',
-    created: 'Created on {{ patient.created.strftime("%m/%d/%Y") }} at {{ patient.created_by.service.name }}',
-    url: '{{ url_for('screener.patient_overview', id=patient.id) }}'
-  };
-  tempSearchData.list.push(temp);
-  tempSearchData.total++;
-  window.newPatientUrl = "{{ url_for('screener.new_patient') }}" || '/new_patient';
+    {% if patient.deleted == None %}
+      temp = {
+        fname: '{{ patient.first_name }}',
+        lname: '{{ patient.last_name }}',
+        dob: '{{ patient.dob.strftime("%m/%d/%Y") }}',
+        ssn: '{{ patient.ssn }}',
+        created: 'Created on {{ patient.created.strftime("%m/%d/%Y") }} at {{ patient.created_by.service.name }}',
+        url: '{{ url_for('screener.patient_overview', id=patient.id) }}'
+      };
+      tempSearchData.list.push(temp);
+      tempSearchData.total++;
+      window.newPatientUrl = "{{ url_for('screener.new_patient') }}" || '/new_patient';
+    {% endif %}
   {% endfor %}
 </script>
 {% endblock %}

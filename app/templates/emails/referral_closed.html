@@ -1,0 +1,7 @@
+<p>Hi there,</p>
+
+<p>{{ closed_user.full_name }} at {{ closed_user.service.name }} entered a screening result for your referral.</p>
+
+<p>Click the following link to review the result: <a href="{{ url_for('screener.patient_overview', id=patient.id, _external=True) }}">{{ url_for('screener.patient_overview', id=patient.id, _external=True) }}</a></p>
+
+<p>--The ZipScreen team</p>

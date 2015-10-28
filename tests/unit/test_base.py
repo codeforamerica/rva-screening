@@ -18,6 +18,7 @@ class BaseTestCase(TestCase):
         return _create_app(config=TestConfig)
 
     def setUp(self):
+        self.tearDown()
         db.create_all()
 
     def tearDown(self):
