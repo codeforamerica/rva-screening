@@ -1,5 +1,5 @@
 <nav class="nav" id="nav">
-  <div class="nav_logo"><a href="{{ url_for('screener.index') }}">Quickscreen</a></div>
+  <div class="nav_logo"><a href="{{ url_for('screener.index') }}"><img src="{{ static_url }}img/quickscreen-logo-red.png"></a></div>
   <div class="nav_menu">
     <ul class="nav_menu_list">
       {% if current_user.is_authenticated() %}

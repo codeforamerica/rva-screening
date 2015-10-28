@@ -56,7 +56,6 @@ function setDisplay(target, child, type, comparator) {
       $target.each(function() {
         if ($(this).is(':checked')) targetVal += $(this).val();
       });
-      console.log(targetVal);
     }
 
     if( processor(targetVal, comp) ){

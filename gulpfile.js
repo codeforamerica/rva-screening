@@ -19,7 +19,7 @@ gulp.task('fonts', function(){
 });
 
 gulp.task('img', function(){
-	return gulp.src('./front/img/*')
+	return gulp.src('./front/img/**/*')
 		.pipe(gulp.dest('./app/static/img/'));
 });
 

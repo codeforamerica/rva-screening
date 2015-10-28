@@ -89,6 +89,9 @@ var DEFAULT_VALIDATORS = {
   },
   "email": function($elem) {
     var val = $elem.val();
+    if(val==='') {
+      return validationResult(true, val);
+    }
     // http://stackoverflow.com/a/46181
     var pattern = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
     if (!val.match(pattern)) {
