@@ -212,6 +212,8 @@ def patient_overview(id):
             if r.to_service_id == current_user.service.id
             and r.in_sent_status()
         ]
+        if open_referrals:
+            screening_result.patient_referral_id = open_referrals[0].id
         for referral in open_referrals:
             referral.mark_completed()
             send_referral_closed_email(
@@ -763,7 +765,7 @@ def index():
                 "patient.last_name, "
                 "patient.dob "
         ") subquery where most_recent_result < :eleven_months_ago "
-        "order by subquery.most_recent_result desc "
+        "order by subquery.most_recent_result "
     )
     conn = db.get_engine(current_app).connect()
     org_need_renewal = conn.execute(
