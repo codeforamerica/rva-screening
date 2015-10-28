@@ -137,7 +137,7 @@ def format_days_from_today(field):
         return '{} days ago'.format(abs(days))
 
 
-def send_referral_notification_email(service, patient, from_app_user):
+def send_new_referral_email(service, patient, from_app_user):
     """Send an email to addresses associated with a service, notifying them that they've
     been sent a new referral.
     """
@@ -151,6 +151,48 @@ def send_referral_notification_email(service, patient, from_app_user):
             service=service,
             patient=patient,
             from_app_user=from_app_user
+        )
+        mail.send(message)
+    return
+
+
+def send_referral_comment_email(service, patient, referral, commented_user):
+    """Send an email to the user who created a referral, the service emails receiving it,
+    and any users who have commented on it in the past, notifying them of a new comment
+    on the referral.
+    """
+    message = Message(
+        "New comment on a referral to " + service.name
+    )
+    service_emails = [e.email for e in service.referral_emails]
+    past_commenters = [comment.created_by.email for comment in referral.comments]
+    recipient_set = set(service_emails + past_commenters + [referral.from_app_user.email])
+    recipient_set.remove(commented_user.email)
+    message.recipients = list(recipient_set)
+
+    if message.recipients:
+        message.html = render_template(
+            "emails/referral_comment.html",
+            patient=patient,
+            commented_user=commented_user
+        )
+        mail.send(message)
+    return
+
+
+def send_referral_closed_email(service, patient, from_app_user, closed_user):
+    """Send an email to the user who created a referral, notifying them that an eligiblity
+    result was entered and the referral closed.
+    """
+    message = Message(
+        "Screening result entered for your referral to " + service.name
+    )
+    message.recipients = [from_app_user.email]
+    if from_app_user.email:
+        message.html = render_template(
+            "emails/referral_closed.html",
+            patient=patient,
+            closed_user=closed_user
         )
         mail.send(message)
     return

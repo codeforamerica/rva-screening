@@ -142,6 +142,13 @@ class Role(BasicTable, RoleMixin, db.Model):
 
 class Patient(BasicTable, db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    deleted = db.Column(db.DateTime)
+    deleted_by_id = db.Column(db.Integer, db.ForeignKey(
+        "app_user.id",
+        use_alter=True,
+        name='fk_deleted_by_id'
+    ))
+    deleted_by = db.relationship("AppUser", foreign_keys='Patient.deleted_by_id')
 
     # Basic ID
     full_name = db.Column(db.String(128), info=_('Full name'))

@@ -52,7 +52,9 @@ from app.utils import (
     translate_object,
     get_unsaved_form,
     check_patient_permission,
-    send_referral_notification_email,
+    send_new_referral_email,
+    send_referral_comment_email,
+    send_referral_closed_email,
     remove_blank_rows,
     remove_blank_rows_helper
 )
@@ -211,6 +213,12 @@ def patient_overview(id):
         ]
         for referral in open_referrals:
             referral.mark_completed()
+            send_referral_closed_email(
+                service=referral.to_service,
+                patient=patient,
+                from_app_user=referral.from_app_user,
+                closed_user=current_user
+            )
 
         db.session.commit()
 
@@ -345,10 +353,11 @@ def update_patient(patient, form, files):
 @screener.route('/delete/<id>', methods=['POST', 'GET'])
 @login_required
 def delete(id):
-    """Hard delete a patient. Soft-deleting is usually a better idea."""
+    """Soft delete a patient."""
     check_patient_permission(id)
     patient = Patient.query.get(id)
-    db.session.delete(patient)
+    patient.deleted = datetime.datetime.now()
+    patient.deleted_by = current_user
     db.session.commit()
     return redirect(url_for('screener.index'))
 
@@ -593,7 +602,7 @@ def add_referral():
     db.session.commit()
     service = Service.query.get(request.form['service_id'])
     patient = Patient.query.get(request.form['patient_id'])
-    send_referral_notification_email(
+    send_new_referral_email(
         service=service,
         patient=patient,
         from_app_user=current_user
@@ -613,11 +622,18 @@ def patient_screening_history(patient_id):
     form = ReferralCommentForm()
 
     if form.validate_on_submit():
+        referral = PatientReferral.query.get(form.referral_id.data)
         referral_comment = PatientReferralComment()
         referral_comment.patient_referral_id = form.referral_id.data
         referral_comment.notes = form.notes.data
         db.session.add(referral_comment)
         db.session.commit()
+        send_referral_comment_email(
+            service=referral.to_service,
+            patient=patient,
+            referral=referral,
+            commented_user=current_user
+        )
 
     return render_template('patient_screening_history.html', patient=patient, form=form)
 
@@ -626,6 +642,10 @@ def patient_screening_history(patient_id):
 @login_required
 @roles_accepted('Staff', 'Admin', 'Superuser')
 def index():
+    """Display the initial landing page, which lists patients in the
+    network and allows users to search and filter them.
+    """
+
     form = SearchPatientForm()
     if request.method == 'POST':
         session['first_name'] = form.search_patient_first_name.data
@@ -634,9 +654,7 @@ def index():
         session['ssn'] = form.search_patient_ssn.data
         return redirect(url_for('screener.new_patient'))
 
-    """Display the initial landing page, which lists patients in the
-    network and allows users to search and filter them.
-    """
+    all_patients = Patient.query.all()
 
     # ORGANIZATION-BASED QUERIES
     org_users = [user.id for user in AppUser.query.filter(
@@ -654,20 +672,23 @@ def index():
             "referral_last_modified"
         ) 
     ).join(Patient.referrals).filter(
-        or_(
-            and_(
+        and_(
+            or_(
+                and_(
+                    and_(
+                        PatientReferral.from_app_user_id.in_(org_users),
+                        PatientReferral.status == 'COMPLETED'
+                    ),
+                    func.coalesce(
+                        PatientReferral.last_modified, PatientReferral.created
+                    ) > datetime.date.today() - relativedelta(months=1)
+                ),
                 and_(
                     PatientReferral.from_app_user_id.in_(org_users),
-                    PatientReferral.status == 'COMPLETED'
-                ),
-                func.coalesce(
-                    PatientReferral.last_modified, PatientReferral.created
-                ) > datetime.date.today() - relativedelta(months=1)
+                    PatientReferral.status == 'SENT'
+                )
             ),
-            and_(
-                PatientReferral.from_app_user_id.in_(org_users),
-                PatientReferral.status == 'SENT'
-            )
+            Patient.deleted == None
         )
     ).group_by(
         Patient.id, Patient.first_name, Patient.last_name
@@ -686,20 +707,23 @@ def index():
             "referral_last_modified"
         )       
     ).join(Patient.referrals).filter(
-        or_(
-            and_(
-                PatientReferral.to_service_id == current_user.service_id,
-                PatientReferral.status == 'SENT'
-            ),
-            and_(
+        and_(
+            or_(
                 and_(
                     PatientReferral.to_service_id == current_user.service_id,
-                    PatientReferral.status == 'COMPLETED'
+                    PatientReferral.status == 'SENT'
                 ),
-                func.coalesce(
-                    PatientReferral.last_modified, PatientReferral.created
-                ) > datetime.date.today() - relativedelta(months=1)
-            )
+                and_(
+                    and_(
+                        PatientReferral.to_service_id == current_user.service_id,
+                        PatientReferral.status == 'COMPLETED'
+                    ),
+                    func.coalesce(
+                        PatientReferral.last_modified, PatientReferral.created
+                    ) > datetime.date.today() - relativedelta(months=1)
+                )
+            ),
+            Patient.deleted == None
         )
     ).group_by(
         Patient.id, Patient.first_name, Patient.last_name
@@ -726,6 +750,7 @@ def index():
                 "patient.id = patient_screening_result.patient_id "
                 "and patient_screening_result.eligible_yn = 'Y' "
                 "and patient_screening_result.service_id = :service_id "
+                "and patient.deleted is null "
             "group by "
                 "patient.id, "
                 "patient.first_name, "
@@ -747,11 +772,13 @@ def index():
     your_recently_updated = Patient.query.filter(or_(
         and_(
             Patient.last_modified > datetime.date.today() - datetime.timedelta(days=7),
-            Patient.last_modified_by_id == current_user.id
+            Patient.last_modified_by_id == current_user.id,
+            Patient.deleted == None
         ),
         and_(
             Patient.created > datetime.date.today() - datetime.timedelta(days=7),
-            Patient.created_by_id == current_user.id
+            Patient.created_by_id == current_user.id,
+            Patient.deleted == None
         )
     )).order_by(func.coalesce(Patient.last_modified, Patient.created))
 
@@ -766,20 +793,23 @@ def index():
             "referral_last_modified"
         )
     ).join(Patient.referrals).filter(
-        or_(
-            and_(
+        and_(
+            or_(
+                and_(
+                    and_(
+                        PatientReferral.from_app_user_id == current_user.id,
+                        PatientReferral.status == 'COMPLETED'
+                    ),
+                    func.coalesce(
+                        PatientReferral.last_modified, PatientReferral.created
+                    ) > datetime.date.today() - relativedelta(months=1)
+                ),
                 and_(
                     PatientReferral.from_app_user_id == current_user.id,
-                    PatientReferral.status == 'COMPLETED'
-                ),
-                func.coalesce(
-                    PatientReferral.last_modified, PatientReferral.created
-                ) > datetime.date.today() - relativedelta(months=1)
+                    PatientReferral.status == 'SENT'
+                )
             ),
-            and_(
-                PatientReferral.from_app_user_id == current_user.id,
-                PatientReferral.status == 'SENT'
-            )
+            Patient.deleted == None
         )
     ).group_by(
         Patient.id, Patient.first_name, Patient.last_name
@@ -801,6 +831,7 @@ def index():
     return render_template(
         'index.html',
         user=current_user,
+        all_patients=all_patients,
         patient_dict=patient_dict,
         org_referrals_outgoing=org_referrals_outgoing,
         org_referrals_incoming=org_referrals_incoming,

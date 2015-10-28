@@ -315,13 +315,13 @@ class TestScreener(BaseTestCase):
 
     def test_delete_patient(self):
         """Test that hard-deleting a patient works as expected."""
+        user = get_user()
         self.login()
-        patient = get_patient()
-
+        patient = get_patient(user)
         response = self.client.get('/delete/{}'.format(patient.id), follow_redirects=True)
         self.assert200(response)
         # Check that patient was deleted
-        self.assertEquals(len(Patient.query.all()), 0)
+        self.assertTrue(Patient.query.get(patient.id).deleted)
         # Check that user is redirected to index page
         self.assert_template_used('index.html')
 
