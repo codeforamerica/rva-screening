@@ -28,6 +28,15 @@
         });
       }
 
+      if ($('#service-eligibility-map').length) {
+        window.eligibilityMap = new EligibilityMap({
+          accessToken: 'pk.eyJ1Ijoic3ZtYXR0aGV3cyIsImEiOiJVMUlUR0xrIn0.NweS_AttjswtN5wRuWCSNA',
+          tileSet: 'mapbox.light',
+          data: serviceMapData || null,
+          elem: 'service-eligibility-map'
+        });
+      }
+
       if ($('.field_input_search').length && tempSearchData) {
         window.search = new Search({
           elementClass: '.field_input_search',

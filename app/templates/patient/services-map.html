@@ -1,0 +1,19 @@
+<script>
+  var serviceMapData = [{% for service in servicesAll %}
+    {
+      service: '{{ service.name }}',
+      id: '{{ service.id }}',
+      locations: [{% for loc in service.locations %}
+        {
+          name: '{{ loc.name }}',
+          address: '{{ loc.address }}',
+          coordinates: [{{ loc.latitude }}, {{ loc.longitude }}]
+        },
+      {% endfor %}],
+      calculatedEligibility: '{% for s in services %}{% if s.id == service.id %}{{ s.eligible | lower }}{% endif %}{% endfor %}',
+    },{% endfor %}
+  ];
+</script>
+<section class="patientServicesMap" id="service-eligibility-map">
+  <button class="button button_black" id="expandServiceEligibilityMap" data-expanded="false">Full Map</button>
+</section>

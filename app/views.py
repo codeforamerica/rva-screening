@@ -560,6 +560,7 @@ def patient_share(patient_id):
         'patient_share.html',
         patient=patient,
         current_user=current_user,
+        servicesAll=Service.query.all(),
         services=calculate_pre_screen_results(
             fpl=patient.fpl_percentage,
             has_health_insurance=patient.insurance_status,
