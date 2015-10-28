@@ -636,17 +636,16 @@ def index():
 
     """Display the initial landing page, which lists patients in the
     network and allows users to search and filter them.
-    """        
-
-    all_patients = Patient.query.all()
+    """
 
     # ORGANIZATION-BASED QUERIES
     org_users = [user.id for user in AppUser.query.filter(
         AppUser.service_id == current_user.service_id
     )]
 
-    # Get patients that this organization referred out who have results entered in last month
-    org_completed_referrals_outgoing = db.session.query(
+    # Get patients that this organization referred out who have open referrals or
+    # referrals closed in the last month
+    org_referrals_outgoing = db.session.query(
         Patient.id,
         Patient.first_name,
         Patient.last_name,
@@ -655,34 +654,16 @@ def index():
             "referral_last_modified"
         ) 
     ).join(Patient.referrals).filter(
-        and_(
-            Patient.referrals.any(
+        or_(
+            and_(
                 and_(
                     PatientReferral.from_app_user_id.in_(org_users),
                     PatientReferral.status == 'COMPLETED'
-                )
+                ),
+                func.coalesce(
+                    PatientReferral.last_modified, PatientReferral.created
+                ) > datetime.date.today() - relativedelta(months=1)
             ),
-            func.coalesce(
-                PatientReferral.last_modified, PatientReferral.created
-            ) > datetime.date.today() - relativedelta(months=1)
-        )
-    ).group_by(
-        Patient.id, Patient.first_name, Patient.last_name
-    ).order_by(
-        func.max(func.coalesce(PatientReferral.last_modified, PatientReferral.created))
-    )
-
-    # Get patients that this organization referred out who are waiting for results
-    org_open_referrals_outgoing = db.session.query(
-        Patient.id,
-        Patient.first_name,
-        Patient.last_name,
-        Patient.dob,
-        func.max(func.coalesce(PatientReferral.last_modified, PatientReferral.created)).label(
-            "referral_last_modified"
-        ) 
-    ).join(Patient.referrals).filter(
-        Patient.referrals.any(
             and_(
                 PatientReferral.from_app_user_id.in_(org_users),
                 PatientReferral.status == 'SENT'
@@ -694,8 +675,9 @@ def index():
         func.max(func.coalesce(PatientReferral.last_modified, PatientReferral.created))
     )
 
-    # Get patients with open referrals at this user's organization
-    org_open_referrals_incoming = db.session.query(
+    # Get patients with open referrals or referrals closed in the last month at
+    # this user's organization
+    org_referrals_incoming = db.session.query(
         Patient.id,
         Patient.first_name,
         Patient.last_name,
@@ -704,34 +686,20 @@ def index():
             "referral_last_modified"
         )       
     ).join(Patient.referrals).filter(
-        Patient.referrals.any(and_(
-            PatientReferral.to_service_id == current_user.service_id,
-            PatientReferral.status == 'SENT'
-        ))
-    ).group_by(
-        Patient.id, Patient.first_name, Patient.last_name
-    ).order_by(
-        func.max(func.coalesce(PatientReferral.last_modified, PatientReferral.created))
-    )
-
-    # Get patients with completed referrals at this user's organization in last month
-    org_completed_referrals_incoming = db.session.query(
-        Patient.id,
-        Patient.first_name,
-        Patient.last_name,
-        Patient.dob,
-        func.max(func.coalesce(PatientReferral.last_modified, PatientReferral.created)).label(
-            "referral_last_modified"
-        )
-    ).join(Patient.referrals).filter(
-        and_(
-            Patient.referrals.any(and_(
+        or_(
+            and_(
                 PatientReferral.to_service_id == current_user.service_id,
-                PatientReferral.status == 'COMPLETED'
-            )),
-            func.coalesce(
-                PatientReferral.last_modified, PatientReferral.created
-            ) > datetime.date.today() - relativedelta(months=1)
+                PatientReferral.status == 'SENT'
+            ),
+            and_(
+                and_(
+                    PatientReferral.to_service_id == current_user.service_id,
+                    PatientReferral.status == 'COMPLETED'
+                ),
+                func.coalesce(
+                    PatientReferral.last_modified, PatientReferral.created
+                ) > datetime.date.today() - relativedelta(months=1)
+            )
         )
     ).group_by(
         Patient.id, Patient.first_name, Patient.last_name
@@ -787,8 +755,9 @@ def index():
         )
     )).order_by(func.coalesce(Patient.last_modified, Patient.created))
 
-    # Get patients this user referred out who have results entered
-    your_completed_referrals_outgoing = db.session.query(
+    # Get patients this user referred out who have open referrals or referrals closed in
+    # the last month
+    your_referrals_outgoing = db.session.query(
         Patient.id,
         Patient.first_name,
         Patient.last_name,
@@ -797,34 +766,16 @@ def index():
             "referral_last_modified"
         )
     ).join(Patient.referrals).filter(
-        and_(
-            Patient.referrals.any(
+        or_(
+            and_(
                 and_(
                     PatientReferral.from_app_user_id == current_user.id,
                     PatientReferral.status == 'COMPLETED'
-                )
+                ),
+                func.coalesce(
+                    PatientReferral.last_modified, PatientReferral.created
+                ) > datetime.date.today() - relativedelta(months=1)
             ),
-            func.coalesce(
-                PatientReferral.last_modified, PatientReferral.created
-            ) > datetime.date.today() - relativedelta(months=1)
-        )
-    ).group_by(
-        Patient.id, Patient.first_name, Patient.last_name
-    ).order_by(
-        func.max(func.coalesce(PatientReferral.last_modified, PatientReferral.created))
-    )
-
-    # Get patients this user referred out who are waiting for results
-    your_open_referrals_outgoing = db.session.query(
-        Patient.id,
-        Patient.first_name,
-        Patient.last_name,
-        Patient.dob,
-        func.max(func.coalesce(PatientReferral.last_modified, PatientReferral.created)).label(
-            "referral_last_modified"
-        )
-    ).join(Patient.referrals).filter(
-        Patient.referrals.any(
             and_(
                 PatientReferral.from_app_user_id == current_user.id,
                 PatientReferral.status == 'SENT'
@@ -840,18 +791,23 @@ def index():
     # Your starred patients
     # Applications that are inactive/patient not responding
 
+    patient_ids = []
+    for patient_list in [org_referrals_outgoing, org_referrals_incoming, org_need_renewal, your_recently_updated, your_referrals_outgoing]:
+        patient_ids += [patient.id for patient in patient_list]
+
+    patients = Patient.query.filter(Patient.id.in_(patient_ids))
+    patient_dict = {patient.id: patient for patient in patients}
+
     return render_template(
         'index.html',
         user=current_user,
-        all_patients=all_patients,
-        org_completed_referrals_outgoing=org_completed_referrals_outgoing,
-        org_open_referrals_outgoing=org_open_referrals_outgoing,
-        org_open_referrals_incoming=org_open_referrals_incoming,
-        org_completed_referrals_incoming=org_completed_referrals_incoming,
+        patient_dict=patient_dict,
+        org_referrals_outgoing=org_referrals_outgoing,
+        org_referrals_incoming=org_referrals_incoming,
         org_need_renewal=org_need_renewal,
         your_recently_updated=your_recently_updated,
-        your_completed_referrals_outgoing=your_completed_referrals_outgoing,
-        your_open_referrals_outgoing=your_open_referrals_outgoing,
+        your_referrals_outgoing=your_referrals_outgoing,
+        one_month_ago=datetime.datetime.today() - relativedelta(months=1),
         form=form
     )
 
