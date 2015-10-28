@@ -7,7 +7,11 @@
         <div class="details">
           
           <div class="detail">
-            <span class="detail_left">Service</span><span class="detail_right"><a href="{{ url_for('screener.service', service_id=user.service_id) }}">{{user.service.name}}</a></span>
+            {% if user.is_patient_user() %}
+              <span class="detail_left">Organization</span><span class="detail_right">N/A</span>
+            {% else %} 
+              <span class="detail_left">Service</span><span class="detail_right"><a href="{{ url_for('screener.service', service_id=user.service_id) }}">{{user.service.name}}</a></span>
+            {% endif %}
           </div>
 
           <div class="detail">
@@ -15,11 +19,11 @@
           </div>
 
           <div class="detail">
-            <span class="detail_left">Phone</span><span class="detail_right">{% if user.phone %}{{user.phone}}{% else %}None specified. Try calling {{ user.service.name }} at {{ user.service.main_contact_phone }}{% endif %}</span>
+            <span class="detail_left">Phone</span><span class="detail_right">{% if user.phone %}{{user.phone}}{% elif not user.is_patient_user() %}None specified. Try calling {{ user.service.name }} at {{ user.service.main_contact_phone }}{% endif %}</span>
           </div>
 
           <div class="detail">
-            <span class="detail_left">Work hours</span><span class="detail_right">Full-time, Mon - Fri, 8am - 4pm</span>
+            <span class="detail_left">Work hours</span><span class="detail_right"></span>
           </div>
 
         </div>

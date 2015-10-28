@@ -3,7 +3,7 @@ import datetime
 from dateutil.relativedelta import relativedelta
 import io
 from itertools import chain
-from sqlalchemy import and_, or_, func
+from sqlalchemy import and_, or_, func, desc
 from sqlalchemy.sql import text
 from werkzeug.datastructures import FileStorage
 from PIL import Image
@@ -698,7 +698,7 @@ def index():
     ).group_by(
         Patient.id, Patient.first_name, Patient.last_name
     ).order_by(
-        func.max(func.coalesce(PatientReferral.last_modified, PatientReferral.created))
+        desc(func.max(func.coalesce(PatientReferral.last_modified, PatientReferral.created)))
     )
 
     # Get patients with open referrals or referrals closed in the last month at
@@ -733,7 +733,7 @@ def index():
     ).group_by(
         Patient.id, Patient.first_name, Patient.last_name
     ).order_by(
-        func.max(func.coalesce(PatientReferral.last_modified, PatientReferral.created))
+        desc(func.max(func.coalesce(PatientReferral.last_modified, PatientReferral.created)))
     )
 
     # Get patients who were most recently screened and found eligible for this organization
@@ -763,7 +763,7 @@ def index():
                 "patient.last_name, "
                 "patient.dob "
         ") subquery where most_recent_result < :eleven_months_ago "
-        "order by subquery.most_recent_result "
+        "order by subquery.most_recent_result desc "
     )
     conn = db.get_engine(current_app).connect()
     org_need_renewal = conn.execute(
@@ -785,7 +785,7 @@ def index():
             Patient.created_by_id == current_user.id,
             Patient.deleted == None
         )
-    )).order_by(func.coalesce(Patient.last_modified, Patient.created))
+    )).order_by(desc(func.coalesce(Patient.last_modified, Patient.created)))
 
     # Get patients this user referred out who have open referrals or referrals closed in
     # the last month
@@ -819,7 +819,7 @@ def index():
     ).group_by(
         Patient.id, Patient.first_name, Patient.last_name
     ).order_by(
-        func.max(func.coalesce(PatientReferral.last_modified, PatientReferral.created))
+        desc(func.max(func.coalesce(PatientReferral.last_modified, PatientReferral.created)))
     )
 
     # Queries to maybe add later:

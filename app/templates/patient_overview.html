@@ -6,7 +6,7 @@
 <div class="box">
   <div class="box_content">
     <ul class="patientOverview">
-      <li class="list_row">Profile created on {{ patient.created.strftime('%m/%d/%Y') }} by {% if patient.created_by_id == patient.app_user[0].id %}the patient{% else %}{{ patient.created_by.full_name }} at {{ patient.created_by.service.name }}{% endif %}</li>
+      <li class="list_row">Profile created on {{ patient.created.strftime('%m/%d/%Y') }} by {% if patient.created_by_id == patient.app_user.first().id %}the patient{% else %}{{ patient.created_by.full_name }} at {{ patient.created_by.service.name }}{% endif %}</li>
 
       <li class="list_row">
         Estimated Federal Poverty Level <span>% <strong>{{ '%0.2f'| format(patient.fpl_percentage|float) }}</strong></span>
