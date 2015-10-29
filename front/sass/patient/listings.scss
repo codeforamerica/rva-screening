@@ -42,11 +42,6 @@ $list-padding-large: 1em;
       // padding: $list-padding;
       color: black;
     }
-    span {
-      display: block;
-      line-height: 1.5em;
-      font-size: 0.9em;
-    }
     .list_row_item {
       display:block;
       @media (min-width: $break) {
@@ -125,7 +120,26 @@ $list-padding-large: 1em;
   }
 }
 
-// showing up-to-date statistics
-// not sure where these styles should go presently
-
-
+.referral_status {
+  font-size: 12px;
+  padding: 5px 10px;
+  border-radius: 3px;
+  background: #c0c0c0;
+  display: inline-block;
+  margin: 2px;
+  font-weight: 600;
+  color: #555;
+  &.referral_completed {
+    background-color: $green;
+  }
+  &.referral_sent {
+    background-color: $yellow;
+  }
+  &.referral_review {
+    background-color: $blue;
+  }
+}
+.patient_dob {
+  font-size: 0.8em;
+  color: #999;
+}

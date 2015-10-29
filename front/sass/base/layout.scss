@@ -123,3 +123,7 @@ $login-background-color: rgba(255,255,255,0.6);
   .block_11 { @include width(11); }
   .block_12 { @include width(12); }
 }
+
+.text-align-right {
+  text-align: right;
+}
