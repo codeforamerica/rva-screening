@@ -3,7 +3,7 @@ import datetime
 from dateutil.relativedelta import relativedelta
 import io
 from itertools import chain
-from sqlalchemy import and_, or_, func
+from sqlalchemy import and_, or_, func, desc
 from sqlalchemy.sql import text
 from werkzeug.datastructures import FileStorage
 from PIL import Image
@@ -175,6 +175,7 @@ def new_patient():
 
 @screener.route('/patient_overview/<id>', methods=['POST', 'GET'])
 @login_required
+@roles_accepted('Staff', 'Admin', 'Superuser')
 def patient_overview(id):
 
     check_patient_permission(id)
@@ -211,6 +212,8 @@ def patient_overview(id):
             if r.to_service_id == current_user.service.id
             and r.in_sent_status()
         ]
+        if open_referrals:
+            screening_result.patient_referral_id = open_referrals[0].id
         for referral in open_referrals:
             referral.mark_completed()
             send_referral_closed_email(
@@ -555,9 +558,13 @@ def patient_share(patient_id):
     patient.update_stats()
     services = Service.query.all()
 
-    allowed_referral_service_ids = [
-        service.id for service in current_user.service.can_send_referrals_to
-    ]
+    if not current_user.is_patient_user() and current_user.service:
+        allowed_referral_service_ids = [
+            service.id for service in current_user.service.can_send_referrals_to
+        ]
+    else:
+        allowed_referral_service_ids = []
+
     # Get ids of services where the patient already has open referrals,
     # to prevent user from sending duplicates.
     open_referral_service_ids = [
@@ -693,7 +700,7 @@ def index():
     ).group_by(
         Patient.id, Patient.first_name, Patient.last_name
     ).order_by(
-        func.max(func.coalesce(PatientReferral.last_modified, PatientReferral.created))
+        desc(func.max(func.coalesce(PatientReferral.last_modified, PatientReferral.created)))
     )
 
     # Get patients with open referrals or referrals closed in the last month at
@@ -728,7 +735,7 @@ def index():
     ).group_by(
         Patient.id, Patient.first_name, Patient.last_name
     ).order_by(
-        func.max(func.coalesce(PatientReferral.last_modified, PatientReferral.created))
+        desc(func.max(func.coalesce(PatientReferral.last_modified, PatientReferral.created)))
     )
 
     # Get patients who were most recently screened and found eligible for this organization
@@ -780,7 +787,7 @@ def index():
             Patient.created_by_id == current_user.id,
             Patient.deleted == None
         )
-    )).order_by(func.coalesce(Patient.last_modified, Patient.created))
+    )).order_by(desc(func.coalesce(Patient.last_modified, Patient.created)))
 
     # Get patients this user referred out who have open referrals or referrals closed in
     # the last month
@@ -814,7 +821,7 @@ def index():
     ).group_by(
         Patient.id, Patient.first_name, Patient.last_name
     ).order_by(
-        func.max(func.coalesce(PatientReferral.last_modified, PatientReferral.created))
+        desc(func.max(func.coalesce(PatientReferral.last_modified, PatientReferral.created)))
     )
 
     # Queries to maybe add later:

@@ -64,7 +64,9 @@
       <div class="block_2 patientProfile-image">
         <img src="http://placehold.it/250x250">
         <p style="text-align:right;"><small><a href="{{ url_for('screener.export_pdf', patient_id=patient.id) }}"><i class="fa fa-file-pdf-o"></i> Download patient details</a></small></p>
-        <p style="text-align:right;"><small><a href="{{ url_for('screener.delete', id=patient.id) }}"><i class="fa fa-archive"></i> Archive patient</a></small></p>
+        {% if not current_user.is_patient_user() %}
+          <p style="text-align:right;"><small><a href="{{ url_for('screener.delete', id=patient.id) }}"><i class="fa fa-archive"></i> Archive patient</a></small></p>
+        {% endif %}
       </div>
 
     </div>
