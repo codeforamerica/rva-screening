@@ -54,7 +54,9 @@ h1 {
 				<td>
 				<strong>{{loop.index}}</strong>
 				{% for subfield in entry %}
-					{{ subfield.label.text }}: {{ subfield.data }}<br>
+					{% if subfield.type != 'HiddenField' %}
+						{{ subfield.label.text }}: {{ subfield.data }}<br>
+					{% endif %}
 				{% endfor %}
 				</td>
 			{% if loop.index0 % 2 %}</tr>{% endif %}
