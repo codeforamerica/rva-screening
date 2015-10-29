@@ -50,7 +50,10 @@ $list-padding-large: 1em;
       }
     }
 
-    
+    &.list_header {
+      border-bottom: 2px solid #c0c0c0;
+      font-weight: 600;
+    }
 
     &.list_row_new,
     &.list_row_warning,
