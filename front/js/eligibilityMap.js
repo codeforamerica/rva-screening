@@ -41,7 +41,9 @@ EligibilityMap.prototype.init = function() {
   $(this.data).each(function() {
 
     var ELIGIBILITY = this.calculatedEligibility;
-    console.log(ELIGIBILITY);
+    var URL = this.url;
+    var NAME = this.service
+
     $(this.locations).each(function() {
 
       var marker = L.marker(this.coordinates, {
@@ -52,7 +54,7 @@ EligibilityMap.prototype.init = function() {
         })
       });
 
-      var content = '<h2>' + this.name + '</h2><p>' + this.address + '</p>';
+      var content = '<strong>' + NAME + ': ' + this.name + '</strong><br>' + this.address + '<br><a href="' + URL + '">View service profile</a>';
 
       marker.bindPopup(content);
 

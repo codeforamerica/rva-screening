@@ -2,7 +2,7 @@
   var serviceMapData = [{% for service in servicesAll %}
     {
       service: '{{ service.name }}',
-      id: '{{ service.id }}',
+      url: '{{ url_for('screener.service', service_id=service.id) }}',
       locations: [{% for loc in service.locations %}
         {
           name: '{{ loc.name }}',
