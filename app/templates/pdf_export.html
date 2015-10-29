@@ -110,8 +110,5 @@ h1 {
 {% for image in patient.document_images %}
 	<p>{{ image.file_description }}</p>
 	<p>Uploaded by {{ image.created_by.full_name }} at {{ image.created.strftime('%m-%d-%Y %H:%M:%S') }}</p>
-	{% if is_production == 'True' %}
-		<p>Image:</p>
-		<img src="{{ url_for('screener.export_document_image', image_id=image.id, _external=True) }}"/>
-	{% endif %}
+	<img src="data:image/jpg;base64,{{ image.data_large.encode('base64').replace('\n', '') }}">
 {% endfor %}
