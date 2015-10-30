@@ -142,7 +142,7 @@
             <div class="block_8">
               {% for referral in patient_dict[patient.id].referrals %}
                 {% if (referral.from_app_user_id == current_user.id) and (referral.status == 'SENT' or (referral.last_modified or referral.created) > one_month_ago) %}
-                  <div class="block_9">to {{ referral.to_service.name }}<br>
+                  <div class="block_9">{{ referral.to_service.name }}<br>
                   <span class="patient_dob">{% if referral.last_modified %}{{ referral.last_modified.strftime('%m/%d/%Y %-I:%M:%S %p') }} {% else %}{{ referral.created.strftime('%m/%d/%Y') }}{% endif %}</span></div>
 
                   <div class="block_3 text-align-right">

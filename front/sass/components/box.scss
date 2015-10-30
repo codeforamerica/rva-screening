@@ -44,6 +44,11 @@
       margin-bottom: 0.5em;
     }
   }
+  &.box_nopadding {
+    .box_content {
+      padding: 0;
+    }
+  }
 }
 
 

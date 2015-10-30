@@ -78,7 +78,7 @@
       </div>
 
     {% if referral_buttons %}
-    <div class="box-referral {% if service.id in open_referral_service_ids %}box-referral-active{% endif %} {% if service.eligible %}box-referral-eligible{% endif %}" onclick="{% if service.id in allowed_referral_service_ids and service.id not in open_referral_service_ids %}sharePatientInfo(this, {{ patient.id }}, {{ current_user.id }}, {{ service. id}}){% endif %}">
+    <div class="">
 
       {% if patient.referrals %}
         {% for r in patient.referrals %}
@@ -104,11 +104,11 @@
 
       
       {% if service.id in open_referral_service_ids or service.id in allowed_referral_service_ids %}
-        <div class="box-referral-right">
+        <div class="">
           {% if service.id in open_referral_service_ids %}
-          <span>Response is pending</span><i class="fa fa-circle"></i>
+          <button class="button button_black pull-right">View referral</button>
           {% elif service.id in allowed_referral_service_ids %}
-          <span>Refer to {{ service.name }}</span><i class="fa fa-chevron-right"></i>
+          <button class="button button_green pull-right" onclick="{% if service.id in allowed_referral_service_ids and service.id not in open_referral_service_ids %}sharePatientInfo(this, {{ patient.id }}, {{ current_user.id }}, {{ service. id}} ){% endif %}">Refer to {{ service.name }}</button>
           {% endif %}
         </div>
       {% endif %}

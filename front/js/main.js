@@ -142,12 +142,14 @@ function convertForPrint() {
 **
 */
 function sharePatientInfo( elem, patient_id, app_user_id, service_id ) {
+  $(elem).html('Sending <i class="fa fa-spinner loading"></i>');
   $.post('/add_referral', {
     patient_id: patient_id,
     app_user_id: app_user_id,
     service_id: service_id
   }).done(function() {
-    $(elem).addClass('box-referral-sent');
-    $(elem).text('Referral sent!');
+    $(elem).removeClass('button_green').addClass('button_blue');
+    $(elem).parent().html('<a class="button button_blue pull-right" href="/patient_overview/' + patient_id + '">Sent! View referral</a>');
+    $(elem).remove();
   });
 }

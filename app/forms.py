@@ -63,7 +63,7 @@ class ScreeningResultForm(Form):
     eligible_yn = fields.RadioField(
         _('Is this patient eligible for care at your organization?'),
         choices=CONSTANTS.YN_NONULL_CHOICES,
-        default="N",
+        default="",
     )
     sliding_scale_id = fields.SelectField(
         _('Sliding Scale'),

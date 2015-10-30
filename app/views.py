@@ -231,12 +231,29 @@ def patient_overview(id):
         (str(option.id), option.scale_name) for option in sliding_scale_options
     ]
 
+    referral_form = ReferralCommentForm()
+
+    if referral_form.validate_on_submit():
+        referral = PatientReferral.query.get(referral_form.referral_id.data)
+        referral_comment = PatientReferralComment()
+        referral_comment.patient_referral_id = referral_form.referral_id.data
+        referral_comment.notes = referral_form.notes.data
+        db.session.add(referral_comment)
+        db.session.commit()
+        send_referral_comment_email(
+            service=referral.to_service,
+            patient=patient,
+            referral=referral,
+            commented_user=current_user
+        )
+
     return render_template(
         'patient_overview.html',
         patient=patient,
         form=new_form,
         service=prescreen_results[0],
-        past_results=past_results
+        past_results=past_results,
+        referral_form=referral_form
     )
 
 
