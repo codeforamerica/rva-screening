@@ -620,6 +620,7 @@ def add_referral():
         patient_id=request.form['patient_id'],
         from_app_user_id=request.form['app_user_id'],
         to_service_id=request.form['service_id'],
+        notes=request.form['notes'],
         status='SENT'
     )
     db.session.add(referral)

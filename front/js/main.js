@@ -141,12 +141,14 @@ function convertForPrint() {
 **  the text within the button.
 **
 */
-function sharePatientInfo( elem, patient_id, app_user_id, service_id ) {
+function sharePatientInfo( elem, patient_id, app_user_id, service_id, notes_id ) {
+  var referralNotes = $('#'+notes_id).val();
   $(elem).html('Sending <i class="fa fa-spinner loading"></i>');
   $.post('/add_referral', {
     patient_id: patient_id,
     app_user_id: app_user_id,
-    service_id: service_id
+    service_id: service_id,
+    notes: referralNotes
   }).done(function() {
     $(elem).removeClass('button_green').addClass('button_blue');
     $(elem).parent().html('<a class="button button_blue pull-right" href="/patient_overview/' + patient_id + '">Sent! View referral</a>');
