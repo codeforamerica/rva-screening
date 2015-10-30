@@ -157,6 +157,7 @@ class Patient(BasicTable, db.Model):
     last_name = db.Column(db.String(64), info=_('Last name'))
     dob = db.Column(db.Date(), info=_('DOB'))
     ssn = db.Column(db.String(11), info=_('SSN'))
+    medical_home = db.Column(db.String(32), info=_("Medical home"))
 
     # Contact
     email = db.Column(db.String(64), info=_('Email address'))
@@ -179,7 +180,10 @@ class Patient(BasicTable, db.Model):
     housing_status = db.Column(db.String(16), info=_('Housing status'))
     housing_status_other = db.Column(db.String(32), info=_('Housing status - Other'))
 
-    time_in_area = db.Column(db.String(16), info=_('How long have you lived in the Greater Richmond area?'))
+    time_in_area = db.Column(
+        db.String(16),
+        info=_('How long have you lived in the Greater Richmond area?')
+    )
     # years_living_in_area = db.Column(db.Integer, info=_('Years living in area'))
     # months_living_in_area = db.Column(db.Integer, info=_('Months living in area'))
     city_or_county_of_residence = db.Column(
@@ -201,7 +205,10 @@ class Patient(BasicTable, db.Model):
     spouse_employment_changes = db.Column(db.String(16), info=_('Spouse\'s employment changes'))
     employers = db.relationship('Employer', backref='patient', lazy='dynamic')
     years_at_current_employer = db.Column(db.String(32), info=('Years at current employer'))
-    spouse_years_at_current_employer = db.Column(db.String(32), info=('Spouse\'s years at current employer'))
+    spouse_years_at_current_employer = db.Column(
+        db.String(32),
+        info=('Spouse\'s years at current employer')
+    )
 
     # Healthcare/coverage
     last_healthcare = db.Column(db.String(128), info=_('Last healthcare received'))
@@ -277,7 +284,6 @@ class PhoneNumber(BasicTable, db.Model):
     number_description = db.Column(db.String(64), info=_('Description'))
     number_description_other = db.Column(db.String(64), info=_('Phone description - Other'))
     primary_yn = db.Column(db.String(1), info=_('Primary number?'))
-    
 
 
 class Address(BasicTable, db.Model):
@@ -414,7 +420,7 @@ class Service(BasicTable, db.Model):
 class ReferralPermission(BasicTable, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     from_service_id = db.Column(db.Integer, db.ForeignKey("service.id"))
-    to_service_id =  db.Column(db.Integer, db.ForeignKey("service.id"))
+    to_service_id = db.Column(db.Integer, db.ForeignKey("service.id"))
 
 
 class ServiceReferralEmail(BasicTable, db.Model):

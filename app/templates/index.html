@@ -6,10 +6,7 @@
   <div class="container">
     <div class="block_4 filter_actions">
       <h4 class="filter_title"><i class="fa fa-home"></i> <strong>{{ user.service.name }}</strong></h4>
-<!--       <button data-list="0" class="filter filter_active">
-        <i class="fa fa-home"></i> All patients at <strong>{{ user.service.name }}</strong> <span class="filter-count">({{ all_patients | length }})</span>
-      </button> 
- -->
+
       <button data-list="1" class="filter filter_sub filter_active">
         Outgoing referrals <span class="filter-count">({{ org_referrals_outgoing.count() }})
         </span>
@@ -36,16 +33,6 @@
     </div>
     <div class="block_8 box filter_lists">
       <div class="box_content">
-        <!-- <ol id="list-0" class="list list_table list_filter list_alternate list_filter_active list_padding">
-        {% for patient in all_patients %}
-          <li class="list_row row"><a href="{{ url_for('screener.patient_overview', id=patient.id) }}">
-            <div class="block_4"><strong>{{ patient.first_name }} {{ patient.last_name }} DOB: {{ patient.dob.strftime('%m/%d/%Y') }}</strong></div>
-            <div class="block_8">
-              <span>Created by {{ patient.created_by.full_name }} at {{ patient.created_by.service.name }} on {{ patient.created.strftime('%m/%d/%Y') }}</span>
-            </div>
-          </a></li>
-        {% endfor %}
-        </ol>  -->
         
         <ol id="list-1" class="list list_table list_filter list_alternate list_padding list_filter_active">
         {% for patient in org_referrals_outgoing %}
@@ -54,7 +41,7 @@
             <div class="block_8">
               {% for referral in patient_dict[patient.id].referrals %}
                 {% if (referral.from_app_user.service_id == current_user.service_id) and (referral.status == 'SENT' or (referral.last_modified or referral.created) > one_month_ago) %}
-                  <span>{{ referral.status }} to {{ referral.to_service.name }} last updated {% if referral.last_modified %}{{ referral.last_modified.strftime('%m/%d/%Y %-I:%M:%S %p') }} {% else %}{{ referral.created.strftime('%m/%d/%Y') }}{% endif %}</span>
+                  <span>{{ referral.status }} to {{ referral.to_service.name }} last updated {% if referral.last_modified %}{{ referral.last_modified.strftime('%m/%d/%Y %-I:%M %p') }} {% else %}{{ referral.created.strftime('%m/%d/%Y %-I:%M %p') }}{% endif %}</span>
                 {% endif %}
               {% endfor %}
             </div>
@@ -69,7 +56,7 @@
             <div class="block_8">
               {% for referral in patient_dict[patient.id].referrals %}
                 {% if (referral.to_service_id == current_user.service_id) and (referral.status == 'SENT' or (referral.last_modified or referral.created) > one_month_ago) %}
-                  <span>{{ referral.status }} from {{ referral.from_app_user.service.name }} last updated {% if referral.last_modified %}{{ referral.last_modified.strftime('%m/%d/%Y %-I:%M:%S %p') }} {% else %}{{ referral.created.strftime('%m/%d/%Y') }}{% endif %}</span>
+                  <span>{{ referral.status }} from {{ referral.from_app_user.service.name }} last updated {% if referral.last_modified %}{{ referral.last_modified.strftime('%m/%d/%Y %-I:%M %p') }} {% else %}{{ referral.created.strftime('%m/%d/%Y %-I:%M %p') }}{% endif %}</span>
                 {% endif %}
               {% endfor %}
             </div>
@@ -82,7 +69,7 @@
           <li class="list_row row"><a href="{{ url_for('screener.patient_overview', id=patient.id) }}">
             <div class="block_4"><strong>{{ patient.first_name }} {{ patient.last_name }} DOB: {{ patient.dob.strftime('%m/%d/%Y') }}</strong></div>
             <div class="block_8">
-              <span>Last updated {{ patient.referral_last_modified.strftime('%m/%d/%Y %-I:%M:%S %p') }}</span>
+              <span>Last updated {% if referral.last_modified %}{{ referral.last_modified.strftime('%m/%d/%Y %-I:%M %p') }} {% else %}{{ referral.created.strftime('%m/%d/%Y %-I:%M %p') }}{% endif %}</span>
             </div>
           </a></li>
         {% endfor %}
@@ -96,9 +83,9 @@
               <span>
                 Last updated on 
                 {% if patient.last_modified %}
-                  {{ patient.last_modified.strftime('%m/%d/%Y %-I:%M:%S %p') }}
+                  {{ patient.last_modified.strftime('%m/%d/%Y %-I:%M %p') }}
                 {% else %}
-                  {{ patient.created.strftime('%m/%d/%Y %-I:%M:%S %p') }}
+                  {{ patient.created.strftime('%m/%d/%Y %-I:%M %p') }}
                 {% endif %}
               </span>
             </div>
@@ -113,7 +100,7 @@
             <div class="block_8">
               {% for referral in patient_dict[patient.id].referrals %}
                 {% if (referral.from_app_user_id == current_user.id) and (referral.status == 'SENT' or (referral.last_modified or referral.created) > one_month_ago) %}
-                  <span>{{ referral.status }} to {{ referral.to_service.name }} last updated {% if referral.last_modified %}{{ referral.last_modified.strftime('%m/%d/%Y %-I:%M:%S %p') }} {% else %}{{ referral.created.strftime('%m/%d/%Y') }}{% endif %}</span>
+                  <span>{{ referral.status }} to {{ referral.to_service.name }} last updated {% if referral.last_modified %}{{ referral.last_modified.strftime('%m/%d/%Y %-I:%M %p') }} {% else %}{{ referral.created.strftime('%m/%d/%Y %-I:%M %p') }}{% endif %}</span>
                 {% endif %}
               {% endfor %}
             </div>
