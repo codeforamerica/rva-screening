@@ -102,6 +102,7 @@ class TestScreener(BaseTestCase):
             last_name='Richmond',
             dob='1950-12-12',
             ssn='222-22-2222',
+            medical_home="CAHN",
             email='test@test.com',
             has_transport_yn='N',
             gender='M',
@@ -330,14 +331,6 @@ class TestScreener(BaseTestCase):
         response = self.client.get('/new_prescreening')
         self.assert200(response)
         self.assert_template_used('new_prescreening.html')
-
-    def test_patient_print(self):
-        """Test that the print patient page works as expected."""
-        self.login()
-        patient = get_patient()
-        response = self.client.get('/patient_print/{}'.format(patient.id))
-        self.assert200(response)
-        self.assert_template_used('patient_details.html')
 
     def test_patient_history(self):
         """Test that the edit history page works as expected."""
