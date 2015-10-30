@@ -159,3 +159,13 @@ TIME_IN_AREA = [
     ("LESS THAN 6",    _("Less than 6 months")),
     ("GREATER THAN 6", _("More than 6 months")),
 ]
+
+MEDICAL_HOME_CHOICES = [
+    ("",                   ""),
+    ("CAHN",               "CAHN"),
+    ("CrossOver",          "CrossOver"),
+    ("Daily Planet",       "Daily Planet"),
+    ("Fan Free",           "Fan Free"),
+    ("Goochland",          "Goochland"),
+    ("Planned Parenthood", "Planned Parenthood")
+]

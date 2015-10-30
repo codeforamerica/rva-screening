@@ -59,6 +59,7 @@ class ReferralCommentForm(Form):
         _('Save')
     )
 
+
 class ScreeningResultForm(Form):
     eligible_yn = fields.RadioField(
         _('Is this patient eligible for care at your organization?'),
@@ -98,6 +99,7 @@ class PrescreenForm(Form):
         default="",
     )
 
+
 class SearchPatientForm(Form):
     search_patient_first_name = fields.TextField(
         _('First Name')
@@ -125,7 +127,10 @@ class PhoneNumberForm(NoCsrfForm):
         choices=CONSTANTS.PHONE_DESCRIPTIONS,
         default="",
     )
-    number_description_other = fields.TextField(_('Phone description - Other'), [Optional(), validators.Length(max=64)])
+    number_description_other = fields.TextField(
+        _('Phone description - Other'),
+        [Optional(), validators.Length(max=64)]
+    )
 
 
 class AddressForm(NoCsrfForm):
@@ -143,7 +148,10 @@ class AddressForm(NoCsrfForm):
         choices=CONSTANTS.ADDRESS_DESCRIPTIONS,
         default="",
     )
-    address_description_other = fields.TextField(_('Address description - Other'), [Optional(), validators.Length(max=64)])
+    address_description_other = fields.TextField(
+        _('Address description - Other'),
+        [Optional(), validators.Length(max=64)]
+    )
 
 
 class EmergencyContactForm(NoCsrfForm):
@@ -236,6 +244,11 @@ class PatientForm(Form):
     ssn = fields.TextField(
         _('Social security number'),
         [Optional(), validators.Length(max=11), validate_ssn]
+    )
+    medical_home = fields.SelectField(
+        _("Medical home"),
+        choices=CONSTANTS.MEDICAL_HOME_CHOICES,
+        default="",
     )
 
     # CONTACT
@@ -384,8 +397,6 @@ class PatientForm(Form):
         choices=CONSTANTS.TIME_AT_CURRENT_EMPLOYER,
         default=""
     )
-    
-    
 
     # HEALTHCARE/COVERAGE
     last_healthcare = fields.TextField(

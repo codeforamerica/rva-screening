@@ -2,6 +2,9 @@
 {% block content %}
 
 {% include "patient/header.html" %}
+{% if servicesAll %}
+  {% include "patient/services-map.html" %}
+{% endif %}
 <section class="patientBody">
   <div class="container">
 

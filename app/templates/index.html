@@ -51,7 +51,7 @@
                 {% if (referral.from_app_user.service_id == current_user.service_id) and (referral.status == 'SENT' or (referral.last_modified or referral.created) > one_month_ago) %}
                   <div class="block_9">
                     {{ referral.to_service.name }}<br>
-                    <span class="patient_dob">{% if referral.last_modified %}{{ referral.last_modified.strftime('%m/%d/%Y %-I:%M:%S %p') }} {% else %}{{ referral.created.strftime('%m/%d/%Y') }}{% endif %}</span>
+                    <span class="patient_dob">{% if referral.last_modified %}{{ referral.last_modified.strftime('%m/%d/%Y %-I:%M %p') }} {% else %}{{ referral.created.strftime('%m/%d/%Y %-I:%M %p') }}{% endif %}</span>
                   </div>
 
                   <div class="block_3 text-align-right">
@@ -82,7 +82,7 @@
                 {% if (referral.to_service_id == current_user.service_id) and (referral.status == 'SENT' or (referral.last_modified or referral.created) > one_month_ago) %}
                   <div class="block_9">
                     {{ referral.from_app_user.service.name }}<br>
-                    <span class="patient_dob">{% if referral.last_modified %}{{ referral.last_modified.strftime('%m/%d/%Y %-I:%M:%S %p') }} {% else %}{{ referral.created.strftime('%m/%d/%Y') }}{% endif %}</span>
+                    <span class="patient_dob">{% if referral.last_modified %}{{ referral.last_modified.strftime('%m/%d/%Y %-I:%M %p') }} {% else %}{{ referral.created.strftime('%m/%d/%Y %-I:%M %p') }}{% endif %}</span>
                   </div>
 
                   <div class="block_3 text-align-right">
@@ -101,7 +101,7 @@
             <div class="block_3"><strong>{{ patient.first_name }} {{ patient.last_name }}</strong><br><span class="patient_dob">{{ patient.dob.strftime('%m/%d/%Y') }}</span></div>
             
             <div class="block_8">
-              <span>Last updated {{ patient.referral_last_modified.strftime('%m/%d/%Y %-I:%M:%S %p') }}</span>
+              <span>Last updated {% if referral.last_modified %}{{ referral.last_modified.strftime('%m/%d/%Y %-I:%M %p') }} {% else %}{{ referral.created.strftime('%m/%d/%Y %-I:%M %p') }}{% endif %}</span>
             </div>
           </a></li>
         {% endfor %}
@@ -118,9 +118,9 @@
 
             <div class="block_8 text-align-right">
               {% if patient.last_modified %}
-                {{ patient.last_modified.strftime('%m/%d/%Y %-I:%M:%S %p') }}
+                {{ patient.last_modified.strftime('%m/%d/%Y %-I:%M %p') }}
               {% else %}
-                {{ patient.created.strftime('%m/%d/%Y %-I:%M:%S %p') }}
+                {{ patient.created.strftime('%m/%d/%Y %-I:%M %p') }}
               {% endif %}
             </div>
           </a></li>
@@ -143,7 +143,7 @@
               {% for referral in patient_dict[patient.id].referrals %}
                 {% if (referral.from_app_user_id == current_user.id) and (referral.status == 'SENT' or (referral.last_modified or referral.created) > one_month_ago) %}
                   <div class="block_9">{{ referral.to_service.name }}<br>
-                  <span class="patient_dob">{% if referral.last_modified %}{{ referral.last_modified.strftime('%m/%d/%Y %-I:%M:%S %p') }} {% else %}{{ referral.created.strftime('%m/%d/%Y') }}{% endif %}</span></div>
+                  <span class="patient_dob">{% if referral.last_modified %}{{ referral.last_modified.strftime('%m/%d/%Y %-I:%M %p') }} {% else %}{{ referral.created.strftime('%m/%d/%Y %-I:%M %p') }}{% endif %}</span></div>
 
                   <div class="block_3 text-align-right">
                     <span class="referral_status referral_{{ referral.status | lower }}">{{ referral.status }}</span>

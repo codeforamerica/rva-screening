@@ -5,7 +5,6 @@ import io
 from itertools import chain
 from sqlalchemy import and_, or_, func, desc
 from sqlalchemy.sql import text
-from werkzeug.datastructures import FileStorage
 from PIL import Image
 from cStringIO import StringIO
 from xhtml2pdf import pisa
@@ -28,7 +27,13 @@ from flask.ext.security import login_required, roles_accepted
 from flask.ext.security.forms import LoginForm
 
 from app import db, login_manager
-from app.forms import PatientForm, PrescreenForm, ScreeningResultForm, SearchPatientForm, ReferralCommentForm
+from app.forms import (
+    PatientForm,
+    PrescreenForm,
+    ScreeningResultForm,
+    SearchPatientForm,
+    ReferralCommentForm
+)
 from app.models import (
     AppUser,
     Patient,
@@ -134,12 +139,6 @@ def ping():
     return jsonify()
 
 
-@login_manager.user_loader
-def load_user(email):
-    """Look up the user by email address."""
-    return AppUser.query.filter(AppUser.email == email).first()
-
-
 @screener.route('/new_patient', methods=['POST', 'GET'])
 @login_required
 def new_patient():
@@ -170,7 +169,12 @@ def new_patient():
         # Delete empty rows at end of many-to-one tables
         remove_blank_rows(form)
 
-        return render_template('patient_details.html', patient={}, form=form, index_search=index_search)
+        return render_template(
+            'patient_details.html',
+            patient={},
+            form=form,
+            index_search=index_search
+        )
 
 
 @screener.route('/patient_overview/<id>', methods=['POST', 'GET'])
@@ -225,7 +229,8 @@ def patient_overview(id):
 
         db.session.commit()
 
-    past_results = [r for r in patient.screening_results if r.service_id == current_user.service_id]
+    past_results = [r for r in patient.screening_results
+                    if r.service_id == current_user.service_id]
     new_form = ScreeningResultForm(formdata=None)
     new_form.sliding_scale_id.choices = [("", "N/A")] + [
         (str(option.id), option.scale_name) for option in sliding_scale_options
@@ -391,15 +396,6 @@ def document_image(image_id):
     return render_template('documentimage.html', image_id=image_id)
 
 
-@screener.route('/export_document_image/<image_id>')
-@login_required
-def export_document_image(image_id):
-    """Display an uploaded document image."""
-    _image = DocumentImage.query.get_or_404(image_id)
-    check_patient_permission(_image.patient.id)
-    return render_template('export_document_image.html', image_id=image_id)
-
-
 @screener.route('/documentimages/<image_id>/<thumbnail>')
 @login_required
 def get_image(image_id, thumbnail):
@@ -464,16 +460,6 @@ def prescreening_results():
         has_health_insurance=session['has_health_insurance'],
         is_eligible_for_medicaid=session['is_eligible_for_medicaid']
     )
-
-
-@screener.route('/patient_print/<patient_id>')
-@login_required
-def patient_print(patient_id):
-    """Format the patient details page for printing."""
-    check_patient_permission(patient_id)
-    patient = Patient.query.get(patient_id)
-    form = PatientForm(obj=patient)
-    return render_template('patient_details.html', patient=patient, form=form)
 
 
 @screener.route('/patient_history/<patient_id>')
@@ -593,6 +579,7 @@ def patient_share(patient_id):
         'patient_share.html',
         patient=patient,
         current_user=current_user,
+        servicesAll=Service.query.all(),
         services=calculate_pre_screen_results(
             fpl=patient.fpl_percentage,
             has_health_insurance=patient.insurance_status,
@@ -695,7 +682,7 @@ def index():
         Patient.dob,
         func.max(func.coalesce(PatientReferral.last_modified, PatientReferral.created)).label(
             "referral_last_modified"
-        ) 
+        )
     ).join(Patient.referrals).filter(
         and_(
             or_(
@@ -730,7 +717,7 @@ def index():
         Patient.dob,
         func.max(func.coalesce(PatientReferral.last_modified, PatientReferral.created)).label(
             "referral_last_modified"
-        )       
+        )
     ).join(Patient.referrals).filter(
         and_(
             or_(
@@ -842,12 +829,14 @@ def index():
         desc(func.max(func.coalesce(PatientReferral.last_modified, PatientReferral.created)))
     )
 
-    # Queries to maybe add later:
-    # Your starred patients
-    # Applications that are inactive/patient not responding
-
     patient_ids = []
-    for patient_list in [org_referrals_outgoing, org_referrals_incoming, org_need_renewal, your_recently_updated, your_referrals_outgoing]:
+    for patient_list in [
+        org_referrals_outgoing,
+        org_referrals_incoming,
+        org_need_renewal,
+        your_recently_updated,
+        your_referrals_outgoing
+    ]:
         patient_ids += [patient.id for patient in patient_list]
 
     patients = Patient.query.filter(Patient.id.in_(patient_ids))

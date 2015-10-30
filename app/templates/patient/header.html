@@ -37,17 +37,16 @@
 
         <div class="row patientProfile-block">
 
-          <!-- ZIPSCREEN ID -->
+          <!-- QUICKSCREEN ID -->
           <div class="block_3 patientProfile-infoblock">
-            <span class="patient-descriptor">Zipscreen ID</span>
-            <!-- how do we want to manage production IDs? Single digits seems a bit odd -->
-            <span class="patient-info patient-info-small">2015-0{{ patient.id }}</span>
+            <span class="patient-descriptor">Quickscreen ID</span>
+            <span class="patient-info patient-info-small">{{ '{0:05d}'.format(patient.id) }}</span>
           </div>
 
           <!-- MEDICAL HOME -->
           <div class="block_3 patientProfile-infoblock">
             <span class="patient-descriptor">Medical Home</span>
-            <span class="patient-info patient-info-small">Daily Planet</span>
+            <span class="patient-info patient-info-small">{{ patient.medical_home or ""}}</span>
           </div>
 
           <!-- LAST EDIT -->
