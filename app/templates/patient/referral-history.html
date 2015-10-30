@@ -26,8 +26,6 @@
           <p class="referral_comment"><strong>Username ({{ comment.created.strftime('%m/%d/%Y') }})</strong>: {{ comment.notes }}</p>
         {% endfor %}
 
-        {{ referral.screening_result.id }}
-
         {% if referral.screening_result.eligible_yn %}
         <p class="referral_comment referall_result_{{ referral.screening_result.eligible_yn }}">{{ referral.screening_result.eligible_yn }}</p>
         {% endif %}
