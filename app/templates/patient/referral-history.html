@@ -3,7 +3,7 @@
   <div class="box_title">{{ _("Referrals")}}</div>
   <div class="box_content">
   {% for referral in patient.referrals | reverse %}
-    <div class="referral">
+    <div class="referral referral_{{ referral.screening_result.eligible_yn }}">
 
       <div class="row">
         <div class="block_4">
@@ -22,12 +22,20 @@
 
       <div class="referral_comments">
         <p class="referral_comment">Opened by <strong><a href="{{ url_for('screener.user', user_id=referral.from_app_user.id) }}">{{ referral.from_app_user.full_name }}</a></strong>{% if referral.notes %}: {{ referral.notes or "" }}{% else %}: No notes provided{% endif %}</p>
+        
         {% for comment in referral.comments %}
-          <p class="referral_comment"><strong>Username ({{ comment.created.strftime('%m/%d/%Y') }})</strong>: {{ comment.notes }}</p>
+          <p class="referral_comment"><strong><a href="{{ url_for('screener.user', user_id=comment.created_by.id) }}">{{ comment.created_by.full_name }} ({{ comment.created.strftime('%m/%d/%Y') }})</a></strong>: {{ comment.notes }}</p>
         {% endfor %}
 
-        {% if referral.screening_result.eligible_yn %}
-        <p class="referral_comment referall_result_{{ referral.screening_result.eligible_yn }}">{{ referral.screening_result.eligible_yn }}</p>
+        {% if referral.screening_result[0] %}
+        <p class="referral_comment referral_result_{{ referral.screening_result[0].eligible_yn | lower }}">
+          <span>{% if referral.screening_result[0].eligible_yn == 'Y' %}
+          <i class="fa fa-check"></i> marked as eligible (sliding scale <strong>{{ referral.screening_result[0].sliding_scale.scale_name or 'n/a'}}</strong>)</span>
+          {% endif %}
+          {% if referral.screening_result[0].eligible_yn == 'N' %}
+          <span><i class="fa fa-times"></i> marked as ineligible</span>
+          {% endif %}
+        </p>
         {% endif %}
       </div>
       

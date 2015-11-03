@@ -11,7 +11,16 @@
   }
   font-weight: 400;
 }
-.referral_status {}
+.referral_result_y span,
+.referral_result_n span {
+  padding: 3px;
+}
+.referral_result_y span {
+  background: $green;
+}
+.referral_result_n span {
+  background: $red;
+}
 .referral_form {
   padding: 0.5em;
   font-size: 1em;
@@ -32,6 +41,9 @@
     left: 0;
     border-top: 1px solid #e5e5e5;
     width: 10px;
+  }
+  a {
+    text-decoration: none;
   }
 }
 
