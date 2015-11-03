@@ -465,10 +465,12 @@ class TestScreener(BaseTestCase):
             data=dict(
                 eligible_yn='Y',
                 sliding_scale_id=user.service.sliding_scales[0].id,
-                notes='Test'
+                notes='Test',
+                referral_id
             ),
             follow_redirects=True
         )
+
         self.assert200(response)
         # User should stay on the same page after saving
         self.assert_template_used('patient_overview.html')

@@ -252,13 +252,19 @@ def patient_overview(id):
             commented_user=current_user
         )
 
+    has_open_referral = bool(   
+        [r for r in patient.referrals 
+         if r.status == 'SENT' and r.to_service_id == current_user.service.id]
+    )
+
     return render_template(
         'patient_overview.html',
         patient=patient,
         form=new_form,
         service=prescreen_results[0],
         past_results=past_results,
-        referral_form=referral_form
+        referral_form=referral_form,
+        has_open_referral=has_open_referral
     )
 
 

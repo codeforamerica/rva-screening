@@ -43,69 +43,75 @@
       {% if referral.status != 'COMPLETED' %}
 
         {% if current_user.id == referral.from_app_user.service.id %}
-        <form method="post">
-          {{ referral_form.hidden_tag() }}
+          <form method="post">
+            {{ referral_form.hidden_tag() }}
 
-          {% if referral_form.errors %}
-            <ul class="alert_list alert_error">
-              {% for field_name, field_errors in referral_form.errors|dictsort if field_errors %}
-                {% for error in field_errors %}
-                  <li>{{ referral_form[field_name].label }}: {{ error }}</li>
+            {% if referral_form.errors %}
+              <ul class="alert_list alert_error">
+                {% for field_name, field_errors in referral_form.errors|dictsort if field_errors %}
+                  {% for error in field_errors %}
+                    <li>{{ referral_form[field_name].label }}: {{ error }}</li>
+                  {% endfor %}
                 {% endfor %}
-              {% endfor %}
-            </ul>
-          {% endif %}
-          {{ referral_form.notes(placeholder="Add more information, or say what else is needed for a referral to be completed ...", class="referral_form") }}
-          {{ referral_form.referral_id(type="hidden", value=referral.id) }}
-          {{ referral_form.submit(class="button button_blue pull-right", value="Comment") }}
-
-          {% if current_user.service.id == referral.to_service.id %}
-          <button class="button button_green pull-right">Eligible</button>
-          <button class="button button_red pull-right">Ineligible</button>
-          {% endif %}
-        </form>
+              </ul>
+            {% endif %}
+            {{ referral_form.notes(placeholder="Add more information, or say what else is needed for a referral to be completed ...", class="referral_form") }}
+            {{ referral_form.referral_id(type="hidden", value=referral.id) }}
+            {{ referral_form.submit(class="button button_blue pull-right", value="Comment") }}
+          </form>
         {% endif %}
 
+
         {% if current_user.id == referral.to_service.id %}
-        <form method="post">
-          {{ form.hidden_tag() }}
+          <form method="post">
+            {{ form.hidden_tag() }}
 
-          {% if form.errors %}
-            <ul class="alert_list alert_error">
-              {% for field_name, field_errors in form.errors|dictsort if field_errors %}
-                {% for error in field_errors %}
-                  <li>{{ form[field_name].label }}: {{ error }}</li>
+            {% if form.errors %}
+              <ul class="alert_list alert_error">
+                {% for field_name, field_errors in form.errors|dictsort if field_errors %}
+                  {% for error in field_errors %}
+                    <li>{{ form[field_name].label }}: {{ error }}</li>
+                  {% endfor %}
                 {% endfor %}
-              {% endfor %}
-            </ul>
-          {% endif %}
+              </ul>
+            {% endif %}
 
-          <div class="form_row">
-            <div class="field_third">
+            <div class="form_row">
+              <div class="field_third">
+                
+                <p>
+                  <strong>Is {{ patient.first_name }} {{ patient.last_name }} eligible for services at {{ current_user.service.name }}?</strong>
+                  <br>
+                  Estimate: 
+                  {% if service.eligible %}
+                    <strong>likely eligible</strong>{% if service.sliding_scale and service.sliding_scale != 'All' %} at sliding scale section {{ service.sliding_scale }}{% endif %}
+                  {% else %}
+                    <strong>likely not eligible</strong>
+                  {% endif %}
+
+                  <br>
+                </p>              
               
-              <p><strong>Is {{ patient.first_name }} {{ patient.last_name }} eligible for services at {{ current_user.service.name }}?</strong></p>
-              
-            
+              </div>
+
             </div>
 
-          </div>
+            <div class="form_row">
+              {{ form.notes(placeholder="You can comment or mark them as eligible/ineligible ...", class="referral_form") }}
+            </div>
 
-          <div class="form_row">
-            {{ form.notes(placeholder="You can comment or mark them as eligible/ineligible ...", class="referral_form") }}
-          </div>
+            <div class="form_row">
 
-          <div class="form_row">
+              {{ render_field(form.sliding_scale_id, class='field_third') }}
+              {{ render_check(form.eligible_yn, class="field_third field_pad_left") }}
+              {{ referral_form.referral_id(type="hidden", value=referral.id) }}
+              {{ form.submit(class="field_third button button_blue pull-right", value="Submit") }}
 
-            {{ render_field(form.sliding_scale_id, class='field_third') }}
-            {{ render_check(form.eligible_yn, class="field_third field_pad_left") }}
-            {{ referral_form.referral_id(type="hidden", value=referral.id) }}
-            {{ form.submit(class="field_third button button_blue pull-right", value="Submit") }}
-
-            <!-- <button type="submit" class="button button_red">
-              {{ _("Patient is not eligible for services") }}
-            </button> -->
-          </div>
-        </form>
+              <!-- <button type="submit" class="button button_red">
+                {{ _("Patient is not eligible for services") }}
+              </button> -->
+            </div>
+          </form>
         {% endif %}
 
 
