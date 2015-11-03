@@ -356,7 +356,8 @@ class TestScreener(BaseTestCase):
         response = self.client.post('/add_referral', data=dict(
             patient_id=patient.id,
             app_user_id=user.id,
-            service_id='1'
+            service_id='1',
+            notes='this is a note'
         ), follow_redirects=True)
         self.assert200(response)
         referral = Patient.query.first().referrals[0]
