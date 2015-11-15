@@ -1,3 +1,24 @@
+/* * * * * * * * 
+**
+** Forms
+**
+** * * * * * * */
+$field-border-color: $med-gray;
+
+// field_label
+$field_label_color: $text;
+
+// flags
+$field_flag_color: $dark-gray;
+%dropdown_reset {
+  -webkit-appearance: none;
+  -webkit-border-radius: 0px;
+  background-image: url(/img/dropdown_arrows.png);
+  background-position: 99% 50%;
+  background-size: 20px;
+  background-repeat: no-repeat;
+}
+
 .form {}
 
 // temporary since we are still using some bootstrap
@@ -8,7 +29,7 @@ textarea {
   display: block;
   width: 100%;
   min-height: 80px;
-  border: 1px solid $color-gray;
+  border: 1px solid $dark-gray;
 }
 
 @mixin fs_icon($content: " ") {
@@ -182,7 +203,7 @@ form li {
 .form_multiform {
   @include clearfix();
   position: relative;
-  border-top: 1px solid #e5e5e5;
+  border-top: 1px solid $gray;
   padding: 0.5em 0.5em 0.5em 2em;
   text-align: left;
   font-size: 1em;
@@ -291,7 +312,7 @@ form li {
     .multiform_item {      
       &.multiform_item_description {
         font-size: 0.9em;
-        color: $color-darkgray;
+        color: $dark-gray;
       }
     }
   }
@@ -306,7 +327,7 @@ form li {
       width: 23px;
       padding: 0.4em;
       background: transparent;
-      border: 1px solid $color-white;
+      border: 1px solid $white;
       border-radius: 50%;
       font-size: 12px;
     }
