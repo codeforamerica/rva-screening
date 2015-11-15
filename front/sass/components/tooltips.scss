@@ -1,3 +1,28 @@
+/* * * * * * * * 
+**
+** Tooltips
+**
+** * * * * * * */
+$tooltip-background-color: rgba(0, 0, 0, 0.8);
+$tooltip-border-radius: 2px;
+$tooltip-font-size: 12px;
+$tooltip-text-color: $light-gray;
+$tooltip-padding: ($tooltip-font-size - 5px) ($tooltip-font-size - 2px);
+$tooltip-z-index: 10;
+
+$tooltip-arrow-size: $tooltip-font-size / 2;
+$tooltip-arrow-color: $tooltip-background-color;
+$tooltip-arrow: $tooltip-arrow-size solid $tooltip-arrow-color;
+$tooltip-arrow-trans: $tooltip-arrow-size solid transparent;
+
+$tooltip-lr-horizontal: 105%;
+$tooltip-lr-margin-box: -15px;
+$tooltip-lr-margin-arrow: -6px;
+$tooltip-lr-vertical: 50%;
+$tooltip-tb-zero: 0;
+$tooltip-tb-margin-arrow: -11px;
+$tooltip-tb-margin-box: -40px;
+
 .tooltip {
   position: relative;
 

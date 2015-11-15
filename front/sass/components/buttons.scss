@@ -1,4 +1,4 @@
-@mixin button($bg-color: $color-lightgray, $text-color: $color-black, $padding: 0.5em) {
+@mixin button($bg-color: $med-gray, $text-color: $text, $padding: 0.5em) {
   @include button_color($bg-color, $text-color);
   padding: $padding;
   border-radius: 4px;
@@ -11,7 +11,7 @@
   text-decoration: none;
 }
 
-@mixin button_color($color, $text: $color-white) {
+@mixin button_color($color, $text: $white) {
   color: $text;
   background: $color;
   &:hover {
@@ -75,21 +75,25 @@
   &.button_error,
   &.button_warning,
   &.button_red {
-    @include button_color($button-color-red);
+    @include button_color($red);
   }
   &.button_black {
-    @include button_color($text);
+    @include button_color($black);
   }
   &.button_new,
   &.button_blue {
-    @include button_color($button-color-blue);
+    @include button_color($blue-action);
   }
   &.button_success,
   &.button_green {
-    @include button_color($button-color-green);
+    @include button_color($green-action);
   }
   &.button_brightgreen {
-    @include button_color($button-color-brightgreen);
+    @include button_color($brightgreen);
+  }
+
+  &.button_yellow {
+    @include button_color($yellow, $black);
   }
 
   &.button_login {
@@ -100,8 +104,8 @@
 
   &.button_shared {
     background: white;
-    border: 1px solid $button-color-green;
-    color: $button-color-green;
+    border: 1px solid $green-action;
+    color: $green-action;
     &:hover {
       cursor: default; // we should probably deactivate the button instead of this
       background: white;

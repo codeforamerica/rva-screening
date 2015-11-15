@@ -5,7 +5,7 @@
   p {
     color: $text;
     .fa {
-      color: $color-gray;
+      color: $med-gray;
       margin-right: 5px;
     }
   }
@@ -21,16 +21,16 @@
   .location {
     position: relative;
     padding: 1em 1em 1em 40px;
-    border-bottom: 2px solid $color-white;
-    background-color: $color-lightgray;
+    border-bottom: 2px solid $white;
+    background-color: $light-gray;
     .location_name {}
     .location_address {
       display: block;
       font-size: 0.8em;
-      color: $color-black;
+      color: $black;
     }
     &:hover {
-      background: darken($color-lightgray, 5);
+      background: darken($light-gray, 5);
       cursor: pointer;
     }
     .fa {
@@ -39,7 +39,7 @@
       top: 50%;
       margin-top: -12px;
       font-size: 1.2em;
-      color: $color-gray;
+      color: $med-gray;
     }
   }
 }

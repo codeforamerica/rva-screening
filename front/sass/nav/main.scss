@@ -4,6 +4,11 @@
 ** swipe-enabled sidebar on mobile.
 */
 
+/* * * * * * * * 
+**
+** Main Navigation
+**
+** * * * * * * */
 
 nav {} // DO NOT STYLE :)
 body.menu_open {
@@ -43,17 +48,17 @@ body.menu_open {
   text-align: center;
   border: none;
   font-size: 1.7em;
-  background: $color-fuscia;
+  background: $red;
   @media (min-width: $break) {
     display: none;
   }
   &:before {
     @extend %icon;
-    color: $color-white;
+    color: $white;
     content:"\f142";
   }
   &:focus {
-    background: darken($color-fuscia, 10);
+    background: darken($red, 10);
     outline: none;
   }
 }
@@ -131,7 +136,7 @@ body.menu_open {
   overflow: hidden; // temporary. What do we do with long usernames?
   text-align: right;
   padding: 1em;
-  color: $nav-user-text-color;
+  color: $med-gray;
   a { color: $dark-gray; }
   @media (min-width: $break) {
     display: inline-block;

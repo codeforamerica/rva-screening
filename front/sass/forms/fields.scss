@@ -19,7 +19,7 @@
 .field_helptext {
   display: block;
   font-size: 0.8em;
-  color: $color-gray;
+  color: $med-gray;
   max-width: inherit;
 }
 
@@ -27,7 +27,7 @@
 .field_input {
   width: 100%;
   &:focus {
-    border: solid 1px $color-blue;
+    border: solid 1px $blue-action;
   }
 }
 
@@ -39,21 +39,21 @@
 
 .field_input,
 .field_select {
-  background-color: $color-white;
+  background-color: $white;
   display: block;
   padding: 0 0.5em;
   height: 2em; // i think this is legit?
   border: 1px solid #c0c0c0;
   font-size: 0.9em;
   font-weight: 100;
-  color: $color-black;
+  color: $black;
   @include bbox;
   width: 100%;
   @media (min-width: $break) {}
   .field_input_large {
     padding: .7em 1em;
     border-radius: 5px;
-    border: 1px solid #e5e5e5;
+    border: 1px solid $gray;
     font-size: 1.23em;
   }
 }
@@ -71,38 +71,11 @@
   }
 }
 
-.field_search_patient_name {
-  width: 100%;
-}
-.field_search_patient_dob,
-.field_search_patient_ssn {
-  width: 50%;
-  .field_label {
-    color: $search_input_optional_color;
-  }
-  .field_input {
-    color: lighten($color-black, 50);
-  }
-}
-
-@media (min-width: $break) {
-
-  // expanded search fields
-  .field_search_patient_name {
-    width: 100 - ($search_input_optional_width * 2);
-  }
-  .field_search_patient_dob,
-  .field_search_patient_ssn {
-    width: $search_input_optional_width;
-  }
-
-}
-
 .q_unique {
   .field_label {
     &:after {
       font-weight: 300;
-      color: $color-darkgray;
+      color: $dark-gray;
     }
   }
   
