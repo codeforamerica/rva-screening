@@ -11,7 +11,7 @@ $alert-line-height: 2em;
 $alert-before-margin-right: 5px;
 $alert-label-font-weight: 700;
 $alert-color-error: $red;
-$alert-color-success: $blue-action;
+$alert-color-success: darken($blue, 15);
 
 @mixin alert($color, $content) {
   border: 1px solid $color;
