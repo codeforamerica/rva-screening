@@ -117,19 +117,11 @@
 
           <div class="form_row">
             <p><strong>Message about {{ patient.first_name }}'s eligibility status.</strong></p>
-            {{ form.notes() }}
+            {{ form.notes(placeholder="Add more information about this patient's screening result ...", class="referral_form") }}
           </div>
 
           <div class="form_row">
-           <!--  <button id="submit" name="submit" type="submit" value="Submit" class="button button_green">
-              {{ _("Submit") }}
-            </button> -->
-
-            {{ form.submit() }}
-
-            <!-- <button type="submit" class="button button_red">
-              {{ _("Patient is not eligible for services") }}
-            </button> -->
+            {{ form.submit(class="button button_blue button_right", value="Submit screening result") }}
           </div>
         </form>
       </div>

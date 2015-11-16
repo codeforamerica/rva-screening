@@ -25,9 +25,7 @@
             <p class="referral_comment"><strong><a href="{{ url_for('screener.user', user_id=result.created_by.id) }}">{{ result.created_by.full_name }} ({{ result.created.strftime('%m/%d/%Y') }})</a></strong>: {{ result.notes or "" }}</p>
           </div>
         {% endif %}
-
       </div>
-
     {% endif %}
   {% endfor %}
 

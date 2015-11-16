@@ -238,7 +238,9 @@ def patient_overview(id):
 
     # if there is no referral id, then this is a screening result being saved
     # that is not associated to a referral
-    if request.form and hasattr(request.form, 'referral_id'):
+
+    if request.form and 'referral_id' in request.form:
+
         referral_form = ReferralCommentForm()
 
         if referral_form.validate_on_submit() and referral_form.notes.data != '':
