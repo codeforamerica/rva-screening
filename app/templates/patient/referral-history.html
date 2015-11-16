@@ -42,7 +42,7 @@
      
       {% if referral.status != 'COMPLETED' %}
 
-        {% if current_user.id == referral.from_app_user.service.id %}
+        {% if current_user.service.id == referral.from_app_user.service.id or current_user.service.id == referral.to_service.id %}
           <form method="post">
             {{ referral_form.hidden_tag() }}
 
@@ -62,8 +62,8 @@
         {% endif %}
 
 
-        {% if current_user.id == referral.to_service.id %}
-          <form method="post">
+        {% if current_user.service.id == referral.to_service.id %}
+          <form method="post" class="eligibility_form">
             {{ form.hidden_tag() }}
 
             {% if form.errors %}
@@ -97,15 +97,11 @@
             </div>
 
             <div class="form_row">
-              {{ form.notes(placeholder="You can comment or mark them as eligible/ineligible ...", class="referral_form") }}
-            </div>
-
-            <div class="form_row">
 
               {{ render_field(form.sliding_scale_id, class='field_third') }}
               {{ render_check(form.eligible_yn, class="field_third field_pad_left") }}
               {{ referral_form.referral_id(type="hidden", value=referral.id) }}
-              {{ form.submit(class="field_third button button_blue pull-right", value="Submit") }}
+              {{ form.submit(class="field_third button button_yellow pull-right", value="Submit") }}
 
               <!-- <button type="submit" class="button button_red">
                 {{ _("Patient is not eligible for services") }}

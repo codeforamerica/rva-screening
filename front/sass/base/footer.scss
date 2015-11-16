@@ -1,13 +1,11 @@
-$footer-background-color: $ui-gray;
-
 .footer {
   padding: 1em;
   margin-top: 2em;
-  background: $footer-background-color;
+  background: $white;
   text-align: center;
   p {
     font-size: 0.8em;
-    color: $ui-gray2;
+    color: $med-gray;
     a {
       color: inherit;
       &:hover {

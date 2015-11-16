@@ -13,14 +13,14 @@
 
 .history_item {
   a {
-    color: $color-black;
+    color: $black;
     &:hover {
       text-decoration: underline;
     }
   }
   .history_date {
     font-size: 0.8em;
-    color: $color-darkgray;
+    color: $dark-gray;
     @media (min-width: $break) {
       text-align: right;
       padding-right: 0.8em;
@@ -30,7 +30,7 @@
     position: relative;
     font-size: 0.9em;
     padding: 0 0.8em 1.5em;
-    border-left: 3px solid $color-lightgray;
+    border-left: 3px solid $light-gray;
     &:before {
       content: " ";
       position: absolute;
@@ -39,8 +39,8 @@
       width: 13px;
       height: 13px;
       border-radius: 50%;
-      border: 3px solid $color-white;
-      background: $color-lightgray;
+      border: 3px solid $white;
+      background: $light-gray;
     }
   }
   .history_title {
@@ -49,7 +49,7 @@
     .fa {
       font-size: .7em;
       margin: auto 0.5em;
-      color: $color-gray;
+      color: $med-gray;
     }
   }
   .history_notes {
@@ -70,22 +70,22 @@
   &.history_form {
     margin-top: 2em;
     padding-top: 1em;
-    border-top: 1px solid $color-lightgray;
+    border-top: 1px solid $light-gray;
   }
 
   // data-specific classnames
   &.results_item_eligible,
   &.history_item_completed {
-    @include history_border($color-green);
+    @include history_border($green-action);
   }
   &.results_item_ineligible {
-    @include history_border($color-gray); 
+    @include history_border($med-gray); 
   }
   &.history_item_received {
-    @include history_border($color-blue);
+    @include history_border($blue);
   }
   &.history_item_sent {
-    @include history_border(lighten($color-blue, 20));
+    @include history_border(lighten($blue-action, 20));
   }
 }
 

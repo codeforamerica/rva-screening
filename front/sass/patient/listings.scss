@@ -82,7 +82,7 @@ $list-padding-large: 1em;
     }
     &.list_row_addnew {
       a {
-        color: $color-gray;  
+        color: $med-gray;  
         .fa {
           color: $ui-success;
         }
@@ -90,7 +90,7 @@ $list-padding-large: 1em;
     }
 
     &:hover {
-      background-color: #e5e5e5;
+      background-color: $gray;
     }
   }
 
@@ -109,7 +109,7 @@ $list-padding-large: 1em;
     .list_row:nth-child(2n) {
       background-color: #f6f6f6;
       &:hover {
-        background-color: #e5e5e5;
+        background-color: $gray;
       }
     }
   }
