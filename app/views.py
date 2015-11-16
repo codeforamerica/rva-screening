@@ -236,21 +236,26 @@ def patient_overview(id):
         (str(option.id), option.scale_name) for option in sliding_scale_options
     ]
 
-    referral_form = ReferralCommentForm()
+    # if there is no referral id, then this is a screening result being saved
+    # that is not associated to a referral
+    if request.form and hasattr(request.form, 'referral_id'):
+        referral_form = ReferralCommentForm()
 
-    if referral_form.validate_on_submit() and referral_form.notes.data != '':
-        referral = PatientReferral.query.get(referral_form.referral_id.data)
-        referral_comment = PatientReferralComment()
-        referral_comment.patient_referral_id = referral_form.referral_id.data
-        referral_comment.notes = referral_form.notes.data
-        db.session.add(referral_comment)
-        db.session.commit()
-        send_referral_comment_email(
-            service=referral.to_service,
-            patient=patient,
-            referral=referral,
-            commented_user=current_user
-        )
+        if referral_form.validate_on_submit() and referral_form.notes.data != '':
+            referral = PatientReferral.query.get(referral_form.referral_id.data)
+            referral_comment = PatientReferralComment()
+            referral_comment.patient_referral_id = referral_form.referral_id.data
+            referral_comment.notes = referral_form.notes.data
+            db.session.add(referral_comment)
+            db.session.commit()
+            send_referral_comment_email(
+                service=referral.to_service,
+                patient=patient,
+                referral=referral,
+                commented_user=current_user
+            )
+    else:
+        referral_form = ReferralCommentForm(formdata=None)
 
     has_open_referral = bool(   
         [r for r in patient.referrals 

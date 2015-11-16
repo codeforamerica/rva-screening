@@ -465,8 +465,7 @@ class TestScreener(BaseTestCase):
             data=dict(
                 eligible_yn='Y',
                 sliding_scale_id=user.service.sliding_scales[0].id,
-                notes='Test',
-                referral_id
+                notes='Test'
             ),
             follow_redirects=True
         )

@@ -1,8 +1,38 @@
 {% from "form_field_macros.html" import render_field, render_multifield, render_check %}
-
 <div class="box referrals box_nopadding">
-  <div class="box_title">{{ _("Referrals")}}</div>
+  <div class="box_title">{{ _("Screening Results & Referrals")}}</div>
   <div class="box_content">
+  
+  {# 
+    showing screening results that aren't associated to referrals first,
+    then we will show referrals and subsequent results
+  #}
+  {% for result in patient.screening_results | reverse %}
+    {% if result.patient_referral_id == None %}
+      <div class="referral referral_adhoc_screening_result referral_{{ result.eligible_yn }}">
+        <div class="row">
+          <div class="block_6">
+            screening result without referral
+            <h2 class="referral_title"><a href="{{ url_for('screener.service', service_id=result.service.id) }}">{{ result.service.name }}</a></h2>
+          </div>
+          <div class="block_6 text-align-right">
+            <span class="referral_status adhoc_{{ result.eligible_yn | lower }} pull-right">{% if result.eligible_yn == 'Y' %} marked as eligible {% else %} marked as ineligible {% endif %}</span><br>
+            <p>submitted on {{ result.created.strftime('%m/%d/%Y') }}</p>
+          </div>
+        </div>
+        {% if result.notes %}
+          <div class="referral_comments">
+            <p class="referral_comment"><strong><a href="{{ url_for('screener.user', user_id=result.created_by.id) }}">{{ result.created_by.full_name }} ({{ result.created.strftime('%m/%d/%Y') }})</a></strong>: {{ result.notes or "" }}</p>
+          </div>
+        {% endif %}
+
+      </div>
+
+    {% endif %}
+  {% endfor %}
+
+
+
   {% for referral in patient.referrals | reverse %}
     <div class="referral referral_{{ referral.screening_result.eligible_yn }}">
 

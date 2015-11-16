@@ -15,10 +15,12 @@
 .referral_result_n span {
   padding: 3px;
 }
-.referral_result_y span {
+.referral_result_y span,
+.adhoc_y {
   background: $green;
 }
-.referral_result_n span {
+.referral_result_n span,
+.adhoc_n {
   background: $red;
 }
 .referral_form {
