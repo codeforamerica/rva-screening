@@ -1,4 +1,5 @@
 {% from "form_field_macros.html" import render_field, render_multifield, render_check %}
+
 <div class="box referrals box_nopadding">
   <div class="box_title">{{ _("Referrals")}}</div>
   <div class="box_content">
@@ -28,20 +29,24 @@
         {% endfor %}
 
         {% if referral.screening_result[0] %}
-        <p class="referral_comment referral_result_{{ referral.screening_result[0].eligible_yn | lower }}">
-          <span>{% if referral.screening_result[0].eligible_yn == 'Y' %}
-          <i class="fa fa-check"></i> marked as eligible (sliding scale <strong>{{ referral.screening_result[0].sliding_scale.scale_name or 'n/a'}}</strong>)</span>
-          {% endif %}
-          {% if referral.screening_result[0].eligible_yn == 'N' %}
-          <span><i class="fa fa-times"></i> marked as ineligible</span>
-          {% endif %}
-        </p>
+          <p class="referral_comment referral_result_{{ referral.screening_result[0].eligible_yn | lower }}">
+            <strong><a href="{{ url_for('screener.user', user_id=referral.screening_result[0].created_by.id) }}">{{ referral.screening_result[0].created_by.full_name }}</a></strong>: 
+            <span>{% if referral.screening_result[0].eligible_yn == 'Y' %}
+            <i class="fa fa-check"></i> marked as eligible (sliding scale <strong>{{ referral.screening_result[0].sliding_scale.scale_name or 'n/a'}}</strong>)</span>
+            {% endif %}
+            {% if referral.screening_result[0].eligible_yn == 'N' %}
+            <span><i class="fa fa-times"></i> marked as ineligible</span>
+            {% endif %}
+          </p>
         {% endif %}
       </div>
       
      
       {% if referral.status != 'COMPLETED' %}
 
+        {# 
+        Render the comment form if the user matches TO/FROM service ID 
+        #}
         {% if current_user.service.id == referral.from_app_user.service.id or current_user.service.id == referral.to_service.id %}
           <form method="post">
             {{ referral_form.hidden_tag() }}
@@ -61,7 +66,9 @@
           </form>
         {% endif %}
 
-
+        {#
+        Render the screening result form user matches TO service ID 
+        #}
         {% if current_user.service.id == referral.to_service.id %}
           <form method="post" class="eligibility_form">
             {{ form.hidden_tag() }}
@@ -103,40 +110,12 @@
               {{ referral_form.referral_id(type="hidden", value=referral.id) }}
               {{ form.submit(class="field_third button button_yellow pull-right", value="Submit") }}
 
-              <!-- <button type="submit" class="button button_red">
-                {{ _("Patient is not eligible for services") }}
-              </button> -->
             </div>
           </form>
         {% endif %}
 
 
       {% endif %}
-    </div>
-  {% endfor %}
-  </div>
-</div>
-
-<div class="history_results box">
-  <div class="box_title">{{ _("Screening Results") }}</div>
-  <div class="box_content">
-  {% for result in patient.screening_results %}
-    <div class="history_item history_screening {{ _('results_item_eligible') if result.eligible_yn == 'Y' else _('results_item_ineligible') }} row">
-      <div class="block_2 history_date">
-        <span>{{ result.created.strftime('%m/%d/%Y') }}</span>
-      </div>
-
-      <div class="block_9 history_content">
-        <h2 class="history_title">
-          <a href="{{ url_for('screener.service', service_id=result.service.id) }}">{{ result.service.name }}</a>
-        </h2>
-        <p><strong>{{ _("Eligible?") }}</strong>: {{ _("Yes") if result.eligible_yn == 'Y' else _("No") }}</p>
-        <p><strong>{{ _("Sliding Scale") }}</strong>: {{ result.sliding_scale.scale_name if result.sliding_scale else _("N/A")}}</p>
-        {% if result.notes %}
-        <p class="history_notes"><strong>{{ _("Notes") }}</strong><br>
-        {{ result.notes or "" }}</p>
-        {% endif %}
-      </div>
     </div>
   {% endfor %}
   </div>

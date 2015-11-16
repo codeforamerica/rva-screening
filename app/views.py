@@ -238,7 +238,7 @@ def patient_overview(id):
 
     referral_form = ReferralCommentForm()
 
-    if referral_form.validate_on_submit():
+    if referral_form.validate_on_submit() and referral_form.notes.data != '':
         referral = PatientReferral.query.get(referral_form.referral_id.data)
         referral_comment = PatientReferralComment()
         referral_comment.patient_referral_id = referral_form.referral_id.data
