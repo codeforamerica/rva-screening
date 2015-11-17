@@ -1,5 +1,5 @@
 .login_outer {
-  background-color: #e5e5e5;
+  background-color: $gray;
 }
 
 .login_container {
@@ -23,7 +23,7 @@
 
 .login_action {
   font-size: 0.9em;
-  color: $ui-new;
+  color: $blue-action;
 }
 
 // login fields

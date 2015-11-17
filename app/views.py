@@ -236,12 +236,42 @@ def patient_overview(id):
         (str(option.id), option.scale_name) for option in sliding_scale_options
     ]
 
+    # if there is no referral id, then this is a screening result being saved
+    # that is not associated to a referral
+
+    if request.form and 'referral_id' in request.form:
+
+        referral_form = ReferralCommentForm()
+
+        if referral_form.validate_on_submit() and referral_form.notes.data != '':
+            referral = PatientReferral.query.get(referral_form.referral_id.data)
+            referral_comment = PatientReferralComment()
+            referral_comment.patient_referral_id = referral_form.referral_id.data
+            referral_comment.notes = referral_form.notes.data
+            db.session.add(referral_comment)
+            db.session.commit()
+            send_referral_comment_email(
+                service=referral.to_service,
+                patient=patient,
+                referral=referral,
+                commented_user=current_user
+            )
+    else:
+        referral_form = ReferralCommentForm(formdata=None)
+
+    has_open_referral = bool(   
+        [r for r in patient.referrals 
+         if r.status == 'SENT' and r.to_service_id == current_user.service.id]
+    )
+
     return render_template(
         'patient_overview.html',
         patient=patient,
         form=new_form,
         service=prescreen_results[0],
-        past_results=past_results
+        past_results=past_results,
+        referral_form=referral_form,
+        has_open_referral=has_open_referral
     )
 
 
@@ -590,6 +620,7 @@ def add_referral():
         patient_id=request.form['patient_id'],
         from_app_user_id=request.form['app_user_id'],
         to_service_id=request.form['service_id'],
+        notes=request.form['notes'],
         status='SENT'
     )
     db.session.add(referral)

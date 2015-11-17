@@ -1,3 +1,9 @@
+/* * * * * * * * 
+**
+** Boxes
+**
+** * * * * * * */
+
 .box {
   margin-bottom: 1em;
   .box_title {
@@ -7,7 +13,7 @@
     font-family: $font-header;
     color: #555;
     background: $med-gray;
-    border: 1px solid #e5e5e5;
+    border: 1px solid $gray;
     border-bottom: none;
     padding: 0.3em 0.8em;
     border-top-left-radius: 2px;
@@ -19,13 +25,13 @@
   .box_content {
     background: white;
     padding: 1em;
-    border: 1px solid #e5e5e5;
+    border: 1px solid $gray;
     border-bottom-left-radius: 2px;
     border-bottom-right-radius: 2px;
   }
   .box_item {
     color: #999;
-    padding: $box-service-padding;
+    padding: 0.3em;
     border-bottom: 1px solid #c0c0c0;
   }
   .box_item_price {
@@ -39,9 +45,14 @@
       padding: 0;
     }
     .box_title {
-      border-bottom: 1px solid #e5e5e5;
+      border-bottom: 1px solid $gray;
       padding-bottom: 0.5em;
       margin-bottom: 0.5em;
+    }
+  }
+  &.box_nopadding {
+    .box_content {
+      padding: 0;
     }
   }
 }

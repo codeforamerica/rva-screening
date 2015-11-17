@@ -1,0 +1,87 @@
+.referrals {}
+.referral {
+  border-bottom: 1px solid #e5e5e5;
+  padding: 1em;
+  @include clearfix;
+}
+.referral_title {
+  margin: 0;
+  a {
+    text-decoration: none;
+  }
+  font-weight: 400;
+}
+.referral_result_y span,
+.referral_result_n span {
+  padding: 3px;
+}
+.referral_result_y span,
+.adhoc_y {
+  background: $green;
+}
+.referral_result_n span,
+.adhoc_n {
+  background: $red;
+}
+.referral_form {
+  padding: 0.5em;
+  font-size: 1em;
+  height: 80px;
+}
+.referral_comments {
+  margin: 0 0 1em;
+}
+.referral_comment {
+  position: relative;
+  border-left: 1px solid #e5e5e5;
+  margin: 0;
+  padding: 0.3em 1em 0.5em;
+  &:before {
+    position: absolute;
+    content: " ";
+    top: 0.9em;
+    left: 0;
+    border-top: 1px solid #e5e5e5;
+    width: 10px;
+  }
+  a {
+    text-decoration: none;
+  }
+}
+
+.loading {
+  -webkit-animation-name: spin;
+  -webkit-animation-duration: 1s;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+  -moz-animation-name: spin;
+  -moz-animation-duration: 1s;
+  -moz-animation-iteration-count: infinite;
+  -moz-animation-timing-function: linear;
+  -ms-animation-name: spin;
+  -ms-animation-duration: 1s;
+  -ms-animation-iteration-count: infinite;
+  -ms-animation-timing-function: linear;
+  -o-transition: rotate(3600deg);
+}
+
+@-moz-keyframes spin {
+    from { -moz-transform: rotate(0deg); }
+    to { -moz-transform: rotate(360deg); }
+}
+@-webkit-keyframes spin {
+    from { -webkit-transform: rotate(0deg); }
+    to { -webkit-transform: rotate(360deg); }
+}
+@keyframes spin {
+    from {transform:rotate(0deg);}
+    to {transform:rotate(360deg);}
+}
+
+.eligibility_form {
+  background: $blue;
+  padding: 1px 1em;
+  margin-top: 1em;
+  float: left;
+  width: 100%;
+}
