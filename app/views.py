@@ -7,6 +7,7 @@ from sqlalchemy import and_, or_, func, desc
 from sqlalchemy.sql import text
 from PIL import Image
 from cStringIO import StringIO
+from wand.image import Image as WandImage
 from xhtml2pdf import pisa
 
 from flask import (
@@ -355,6 +356,12 @@ def update_patient(patient, form, files):
     for index, entry in enumerate(form.document_images):
         if entry.file_name.data and entry.file_name.data.filename:
             # This is a new file
+            if entry.file_name.data.content_type == 'application/pdf':
+                # PIL can't handle PDFs, so use Wand
+                pdf = WandImage(file=entry.file_name.data.stream, resolution=500)
+                pdf.convert('jpg')
+                entry.file_name.data.stream = io.BytesIO(pdf.make_blob('jpeg'))
+
             large_image = Image.open(entry.file_name.data.stream)
             small_image = large_image.copy()
 
