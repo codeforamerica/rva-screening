@@ -1,15 +1,13 @@
-# -*- coding: utf-8 -*-
 import datetime
 import json
 import pytz
-
-from sqlalchemy import and_
-from werkzeug.datastructures import MultiDict, FileStorage
 
 from flask import current_app, session, abort, render_template
 from flask.ext.login import login_user, current_user
 from flask.ext.security.utils import verify_password
 from flask_mail import Message
+from sqlalchemy import and_
+from werkzeug.datastructures import MultiDict, FileStorage
 
 from app import db, mail
 from app.models import (
@@ -51,22 +49,6 @@ def translate_object(obj, language_code):
     return obj
 
 
-def login_helper(user_email, password):
-    user = AppUser.query.filter(AppUser.email == user_email).first()
-    if user and verify_password(
-        user.password.encode('utf8'),
-        password
-    ):
-        user.authenticated = True
-        db.session.add(user)
-        db.session.commit()
-        login_user(user)
-        session.permanent = True
-        return True
-    else:
-        return False
-
-
 def get_unsaved_form(request, patient, page_name, form_class):
     """If the patient is logging back in after being automatically logged out
     due to inactivity, check whether there's unsaved form data we should restore.
@@ -104,8 +86,7 @@ def check_patient_permission(patient_id):
 
 
 def days_from_today(field):
-    '''Takes a python date object and returns days from today
-    '''
+    """Take a Python date object and return days from today."""
     if isinstance(field, datetime.date):
         return (
             datetime.date(field.year, field.month, field.day) -
@@ -122,8 +103,7 @@ def days_from_today(field):
 
 
 def format_days_from_today(field):
-    '''Uses days_from_today to build readable "X days ago"
-    '''
+    """Use days_from_today to build readable 'X days ago'."""
     days = days_from_today(field)
     if days == 0:
         return 'Today'

@@ -10,7 +10,7 @@ class Config(object):
     PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
     PERMANENT_SESSION_LIFETIME = timedelta(minutes=15)
 
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL', 'postgres://@localhost/screener')
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL', 'postgres://@localhost/rva-screener')
 
     UPLOAD_FOLDER = 'var/uploads/documentimages'
     MAX_CONTENT_LENGTH = 16 * 1024 * 1024
@@ -27,22 +27,22 @@ class Config(object):
 
     SECURITY_PASSWORD_HASH = 'bcrypt'
     SECURITY_PASSWORD_SALT = os.environ.get('SECURITY_PASSWORD_SALT')
-    SECURITY_EMAIL_SENDER = 'ZipScreen <richmond@codeforamerica.org>'
+    SECURITY_EMAIL_SENDER = 'Quickscreen <richmond@codeforamerica.org>'
     SECURITY_POST_LOGIN_VIEW = '/'
     SECURITY_POST_LOGOUT_VIEW = '/login'
     SECURITY_UNAUTHORIZED_VIEW = '/403'
     SECURITY_RECOVERABLE = True
     SECURITY_TRACKABLE = True
     SECURITY_CHANGEABLE = True
-    SECURITY_EMAIL_SUBJECT_PASSWORD_RESET = 'ZipScreen password reset instructions'
-    SECURITY_EMAIL_SUBJECT_PASSWORD_NOTICE = 'Your ZipScreen password has been reset'
+    SECURITY_EMAIL_SUBJECT_PASSWORD_RESET = 'Quickscreen password reset instructions'
+    SECURITY_EMAIL_SUBJECT_PASSWORD_NOTICE = 'Your Quickscreen password has been reset'
 
     MAIL_SERVER = os.environ.get('MAIL_SERVER', 'smtp.gmail.com')
     MAIL_PORT = os.environ.get('MAIL_PORT', 465)
     MAIL_USE_SSL = True
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
-    MAIL_DEFAULT_SENDER = 'ZipScreen <richmond@codeforamerica.org>'
+    MAIL_DEFAULT_SENDER = 'Quickscreen <richmond@codeforamerica.org>'
 
     LARGE_DOCUMENT_IMAGE_SIZE = (900, 900)
     SMALL_DOCUMENT_IMAGE_SIZE = (100, 100)

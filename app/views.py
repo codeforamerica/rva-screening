@@ -1,14 +1,10 @@
 import csv
 import datetime
-from dateutil.relativedelta import relativedelta
 import io
 from itertools import chain
-from sqlalchemy import and_, or_, func, desc
-from sqlalchemy.sql import text
-from PIL import Image
 from cStringIO import StringIO
-from xhtml2pdf import pisa
 
+from dateutil.relativedelta import relativedelta
 from flask import (
     abort,
     Blueprint,
@@ -25,6 +21,10 @@ from flask import (
 from flask.ext.login import login_user, current_user
 from flask.ext.security import login_required, roles_accepted
 from flask.ext.security.forms import LoginForm
+from PIL import Image
+from sqlalchemy import and_, or_, func, desc
+from sqlalchemy.sql import text
+from xhtml2pdf import pisa
 
 from app import db, login_manager
 from app.forms import (
@@ -104,13 +104,14 @@ def relogin():
         return redirect(request.form['previous_page'])
     else:
         if hasattr(current_user, 'email'):
-            email = current_user.email
             return render_template(
                 "relogin.html",
-                email=email,
+                email=current_user.email,
                 previous_page=request.referrer,
                 login_user_form=form
             )
+        # If the relogin page gets reloaded, we don't know who the current user is
+        # anymore, so just redirect to the regular login page.
         return redirect(url_for('security.login'))
 
 
@@ -134,7 +135,7 @@ def unsaved_form():
 @screener.route("/ping", methods=["POST"])
 @login_required
 def ping():
-    """User is active on front-end, so don't let session expire."""
+    """User is active on front-end, so reset session expiration timer."""
     session.modified = True
     return jsonify()
 
@@ -156,18 +157,11 @@ def new_patient():
         db.session.commit()
         return redirect(url_for('screener.patient_details', id=patient.id))
     else:
+        # Grab data from the search fields on the home page to prepopulate form
         index_search = {}
-        if 'first_name' in session and session['first_name']:
-            index_search['first_name'] = session['first_name']
-        if 'last_name' in session and session['last_name']:
-            index_search['last_name'] = session['last_name']
-        if 'dob' in session and session['dob']:
-            index_search['dob'] = 'test'
-        if 'ssn' in session and session['ssn']:
-            index_search['ssn'] = session['ssn']
-
-        # Delete empty rows at end of many-to-one tables
-        remove_blank_rows(form)
+        for field in ['first_name', 'last_name', 'dob', 'ssn']:
+            if field in session and session[field]:
+                index_search[field] = session[field]
 
         return render_template(
             'patient_details.html',
@@ -181,7 +175,10 @@ def new_patient():
 @login_required
 @roles_accepted('Staff', 'Admin', 'Superuser')
 def patient_overview(id):
-
+    """The first page staff users see when viewing a patient.
+    Includes an overview of the patient's referrals and screening results,
+    and forms to add referral comments or enter a screening result.
+    """
     check_patient_permission(id)
     patient = Patient.query.get(id)
     patient.update_stats()
@@ -194,6 +191,9 @@ def patient_overview(id):
     )
 
     form = ScreeningResultForm()
+
+    # Get the current organization's sliding scale options to include in the
+    # screening result form
     sliding_scale_options = SlidingScale.query.filter(
         SlidingScale.service_id == current_user.service_id
     )
@@ -374,8 +374,8 @@ def delete(id):
 @login_required
 def document_image(image_id):
     """Display an uploaded document image."""
-    _image = DocumentImage.query.get_or_404(image_id)
-    check_patient_permission(_image.patient.id)
+    image = DocumentImage.query.get_or_404(image_id)
+    check_patient_permission(image.patient.id)
     return render_template('documentimage.html', image_id=image_id)
 
 
@@ -878,7 +878,7 @@ def export_csv(patient_id):
                 fieldnames.append(field.name)
                 data[field.name] = field.data
 
-    filename = 'zipscreen_patient_' + str(patient_id) + '.csv'
+    filename = 'quickscreen_patient_' + str(patient_id) + '.csv'
     csvf = StringIO()
     writer = csv.DictWriter(csvf, fieldnames=fieldnames)
     writer.writeheader()
@@ -899,7 +899,7 @@ def export_pdf(patient_id):
     check_patient_permission(patient_id)
     patient = Patient.query.get(patient_id)
     form = PatientForm(obj=patient)
-    filename = 'zipscreen_patient_' + str(patient_id) + '.pdf'
+    filename = 'quickscreen_patient_' + str(patient_id) + '.pdf'
     html = render_template(
         'pdf_export.html',
         patient=patient,

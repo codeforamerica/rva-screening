@@ -1,3 +1,5 @@
+-- Adapted from https://wiki.postgresql.org/wiki/Audit_trigger_91plus
+
 CREATE EXTENSION IF NOT EXISTS hstore;
  
 CREATE SCHEMA IF NOT EXISTS audit;

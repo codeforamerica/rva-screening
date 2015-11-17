@@ -1,6 +1,6 @@
 import datetime
-from flask.ext.login import current_user
 from flask.ext.babel import gettext as _
+from flask.ext.login import current_user
 from flask.ext.security import UserMixin, RoleMixin
 from sqlalchemy import event
 from sqlalchemy.dialects.postgresql import HSTORE, JSON
@@ -10,6 +10,9 @@ from app import db
 
 
 class BasicTable(object):
+    """Contains created, created_by, last_modified, and last_modified_by columns
+    for use in all tables.
+    """
     created = db.Column(db.DateTime)
     last_modified = db.Column(db.DateTime)
 
@@ -43,6 +46,9 @@ class BasicTable(object):
 
 
 class ActionLog(db.Model):
+    """Represents an insert or update of one table row.
+    See https://wiki.postgresql.org/wiki/Audit_trigger_91plus
+    """
     id = db.Column(db.Integer, primary_key=True)
     transaction_id = db.Column(db.Integer)
     action_timestamp = db.Column(db.DateTime())
@@ -51,11 +57,12 @@ class ActionLog(db.Model):
     app_user_id = db.Column(db.Integer, db.ForeignKey("app_user.id"))
     app_user = relationship("AppUser")
     action = db.Column(db.String(1))
-    row_data = db.Column(HSTORE)
-    changed_fields = db.Column(HSTORE)
+    row_data = db.Column(HSTORE)  # Dictionary of data before action
+    changed_fields = db.Column(HSTORE)  # Dictionary of data after action
 
 
 class RolesUsers(BasicTable, db.Model):
+    """Maps users to their roles."""
     id = db.Column(db.Integer, primary_key=True)
     app_user_id = db.Column(db.Integer, db.ForeignKey('app_user.id'))
     app_user = db.relationship("AppUser", foreign_keys='RolesUsers.app_user_id')
@@ -63,6 +70,9 @@ class RolesUsers(BasicTable, db.Model):
 
 
 class AppUser(BasicTable, UserMixin, db.Model):
+    """Represents a Quickscreen user.
+    Called 'AppUser' to avoid conflicts with Postgres's default 'user' table.
+    """
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(64))
     password = db.Column(db.String(128))
@@ -74,7 +84,6 @@ class AppUser(BasicTable, UserMixin, db.Model):
     last_login_ip = db.Column(db.String(16))
     current_login_ip = db.Column(db.String(16))
     login_count = db.Column(db.Integer)
-    service_id = db.Column(db.Integer, db.ForeignKey("service.id", ondelete='CASCADE'))
     full_name = db.Column(db.String(64))
     phone_number = db.Column(db.String(32))
     roles = db.relationship(
@@ -84,6 +93,8 @@ class AppUser(BasicTable, UserMixin, db.Model):
         secondaryjoin='RolesUsers.role_id==Role.id',
         backref=db.backref('app_users', lazy='dynamic')
     )
+    # Staff users are associated with an organization
+    service_id = db.Column(db.Integer, db.ForeignKey("service.id", ondelete='CASCADE'))
     # Users are linked to patient ids only if their role is 'Patient'
     patient_id = db.Column(db.Integer, db.ForeignKey("patient.id"))
 
@@ -93,9 +104,12 @@ class AppUser(BasicTable, UserMixin, db.Model):
         if role_name:
             self.role = Role.query.filter_by(name=role_name).first()
         else:
+            # If role isn't specified, default to the Patient role since
+            # it's the most restricted
             self.role = Role.query.filter_by(default=True).first()
 
     def can(self, permissions):
+        """Check whether the user has all permissions in a set."""
         return (
             self.role is not None
             and (self.role.permissions & permissions) == permissions
@@ -118,6 +132,7 @@ class AppUser(BasicTable, UserMixin, db.Model):
 
 
 class Role(BasicTable, RoleMixin, db.Model):
+    """Represents a user's role, which determines their permissions."""
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), unique=True)
     description = db.Column(db.String(255))
@@ -141,6 +156,10 @@ class Role(BasicTable, RoleMixin, db.Model):
 
 
 class Patient(BasicTable, db.Model):
+    """Represents a patient in the Quickscreen network.
+    The "info" arguments are used on the edit history page to present the logs in
+    a readable way.
+    """
     id = db.Column(db.Integer, primary_key=True)
     deleted = db.Column(db.DateTime)
     deleted_by_id = db.Column(db.Integer, db.ForeignKey(
@@ -184,8 +203,6 @@ class Patient(BasicTable, db.Model):
         db.String(16),
         info=_('How long have you lived in the Greater Richmond area?')
     )
-    # years_living_in_area = db.Column(db.Integer, info=_('Years living in area'))
-    # months_living_in_area = db.Column(db.Integer, info=_('Months living in area'))
     city_or_county_of_residence = db.Column(
         db.String(64),
         info=_('City or County of Residence')
@@ -250,6 +267,7 @@ class Patient(BasicTable, db.Model):
     total_annual_income = 0
     fpl_percentage = 0
 
+    # Referrals/screening results
     referrals = db.relationship('PatientReferral', backref='patient', lazy='dynamic')
     screening_results = db.relationship(
         'PatientScreeningResult',
@@ -257,6 +275,7 @@ class Patient(BasicTable, db.Model):
         lazy='dynamic'
     )
 
+    # The patient's user account, if she has one
     app_user = db.relationship(
         'AppUser',
         primaryjoin='Patient.id==AppUser.patient_id',
@@ -268,6 +287,9 @@ class Patient(BasicTable, db.Model):
         self.__dict__.update(fields)
 
     def update_stats(self):
+        """Calculate a patient's total annual income and income as a percentage
+        of the Federal Poverty Level.
+        """
         self.total_annual_income = sum(
             source.monthly_amount * 12
             for source in self.income_sources if source.monthly_amount
@@ -278,6 +300,7 @@ class Patient(BasicTable, db.Model):
 
 
 class PhoneNumber(BasicTable, db.Model):
+    """Represents a patient's phone number. A patient can have many phone numbers."""
     id = db.Column(db.Integer, primary_key=True)
     patient_id = db.Column(db.Integer, db.ForeignKey("patient.id"))
     phone_number = db.Column(db.String(32), info=_('Phone number'))
@@ -287,6 +310,7 @@ class PhoneNumber(BasicTable, db.Model):
 
 
 class Address(BasicTable, db.Model):
+    """Represents a patient's address. A patient can have many addresses."""
     id = db.Column(db.Integer, primary_key=True)
     patient_id = db.Column(db.Integer, db.ForeignKey("patient.id"))
     address1 = db.Column(db.String(64), info=_('Address 1'))
@@ -299,6 +323,7 @@ class Address(BasicTable, db.Model):
 
 
 class EmergencyContact(BasicTable, db.Model):
+    """Represents a patient's emergency contact. A patient can have many emergency contacts."""
     id = db.Column(db.Integer, primary_key=True)
     patient_id = db.Column(db.Integer, db.ForeignKey("patient.id"))
     full_name = db.Column(db.String(64), info=_('Full name'))
@@ -307,6 +332,7 @@ class EmergencyContact(BasicTable, db.Model):
 
 
 class HouseholdMember(BasicTable, db.Model):
+    """Represents a member of the patient's household."""
     id = db.Column(db.Integer, primary_key=True)
     patient_id = db.Column(db.Integer, db.ForeignKey("patient.id"))
     full_name = db.Column(db.String(64), info=_('Full name'))
@@ -316,6 +342,7 @@ class HouseholdMember(BasicTable, db.Model):
 
 
 class IncomeSource(BasicTable, db.Model):
+    """Represents one income source for a patient. A patient can have many income sources."""
     id = db.Column(db.Integer, primary_key=True)
     patient_id = db.Column(db.Integer, db.ForeignKey("patient.id"))
     source = db.Column(db.String(64), info=_('Source'))
@@ -323,6 +350,7 @@ class IncomeSource(BasicTable, db.Model):
 
 
 class Employer(BasicTable, db.Model):
+    """Represents a patient's employer. A patient can have many employers."""
     id = db.Column(db.Integer, primary_key=True)
     patient_id = db.Column(db.Integer, db.ForeignKey("patient.id"))
     employer_name = db.Column(db.String(64), info=_('Name'))
@@ -332,6 +360,7 @@ class Employer(BasicTable, db.Model):
 
 
 class DocumentImage(BasicTable, db.Model):
+    """Represents a document (for example, a pay stub) associated with a patient."""
     id = db.Column(db.Integer, primary_key=True)
     patient_id = db.Column(db.Integer, db.ForeignKey("patient.id"))
     file_name = db.Column(db.String(64))
@@ -342,14 +371,17 @@ class DocumentImage(BasicTable, db.Model):
 
 
 class PatientReferral(BasicTable, db.Model):
+    """Represents the referral of a patient from one organization in the Quickscreen
+    network to another.
+    """
     id = db.Column(db.Integer, primary_key=True)
     patient_id = db.Column(db.Integer, db.ForeignKey("patient.id"))
     from_app_user_id = db.Column(db.Integer, db.ForeignKey("app_user.id"))
     from_app_user = db.relationship("AppUser", foreign_keys='PatientReferral.from_app_user_id')
     to_service_id = db.Column(db.Integer, db.ForeignKey("service.id"))
     to_service = db.relationship("Service")
-    status = db.Column(db.String(9), info='Status')
-    notes = db.Column(db.Text, info='Notes')
+    status = db.Column(db.String(9))
+    notes = db.Column(db.Text)
     screening_result = db.relationship(
         'PatientScreeningResult',
         backref='screening_result',
@@ -368,12 +400,14 @@ class PatientReferral(BasicTable, db.Model):
 
 
 class PatientReferralComment(BasicTable, db.Model):
+    """Represents a comment on a referral."""
     id = db.Column(db.Integer, primary_key=True)
     patient_referral_id = db.Column(db.Integer, db.ForeignKey("patient_referral.id"))
-    notes = db.Column(db.Text, info='Notes')
+    notes = db.Column(db.Text)
 
 
 class PatientScreeningResult(BasicTable, db.Model):
+    """Represents a screening result for a patient at one organization."""
     id = db.Column(db.Integer, primary_key=True)
     patient_id = db.Column(db.Integer, db.ForeignKey("patient.id"))
     patient_referral_id = db.Column(db.Integer, db.ForeignKey("patient_referral.id"))
@@ -382,32 +416,34 @@ class PatientScreeningResult(BasicTable, db.Model):
     eligible_yn = db.Column(db.String(1))
     sliding_scale_id = db.Column(db.Integer, db.ForeignKey("sliding_scale.id"))
     sliding_scale = db.relationship("SlidingScale")
-    notes = db.Column(db.Text, info='Notes')
+    notes = db.Column(db.Text)
 
 
 class Service(BasicTable, db.Model):
+    """Represents an organization in the Quickscreen network."""
     id = db.Column(db.Integer, primary_key=True)
+
+    # Description/contact
     name = db.Column(db.String(64))
     description = db.Column(db.Text)
     logo_url = db.Column(db.String(128))
     website_url = db.Column(db.String(128))
     main_contact_name = db.Column(db.String(64))
     main_contact_phone = db.Column(db.String(32))
+    locations = db.relationship('ServiceLocation', backref='service', lazy='dynamic')
+    translations = db.relationship('ServiceTranslation', backref='service', lazy='dynamic')
+
+    # Eligibility criteria
     has_screening_yn = db.Column(db.String(1))
     fpl_cutoff = db.Column(db.Integer)
     uninsured_only_yn = db.Column(db.String(1))
     medicaid_ineligible_only_yn = db.Column(db.String(1))
     residence_requirement_yn = db.Column(db.String(1))
     time_in_area_requirement_yn = db.Column(db.String(1))
-    referral_emails = db.relationship('ServiceReferralEmail', backref='service', lazy='dynamic')
     sliding_scales = db.relationship('SlidingScale', backref='service', lazy='dynamic')
-    locations = db.relationship('ServiceLocation', backref='service', lazy='dynamic')
-    users = db.relationship(
-        'AppUser',
-        primaryjoin='Service.id==AppUser.service_id',
-        backref='service'
-    )
-    translations = db.relationship('ServiceTranslation', backref='service', lazy='dynamic')
+
+    # Referrals
+    referral_emails = db.relationship('ServiceReferralEmail', backref='service', lazy='dynamic')
     accepts_referrals_from = db.relationship(
         'Service',
         secondary='referral_permission',
@@ -416,27 +452,16 @@ class Service(BasicTable, db.Model):
         backref='can_send_referrals_to'
     )
 
-
-class ReferralPermission(BasicTable, db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    from_service_id = db.Column(db.Integer, db.ForeignKey("service.id"))
-    to_service_id = db.Column(db.Integer, db.ForeignKey("service.id"))
-
-
-class ServiceReferralEmail(BasicTable, db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    service_id = db.Column(db.Integer, db.ForeignKey("service.id", ondelete="CASCADE"))
-    email = db.Column(db.String(64))
-
-
-class ServiceTranslation(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    service_id = db.Column(db.Integer, db.ForeignKey("service.id", ondelete="CASCADE"))
-    language_code = db.Column(db.String(16))
-    description = db.Column(db.Text)
+    # All users associated with this organization
+    users = db.relationship(
+        'AppUser',
+        primaryjoin='Service.id==AppUser.service_id',
+        backref='service'
+    )
 
 
 class ServiceLocation(BasicTable, db.Model):
+    """Represents one physical location of an organization."""
     id = db.Column(db.Integer, primary_key=True)
     service_id = db.Column(db.Integer, db.ForeignKey("service.id", ondelete="CASCADE"))
     name = db.Column(db.String(64))
@@ -447,7 +472,19 @@ class ServiceLocation(BasicTable, db.Model):
     longitude = db.Column(db.Float)
 
 
+class ServiceTranslation(db.Model):
+    """Represents the translation of an organization's description to another language."""
+    id = db.Column(db.Integer, primary_key=True)
+    service_id = db.Column(db.Integer, db.ForeignKey("service.id", ondelete="CASCADE"))
+    language_code = db.Column(db.String(16))
+    description = db.Column(db.Text)
+
+
 class SlidingScale(BasicTable, db.Model):
+    """Represents a section of an organization's sliding scale.
+    For example, 'Slide C' might be for patients with incomes between
+    150 and 200 percent of the FPL.
+    """
     id = db.Column(db.Integer, primary_key=True)
     service_id = db.Column(db.Integer, db.ForeignKey("service.id", ondelete="CASCADE"))
     scale_name = db.Column(db.String(64))
@@ -461,6 +498,9 @@ class SlidingScale(BasicTable, db.Model):
 
 
 class SlidingScaleFee(BasicTable, db.Model):
+    """Represents a fee for some service at some section of a sliding scale.
+    For example, patients at 'Slide C' might pay $65 for dental visits.
+    """
     id = db.Column(db.Integer, primary_key=True)
     sliding_scale_id = db.Column(
         db.Integer,
@@ -471,7 +511,30 @@ class SlidingScaleFee(BasicTable, db.Model):
     price_percentage = db.Column(db.Integer)
 
 
+class ServiceReferralEmail(BasicTable, db.Model):
+    """Represents an email address that should receive an email when an organization
+    receives a new referral.
+    """
+    id = db.Column(db.Integer, primary_key=True)
+    service_id = db.Column(db.Integer, db.ForeignKey("service.id", ondelete="CASCADE"))
+    email = db.Column(db.String(64))
+
+
+class ReferralPermission(BasicTable, db.Model):
+    """Represents one organization that may refer to another. Not all organizations may
+    refer to all others--for example, Access Now accepts referrals only from a specific
+    set of primary care providers."""
+    id = db.Column(db.Integer, primary_key=True)
+    from_service_id = db.Column(db.Integer, db.ForeignKey("service.id"))
+    to_service_id = db.Column(db.Integer, db.ForeignKey("service.id"))
+
+
 class UnsavedForm(BasicTable, db.Model):
+    """If a user is in the middle of filling out a form when the
+    auto-logout triggers, we temporarily store their unsaved
+    form data here so we can refill their form when they log
+    back in.
+    """
     id = db.Column(db.Integer, primary_key=True)
     app_user_id = db.Column(db.Integer, db.ForeignKey("app_user.id"))
     patient_id = db.Column(db.Integer, db.ForeignKey("patient.id"))
@@ -481,11 +544,17 @@ class UnsavedForm(BasicTable, db.Model):
 
 @event.listens_for(BasicTable, 'before_insert', propagate=True)
 def before_insert(mapper, connection, instance):
+    """Automatically set the created and created_by fields when inserting
+    a new row.
+    """
     instance.created = datetime.datetime.utcnow()
     instance.created_by_id = current_user.id if hasattr(current_user, 'id') else None
 
 
 @event.listens_for(BasicTable, 'before_update', propagate=True)
 def before_update(mapper, connection, instance):
+    """Automatically update the last_modified and last_modified_by fields when
+    updating a table row.
+    """
     instance.last_modified = datetime.datetime.utcnow()
     instance.last_modified_by_id = current_user.id if hasattr(current_user, 'id') else None
