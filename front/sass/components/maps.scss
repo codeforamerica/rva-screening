@@ -12,7 +12,7 @@
   display: block;
   margin-top: -1.5em;
   margin-bottom: 1em;
-  border-bottom: 1px solid #e5e5e5;
+  border-bottom: 1px solid $gray;
   &.expanded {
     height: 700px;
   }

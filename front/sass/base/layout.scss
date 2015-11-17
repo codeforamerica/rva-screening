@@ -1,5 +1,4 @@
 // main container element
-// TODO: specifically set the widths for this one
 .container {
   @include clearfix();
   margin:auto;
@@ -27,42 +26,6 @@
   display: table-cell;
   vertical-align: middle;
 }
-
-// login form
-
-$login-form-max-width: 350px;
-$login-background-image: url("/img/3230755445_0dfa545f2f_o.jpg");
-$login-background-color: rgba(255,255,255,0.6);
-
-.login_form {
-  margin: auto;
-  max-width: $login-form-max-width;
-  .form_field {
-    padding: 0;
-    margin-bottom: 1em;
-  }
-}
-
-.login_form_bkg {
-  background-image: $login-background-image; // Taber Andrew Bain, Flickr - https://flic.kr/p/5Vut36
-  -webkit-background-size: cover; 
-     -moz-background-size: cover; 
-       -o-background-size: cover; 
-          background-size: cover;
-  background-position: center center;
-  .inner {
-    background-color: $login-background-color;
-  }
-}
-
-
-// sections within the page, currently only used
-// for setting a background color to .section_search
-.section {}
-.section_search {}
-.section_patient_listings {}
-.section_patient_details {}
-
 
 // block sections, to be used within .containers
 // all exist on a 12 unit grid and are relative in 
@@ -122,4 +85,8 @@ $login-background-color: rgba(255,255,255,0.6);
   .block_10 { @include width(10); }
   .block_11 { @include width(11); }
   .block_12 { @include width(12); }
+}
+
+.text-align-right {
+  text-align: right;
 }

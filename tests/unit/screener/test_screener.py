@@ -356,7 +356,8 @@ class TestScreener(BaseTestCase):
         response = self.client.post('/add_referral', data=dict(
             patient_id=patient.id,
             app_user_id=user.id,
-            service_id='1'
+            service_id='1',
+            notes='this is a note'
         ), follow_redirects=True)
         self.assert200(response)
         referral = Patient.query.first().referrals[0]
@@ -468,6 +469,7 @@ class TestScreener(BaseTestCase):
             ),
             follow_redirects=True
         )
+
         self.assert200(response)
         # User should stay on the same page after saving
         self.assert_template_used('patient_overview.html')

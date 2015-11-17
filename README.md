@@ -29,21 +29,25 @@ The application is built with Python and [Flask](http://flask.pocoo.org/).
 * Clone the repo: ```git clone https://github.com/codeforamerica/rva-screening```
 * Change into the project directory: ```cd rva-screening```
 * Install Python requirements: ```pip install -r requirements.txt```
-* Install front end requirements: ```npm install```
+* Install front end requirements: ```npm install``` and `npm install gulp -g`
 * Create two databases: 
-```createdb rva-screening
+
+```bash
+createdb rva-screening
 createdb rva-screening-test
 ```
-* Add the HSTORE extension:
-```psql rva-screening -c CREATE EXTENSION hstore;
+
+* Add the HSTORE extension
+
+```bash
+psql rva-screening -c CREATE EXTENSION hstore;
 psql rva-screening-test -c CREATE EXTENSION hstore;
 ```
 
 * Set up the database: ```make new_db```
 * Create mock data, including user accounts: ```make data```
 * Start server: ```make run```
-
-After pulling down new code:
+* After pulling down new code:
 
 ```bash
 pip install -r requirements.txt
@@ -53,10 +57,12 @@ make db_update
 **Testing**
 
 To run the tests, you'll need a new database. By default, the code looks for a database called 'screener_test'. Set the TEST_DATABASE_URL environment variable if you choose a different name.
+
 ```bash
 psql
 create database screener_test
 ```
+
 Run ```make test``` to run all the tests.
 
 ### Contribute

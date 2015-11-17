@@ -9,7 +9,7 @@
 
 .button_add_new_patient {
   width: 100%;
-  background-color: #e5e5e5;
+  background-color: $gray;
   font-size: 1em;
   @include bbox();
 }

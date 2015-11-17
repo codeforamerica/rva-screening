@@ -11,7 +11,7 @@ $filter-count-color: #c0c0c0;
 
 .filter_lists {
   .box_content {
-    min-height: 500px;  
+    min-height: 300px;  
   }
 }
 
@@ -42,7 +42,7 @@ $filter-count-color: #c0c0c0;
     border-left: $filter-active-border;
     border: 1px solid #e5e5e5;
     border-right: none;
-    width: 100.3%;
+    width: 100.4%;
     z-index: 100;
     position: relative;
     background: $white;

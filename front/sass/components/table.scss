@@ -14,7 +14,7 @@
   }
   
   tr {
-    border-bottom: 1px solid #e5e5e5;
+    border-bottom: 1px solid $gray;
     &:nth-child(2n) {
       background: #f6f6f6;
     }

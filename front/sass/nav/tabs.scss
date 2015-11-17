@@ -1,3 +1,27 @@
+/* * * * * * * * 
+**
+** Tabs
+**
+** * * * * * * */
+$tab-container-margin: 2em 0 0.5em;
+$tab-font-size: 0.8em;
+$tab-text-color: $text;
+$tab-padding: 0.7em 1.2em;
+$tab-border: 1px solid $med-gray;
+$tab-active-border: 1px solid $light-gray;
+$tab-background-color: $light-gray;
+$tab-margin: 5px;
+$tab-border-radius: 5px;
+$tab-hover-color: $med-gray;
+
+%tab_meta_border {
+  content: " ";
+  position: absolute;
+  border-bottom: $tab-border;
+  bottom: -1px;
+  width: $tab-margin + 1px;
+}
+
 .nav_tabs {
   margin: $tab-container-margin;
   .tabs {
