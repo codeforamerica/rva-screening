@@ -46,7 +46,7 @@
           <!-- MEDICAL HOME -->
           <div class="block_3 patientProfile-infoblock">
             <span class="patient-descriptor">Medical Home</span>
-            <span class="patient-info patient-info-small">{{ patient.medical_home or ""}}</span>
+            <span class="patient-info patient-info-small">{% if patient.medical_home %}{{ patient.medical_home }}{% else %}<a href="{{ url_for('screener.patient_details', id=patient.id) }}#general">Add medical home</a>{% endif %}</span>
           </div>
 
           <!-- LAST EDIT -->

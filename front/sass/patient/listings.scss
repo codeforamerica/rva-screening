@@ -42,11 +42,6 @@ $list-padding-large: 1em;
       // padding: $list-padding;
       color: black;
     }
-    span {
-      display: block;
-      line-height: 1.5em;
-      font-size: 0.9em;
-    }
     .list_row_item {
       display:block;
       @media (min-width: $break) {
@@ -55,7 +50,10 @@ $list-padding-large: 1em;
       }
     }
 
-    
+    &.list_header {
+      border-bottom: 2px solid #c0c0c0;
+      font-weight: 600;
+    }
 
     &.list_row_new,
     &.list_row_warning,
@@ -84,7 +82,7 @@ $list-padding-large: 1em;
     }
     &.list_row_addnew {
       a {
-        color: $color-gray;  
+        color: $med-gray;  
         .fa {
           color: $ui-success;
         }
@@ -92,7 +90,7 @@ $list-padding-large: 1em;
     }
 
     &:hover {
-      background-color: #e5e5e5;
+      background-color: $gray;
     }
   }
 
@@ -111,7 +109,7 @@ $list-padding-large: 1em;
     .list_row:nth-child(2n) {
       background-color: #f6f6f6;
       &:hover {
-        background-color: #e5e5e5;
+        background-color: $gray;
       }
     }
   }
@@ -125,7 +123,26 @@ $list-padding-large: 1em;
   }
 }
 
-// showing up-to-date statistics
-// not sure where these styles should go presently
-
-
+.referral_status {
+  font-size: 12px;
+  padding: 5px 10px;
+  border-radius: 3px;
+  background: #c0c0c0;
+  display: inline-block;
+  margin: 2px;
+  font-weight: 600;
+  color: #555;
+  &.referral_completed {
+    background-color: $green;
+  }
+  &.referral_sent {
+    background-color: $yellow;
+  }
+  &.referral_review {
+    background-color: $blue;
+  }
+}
+.patient_dob {
+  font-size: 0.8em;
+  color: #999;
+}

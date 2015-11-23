@@ -1,4 +1,15 @@
-@mixin checkbox($bg-color: $color-black, $default: #e5e5e5, $text-color: $color-lightgray) {
+/* * * * * * * * 
+**
+** Checkbox
+**
+** * * * * * * */
+$checkbox-disabled-background: $gray;
+$checkbox-content-width: 250px;
+$checkbox-title-font-size: 1.1em;
+$checkbox-text-font-size: $checkbox-title-font-size - 0.3em;
+$checkbox-padding: 1em;
+
+@mixin checkbox($bg-color: $black, $default: $gray, $text-color: $light-gray) {
   cursor: pointer;
 
   // hidden defaults - THIS IS IMPORTANT!
@@ -63,7 +74,7 @@
       font-size: $checkbox-text-font-size;
       a {
         text-decoration: underline;
-        color: $color-darkgray;
+        color: $dark-gray;
       }
     }
   }
@@ -92,7 +103,7 @@
     }
     .field_checkbox_content_text {
       a {
-        color: $color-white;
+        color: $white;
       }
     }
   }
@@ -154,12 +165,12 @@
 
   // different colors
   &.checkbox_blue {
-    @include checkbox($color-blue);
+    @include checkbox($blue-action);
   }
   &.checkbox_red {
-    @include checkbox($color-fuscia);
+    @include checkbox($red);
   }
   &.checkbox_green {
-    @include checkbox($color-green);
+    @include checkbox($green-action);
   }
 }

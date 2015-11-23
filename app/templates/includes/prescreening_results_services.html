@@ -1,13 +1,13 @@
 {% for service in services %}
   <div class="box {% if service.eligible %}box_eligibile{% else %}box_noteligibile{% endif %}"> 
-    <a href="{{ url_for('screener.service', service_id=service.id) }}"><div class="box_title">
+    <div class="box_title">
       {% if service.eligible %}
         {{ _("Likely eligible for") }} <strong>{{ service.name }}</strong>.
       {% else %}
         {{ _("Likely not eligible for") }} <strong>{{ service.name }}</strong>.
       {% endif %}
-      <span class="box_title_meta float_right">{{ _("View service") }} <i class="fa fa-chevron-right"></i></span>
-    </div></a>
+      <a class="float_right" href="{{ url_for('screener.service', service_id=service.id) }}"><small>{{ _("View service") }}</small></a>
+    </div>
     <div class="box_content row">
       <div class="col-sm-4">
         {% if service.fpl_cutoff %}
@@ -78,41 +78,18 @@
       </div>
 
     {% if referral_buttons %}
-    <div class="box-referral {% if service.id in open_referral_service_ids %}box-referral-active{% endif %} {% if service.eligible %}box-referral-eligible{% endif %}" onclick="{% if service.id in allowed_referral_service_ids and service.id not in open_referral_service_ids %}sharePatientInfo(this, {{ patient.id }}, {{ current_user.id }}, {{ service. id}}){% endif %}">
-
-      {% if patient.referrals %}
-        {% for r in patient.referrals %}
-          {% if r.to_service_id == service.id %}
-            {{ patient.first_name }} was referred to {{ service.name }} on {{ r.created.strftime('%m/%d/%Y') }} by {{ r.created_by.full_name }} at {{ r.created_by.service.name }}<br>
-          {% endif %}
-        {% endfor %}
-      {% endif %}
-
-      {% if patient.screening_results %}
-        {% for r in patient.screening_results %}
-          {% if r.service_id == service.id %}
-
-            {% if r.eligible_yn == "Y" %}
-              {{ patient.first_name }} was marked as <strong>eligible</strong> for services at {{ service.name }} on {{ r.created.strftime('%m/%d/%Y') }}<br>
-            {% else %}
-              {{ patient.first_name }} was marked as <strong>ineligible</strong> for services at {{ service.name }} on {{ r.created.strftime('%m/%d/%Y') }}<br>
-            {% endif %}
-
-          {% endif %}
-        {% endfor %}
-      {% endif %}
-
-      
       {% if service.id in open_referral_service_ids or service.id in allowed_referral_service_ids %}
-        <div class="box-referral-right">
+        <div class="make_a_referral">
           {% if service.id in open_referral_service_ids %}
-          <span>Response is pending</span><i class="fa fa-circle"></i>
+          <p><strong>There is a currently open referral</strong></p>
+          <a class="button button_black" href="{{ url_for('screener.patient_overview', id=patient.id) }}">View open referral</a>
           {% elif service.id in allowed_referral_service_ids %}
-          <span>Refer to {{ service.name }}</span><i class="fa fa-chevron-right"></i>
+          <p><strong>Make a referral</strong></p>
+          <textarea id="referral-notes-{{ service.id }}" class="referral_form" placeholder="Add a comment to your referral"></textarea>
+          <button class="button button_green" onclick="{% if service.id in allowed_referral_service_ids and service.id not in open_referral_service_ids %}sharePatientInfo(this, {{ patient.id }}, {{ current_user.id }}, {{ service.id}}, 'referral-notes-{{ service.id }}' ){% endif %}">Refer to {{ service.name }}</button>
           {% endif %}
         </div>
       {% endif %}
-    </div>
     {% endif %}
     </div><!-- .prescreen-service-info -->
   </div><!-- .prescreen-service -->

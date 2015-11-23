@@ -1,24 +1,5 @@
 /* * * * * * * * 
 **
-** RANDOM
-** These should eventually be sorted, unless we are using them
-** as helpers across the .scss files. If so, please move to the
-** HELPERS section.
-**
-** * * * * * * */
-
-$width-third: 33%;
-$width-twothird: 66%;
-$width-half: 50%;
-
-
-
-// paddings
-$bump-small: 5px;
-
-
-/* * * * * * * * 
-**
 ** Breaks & Media Queries
 **
 ** * * * * * * */
@@ -31,282 +12,54 @@ $break-large: 70em;
 ** Colors
 **
 ** * * * * * * */
-$blue: #d3ebed;
-$yellow: #fff680;
-$green: #c8e9dc;
-$red: #f7aa9e;
-
 $white: #fff;
+$gray: #e5e5e5;
 $light-gray: #f5f5f5;
 $med-gray: #edefed;
 $dark-gray: #999;
 $black: #222;
 
+$blue: #d3ebed;
+$blue-action: #a583bc;
+$yellow: #fff680;
+$green: #c8e9dc;
+$green-action: #00a978;
+$brightgreen: #2ecc40;
+$red: #f7aa9e;
+
 $text: #555;
 
-$color-black: #222;
-$color-white: #fff;
-$color-gray: #c0c0c0;
-$color-darkgray: #999;
-$color-lightgray: #f6f6f6;
-
-$color-blue: #a583bc;
-$color-red: #DF4D4A;
-$color-green: #00a978;
-$color-fuscia: #c71e56;
-$color-brightgreen: #2ecc40;
-
-.color-black {
-  background-color: $color-black; }
-.color-white {
-  background-color: $color-white; }
-.color-gray {
-  background-color: $color-gray; }
-.color-darkgray {
-  background-color: $color-darkgray; }
-.color-lightgray {
-  background-color: $color-lightgray; }
-.color-blue {
-  background-color: $color-blue; }
-.color-red {
-  background-color: $color-red; }
-.color-green {
-  background-color: $color-green; }
-.color-fuscia {
-  background-color: $color-fuscia; }
-.color-brightgreen {
-  background-color: $color-brightgreen; }
-
-/* * * * * * * * 
-**
-** UI - General
-** This naming scheme is questionable - would love to see where
-** it actually goes. It's a bit similar to mixins & helpers ...
-**
-** * * * * * * */
-$ui-color-main: $color-fuscia;
-$ui-color-light: $color-white;
-
-$ui-dark: $color-black;
-$ui-gray: $color-lightgray;
-$ui-gray1: darken($color-lightgray, 10);
-$ui-gray2: darken($color-lightgray, 20);
-$ui-graydark: darken($color-lightgray, 60);
-
-$ui-new: $color-blue;
-$ui-alert: $color-red;
-$ui-error: $color-red;
-$ui-success: $color-green;
+$ui-new: $blue;
+$ui-alert: $red;
+$ui-error: $red;
+$ui-success: $green;
 
 $font-main: "Segoe UI", "Roboto", "Helvetica Neue", sans-serif;
 $font-header: "Segoe UI", "Roboto", "Helvetica Neue", sans-serif;
 
-
-/* * * * * * * * 
-**
-** Base
-**
-** * * * * * * */
-$text-color: $ui-dark;
-$background-color: $ui-gray;
-
-
-/* * * * * * * * 
-**
-** Main Navigation
-**
-** * * * * * * */
-$nav-sidebar-width: 200px;
-$nav-background-color: $ui-color-main;
-$nav-item-border: 1px solid lighten($nav-background-color, 10);
-
-$nav-user-text-color: $ui-dark;
-
-
-/* * * * * * * * 
-**
-** Forms
-**
-** * * * * * * */
-$field-border-color: $ui-gray1;
-
-// field_label
-$field_label_color: $ui-dark;
-
-// flags
-$field_flag_color: $color-darkgray;
-%dropdown_reset {
-  -webkit-appearance: none;
-  -webkit-border-radius: 0px;
-  background-image: url(/img/dropdown_arrows.png);
-  background-position: 99% 50%;
-  background-size: 20px;
-  background-repeat: no-repeat;
-}
-
-
-/* * * * * * * * 
-**
-** Buttons
-**
-** * * * * * * */
-$button-color-red: $ui-error;
-$button-color-black: $ui-dark;
-$button-color-blue: $color-blue;
-$button-color-green: $color-green;
-$button-color-brightgreen: $color-brightgreen;
-
-
-/* * * * * * * * 
-**
-** Filters
-**
-** * * * * * * */
-$filter-background-color: $ui-gray;
-$filter-icon-color: darken($filter-background-color, 12);
-$filter-background-color-active: $ui-color-main;
-$filter-arrow-dimension: 10px;
-$filter-arrow-color: $filter-background-color-active;
-$filter-text-color-active: $ui-color-light;
-
-
-/* * * * * * * * 
-**
-** Search - Patient Search
-**
-** * * * * * * */
-$section_search_background_color: $ui-gray;
-$search_input_optional_width: 25%;
-$search_input_optional_color: $ui-gray2;
-
-
-/* * * * * * * * 
-**
-** Sidebar
-**
-** * * * * * * */
-$sidebar-margin: 2em;
-$sidebar-background-color: $ui-gray;
-$sidebar-title-color: $ui-graydark;
-
-
-/* * * * * * * * 
-**
-** Stats
-**
-** * * * * * * */
-$stat-number-text-color: $ui-color-main;
-
-
-/* * * * * * * * 
-**
-** Checkbox
-**
-** * * * * * * */
-$checkbox-disabled-background: #e5e5e5;
-$checkbox-content-width: 250px;
-$checkbox-title-font-size: 1.1em;
-$checkbox-text-font-size: $checkbox-title-font-size - 0.3em;
-$checkbox-padding: 1em;
-
-
-/* * * * * * * * 
-**
-** Tabs
-**
-** * * * * * * */
-$tab-container-margin: 2em 0 0.5em;
-$tab-font-size: 0.8em;
-$tab-text-color: $ui-dark;
-$tab-padding: 0.7em 1.2em;
-$tab-border: 1px solid $ui-gray2;
-$tab-active-border: 1px solid $ui-color-light;
-$tab-background-color: $ui-color-light;
-$tab-margin: 5px;
-$tab-border-radius: 5px;
-$tab-hover-color: $ui-gray;
-
-%tab_meta_border {
-  content: " ";
-  position: absolute;
-  border-bottom: $tab-border;
-  bottom: -1px;
-  width: $tab-margin + 1px;
-}
-
-
-/* * * * * * * * 
-**
-** Tooltips
-**
-** * * * * * * */
-$tooltip-background-color: rgba(0, 0, 0, 0.8);
-$tooltip-border-radius: 2px;
-$tooltip-font-size: 12px;
-$tooltip-text-color: $ui-color-light;
-$tooltip-padding: ($tooltip-font-size - 5px) ($tooltip-font-size - 2px);
-$tooltip-z-index: 10;
-
-$tooltip-arrow-size: $tooltip-font-size / 2;
-$tooltip-arrow-color: $tooltip-background-color;
-$tooltip-arrow: $tooltip-arrow-size solid $tooltip-arrow-color;
-$tooltip-arrow-trans: $tooltip-arrow-size solid transparent;
-
-$tooltip-lr-horizontal: 105%;
-$tooltip-lr-margin-box: -15px;
-$tooltip-lr-margin-arrow: -6px;
-$tooltip-lr-vertical: 50%;
-$tooltip-tb-zero: 0;
-$tooltip-tb-margin-arrow: -11px;
-$tooltip-tb-margin-box: -40px;
-
-
-/* * * * * * * * 
-**
-** Breadcrumbs
-** not currently in use
-**
-** * * * * * * */
-$breadcrumbs-padding: 2em;
-$breadcrumb-color: $ui-graydark;
-$breadcrumb-font-size: 0.9em;
-
-
-/* * * * * * * * 
-**
-** Alerts
-**
-** * * * * * * */
-$alert-margin: 1em 0;
-$alert-padding: 0.8em 1em;
-$alert-border-radius: 0.3em;
-$alert-font-size: 0.8em;
-$alert-line-height: 2em;
-$alert-before-margin-right: 5px;
-$alert-label-font-weight: 700;
-$alert-color-error: $ui-error;
-$alert-color-success: $ui-success;
-
-
-/* * * * * * * * 
-**
-** Boxes
-**
-** * * * * * * */
-$box-text-color: $ui-dark;
-$box-border-color: lighten($ui-gray2, 10);
-$box-border-left-width: 30px;
-$box-border: 1px solid $box-border-color;
-$box-border-color-eligible: lighten($ui-success, 10);
-$box-margin-top: 1em;
-$box-padding-bottom: 0.7em;
-$box-title-padding: 1em;
-$box-title-text-color: $box-text-color;
-$box-title-background-color: $ui-gray;
-$box-title-border-bottom: 1px solid darken($box-title-background-color, 5);
-$box-title-background-hover: darken($box-title-background-color, 5);
-$box-title-link-size: 0.8em;
-$box-content-padding: 0.2em 1em;
-$box-content-font-size: 0.9em;
-$box-content-line-height: 1.4em;
-$box-service-padding: 0.3em;
+.color-black {
+  background-color: $black; }
+.color-white {
+  background-color: $white; }
+.color-gray {
+  background-color: $gray; }
+.color-medgray {
+  background-color: $med-gray; }
+.color-darkgray {
+  background-color: $dark-gray; }
+.color-lightgray {
+  background-color: $light-gray; }
+.color-blue {
+  background-color: $blue; }
+.color-blue-action {
+  background-color: $blue-action; }
+.color-red {
+  background-color: $red; }
+.color-green {
+  background-color: $green; }
+.color-green-action {
+  background-color: $green-action; }
+.color-brightgreen {
+  background-color: $brightgreen; }
+.color-yellow {
+  background-color: $yellow; }
