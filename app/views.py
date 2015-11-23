@@ -27,7 +27,7 @@ from sqlalchemy.sql import text
 from wand.image import Image as WandImage
 from xhtml2pdf import pisa
 
-from app import db, login_manager
+from app import db
 from app.forms import (
     PatientForm,
     PrescreenForm,
@@ -260,8 +260,8 @@ def patient_overview(id):
     else:
         referral_form = ReferralCommentForm(formdata=None)
 
-    has_open_referral = bool(   
-        [r for r in patient.referrals 
+    has_open_referral = bool(
+        [r for r in patient.referrals
          if r.status == 'SENT' and r.to_service_id == current_user.service.id]
     )
 

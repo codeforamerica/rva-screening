@@ -6,14 +6,12 @@ install:
 
 run:
 	gulp & 
-	foreman run python run.py \
-		--env=.env
+	python run.py
 
 correr:
 	gulp & 
 	BABEL_DEFAULT_LOCALE='es_US' \
-	foreman run python run.py \
-		--env=.env
+	python run.py
 
 verify:
 	flake8 add_data app tests
@@ -59,7 +57,7 @@ update_translations:
 	pybabel extract -F app/babel.cfg -o app/messages.pot .
 	pybabel update -i app/messages.pot -d app/translations
 
-init_translationss:
+init_translations:
 	pybabel extract -F app/babel.cfg -o app/messages.pot .
 	pybabel init -i app/messages.pot -d app/translations -l es_US
 
