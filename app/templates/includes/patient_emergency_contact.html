@@ -3,39 +3,39 @@
 <div class="form_multiform_wrapper">
 
   {% for entry in form.emergency_contacts %}
-  <div class="form_multiform form_multiform_read">
-    <div class="multiform_content">
-      <div class="multiform_content_fields">
-          <div class="form_row">
-            {{ render_field(entry.full_name, class="field_third") }}
-            {{ render_field(entry.phone_number, class="field_third") }}
-            {{ render_field(entry.relationship, class="field_third") }}
-          </div>
+    <div class="form_multiform form_multiform_read">
+      <div class="multiform_content">
+        <div class="multiform_content_fields">
+            <div class="form_row">
+              {{ render_field(entry.full_name, class="field_third") }}
+              {{ render_field(entry.phone_number, class="field_third") }}
+              {{ render_field(entry.relationship, class="field_third") }}
+            </div>
+        </div>
+        <div class="multiform_content_readonly row">
+          <span class="multiform_item block_3"><strong>{{ entry.full_name.data }}</strong></span>
+          <span class="multiform_item block_3">{{ entry.phone_number.data }}</span>
+          <span class="multiform_item block_3 multiform_item_description">{{ entry.relationship.data }}</span>
+        </div>
       </div>
-      <div class="multiform_content_readonly row">
-        <span class="multiform_item block_3"><strong>{{ entry.full_name.data }}</strong></span>
-        <span class="multiform_item block_3">{{ entry.phone_number.data }}</span>
-        <span class="multiform_item block_3 multiform_item_description">{{ entry.relationship.data }}</span>
-      </div>
+      {% include "includes/multiform_controls.html" %}
     </div>
-    {% include "includes/multiform_controls.html" %}
-  </div>
   {% endfor %}
 
   {% with %}
     {% set entry = form.emergency_contacts.append_entry() %}
-  <div class="form_multiform form_multiform_copy" id="multiform_emergency_contacts">
-    <div class="multiform_content">
-      <div class="multiform_content_fields">
-        <div class="row">
-          {{ render_field(entry.full_name, class="field_third") }}
-          {{ render_field(entry.phone_number, class="field_third") }}
-          {{ render_field(entry.relationship, class="field_third") }}
+    <div class="form_multiform form_multiform_copy" id="multiform_emergency_contacts">
+      <div class="multiform_content">
+        <div class="multiform_content_fields">
+          <div class="row">
+            {{ render_field(entry.full_name, class="field_third") }}
+            {{ render_field(entry.phone_number, class="field_third") }}
+            {{ render_field(entry.relationship, class="field_third") }}
+          </div>
+          
         </div>
-        
       </div>
     </div>
-  </div>
   {% endwith %}
 
   <button data-clone-id="multiform_emergency_contacts" class="form_multiform form_multiform_add multiform_control_add">

@@ -1,6 +1,6 @@
 <nav class="patientNav" id="stickyNav">
   {% if request.path == url_for('screener.patient_details', id=patient.id) %}
-  <button class="button button_green_presave button_save button_fat" id="patient_details_form_save" type="submit" onclick="$('#patient_details_form').submit()">No changes to save</button>
+    <button class="button button_green_presave button_save button_fat" id="patient_details_form_save" type="submit" onclick="$('#patient_details_form').submit()">No changes to save</button>
   {% endif %}
   <ul class="patientNav_list">
     
@@ -12,15 +12,15 @@
     </li>
 
     {% if request.path == url_for('screener.patient_details', id=patient.id) %}
-    <li class="patientNav_subli"><a href="#general">General Info</a></li>
-    <li class="patientNav_subli"><a href="#contact">Contact</a></li>
-    <li class="patientNav_subli"><a href="#emergency-contact">Emergency Contacts</a></li>
-    <li class="patientNav_subli"><a href="#household">Household</a></li>
-    <li class="patientNav_subli"><a href="#income">Income</a></li>
-    <li class="patientNav_subli"><a href="#documents">Documents</a></li>
-    <li class="patientNav_subli"><a href="#demographics">Demographics</a></li>
-    <li class="patientNav_subli"><a href="#employment">Employment</a></li>
-    <li class="patientNav_subli"><a href="#insurance">Insurance</a></li>
+      <li class="patientNav_subli"><a href="#general">General Info</a></li>
+      <li class="patientNav_subli"><a href="#contact">Contact</a></li>
+      <li class="patientNav_subli"><a href="#emergency-contact">Emergency Contacts</a></li>
+      <li class="patientNav_subli"><a href="#household">Household</a></li>
+      <li class="patientNav_subli"><a href="#income">Income</a></li>
+      <li class="patientNav_subli"><a href="#documents">Documents</a></li>
+      <li class="patientNav_subli"><a href="#demographics">Demographics</a></li>
+      <li class="patientNav_subli"><a href="#employment">Employment</a></li>
+      <li class="patientNav_subli"><a href="#insurance">Insurance</a></li>
     {% endif %}
     
     <li class="patientNav_li{% if request.path == url_for('screener.patient_share', patient_id=patient.id) %} patientNav_li_active{% endif %}"><a href="{{ url_for('screener.patient_share', patient_id=patient.id) }}"><i class="fa fa-paper-plane"></i>Eligibility and Referral</a></li>

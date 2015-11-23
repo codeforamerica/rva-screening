@@ -941,8 +941,7 @@ def export_pdf(patient_id):
     html = render_template(
         'pdf_export.html',
         patient=patient,
-        form=form,
-        is_production=current_app.config['IS_PRODUCTION']
+        form=form
     )
     pdf = StringIO()
     pisa.CreatePDF(StringIO(html.encode('utf-8')), pdf)
@@ -958,24 +957,6 @@ def export_pdf(patient_id):
 @screener.route('/403')
 def throw_403():
     abort(403)
-
-
-#########################################
-# Development-only routes
-#########################################
-
-@screener.route('/template_prototyping/')
-def template_prototyping():
-    """This is a dev-only route for prototyping fragments of other templates without touching
-    them. The url should not be linked anywhere, and ideally it should be not be
-    accessible in the deployed version."""
-    return render_template('template_prototyping.html')
-
-
-@screener.route('/mockup')
-@login_required
-def mockup():
-    return render_template('MOCKUPS.html')
 
 
 @screener.route('/style-guide')

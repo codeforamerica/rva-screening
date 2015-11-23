@@ -3,39 +3,35 @@
 <div class="form_multiform_wrapper">
 
   {% for entry in form.income_sources %}
-  <div class="form_multiform form_multiform_read">
-    <div class="multiform_content">
-      <div class="multiform_content_fields">
-          <div class="form_row">
-            {{ render_field(entry.source, class="field_third") }}
-            {{ render_field(entry.monthly_amount, class="field_twothird") }}
-          </div>
+    <div class="form_multiform form_multiform_read">
+      <div class="multiform_content">
+        <div class="multiform_content_fields">
+            <div class="form_row">
+              {{ render_field(entry.source, class="field_third") }}
+              {{ render_field(entry.monthly_amount, class="field_twothird") }}
+            </div>
+        </div>
+        <div class="multiform_content_readonly row">
+          <span class="multiform_item block_3">{{ entry.source.data }}</span>
+          <span class="multiform_item block_3 multiform_item_description"><i class="fa fa-usd"></i> {{ entry.monthly_amount.data }} / month</span><br>
+        </div>
       </div>
-      <div class="multiform_content_readonly row">
-        <span class="multiform_item block_3">{{ entry.source.data }}</span>
-        <span class="multiform_item block_3 multiform_item_description"><i class="fa fa-usd"></i> {{ entry.monthly_amount.data }} / month</span><br>
-      </div>
+      {% include "includes/multiform_controls.html" %}
     </div>
-    {% include "includes/multiform_controls.html" %}
-  </div>
   {% endfor %}
-
-  <!-- <div class="form_multiform form_multiform_add">
-    
-  </div> -->
 
   {% with %}
     {% set entry = form.income_sources.append_entry() %}
-  <div class="form_multiform form_multiform_copy" id="multiform_income_sources">
-    <div class="multiform_content">
-      <div class="multiform_content_fields">
-        <div class="row">
-          {{ render_field(entry.monthly_amount, class="field_third", type="number") }}
-          {{ render_field(entry.source, class="field_twothird") }}
+    <div class="form_multiform form_multiform_copy" id="multiform_income_sources">
+      <div class="multiform_content">
+        <div class="multiform_content_fields">
+          <div class="row">
+            {{ render_field(entry.monthly_amount, class="field_third", type="number") }}
+            {{ render_field(entry.source, class="field_twothird") }}
+          </div>
         </div>
       </div>
     </div>
-  </div>
   {% endwith %}
 
   <button data-clone-id="multiform_income_sources" class="form_multiform form_multiform_add multiform_control_add">
@@ -47,7 +43,6 @@
   </button>
   
 </div>
-
 
 <div class="cf"></div>
 

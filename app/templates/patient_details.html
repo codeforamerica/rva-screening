@@ -4,7 +4,9 @@
 
   <div class="patient_details_filter box box_transparent">
     <div class="box_content">
-      <p style="margin:0;padding:0;margin-bottom:0.5em;"><strong>Service specific question filters</strong></p>
+      <p style="margin:0;padding:0;margin-bottom:0.5em;">
+        <strong>Service specific question filters</strong>
+      </p>
       
       <label class="service_question_filter">
         <input type="checkbox" name="q_an" checked="true">
@@ -34,287 +36,283 @@
     </div>
   </div>
 
-<form enctype="multipart/form-data" action="" method="post" id="patient_details_form" class="print validation" autocomplete="off">
-  {{ form.hidden_tag() }}
+  <form enctype="multipart/form-data" action="" method="post" id="patient_details_form" class="print validation" autocomplete="off">
+    {{ form.hidden_tag() }}
 
-  {% if form.errors %}
-    <div class="notification notification_error">
-      <i class="fa fa-exclamation-circle"></i>
-        {% for field_name, field_errors in form.errors|dictsort if field_errors %}
-          {% for error in field_errors %}
-            {{ form[field_name].label }}: {{ error }}<br>
+    {% if form.errors %}
+      <div class="notification notification_error">
+        <i class="fa fa-exclamation-circle"></i>
+          {% for field_name, field_errors in form.errors|dictsort if field_errors %}
+            {% for error in field_errors %}
+              {{ form[field_name].label }}: {{ error }}<br>
+            {% endfor %}
           {% endfor %}
-        {% endfor %}
-    </div>
-  {% elif save_message %}
-    <div class="notification notification_success">
-      <i class="fa fa-check"></i>
-      <strong>Details saved successfully!</strong>
-    </div>
-  {% endif %}
-
-  <!-- id info -->
-  <div id="general" class="box">
-    <div class="box_title form_section_contact">{{ _("Basics") }}</div>
-    <div class="box_content">
-      {% include "includes/patient_id.html" %}
-    </div>
-  </div>
-
-
-
-  <!--contact info-->
-  <div id="contact" class="box">
-    <div class="box_title form_section_contact">{{ _("Phone, Email, Address") }}</div>
-    <div class="box_content">
-      {% include "includes/patient_contact_info.html" %}
-    </div>
-  </div>
-
-  <!--contact info-->
-  <div id="emergency-contact" class="box">
-    <div class="box_title form_section_emergency">{{ _("Emergency Contacts") }}</div>
-    <div class="box_content">
-      {% include "includes/patient_emergency_contact.html" %}
-    </div>
-  </div>
-
-  <!--household-->
-  <div id="household" class="box">
-    <div class="box_title form_section_household">
-      {{ _("Household Size") }}
-      {% if patient.household_members %}: 
-        {{ patient.household_members.count() + 1 }}
-      {% endif %}
-    </div>
-    <div class="box_content">
-      {% include "includes/patient_household_size.html" %}
-    </div>
-  </div>
-
-  <!--income-->
-  <div id="income" class="box">
-    <div class="box_title form_section_income">
-      {{ _("Household Income") }}
-      {% if patient.total_annual_income %}:
-        ${{(patient.total_annual_income / 12) | int}}/{{ _("month") }}
-      {% endif %}
-    </div>
-    <div class="box_content">
-      {% include "includes/patient_income_sources.html" %}
-    </div>
-  </div>
-
-  <!--documents-->
-  <div id="documents" class="box">
-    <div class="box_title form_section_documents">{{ _("Document Uploads") }}
-      {% if patient.document_images %}
-        ({{patient.document_images.count()}})
-      {% endif %}
-    </div>
-    <div class="box_content">
-      {% include "includes/patient_docs.html" %}
-    </div>
-  </div>
-
-  <!--demographics-->
-  <div id="demographics" class="box">
-    <div class="box_title form_section_demographics">{{ _("Demographic Questions") }}</div>
-    <div class="box_content">
-      {% include "includes/patient_demographic_info.html" %}
-    </div>
-  </div>
-
-  <!--employment-->
-  <div id="employment" class="box">
-    <div class="box_title form_section_employment">{{ _("Employment Information") }}</div>
-    <div class="box_content">
-      {% include "includes/patient_employment_info.html" %}
-    </div>
-  </div>
-
-  <!--insurance-->
-  <div id="insurance" class="box form_section">
-    <div class="box_title form_section_insurance">{{ _("Insurance Information") }}</div>
-    <div class="box_content">
-      {% include "includes/patient_insurance_info.html" %}
-    </div>
-  </div>
-
-  {% if request.path == "/new_patient" %}
-  <button type="submit" class="button button_green button_fat">
-    <i class="fa fa-check"></i>
-    {% if patient %}
-      {{ _("Save patient") }}
-    {% else %}
-      {{ _("Save new patient") }}
+      </div>
+    {% elif save_message %}
+      <div class="notification notification_success">
+        <i class="fa fa-check"></i>
+        <strong>Details saved successfully!</strong>
+      </div>
     {% endif %}
-  </button>
-  {% endif %}
 
-</form>
+    <!-- id info -->
+    <div id="general" class="box">
+      <div class="box_title form_section_contact">{{ _("Basics") }}</div>
+      <div class="box_content">
+        {% include "includes/patient_id.html" %}
+      </div>
+    </div>
 
+    <!--contact info-->
+    <div id="contact" class="box">
+      <div class="box_title form_section_contact">{{ _("Phone, Email, Address") }}</div>
+      <div class="box_content">
+        {% include "includes/patient_contact_info.html" %}
+      </div>
+    </div>
 
+    <!--contact info-->
+    <div id="emergency-contact" class="box">
+      <div class="box_title form_section_emergency">{{ _("Emergency Contacts") }}</div>
+      <div class="box_content">
+        {% include "includes/patient_emergency_contact.html" %}
+      </div>
+    </div>
+
+    <!--household-->
+    <div id="household" class="box">
+      <div class="box_title form_section_household">
+        {{ _("Household Size") }}
+        {% if patient.household_members %}: 
+          {{ patient.household_members.count() + 1 }}
+        {% endif %}
+      </div>
+      <div class="box_content">
+        {% include "includes/patient_household_size.html" %}
+      </div>
+    </div>
+
+    <!--income-->
+    <div id="income" class="box">
+      <div class="box_title form_section_income">
+        {{ _("Household Income") }}
+        {% if patient.total_annual_income %}:
+          ${{(patient.total_annual_income / 12) | int}}/{{ _("month") }}
+        {% endif %}
+      </div>
+      <div class="box_content">
+        {% include "includes/patient_income_sources.html" %}
+      </div>
+    </div>
+
+    <!--documents-->
+    <div id="documents" class="box">
+      <div class="box_title form_section_documents">{{ _("Document Uploads") }}
+        {% if patient.document_images %}
+          ({{patient.document_images.count()}})
+        {% endif %}
+      </div>
+      <div class="box_content">
+        {% include "includes/patient_docs.html" %}
+      </div>
+    </div>
+
+    <!--demographics-->
+    <div id="demographics" class="box">
+      <div class="box_title form_section_demographics">{{ _("Demographic Questions") }}</div>
+      <div class="box_content">
+        {% include "includes/patient_demographic_info.html" %}
+      </div>
+    </div>
+
+    <!--employment-->
+    <div id="employment" class="box">
+      <div class="box_title form_section_employment">{{ _("Employment Information") }}</div>
+      <div class="box_content">
+        {% include "includes/patient_employment_info.html" %}
+      </div>
+    </div>
+
+    <!--insurance-->
+    <div id="insurance" class="box form_section">
+      <div class="box_title form_section_insurance">{{ _("Insurance Information") }}</div>
+      <div class="box_content">
+        {% include "includes/patient_insurance_info.html" %}
+      </div>
+    </div>
+
+    {% if request.path == "/new_patient" %}
+      <button type="submit" class="button button_green button_fat">
+        <i class="fa fa-check"></i>
+        {% if patient %}
+          {{ _("Save patient") }}
+        {% else %}
+          {{ _("Save new patient") }}
+        {% endif %}
+      </button>
+    {% endif %}
+
+  </form>
 
 {% endblock %}
 
 {% block script %}
-<script>
-config = {};
+  <script>
+    config = {};
 
-config.validations = [
-  { 
-    selector: "[name*=monthly_amount]", 
-    validators: [
+    config.validations = [
       { 
-        type: "currency", 
-        success: reports.default, 
-        failure: reports.failure
-      } 
-    ]
-  },
-  { 
-    selector: "[name*=dob]", 
-    validators: [
-      { 
-        type: "required",
-        success: reports.default,
-        failure: reports.required
+        selector: "[name*=monthly_amount]", 
+        validators: [
+          { 
+            type: "currency", 
+            success: reports.default, 
+            failure: reports.failure
+          } 
+        ]
       },
       { 
-        type: "dob",
-        success: reports.success,
-        failure: reports.failure
-      }  
-    ]
-  },
-  { 
-    selector: "[name*=zip_code]", 
-    validators: [
+        selector: "[name*=dob]", 
+        validators: [
+          { 
+            type: "required",
+            success: reports.default,
+            failure: reports.required
+          },
+          { 
+            type: "dob",
+            success: reports.success,
+            failure: reports.failure
+          }  
+        ]
+      },
       { 
-        type: "zip",
-        success: reports.success,
-        failure: reports.failure
-      }  
-    ]
-  },
-  { 
-    selector: fName("first_name"),
-    validators: [
+        selector: "[name*=zip_code]", 
+        validators: [
+          { 
+            type: "zip",
+            success: reports.success,
+            failure: reports.failure
+          }  
+        ]
+      },
       { 
-        type: "required",
-        success: reports.success,
-        failure: reports.required
-      }
-    ]
-  },
-  { 
-    selector: fName("last_name"),
-    validators: [
+        selector: fName("first_name"),
+        validators: [
+          { 
+            type: "required",
+            success: reports.success,
+            failure: reports.required
+          }
+        ]
+      },
       { 
-        type: "required",
-        success: reports.success,
-        failure: reports.required
-      }
-    ]
-  },
-  {
-    selector: "[name*=ssn]",
-    validators: [
+        selector: fName("last_name"),
+        validators: [
+          { 
+            type: "required",
+            success: reports.success,
+            failure: reports.required
+          }
+        ]
+      },
       {
-        type: "ssn",
-        success: reports.success,
-        failure: reports.failure
-      }
-    ]
-  },
-  {
-    selector: "[name*=phone_number]:not([name*=description])",
-    validators: [
+        selector: "[name*=ssn]",
+        validators: [
+          {
+            type: "ssn",
+            success: reports.success,
+            failure: reports.failure
+          }
+        ]
+      },
       {
-        type: "phone",
-        success: reports.success,
-        failure: reports.failure
-      }
-    ]
-  },
-  {
-    selector: fName('email'),
-    validators: [
+        selector: "[name*=phone_number]:not([name*=description])",
+        validators: [
+          {
+            type: "phone",
+            success: reports.success,
+            failure: reports.failure
+          }
+        ]
+      },
       {
-        type: "email",
-        success: reports.success,
-        failure: reports.failure
-      }
-    ]
-  },
-  {
-    selector: fName('medicaid_date_effective') + ', ' + fName('ssd_date_effective'),
-    validators: [
+        selector: fName('email'),
+        validators: [
+          {
+            type: "email",
+            success: reports.success,
+            failure: reports.failure
+          }
+        ]
+      },
       {
-        type: "date",
-        success: reports.success,
-        failure: reports.failure
+        selector: fName('medicaid_date_effective') + ', ' + fName('ssd_date_effective'),
+        validators: [
+          {
+            type: "date",
+            success: reports.success,
+            failure: reports.failure
+          }
+        ]
       }
-    ]
-  }
-];
+    ];
 
-config.bindings = [
-  { origin: "first_name", recipient:".hh_member.patient .hh_member_full_name", type: "text" },
-  { origin: "dob", recipient:".hh_member.patient .hh_member_dob", type: "text" },
-  { origin: "ssn", recipient:".hh_member.patient .hh_member_ssn", type: "text" },
-];
+    config.bindings = [
+      { origin: "first_name", recipient:".hh_member.patient .hh_member_full_name", type: "text" },
+      { origin: "dob", recipient:".hh_member.patient .hh_member_dob", type: "text" },
+      { origin: "ssn", recipient:".hh_member.patient .hh_member_ssn", type: "text" },
+    ];
 
-var EMPLOYED = [ "FT", "PT", "SEA" ];
+    var EMPLOYED = [ "FT", "PT", "SEA" ];
 
-config.dependencies = [
-  { target: "marital_status", child: "spouse_employment_status", 
-    type: "equals", comparator: "MAR" },
-  { target: "spouse_employment_status", child: "spouse_years_at_current_employer ", 
-    type: "in", comparator: EMPLOYED },
-  { target: "employment_status", child: "employers",
-    type: "in", comparator: EMPLOYED },
-  { target: "employment_status", child: "years_at_current_employer ",
-    type: "in", comparator: EMPLOYED },
-  { target: "spouse_employment_status", child: "spouse_years_at_current_employer",
-    type: "in", comparator: EMPLOYED },
-  { target: "employment_status", child: "time_unemployed",
-    type: "equals", comparator: "UNE" },
-  { target: "spouse_employment_status", child: "spouse_time_unemployed",
-    type: "equals", comparator: "UNE" },
-  { target: "insurance_status", child: "coverage_type",
-    type: "equals", comparator: "Y" },
+    config.dependencies = [
+      { target: "marital_status", child: "spouse_employment_status", 
+        type: "equals", comparator: "MAR" },
+      { target: "spouse_employment_status", child: "spouse_years_at_current_employer ", 
+        type: "in", comparator: EMPLOYED },
+      { target: "employment_status", child: "employers",
+        type: "in", comparator: EMPLOYED },
+      { target: "employment_status", child: "years_at_current_employer ",
+        type: "in", comparator: EMPLOYED },
+      { target: "spouse_employment_status", child: "spouse_years_at_current_employer",
+        type: "in", comparator: EMPLOYED },
+      { target: "employment_status", child: "time_unemployed",
+        type: "equals", comparator: "UNE" },
+      { target: "spouse_employment_status", child: "spouse_time_unemployed",
+        type: "equals", comparator: "UNE" },
+      { target: "insurance_status", child: "coverage_type",
+        type: "equals", comparator: "Y" },
 
-  { target: "veteran_yn", child: "applied_for_vets_benefits_yn",
-    type: "equals", comparator: "Y" },
-  { target: "eligible_for_vets_benefits_yn", child: "applied_for_vets_benefits_yn",
-    type: "equals", comparator: "Y" },
+      { target: "veteran_yn", child: "applied_for_vets_benefits_yn",
+        type: "equals", comparator: "Y" },
+      { target: "eligible_for_vets_benefits_yn", child: "applied_for_vets_benefits_yn",
+        type: "equals", comparator: "Y" },
 
-  { target: "applied_for_medicaid_yn", child: "medicaid_date_effective",
-    type: "equals", comparator: "Y" },
-  { target: "applied_for_ssd_yn", child: "ssd_date_effective",
-    type: "equals", comparator: "Y" },
-  { target: "care_due_to_accident_yn", child: "accident_work_related_yn",
-    type: "equals", comparator: "Y" },
+      { target: "applied_for_medicaid_yn", child: "medicaid_date_effective",
+        type: "equals", comparator: "Y" },
+      { target: "applied_for_ssd_yn", child: "ssd_date_effective",
+        type: "equals", comparator: "Y" },
+      { target: "care_due_to_accident_yn", child: "accident_work_related_yn",
+        type: "equals", comparator: "Y" },
 
-  { target: "phone_numbers-X-number_description", child: "phone_numbers-X-number_description_other",
-    type: "equals", comparator: "OTH", manyToOne: true},
-  { target: "addresses-X-address_description", child: "addresses-X-address_description_other",
-    type: "equals", comparator: "OTH", manyToOne: true},
+      { target: "phone_numbers-X-number_description", child: "phone_numbers-X-number_description_other",
+        type: "equals", comparator: "OTH", manyToOne: true},
+      { target: "addresses-X-address_description", child: "addresses-X-address_description_other",
+        type: "equals", comparator: "OTH", manyToOne: true},
 
-  { target: "race", child: "race_other",
-    type: "checked", comparator: "OTH" },
-  { target: "languages", child: "languages_other",
-    type: "checked", comparator: "OTH" },
+      { target: "race", child: "race_other",
+        type: "checked", comparator: "OTH" },
+      { target: "languages", child: "languages_other",
+        type: "checked", comparator: "OTH" },
 
-  { target: "housing_status", child: "housing_status_other",
-    type: "equals", comparator: "OTH" },
-  { target: "coverage_type", child: "coverage_type_other",
-    type: "equals", comparator: "OTHER" },
-  { target: "languages", child: "has_interpreter_yn",
-    type: "does_not_contain", comparator: "EN" }
-];
+      { target: "housing_status", child: "housing_status_other",
+        type: "equals", comparator: "OTH" },
+      { target: "coverage_type", child: "coverage_type_other",
+        type: "equals", comparator: "OTHER" },
+      { target: "languages", child: "has_interpreter_yn",
+        type: "does_not_contain", comparator: "EN" }
+    ];
 
-</script>
+  </script>
 {% endblock %}

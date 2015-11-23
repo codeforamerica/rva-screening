@@ -19,12 +19,46 @@
   </div>
 
   {% for entry in form.household_members %}
-  <div class="form_multiform form_multiform_read">
-    <div class="multiform_content">
-      <div class="multiform_content_fields">
-          <div class="form_row">
+    <div class="form_multiform form_multiform_read">
+      <div class="multiform_content">
+        <div class="multiform_content_fields">
+            <div class="form_row">
+              {{ render_field(entry.full_name,
+                            class="field_third"
+              ) }}
+              {{ render_field(entry.dob, 
+                              type="date",
+                              max="2200-01-01",
+                              min="1899-01-01",
+                              class="field_third"
+              ) }}
+              {{ render_field(entry.ssn,
+                              placeholder="555-55-5555",
+                              pattern="\d{3}-?\d{2}-?\d{4}",
+                              class="field_third"
+              ) }}
+            </div>
+            {{ render_field(entry.relationship) }}
+        </div>
+        <div class="multiform_content_readonly">
+          <span class="multiform_item block_3"><strong>{{ entry.full_name.data }}</strong></span>
+          <span class="multiform_item block_3">DoB: {{ entry.dob.data }}</span>
+          <span class="multiform_item block_3">SSN: {{ entry.ssn.data }}</span>
+          <span class="multiform_item block_3 multiform_item_description">{{ entry.relationship.data }}</span>
+        </div>
+      </div>
+      {% include "includes/multiform_controls.html" %}
+    </div>
+  {% endfor %}
+
+  {% with %}
+    {% set entry = form.household_members.append_entry() %}
+    <div class="form_multiform form_multiform_copy" id="multiform_household_size">
+      <div class="multiform_content">
+        <div class="multiform_content_fields">
+          <div class="row">
             {{ render_field(entry.full_name,
-                          class="field_third"
+                            class="field_third"
             ) }}
             {{ render_field(entry.dob, 
                             type="date",
@@ -39,43 +73,9 @@
             ) }}
           </div>
           {{ render_field(entry.relationship) }}
-      </div>
-      <div class="multiform_content_readonly">
-        <span class="multiform_item block_3"><strong>{{ entry.full_name.data }}</strong></span>
-        <span class="multiform_item block_3">DoB: {{ entry.dob.data }}</span>
-        <span class="multiform_item block_3">SSN: {{ entry.ssn.data }}</span>
-        <span class="multiform_item block_3 multiform_item_description">{{ entry.relationship.data }}</span>
-      </div>
-    </div>
-    {% include "includes/multiform_controls.html" %}
-  </div>
-  {% endfor %}
-
-  {% with %}
-    {% set entry = form.household_members.append_entry() %}
-  <div class="form_multiform form_multiform_copy" id="multiform_household_size">
-    <div class="multiform_content">
-      <div class="multiform_content_fields">
-        <div class="row">
-          {{ render_field(entry.full_name,
-                          class="field_third"
-          ) }}
-          {{ render_field(entry.dob, 
-                          type="date",
-                          max="2200-01-01",
-                          min="1899-01-01",
-                          class="field_third"
-          ) }}
-          {{ render_field(entry.ssn,
-                          placeholder="555-55-5555",
-                          pattern="\d{3}-?\d{2}-?\d{4}",
-                          class="field_third"
-          ) }}
         </div>
-        {{ render_field(entry.relationship) }}
       </div>
     </div>
-  </div>
   {% endwith %}
 
   <button data-clone-id="multiform_household_size" class="form_multiform form_multiform_add multiform_control_add">

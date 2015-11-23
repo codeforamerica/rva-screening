@@ -1,77 +1,75 @@
 {% from "form_field_macros.html" import render_field %}
 
 {% extends "base.html" %}
+
 {% block content %}
-<div class="container container_bump">
-  <form method="post" class="prescreen-form">
-    <div class="block_3">
-      <h2>{{ _('Prescreener') }}</h2>
-      <a class="filter" href="{{ url_for('screener.new_prescreening') }}">1. Select Services</a>
-      <button type="submit" class="filter filter_active" href="">2. General Information</button>
-      <button type="submit" class="filter" href="">3. Results</button>
-    </div>
-
-    <div class="block_9 box">
-      <div class="box_content">
-        {{ form.hidden_tag() }}
-
-        {% if form.errors %}
-          <div class="notification notification_error">
-            <i class="fa fa-exclamation-circle"></i>
-              {% for field_name, field_errors in form.errors|dictsort if field_errors %}
-                {% for error in field_errors %}
-                  {{ form[field_name].label }}: {{ error }}<br>
-                {% endfor %}
-              {% endfor %}
-          </div>
-        {% endif %}
-
-        <p>{{ _("Please provide answers to the following questions. Click 'check eligibility' to learn more about which clinics and services you may be eligible for.") }}</p>
-
-        <!--household size -->
-        <div class="form_row">
-          {{ render_field(form.household_size, class="field_large field_auto") }}
-        </div>
-
-        <div class="form_row">
-          {{ render_field(form.household_income, class="field_large field_auto") }}
-        </div>
-
-        <div class="form_row">
-
-          <!-- do you have health insurance? -->
-          <h3 class="prescreen_title">{{ form.has_health_insurance.label.text }}</h3>
-          {% for choice in form.has_health_insurance.choices %}
-            <label class="field_radio checkbox_blue">
-              <input type="radio" class="text" value="1" name="{{ form.has_health_insurance.label.text }}">
-              <span class="field_checkbox_content">
-                <span class="field_checkbox_content_title">{{ choice[1] }}</span>
-              </span>
-            </label>
-          {% endfor %}
-
-
-        </div>
-
-        <div class="form_row">
-          <!-- are you eligible for medicare/medicaid? -->
-          <p class="prescreen_title">{{ form.eligible_for_medicaid.label.text }}</p>
-          {% for choice in form.eligible_for_medicaid.choices %}
-            <label class="field_radio checkbox_blue">
-              <input type="radio" class="text" value="1" name="{{ form.eligible_for_medicaid.label.text }}">
-              <span class="field_checkbox_content">
-                <span class="field_checkbox_content_title">{{ choice[1] }}</span>
-              </span>
-            </label>
-          {% endfor %}
-        </div>
-        <br>
-        <br>
-        <button class="button button_green button_large"  type="submit">
-          {{ _("Check eligibility") }}
-        </button>       
+  <div class="container container_bump">
+    <form method="post" class="prescreen-form">
+      <div class="block_3">
+        <h2>{{ _('Prescreener') }}</h2>
+        <a class="filter" href="{{ url_for('screener.new_prescreening') }}">1. Select Services</a>
+        <button type="submit" class="filter filter_active" href="">2. General Information</button>
+        <button type="submit" class="filter" href="">3. Results</button>
       </div>
-    </div>
-  </form>
-</div>
+
+      <div class="block_9 box">
+        <div class="box_content">
+          {{ form.hidden_tag() }}
+
+          {% if form.errors %}
+            <div class="notification notification_error">
+              <i class="fa fa-exclamation-circle"></i>
+                {% for field_name, field_errors in form.errors|dictsort if field_errors %}
+                  {% for error in field_errors %}
+                    {{ form[field_name].label }}: {{ error }}<br>
+                  {% endfor %}
+                {% endfor %}
+            </div>
+          {% endif %}
+
+          <p>{{ _("Please provide answers to the following questions. Click 'check eligibility' to learn more about which clinics and services you may be eligible for.") }}</p>
+
+          <!--household size -->
+          <div class="form_row">
+            {{ render_field(form.household_size, class="field_large field_auto") }}
+          </div>
+
+          <div class="form_row">
+            {{ render_field(form.household_income, class="field_large field_auto") }}
+          </div>
+
+          <div class="form_row">
+            <!-- do you have health insurance? -->
+            <h3 class="prescreen_title">{{ form.has_health_insurance.label.text }}</h3>
+            {% for choice in form.has_health_insurance.choices %}
+              <label class="field_radio checkbox_blue">
+                <input type="radio" class="text" value="1" name="{{ form.has_health_insurance.label.text }}">
+                <span class="field_checkbox_content">
+                  <span class="field_checkbox_content_title">{{ choice[1] }}</span>
+                </span>
+              </label>
+            {% endfor %}
+          </div>
+
+          <div class="form_row">
+            <!-- are you eligible for medicare/medicaid? -->
+            <p class="prescreen_title">{{ form.eligible_for_medicaid.label.text }}</p>
+            {% for choice in form.eligible_for_medicaid.choices %}
+              <label class="field_radio checkbox_blue">
+                <input type="radio" class="text" value="1" name="{{ form.eligible_for_medicaid.label.text }}">
+                <span class="field_checkbox_content">
+                  <span class="field_checkbox_content_title">{{ choice[1] }}</span>
+                </span>
+              </label>
+            {% endfor %}
+          </div>
+          <br>
+          <br>
+          <button class="button button_green button_large"  type="submit">
+            {{ _("Check eligibility") }}
+          </button>       
+        </div>
+      </div>
+    </form>
+  </div>
 {% endblock %}

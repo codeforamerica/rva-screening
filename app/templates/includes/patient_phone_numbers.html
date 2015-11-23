@@ -3,35 +3,35 @@
 <div class="form_multiform_wrapper">
   <p class="form_multiform_title">{{ _("Phone Numbers") }}</p>
   {% for entry in form.phone_numbers %}
-  <div class="form_multiform form_multiform_read">
-    <div class="multiform_content">
-      <div class="multiform_content_fields">
-          {{ render_field(entry.phone_number, class="field_third") }}
-          {{ render_field(entry.number_description, class="field_twothird field_pad_left") }}
-          {{ render_field(entry.number_description_other, class="field_twothird field_float_right") }}
+    <div class="form_multiform form_multiform_read">
+      <div class="multiform_content">
+        <div class="multiform_content_fields">
+            {{ render_field(entry.phone_number, class="field_third") }}
+            {{ render_field(entry.number_description, class="field_twothird field_pad_left") }}
+            {{ render_field(entry.number_description_other, class="field_twothird field_float_right") }}
+        </div>
+        <div class="multiform_content_readonly row">
+          <span class="multiform_item block_3">{{ entry.phone_number.data }}</span>
+          <span class="multiform_item block_9 multiform_item_description">{{ entry.number_description.data }}{% if entry.number_description_other.data %} ({{ entry.number_description_other.data }}){% endif %}</span>
+        </div>
       </div>
-      <div class="multiform_content_readonly row">
-        <span class="multiform_item block_3">{{ entry.phone_number.data }}</span>
-        <span class="multiform_item block_9 multiform_item_description">{{ entry.number_description.data }}{% if entry.number_description_other.data %} ({{ entry.number_description_other.data }}){% endif %}</span>
-      </div>
+      {% include "includes/multiform_controls.html" %}
     </div>
-    {% include "includes/multiform_controls.html" %}
-  </div>
   {% endfor %}
 
   {% with %}
     {% set entry = form.phone_numbers.append_entry() %}
-  <div class="form_multiform form_multiform_copy" id="multiform_phone_numbers">
-    <div class="multiform_content">
-      <div class="multiform_content_fields">
-        <div class="row">
-          {{ render_field(entry.phone_number, class="field_third") }}
-          {{ render_field(entry.number_description, class="field_twothird field_pad_left") }}
-          {{ render_field(entry.number_description_other, class="field_twothird field_float_right") }}
+    <div class="form_multiform form_multiform_copy" id="multiform_phone_numbers">
+      <div class="multiform_content">
+        <div class="multiform_content_fields">
+          <div class="row">
+            {{ render_field(entry.phone_number, class="field_third") }}
+            {{ render_field(entry.number_description, class="field_twothird field_pad_left") }}
+            {{ render_field(entry.number_description_other, class="field_twothird field_float_right") }}
+          </div>
         </div>
       </div>
     </div>
-  </div>
   {% endwith %}
 
   <button data-clone-id="multiform_phone_numbers" class="form_multiform form_multiform_add multiform_control_add">
@@ -43,4 +43,5 @@
   </button>
 
 </div>
+
 <div class="cf"></div>

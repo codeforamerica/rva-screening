@@ -9,10 +9,6 @@ from flask.ext.login import current_user, login_user, logout_user
 from flask.ext.security.utils import encrypt_password
 
 from app import create_app
-from app.example_data import (
-    RELATIONSHIPS,
-    REFERRAL_STATUSES
-)
 from app.models import (
     AppUser,
     Role,
@@ -32,6 +28,10 @@ from app.models import (
 import app.template_constants as constants
 import add_roles
 import add_service_data
+from example_data import (
+    RELATIONSHIPS,
+    REFERRAL_STATUSES
+)
 
 
 def choice(array):

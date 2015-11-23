@@ -23,14 +23,6 @@ from app.models import (
 )
 
 
-def allowed_file(filename):
-    """Check that file extension is allowed."""
-    return (
-        '.' in filename
-        and filename.rsplit('.', 1)[1] in current_app.config.get('ALLOWED_EXTENSIONS')
-    )
-
-
 def translate_object(obj, language_code):
     """Replace string attributes of an object with translations from
     the database if available."""
@@ -83,38 +75,6 @@ def check_patient_permission(patient_id):
     if current_user.is_patient_user() and not current_user.is_current_patient(patient_id):
         abort(403)
     return
-
-
-def days_from_today(field):
-    """Take a Python date object and return days from today."""
-    if isinstance(field, datetime.date):
-        return (
-            datetime.date(field.year, field.month, field.day) -
-            datetime.date.today()
-        ).days
-    elif isinstance(field, datetime.datetime):
-        field = field.replace(tzinfo=pytz.utc)
-        return (
-            datetime.datetime(field.year, field.month, field.day) -
-            datetime.datetime.now(pytz.utc)
-        ).days
-    else:
-        return field
-
-
-def format_days_from_today(field):
-    """Use days_from_today to build readable 'X days ago'."""
-    days = days_from_today(field)
-    if days == 0:
-        return 'Today'
-    elif days == 1:
-        return '{} day from now'.format(abs(days))
-    elif days > 1:
-        return '{} days from now'.format(abs(days))
-    elif days == -1:
-        return '{} day ago'.format(abs(days))
-    else:
-        return '{} days ago'.format(abs(days))
 
 
 def send_new_referral_email(service, patient, from_app_user):

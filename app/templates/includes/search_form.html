@@ -5,15 +5,12 @@
     <h1>Search/Create Patient</h1>
     <p>Search for a patient in the database. If they don't exist or you can't find them, you'll be able to make a new one.</p>
     <form method="post">
-      <div class="patient_search_form form_row form_row_nopadding">
-        
+      <div class="patient_search_form form_row form_row_nopadding"> 
         {{ render_field(form.search_patient_first_name, class="field_quarter field_input_search", id="field_search_patient_first_name") }}
         {{ render_field(form.search_patient_last_name, class="field_quarter field_input_search", id="field_search_patient_last_name") }}
         {{ render_field(form.search_patient_dob, class="field_quarter field_input_search", id="field_search_patient_dob", placeholder="mm/dd/yyyy") }}
         {{ render_field(form.search_patient_ssn, class="field_quarter field_input_search", id="field_search_patient_ssn", placeholder="123-45-6789") }}
-
       </div>
-
       <div id="search_results"></div>
     </form>
   </div>

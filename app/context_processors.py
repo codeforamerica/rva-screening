@@ -3,8 +3,7 @@ import flask
 
 
 def inject_static_url():
-    """Adds `STATIC_URL` variable to template context.
-    """
+    """Add `STATIC_URL` variable to template context."""
     app = flask.current_app
     static_url = os.environ.get('STATIC_URL', app.static_url_path)
     if not static_url.endswith('/'):
@@ -14,14 +13,7 @@ def inject_static_url():
     )
 
 
-def inject_example_data():
-    """Adds `EXAMPLE` variable to template context, if we need to fake data
-    somewhere.
-    """
-    from app import example_data
-    return dict(EXAMPLE=example_data)
-
-
 def inject_template_constants():
+    """Add template constants, such as dropdown options, to the template context."""
     from app import template_constants
     return dict(CONSTANTS=template_constants)

@@ -170,7 +170,6 @@ class Patient(BasicTable, db.Model):
     deleted_by = db.relationship("AppUser", foreign_keys='Patient.deleted_by_id')
 
     # Basic ID
-    full_name = db.Column(db.String(128), info=_('Full name'))
     first_name = db.Column(db.String(64), info=_('First name'))
     middle_name = db.Column(db.String(64), info=_('Middle name'))
     last_name = db.Column(db.String(64), info=_('Last name'))

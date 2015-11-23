@@ -1,11 +1,13 @@
 import re
-from app import template_constants as CONSTANTS
+
 from flask.ext.babel import gettext as _
 from flask_wtf import Form
 from flask_wtf.file import FileField, FileAllowed
 from wtforms import fields, validators, widgets
 from wtforms import Form as NoCsrfForm
 from wtforms.validators import InputRequired, DataRequired, Email, ValidationError, Optional
+
+from app import template_constants as CONSTANTS
 
 
 ALL_INTEGERS = re.compile('[^\d.]')
@@ -50,6 +52,7 @@ class RequiredIf(InputRequired):
 
 
 class ReferralCommentForm(Form):
+    """Form for staff users to add comments to a referral."""
     referral_id = fields.IntegerField()
     notes = fields.TextAreaField(
         _('Notes'),
@@ -61,6 +64,9 @@ class ReferralCommentForm(Form):
 
 
 class ScreeningResultForm(Form):
+    """Form for staff users to record whether or not a patient is eligible
+    for care at the user's organization.
+    """
     eligible_yn = fields.RadioField(
         _('Is this patient eligible for care at your organization?'),
         choices=CONSTANTS.YN_NONULL_CHOICES,
@@ -80,6 +86,7 @@ class ScreeningResultForm(Form):
 
 
 class PrescreenForm(Form):
+    """Form used in the prescreening tool."""
     household_size = fields.IntegerField(
         _('What is your household size?'),
         validators=[]
@@ -101,6 +108,7 @@ class PrescreenForm(Form):
 
 
 class SearchPatientForm(Form):
+    """Form on homepage to search for a patient."""
     search_patient_first_name = fields.TextField(
         _('First Name')
     )
@@ -116,6 +124,8 @@ class SearchPatientForm(Form):
         [Optional(), validators.Length(max=11), validate_ssn]
     )
 
+
+# PATIENT SUBFORMS
 
 class PhoneNumberForm(NoCsrfForm):
     phone_number = fields.TextField(
@@ -226,11 +236,10 @@ class DocumentImageForm(NoCsrfForm):
 
 
 class PatientForm(Form):
+    """The form on the 'patient details' page, representing all the information
+    we have about a patient.
+    """
     # BASIC ID
-    # full_name will be deprecated soon
-    full_name = fields.TextField(
-        _('Full legal name'),
-        validators=[Optional(), validators.Length(max=128)])
     first_name = fields.TextField(
         _('First name'),
         [DataRequired(), validators.Length(max=64)]

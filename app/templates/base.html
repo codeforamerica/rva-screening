@@ -7,53 +7,54 @@
     {% block content %}{% endblock %}
 
     {% include "includes/footer.html" %}
+
     <script type="text/javascript" src="{{ static_url }}js/vendor.js"></script>
     <script type="text/javascript" src="{{ static_url }}js/main.js"></script>
     {% block script %}{% endblock %}
     <script>
-    window.onload = init();
-    function init() {
-      window.App = new AppController({
-        foo: 'bar'
-      });
-
-      window.menu = new Menu({
-        id: 'nav'
-      });
-      
-      if ($('#service-map').length) {
-        window.map = new Maps({
-          accessToken: 'pk.eyJ1Ijoic3ZtYXR0aGV3cyIsImEiOiJVMUlUR0xrIn0.NweS_AttjswtN5wRuWCSNA',
-          tileSet: 'svmatthews.lidab7g5'
+      window.onload = init();
+      function init() {
+        window.App = new AppController({
+          foo: 'bar'
         });
-      }
 
-      if ($('#service-eligibility-map').length) {
-        window.eligibilityMap = new EligibilityMap({
-          accessToken: 'pk.eyJ1Ijoic3ZtYXR0aGV3cyIsImEiOiJVMUlUR0xrIn0.NweS_AttjswtN5wRuWCSNA',
-          tileSet: 'mapbox.light',
-          data: serviceMapData || null,
-          elem: 'service-eligibility-map'
+        window.menu = new Menu({
+          id: 'nav'
         });
-      }
+        
+        if ($('#service-map').length) {
+          window.map = new Maps({
+            accessToken: 'pk.eyJ1Ijoic3ZtYXR0aGV3cyIsImEiOiJVMUlUR0xrIn0.NweS_AttjswtN5wRuWCSNA',
+            tileSet: 'svmatthews.lidab7g5'
+          });
+        }
 
-      if ($('.field_input_search').length && tempSearchData) {
-        window.search = new Search({
-          elementClass: '.field_input_search',
-          searchData: tempSearchData
-        });  
-      }
+        if ($('#service-eligibility-map').length) {
+          window.eligibilityMap = new EligibilityMap({
+            accessToken: 'pk.eyJ1Ijoic3ZtYXR0aGV3cyIsImEiOiJVMUlUR0xrIn0.NweS_AttjswtN5wRuWCSNA',
+            tileSet: 'mapbox.light',
+            data: serviceMapData || null,
+            elem: 'service-eligibility-map'
+          });
+        }
 
-      if ($('.validation').length) {
-        V = new Validator('.validation', config.validations);
-        config.bindings.forEach(registerOneWayDataBinding);
-      }
+        if ($('.field_input_search').length && tempSearchData) {
+          window.search = new Search({
+            elementClass: '.field_input_search',
+            searchData: tempSearchData
+          });  
+        }
 
-      if (typeof config === 'object' && typeof config.dependencies !== 'undefined') {
-        config.dependencies.forEach(registerConditionalDisplay);
+        if ($('.validation').length) {
+          V = new Validator('.validation', config.validations);
+          config.bindings.forEach(registerOneWayDataBinding);
+        }
+
+        if (typeof config === 'object' && typeof config.dependencies !== 'undefined') {
+          config.dependencies.forEach(registerConditionalDisplay);
+        }
+        
       }
-      
-    }
     </script>
   </body>
 </html>

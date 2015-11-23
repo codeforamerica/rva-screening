@@ -1,74 +1,73 @@
 {% extends "patient.html" %}
 {% block patient_content %}
 
+	<div class="box history_referrals">
+		<div class="box_title">{{ _("Referrals")}}</div>
+		<div class="box_content">
+		{% for referral in patient.referrals %}
+			<div class="history_item history_referral history_item_{{ referral.status }} row">
+				<div class="block_2 history_date">
+					<span>{{ referral.created.strftime('%m/%d/%Y') }}</span>
+				</div>
 
-<div class="box history_referrals">
-	<div class="box_title">{{ _("Referrals")}}</div>
-	<div class="box_content">
-	{% for referral in patient.referrals %}
-		<div class="history_item history_referral history_item_{{ referral.status }} row">
-			<div class="block_2 history_date">
-				<span>{{ referral.created.strftime('%m/%d/%Y') }}</span>
+				<div class="block_9 history_content">
+					<h2 class="history_title history_title_referrals">
+						<a href="{{ url_for('screener.service', service_id=referral.from_app_user.service.id) }}">{{ referral.from_app_user.service.name }}</a><i class="fa fa-chevron-right"></i><a href="{{ url_for('screener.service', service_id=referral.to_service.id) }}">{{ referral.to_service.name }}</a>
+					</h2>
+					<p><a href="{{ url_for('screener.user', user_id=referral.from_app_user.id) }}">{{ referral.from_app_user.full_name }}</a></p>
+					<p><strong>{{ _("Referral Status") }}:</strong> {% if referral.status == 'SENT' %} sent, waiting for response {% else %} screening result received {% endif %}</p>
+					{% if referral.notes %}
+						<p class="history_notes"><strong>{{ _("Notes") }}</strong><br>
+						{{ referral.notes or "" }}</p>
+					{% endif %}
+				</div>
 			</div>
+			{% for comment in referral.comments %}
+				<div>{{ comment.created.strftime('%m/%d/%Y') }}: {{ comment.notes }}
+			{% endfor %}
+	    <form method="post">
+	      {{ form.hidden_tag() }}
 
-			<div class="block_9 history_content">
-				<h2 class="history_title history_title_referrals">
-					<a href="{{ url_for('screener.service', service_id=referral.from_app_user.service.id) }}">{{ referral.from_app_user.service.name }}</a><i class="fa fa-chevron-right"></i><a href="{{ url_for('screener.service', service_id=referral.to_service.id) }}">{{ referral.to_service.name }}</a>
-				</h2>
-				<p><a href="{{ url_for('screener.user', user_id=referral.from_app_user.id) }}">{{ referral.from_app_user.full_name }}</a></p>
-				<p><strong>{{ _("Referral Status") }}:</strong> {% if referral.status == 'SENT' %} sent, waiting for response {% else %} screening result received {% endif %}</p>
-				{% if referral.notes %}
-				<p class="history_notes"><strong>{{ _("Notes") }}</strong><br>
-				{{ referral.notes or "" }}</p>
-				{% endif %}
-			</div>
-		</div>
-		{% for comment in referral.comments %}
-			<div>{{ comment.created.strftime('%m/%d/%Y') }}: {{ comment.notes }}
+	      {% if form.errors %}
+	        <ul class="alert_list alert_error">
+	          {% for field_name, field_errors in form.errors|dictsort if field_errors %}
+	            {% for error in field_errors %}
+	              <li>{{ form[field_name].label }}: {{ error }}</li>
+	            {% endfor %}
+	          {% endfor %}
+	        </ul>
+	      {% endif %}
+				{{ form.notes() }}
+				{{ form.referral_id(type="hidden", value=referral.id) }}
+				{{ form.submit() }}
+			</form>
 		{% endfor %}
-    <form method="post">
-      {{ form.hidden_tag() }}
-
-      {% if form.errors %}
-        <ul class="alert_list alert_error">
-          {% for field_name, field_errors in form.errors|dictsort if field_errors %}
-            {% for error in field_errors %}
-              <li>{{ form[field_name].label }}: {{ error }}</li>
-            {% endfor %}
-          {% endfor %}
-        </ul>
-      {% endif %}
-			{{ form.notes() }}
-			{{ form.referral_id(type="hidden", value=referral.id) }}
-			{{ form.submit() }}
-		</form>
-	{% endfor %}
-	</div>
-</div>
-
-<div class="history_results box">
-	<div class="box_title">{{ _("Screening Results") }}</div>
-	<div class="box_content">
-	{% for result in patient.screening_results %}
-		<div class="history_item history_screening {{ _('results_item_eligible') if result.eligible_yn == 'Y' else _('results_item_ineligible') }} row">
-			<div class="block_2 history_date">
-				<span>{{ result.created.strftime('%m/%d/%Y') }}</span>
-			</div>
-
-			<div class="block_9 history_content">
-				<h2 class="history_title">
-					<a href="{{ url_for('screener.service', service_id=result.service.id) }}">{{ result.service.name }}</a>
-				</h2>
-				<p><strong>{{ _("Eligible?") }}</strong>: {{ _("Yes") if result.eligible_yn == 'Y' else _("No") }}</p>
-				<p><strong>{{ _("Sliding Scale") }}</strong>: {{ result.sliding_scale.scale_name if result.sliding_scale else _("N/A")}}</p>
-				{% if result.notes %}
-				<p class="history_notes"><strong>{{ _("Notes") }}</strong><br>
-				{{ result.notes or "" }}</p>
-				{% endif %}
-			</div>
 		</div>
-	{% endfor %}
 	</div>
-</div>
+
+	<div class="history_results box">
+		<div class="box_title">{{ _("Screening Results") }}</div>
+		<div class="box_content">
+		{% for result in patient.screening_results %}
+			<div class="history_item history_screening {{ _('results_item_eligible') if result.eligible_yn == 'Y' else _('results_item_ineligible') }} row">
+				<div class="block_2 history_date">
+					<span>{{ result.created.strftime('%m/%d/%Y') }}</span>
+				</div>
+
+				<div class="block_9 history_content">
+					<h2 class="history_title">
+						<a href="{{ url_for('screener.service', service_id=result.service.id) }}">{{ result.service.name }}</a>
+					</h2>
+					<p><strong>{{ _("Eligible?") }}</strong>: {{ _("Yes") if result.eligible_yn == 'Y' else _("No") }}</p>
+					<p><strong>{{ _("Sliding Scale") }}</strong>: {{ result.sliding_scale.scale_name if result.sliding_scale else _("N/A")}}</p>
+					{% if result.notes %}
+						<p class="history_notes"><strong>{{ _("Notes") }}</strong><br>
+						{{ result.notes or "" }}</p>
+					{% endif %}
+				</div>
+			</div>
+		{% endfor %}
+		</div>
+	</div>
 
 {% endblock %}

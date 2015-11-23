@@ -30,59 +30,49 @@
         subclass="field_sub field_half"
       ) }}
       {{ render_field(form.spouse_years_at_current_employer, ['an'], class="field_child") }}
-
     </div>
 
     <div class="block_4 block_pad_left">
       {{ render_field(form.student_status) }}
       {{ render_field(form.education_level, ['an']) }}
     </div>
-    
-
-    
-
-    
-  
 </div>
-
-
 
 <div class="form_multiform_wrapper employers" id="employer_table">
   <p class="form_multiform_title">{{ _("Employers") }}</p>
   {% for entry in form.employers %}
-  <div class="form_multiform form_multiform_read">
-    <div class="multiform_content">
-      <div class="multiform_content_fields">
-          <div class="form_row">
-            {{ render_field(entry.employer_name, class="field_third") }}
-            {{ render_field(entry.phone_number, class="field_third") }}
-            {{ render_field(entry.employee, class="field_third field_pad_left") }}
-          </div>
+    <div class="form_multiform form_multiform_read">
+      <div class="multiform_content">
+        <div class="multiform_content_fields">
+            <div class="form_row">
+              {{ render_field(entry.employer_name, class="field_third") }}
+              {{ render_field(entry.phone_number, class="field_third") }}
+              {{ render_field(entry.employee, class="field_third field_pad_left") }}
+            </div>
+        </div>
+        <div class="multiform_content_readonly row">
+          <span class="multiform_item block_3"><strong>{{ entry.employer_name.data }}</strong></span>
+          <span class="multiform_item block_3">{{ entry.phone_number.data }}</span>
+          <span class="multiform_item block_3 multiform_item_description">{{ entry.employee.data }}</span>
+        </div>
       </div>
-      <div class="multiform_content_readonly row">
-        <span class="multiform_item block_3"><strong>{{ entry.employer_name.data }}</strong></span>
-        <span class="multiform_item block_3">{{ entry.phone_number.data }}</span>
-        <span class="multiform_item block_3 multiform_item_description">{{ entry.employee.data }}</span>
-      </div>
+      {% include "includes/multiform_controls.html" %}
     </div>
-    {% include "includes/multiform_controls.html" %}
-  </div>
   {% endfor %}
 
   {% with %}
     {% set entry = form.employers.append_entry() %}
-  <div class="form_multiform form_multiform_copy" id="multiform_employers">
-    <div class="multiform_content">
-      <div class="multiform_content_fields">
-        <div class="row">
-          {{ render_field(entry.employer_name, class="field_third") }}
-          {{ render_field(entry.phone_number, class="field_third") }}
-          {{ render_field(entry.employee, class="field_third field_pad_left") }}
+    <div class="form_multiform form_multiform_copy" id="multiform_employers">
+      <div class="multiform_content">
+        <div class="multiform_content_fields">
+          <div class="row">
+            {{ render_field(entry.employer_name, class="field_third") }}
+            {{ render_field(entry.phone_number, class="field_third") }}
+            {{ render_field(entry.employee, class="field_third field_pad_left") }}
+          </div>
         </div>
-        
       </div>
     </div>
-  </div>
   {% endwith %}
 
   <button data-clone-id="multiform_employers" class="form_multiform form_multiform_add multiform_control_add">
@@ -94,4 +84,5 @@
   </button>
   
 </div>
+
 <div class="cf"></div>

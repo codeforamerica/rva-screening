@@ -1,21 +1,21 @@
 <style>
-th {
-	font-style: normal;
-}
-td {
-	border: 1px solid #c0c0c0;
-	padding: 5px;
-}
-table {
-	margin-bottom: 20px;
-}
-h2, h3, h4, h5, p {
-	padding: 0;
-	margin: 0;
-}
-h1 {
-	font-size: 50px;
-}
+	th {
+		font-style: normal;
+	}
+	td {
+		border: 1px solid #c0c0c0;
+		padding: 5px;
+	}
+	table {
+		margin-bottom: 20px;
+	}
+	h2, h3, h4, h5, p {
+		padding: 0;
+		margin: 0;
+	}
+	h1 {
+		font-size: 50px;
+	}
 </style>
 
 <table class="pdf">
@@ -27,21 +27,21 @@ h1 {
 		</th>
 	</tr>
 
-<!-- regular ol' fields -->
-{% set count = 0 %}
-{% for field in form %}
-	
-	{% if field.name not in ('document_images', 'csrf_token') %}
-		{% if field.type == 'FieldList' %}
-		{% else %}
-			{% if count % 2 == 0 %}<tr>{% endif %}
-			<td><p>{{ field.label.text }}<br><strong>{{ field.data }}</strong></p></td>
-			{% if count % 2 %}</tr>{% endif %}	
-			{% set count = count + 1 %}
-		{% endif %}	
-	{% endif %}
+	<!-- regular ol' fields -->
+	{% set count = 0 %}
+	{% for field in form %}
+		
+		{% if field.name not in ('document_images', 'csrf_token') %}
+			{% if field.type == 'FieldList' %}
+			{% else %}
+				{% if count % 2 == 0 %}<tr>{% endif %}
+				<td><p>{{ field.label.text }}<br><strong>{{ field.data }}</strong></p></td>
+				{% if count % 2 %}</tr>{% endif %}	
+				{% set count = count + 1 %}
+			{% endif %}	
+		{% endif %}
 
-{% endfor %}
+	{% endfor %}
 </table>
 
 <!-- table for each many-to-one field -->
@@ -49,18 +49,18 @@ h1 {
 	{% if field.type == 'FieldList' %}
 		<h1>{{ field.label.text }}</h1>
 		<table>
-		{% for entry in field.entries %}
-			{% if loop.index0 % 2 == 0 %}<tr>{% endif %}
-				<td>
-				<strong>{{loop.index}}</strong>
-				{% for subfield in entry %}
-					{% if subfield.type != 'HiddenField' %}
-						{{ subfield.label.text }}: {{ subfield.data }}<br>
-					{% endif %}
-				{% endfor %}
-				</td>
-			{% if loop.index0 % 2 %}</tr>{% endif %}
-		{% endfor %}
+			{% for entry in field.entries %}
+				{% if loop.index0 % 2 == 0 %}<tr>{% endif %}
+					<td>
+					<strong>{{loop.index}}</strong>
+					{% for subfield in entry %}
+						{% if subfield.type != 'HiddenField' %}
+							{{ subfield.label.text }}: {{ subfield.data }}<br>
+						{% endif %}
+					{% endfor %}
+					</td>
+				{% if loop.index0 % 2 %}</tr>{% endif %}
+			{% endfor %}
 		</table>
 	{% else %}
 		
@@ -68,40 +68,38 @@ h1 {
 {% endfor %}
 
 
-
-
 <h1>{{ _("Referral History") }}</h1>
 <hr>
 <table>
-{% set count = 0 %}
-{% for referral in patient.referrals %}
-	{% if count % 2 == 0 %}<tr>{% endif %}
-	<td>
-		<p><strong>{{ _("To") }}: {{ referral.to_service.name }}, {{ _("From") }}: {{ referral.from_app_user.full_name }} {{ _("at") }} {{ referral.from_app_user.service.name }}</strong></p>
-		<p>{{ _("Created") }}: {{ referral.created.strftime('%m-%d-%Y %H:%M:%S') }}
-		<p>{{ _("Status") }}: {{ referral.status }}</p>
-		<p>{{ _("Notes") }}: {{ referral.notes }}</p>
-	</td>
-	{% if count % 2 %}</tr>{% endif %}
-	{% set count = count + 1 %}
-{% endfor %}
+	{% set count = 0 %}
+	{% for referral in patient.referrals %}
+		{% if count % 2 == 0 %}<tr>{% endif %}
+		<td>
+			<p><strong>{{ _("To") }}: {{ referral.to_service.name }}, {{ _("From") }}: {{ referral.from_app_user.full_name }} {{ _("at") }} {{ referral.from_app_user.service.name }}</strong></p>
+			<p>{{ _("Created") }}: {{ referral.created.strftime('%m-%d-%Y %H:%M:%S') }}
+			<p>{{ _("Status") }}: {{ referral.status }}</p>
+			<p>{{ _("Notes") }}: {{ referral.notes }}</p>
+		</td>
+		{% if count % 2 %}</tr>{% endif %}
+		{% set count = count + 1 %}
+	{% endfor %}
 </table>
 
 <h1>{{ _("Screening Result History") }}</h1>
 <hr>
 <table>
-{% set count = 0 %}
-{% for result in patient.screening_results %}
-	{% if count % 2 == 0 %}<tr>{% endif %}
-	<td>
-		<p>{{ result.service.name }}</p>
-		<p>{{ _("Eligible?") }}: {{ result.eligible_yn }}</p>
-		<p>{{ _("Notes") }}: {{ result.notes }}</p>
-		<p>{{ _("Entered by") }} {{ result.created_by.full_name }} at {{ result.created.strftime('%m-%d-%Y %H:%M:%S') }}</p>
-	</td>
-	{% if count % 2 %}</tr>{% endif %}
-	{% set count = count + 1 %}
-{% endfor %}
+	{% set count = 0 %}
+	{% for result in patient.screening_results %}
+		{% if count % 2 == 0 %}<tr>{% endif %}
+		<td>
+			<p>{{ result.service.name }}</p>
+			<p>{{ _("Eligible?") }}: {{ result.eligible_yn }}</p>
+			<p>{{ _("Notes") }}: {{ result.notes }}</p>
+			<p>{{ _("Entered by") }} {{ result.created_by.full_name }} at {{ result.created.strftime('%m-%d-%Y %H:%M:%S') }}</p>
+		</td>
+		{% if count % 2 %}</tr>{% endif %}
+		{% set count = count + 1 %}
+	{% endfor %}
 </table>
 
 {% if patient.document_images.count() > 0 %}

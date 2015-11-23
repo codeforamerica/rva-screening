@@ -7,6 +7,7 @@ YNN_NONULL_CHOICES = [("Y", _("Yes")), ("N", _("No")), ("", _("Not Sure"))]
 YNNA_CHOICES = [("", ""), ("Y", _("Yes")), ("N", _("No")), ("A", _("N/A - Not Applicable"))]
 
 GENDER_CHOICES = [("", ""), ("F", _("Female")), ("M", _("Male"))]
+
 TRANSGENDER_CHOICES = [
     ("",    ""),
     ("No",  _("Not transgender")),
@@ -118,6 +119,7 @@ COVERAGE_ELIGIBILITY_CHOICES = [
     ("OTH", _("Other")),
     ("NE", _("Not Eligible")),
 ]
+
 COVERAGE_TYPE_CHOICES = [
     ("",      ""),
     ("PRIV",  _("Private Insurance")),

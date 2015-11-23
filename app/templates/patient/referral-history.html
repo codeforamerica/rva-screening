@@ -3,148 +3,140 @@
   <div class="box_title">{{ _("Screening Results & Referrals")}}</div>
   <div class="box_content">
   
-  {# 
-    showing screening results that aren't associated to referrals first,
-    then we will show referrals and subsequent results
-  #}
-  {% for result in patient.screening_results | reverse %}
-    {% if result.patient_referral_id == None %}
-      <div class="referral referral_adhoc_screening_result referral_{{ result.eligible_yn }}">
+    {# 
+      showing screening results that aren't associated to referrals first,
+      then we will show referrals and subsequent results
+    #}
+    {% for result in patient.screening_results | reverse %}
+      {% if result.patient_referral_id == None %}
+        <div class="referral referral_adhoc_screening_result referral_{{ result.eligible_yn }}">
+          <div class="row">
+            <div class="block_6">
+              screening result without referral
+              <h2 class="referral_title"><a href="{{ url_for('screener.service', service_id=result.service.id) }}">{{ result.service.name }}</a></h2>
+            </div>
+            <div class="block_6 text-align-right">
+              <span class="referral_status adhoc_{{ result.eligible_yn | lower }} pull-right">{% if result.eligible_yn == 'Y' %} marked as eligible {% else %} marked as ineligible {% endif %}</span><br>
+              <p>submitted on {{ result.created.strftime('%m/%d/%Y') }}</p>
+            </div>
+          </div>
+          {% if result.notes %}
+            <div class="referral_comments">
+              <p class="referral_comment"><strong><a href="{{ url_for('screener.user', user_id=result.created_by.id) }}">{{ result.created_by.full_name }} ({{ result.created.strftime('%m/%d/%Y') }})</a></strong>: {{ result.notes or "" }}</p>
+            </div>
+          {% endif %}
+        </div>
+      {% endif %}
+    {% endfor %}
+
+
+
+    {% for referral in patient.referrals | reverse %}
+      <div class="referral referral_{{ referral.screening_result.eligible_yn }}">
         <div class="row">
-          <div class="block_6">
-            screening result without referral
-            <h2 class="referral_title"><a href="{{ url_for('screener.service', service_id=result.service.id) }}">{{ result.service.name }}</a></h2>
+          <div class="block_4">
+            sent to
+            <h2 class="referral_title"><a href="{{ url_for('screener.service', service_id=referral.to_service.id) }}">{{ referral.to_service.name }}</a></h2>
           </div>
-          <div class="block_6 text-align-right">
-            <span class="referral_status adhoc_{{ result.eligible_yn | lower }} pull-right">{% if result.eligible_yn == 'Y' %} marked as eligible {% else %} marked as ineligible {% endif %}</span><br>
-            <p>submitted on {{ result.created.strftime('%m/%d/%Y') }}</p>
+          <div class="block_4">
+            from 
+            <h2 class="referral_title"><a href="{{ url_for('screener.service', service_id=referral.from_app_user.service.id) }}">{{ referral.from_app_user.service.name }}</a></h2>
+          </div>
+          <div class="block_4 text-align-right">
+            <span class="referral_status referral_{{ referral.status | lower }} pull-right">{% if referral.status == 'SENT' %} sent, waiting for response {% else %} screening result received {% endif %}</span><br>
+            <p>sent on {{ referral.created.strftime('%m/%d/%Y') }}</p>
           </div>
         </div>
-        {% if result.notes %}
-          <div class="referral_comments">
-            <p class="referral_comment"><strong><a href="{{ url_for('screener.user', user_id=result.created_by.id) }}">{{ result.created_by.full_name }} ({{ result.created.strftime('%m/%d/%Y') }})</a></strong>: {{ result.notes or "" }}</p>
-          </div>
-        {% endif %}
-      </div>
-    {% endif %}
-  {% endfor %}
 
+        <div class="referral_comments">
+          <p class="referral_comment">Opened by <strong><a href="{{ url_for('screener.user', user_id=referral.from_app_user.id) }}">{{ referral.from_app_user.full_name }}</a></strong>{% if referral.notes %}: {{ referral.notes or "" }}{% else %}: No notes provided{% endif %}</p>
+          
+          {% for comment in referral.comments %}
+            <p class="referral_comment"><strong><a href="{{ url_for('screener.user', user_id=comment.created_by.id) }}">{{ comment.created_by.full_name }} ({{ comment.created.strftime('%m/%d/%Y') }})</a></strong>: {{ comment.notes }}</p>
+          {% endfor %}
 
-
-  {% for referral in patient.referrals | reverse %}
-    <div class="referral referral_{{ referral.screening_result.eligible_yn }}">
-
-      <div class="row">
-        <div class="block_4">
-          sent to
-          <h2 class="referral_title"><a href="{{ url_for('screener.service', service_id=referral.to_service.id) }}">{{ referral.to_service.name }}</a></h2>
+          {% if referral.screening_result[0] %}
+            <p class="referral_comment referral_result_{{ referral.screening_result[0].eligible_yn | lower }}">
+              <strong><a href="{{ url_for('screener.user', user_id=referral.screening_result[0].created_by.id) }}">{{ referral.screening_result[0].created_by.full_name }}</a></strong>: 
+              <span>{% if referral.screening_result[0].eligible_yn == 'Y' %}
+              <i class="fa fa-check"></i> marked as eligible (sliding scale <strong>{{ referral.screening_result[0].sliding_scale.scale_name or 'n/a'}}</strong>)</span>
+              {% endif %}
+              {% if referral.screening_result[0].eligible_yn == 'N' %}
+              <span><i class="fa fa-times"></i> marked as ineligible</span>
+              {% endif %}
+            </p>
+          {% endif %}
         </div>
-        <div class="block_4">
-          from 
-          <h2 class="referral_title"><a href="{{ url_for('screener.service', service_id=referral.from_app_user.service.id) }}">{{ referral.from_app_user.service.name }}</a></h2>
-        </div>
-        <div class="block_4 text-align-right">
-          <span class="referral_status referral_{{ referral.status | lower }} pull-right">{% if referral.status == 'SENT' %} sent, waiting for response {% else %} screening result received {% endif %}</span><br>
-          <p>sent on {{ referral.created.strftime('%m/%d/%Y') }}</p>
-        </div>
-      </div>
-
-      <div class="referral_comments">
-        <p class="referral_comment">Opened by <strong><a href="{{ url_for('screener.user', user_id=referral.from_app_user.id) }}">{{ referral.from_app_user.full_name }}</a></strong>{% if referral.notes %}: {{ referral.notes or "" }}{% else %}: No notes provided{% endif %}</p>
         
-        {% for comment in referral.comments %}
-          <p class="referral_comment"><strong><a href="{{ url_for('screener.user', user_id=comment.created_by.id) }}">{{ comment.created_by.full_name }} ({{ comment.created.strftime('%m/%d/%Y') }})</a></strong>: {{ comment.notes }}</p>
-        {% endfor %}
+       
+        {% if referral.status != 'COMPLETED' %}
 
-        {% if referral.screening_result[0] %}
-          <p class="referral_comment referral_result_{{ referral.screening_result[0].eligible_yn | lower }}">
-            <strong><a href="{{ url_for('screener.user', user_id=referral.screening_result[0].created_by.id) }}">{{ referral.screening_result[0].created_by.full_name }}</a></strong>: 
-            <span>{% if referral.screening_result[0].eligible_yn == 'Y' %}
-            <i class="fa fa-check"></i> marked as eligible (sliding scale <strong>{{ referral.screening_result[0].sliding_scale.scale_name or 'n/a'}}</strong>)</span>
-            {% endif %}
-            {% if referral.screening_result[0].eligible_yn == 'N' %}
-            <span><i class="fa fa-times"></i> marked as ineligible</span>
-            {% endif %}
-          </p>
-        {% endif %}
-      </div>
-      
-     
-      {% if referral.status != 'COMPLETED' %}
+          {# 
+          Render the comment form if the user matches TO/FROM service ID 
+          #}
+          {% if current_user.service.id == referral.from_app_user.service.id or current_user.service.id == referral.to_service.id %}
+            <form method="post">
+              {{ referral_form.hidden_tag() }}
 
-        {# 
-        Render the comment form if the user matches TO/FROM service ID 
-        #}
-        {% if current_user.service.id == referral.from_app_user.service.id or current_user.service.id == referral.to_service.id %}
-          <form method="post">
-            {{ referral_form.hidden_tag() }}
-
-            {% if referral_form.errors %}
-              <ul class="alert_list alert_error">
-                {% for field_name, field_errors in referral_form.errors|dictsort if field_errors %}
-                  {% for error in field_errors %}
-                    <li>{{ referral_form[field_name].label }}: {{ error }}</li>
+              {% if referral_form.errors %}
+                <ul class="alert_list alert_error">
+                  {% for field_name, field_errors in referral_form.errors|dictsort if field_errors %}
+                    {% for error in field_errors %}
+                      <li>{{ referral_form[field_name].label }}: {{ error }}</li>
+                    {% endfor %}
                   {% endfor %}
-                {% endfor %}
-              </ul>
-            {% endif %}
-            {{ referral_form.notes(placeholder="Add more information, or say what else is needed for a referral to be completed ...", class="referral_form") }}
-            {{ referral_form.referral_id(type="hidden", value=referral.id) }}
-            {{ referral_form.submit(class="button button_blue pull-right", value="Comment") }}
-          </form>
-        {% endif %}
+                </ul>
+              {% endif %}
+              {{ referral_form.notes(placeholder="Add more information, or say what else is needed for a referral to be completed ...", class="referral_form") }}
+              {{ referral_form.referral_id(type="hidden", value=referral.id) }}
+              {{ referral_form.submit(class="button button_blue pull-right", value="Comment") }}
+            </form>
+          {% endif %}
 
-        {#
-        Render the screening result form user matches TO service ID 
-        #}
-        {% if current_user.service.id == referral.to_service.id %}
-          <form method="post" class="eligibility_form">
-            {{ form.hidden_tag() }}
+          {#
+          Render the screening result form user matches TO service ID 
+          #}
+          {% if current_user.service.id == referral.to_service.id %}
+            <form method="post" class="eligibility_form">
+              {{ form.hidden_tag() }}
 
-            {% if form.errors %}
-              <ul class="alert_list alert_error">
-                {% for field_name, field_errors in form.errors|dictsort if field_errors %}
-                  {% for error in field_errors %}
-                    <li>{{ form[field_name].label }}: {{ error }}</li>
+              {% if form.errors %}
+                <ul class="alert_list alert_error">
+                  {% for field_name, field_errors in form.errors|dictsort if field_errors %}
+                    {% for error in field_errors %}
+                      <li>{{ form[field_name].label }}: {{ error }}</li>
+                    {% endfor %}
                   {% endfor %}
-                {% endfor %}
-              </ul>
-            {% endif %}
+                </ul>
+              {% endif %}
 
-            <div class="form_row">
-              <div class="field_third">
-                
-                <p>
-                  <strong>Is {{ patient.first_name }} {{ patient.last_name }} eligible for services at {{ current_user.service.name }}?</strong>
-                  <br>
-                  Estimate: 
-                  {% if service.eligible %}
-                    <strong>likely eligible</strong>{% if service.sliding_scale and service.sliding_scale != 'All' %} at sliding scale section {{ service.sliding_scale }}{% endif %}
-                  {% else %}
-                    <strong>likely not eligible</strong>
-                  {% endif %}
-
-                  <br>
-                </p>              
-              
+              <div class="form_row">
+                <div class="field_third">
+                  <p>
+                    <strong>Is {{ patient.first_name }} {{ patient.last_name }} eligible for services at {{ current_user.service.name }}?</strong>
+                    <br>
+                    Estimate: 
+                    {% if service.eligible %}
+                      <strong>likely eligible</strong>{% if service.sliding_scale and service.sliding_scale != 'All' %} at sliding scale section {{ service.sliding_scale }}{% endif %}
+                    {% else %}
+                      <strong>likely not eligible</strong>
+                    {% endif %}
+                    <br>
+                  </p>                   
+                </div>
               </div>
 
-            </div>
+              <div class="form_row">
+                {{ render_field(form.sliding_scale_id, class='field_third') }}
+                {{ render_check(form.eligible_yn, class="field_third field_pad_left") }}
+                {{ referral_form.referral_id(type="hidden", value=referral.id) }}
+                {{ form.submit(class="field_third button button_yellow pull-right", value="Submit") }}
+              </div>
 
-            <div class="form_row">
-
-              {{ render_field(form.sliding_scale_id, class='field_third') }}
-              {{ render_check(form.eligible_yn, class="field_third field_pad_left") }}
-              {{ referral_form.referral_id(type="hidden", value=referral.id) }}
-              {{ form.submit(class="field_third button button_yellow pull-right", value="Submit") }}
-
-            </div>
-          </form>
+            </form>
+          {% endif %}
         {% endif %}
-
-
-      {% endif %}
-    </div>
-  {% endfor %}
+      </div>
+    {% endfor %}
   </div>
 </div>

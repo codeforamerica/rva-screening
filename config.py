@@ -4,27 +4,27 @@ from datetime import timedelta
 
 class Config(object):
     DEBUG = True
-    SECRET_KEY = 'some-secret'
-    SCREENER_ENVIRONMENT = os.environ.get('SCREENER_ENVIRONMENT', 'dev')
-    IS_PRODUCTION = os.environ.get('IS_PRODUCTION', False)
-    PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
-    PERMANENT_SESSION_LIFETIME = timedelta(minutes=15)
+    SECRET_KEY = os.environ.get('SECRET_KEY') # Required for Flask sessions
+    PERMANENT_SESSION_LIFETIME = timedelta(minutes=15) # Used for auto-logout
+    SQLALCHEMY_DATABASE_URI = os.environ.get(
+        'DATABASE_URL',
+        'postgres://@localhost/rva-screener'
+    )
 
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL', 'postgres://@localhost/rva-screener')
+    # File upload configuration
+    MAX_CONTENT_LENGTH = 16 * 1024 * 1024 # Flask setting to limit request size
+    SMALL_DOCUMENT_IMAGE_SIZE = (100, 100)
+    LARGE_DOCUMENT_IMAGE_SIZE = (900, 900)
 
-    UPLOAD_FOLDER = 'var/uploads/documentimages'
-    MAX_CONTENT_LENGTH = 16 * 1024 * 1024
-    ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
-
+    # Configuration for assets stored in AWS
     AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
     AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
-    S3_FILE_UPLOAD_DIR = 'uploads'
-    S3_BUCKET_NAME = os.environ.get('S3_BUCKET_NAME', 'rva-screener')
-    S3_ONLY_MODIFIED = False
 
+    # Flask-Babel configuration
     BABEL_DEFAULT_LOCALE = os.environ.get('BABEL_DEFAULT_LOCALE', 'en_US')
     BABEL_DEFAULT_TIMEZONE = os.environ.get('BABEL_DEFAULT_TIMEZONE', 'America/New_York')
 
+    # Flask-Security configuration
     SECURITY_PASSWORD_HASH = 'bcrypt'
     SECURITY_PASSWORD_SALT = os.environ.get('SECURITY_PASSWORD_SALT')
     SECURITY_EMAIL_SENDER = 'Quickscreen <richmond@codeforamerica.org>'
@@ -37,6 +37,7 @@ class Config(object):
     SECURITY_EMAIL_SUBJECT_PASSWORD_RESET = 'Quickscreen password reset instructions'
     SECURITY_EMAIL_SUBJECT_PASSWORD_NOTICE = 'Your Quickscreen password has been reset'
 
+    # Flask-Mail configuration
     MAIL_SERVER = os.environ.get('MAIL_SERVER', 'smtp.gmail.com')
     MAIL_PORT = os.environ.get('MAIL_PORT', 465)
     MAIL_USE_SSL = True
@@ -44,21 +45,16 @@ class Config(object):
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
     MAIL_DEFAULT_SENDER = 'Quickscreen <richmond@codeforamerica.org>'
 
-    LARGE_DOCUMENT_IMAGE_SIZE = (900, 900)
-    SMALL_DOCUMENT_IMAGE_SIZE = (100, 100)
-
 
 class ProdConfig(Config):
     DEBUG = False
 
 
 class DevConfig(Config):
-    DEBUG = True
     MAIL_SUPPRESS_SEND = True
 
 
 class TestConfig(Config):
-    DEBUG = True
     TESTING = True
     WTF_CSRF_ENABLED = False
     SQLALCHEMY_DATABASE_URI = os.environ.get(

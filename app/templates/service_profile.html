@@ -1,91 +1,87 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div class="container container_bump">
-  <div class="block_12">
-    <h1>{{ service.name }}</h1>
-  </div>
-
-  <div class="block_4 block_pad_right">
-    <div class="box">
-      <div class="box_content details details_third">
-        <div class="detail">
-          <span class="detail_left">Main contact</span><span class="detail_right">{{ service.main_contact_name }}</span>
-        </div>
-        
-        <div class="detail">
-          <span class="detail_left">Phone</span><span class="detail_right">{{ service.main_contact_phone }}</span>
-        </div>
-        
-        <div class="detail">
-          <span class="detail_left">Website</span><span class="detail_right"><a href="{{ service.website_url }}">{{ service.website_url }}</a></span>
-        </div>
-      </div>
+  <div class="container container_bump">
+    <div class="block_12">
+      <h1>{{ service.name }}</h1>
     </div>
 
-    <div class="service_locations box">
-      <div class="box_title">{{ _("Location(s)") }}</div>
-      <div class="box_content">
-      {% for location in service.locations %}
-        <div class="location" 
-             data-name="{{ location.name }}" 
-             data-address="{{ location.address }}"
-             data-latitude="{{ location.latitude }}"
-             data-longitude="{{ location.longitude }}">
-          <i class="fa fa-map-marker"></i>
-          <span class="location_name"><strong>{{ location.name }}</strong></span>
-          <span class="location_address">{{ location.address }}</span> 
-        </div>
-      {% endfor %} 
-      </div>
-    </div>
-  </div>
-
-  <div class="block_8">
-    <div class="box">
-      <div class="box_content">
-        <div class="service_description">
-          {{ service.description }}
-        </div>
-        
-        <div id="service-map" class="map_service"></div>
-      </div>
-    </div>
-
-    <div class="service_users box">
-        <div class="box_title">{{ _("Users at %(service)s", service=service.name) }}</div>
-        <div class="box_content">
-          <div class="table-wrapper">
-            <table class="table table-condensed">
-              <thead>
-                <tr>
-                  <th>{{ _("Name") }}</th>
-                  <th>{{ _("Phone") }}</th>
-                  <th>{{ _("Email") }}</th>
-                </tr>
-              </thead>
-
-              {% for user in service.users %}
-                <tr>
-                  <td><a href="{{ url_for('screener.user', user_id=user.id) }}"><strong>{{ user.full_name }}</strong></a></td>
-                  <td><a href="{{ user.phone }}">{{ user.phone_number }}</a></td>
-                  <td><a href="{{ user.email }}">{{ user.email }}</a></td>
-                </tr>
-              {% endfor %}
-            </table>
+    <div class="block_4 block_pad_right">
+      <div class="box">
+        <div class="box_content details details_third">
+          <div class="detail">
+            <span class="detail_left">Main contact</span><span class="detail_right">{{ service.main_contact_name }}</span>
+          </div>
+          
+          <div class="detail">
+            <span class="detail_left">Phone</span><span class="detail_right">{{ service.main_contact_phone }}</span>
+          </div>
+          
+          <div class="detail">
+            <span class="detail_left">Website</span><span class="detail_right"><a href="{{ service.website_url }}">{{ service.website_url }}</a></span>
           </div>
         </div>
       </div>
+
+      <div class="service_locations box">
+        <div class="box_title">{{ _("Location(s)") }}</div>
+        <div class="box_content">
+        {% for location in service.locations %}
+          <div class="location" 
+               data-name="{{ location.name }}" 
+               data-address="{{ location.address }}"
+               data-latitude="{{ location.latitude }}"
+               data-longitude="{{ location.longitude }}">
+            <i class="fa fa-map-marker"></i>
+            <span class="location_name"><strong>{{ location.name }}</strong></span>
+            <span class="location_address">{{ location.address }}</span> 
+          </div>
+        {% endfor %} 
+        </div>
+      </div>
+    </div>
+
+    <div class="block_8">
+      <div class="box">
+        <div class="box_content">
+          <div class="service_description">
+            {{ service.description }}
+          </div>     
+          <div id="service-map" class="map_service"></div>
+        </div>
+      </div>
+
+      <div class="service_users box">
+          <div class="box_title">{{ _("Users at %(service)s", service=service.name) }}</div>
+          <div class="box_content">
+            <div class="table-wrapper">
+              <table class="table table-condensed">
+                <thead>
+                  <tr>
+                    <th>{{ _("Name") }}</th>
+                    <th>{{ _("Phone") }}</th>
+                    <th>{{ _("Email") }}</th>
+                  </tr>
+                </thead>
+
+                {% for user in service.users %}
+                  <tr>
+                    <td><a href="{{ url_for('screener.user', user_id=user.id) }}"><strong>{{ user.full_name }}</strong></a></td>
+                    <td><a href="{{ user.phone }}">{{ user.phone_number }}</a></td>
+                    <td><a href="{{ user.email }}">{{ user.email }}</a></td>
+                  </tr>
+                {% endfor %}
+
+              </table>
+            </div>
+          </div>
+        </div>
+    </div>
   </div>
-</div>
 
   <div class="service">
-    <div class="col-sm-4">
-      
-    </div>
-    <div class="col-sm-8">
-      
-
-    </div>
+    <div class="col-sm-4"></div>
+    <div class="col-sm-8"></div>
   </div>
+
 {% endblock %}

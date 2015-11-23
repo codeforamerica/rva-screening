@@ -1,75 +1,75 @@
 {% if patient %}
-<section class="patientProfile">
-  <div class="container">
-    <div class="row">
-      <div class="block_10">
-        <h1 class="patient-name">{{ patient.first_name or "" }} {{ patient.last_name or "" }} <span class="patient-star"><i class="fa fa-star-o"></i></span></h1>
+  <section class="patientProfile">
+    <div class="container">
+      <div class="row">
+        <div class="block_10">
+          <h1 class="patient-name">{{ patient.first_name or "" }} {{ patient.last_name or "" }} <span class="patient-star"><i class="fa fa-star-o"></i></span></h1>
 
-        <div class="row patientProfile-block">
+          <div class="row patientProfile-block">
 
-          <!-- BIRTHDAY -->
-          <div class="block_3 patientProfile-infoblock">
-            <span class="patient-descriptor">Date of birth</span>
-            {% if patient.dob %}
-            <span class="patient-info">{{ patient.dob.strftime('%m/%d/%Y') }}</span>
-            {% else %}
-            <span class="patient-info"><a href="{{ url_for('screener.patient_details', id=patient.id) }}">Enter patient birthday</a></span>
-            {% endif %}
+            <!-- BIRTHDAY -->
+            <div class="block_3 patientProfile-infoblock">
+              <span class="patient-descriptor">Date of birth</span>
+              {% if patient.dob %}
+              <span class="patient-info">{{ patient.dob.strftime('%m/%d/%Y') }}</span>
+              {% else %}
+              <span class="patient-info"><a href="{{ url_for('screener.patient_details', id=patient.id) }}">Enter patient birthday</a></span>
+              {% endif %}
+            </div>
+
+            <!-- PHONE NUMBER -->
+            <div class="block_3 patientProfile-infoblock">
+              <span class="patient-descriptor">Contact</span>
+
+              <!-- this just grabs the first phone number in the loop, we'll want to grab primary contact -->
+              {% if patient.phone_numbers.count() > 0 %}
+                {% for phone in patient.phone_numbers %}
+                  {% if loop.index < 2 %}
+                  <span class="patient-info">{{ phone.phone_number }}</span>
+                  <span class="patient-descriptor"><a href="{{ url_for('screener.patient_details', id=patient.id) }}#contact">see all contact info</a></span>
+                  {% endif %}
+                {% endfor %}
+              {% else %}
+                <span class="patient-descriptor"><a href="{{ url_for('screener.patient_details', id=patient.id) }}#contact">Add contact info</a></span>
+              {% endif %}
+            </div>
           </div>
 
-          <!-- PHONE NUMBER -->
-          <div class="block_3 patientProfile-infoblock">
-            <span class="patient-descriptor">Contact</span>
+          <div class="row patientProfile-block">
 
-            <!-- this just grabs the first phone number in the loop, we'll want to grab primary contact -->
-            {% if patient.phone_numbers.count() > 0 %}
-              {% for phone in patient.phone_numbers %}
-                {% if loop.index < 2 %}
-                <span class="patient-info">{{ phone.phone_number }}</span>
-                <span class="patient-descriptor"><a href="{{ url_for('screener.patient_details', id=patient.id) }}#contact">see all contact info</a></span>
-                {% endif %}
-              {% endfor %}
-            {% else %}
-              <span class="patient-descriptor"><a href="{{ url_for('screener.patient_details', id=patient.id) }}#contact">Add contact info</a></span>
-            {% endif %}
+            <!-- QUICKSCREEN ID -->
+            <div class="block_3 patientProfile-infoblock">
+              <span class="patient-descriptor">Quickscreen ID</span>
+              <span class="patient-info patient-info-small">{{ '{0:05d}'.format(patient.id) }}</span>
+            </div>
+
+            <!-- MEDICAL HOME -->
+            <div class="block_3 patientProfile-infoblock">
+              <span class="patient-descriptor">Medical Home</span>
+              <span class="patient-info patient-info-small">{% if patient.medical_home %}{{ patient.medical_home }}{% else %}<a href="{{ url_for('screener.patient_details', id=patient.id) }}#general">Add medical home</a>{% endif %}</span>
+            </div>
+
+            <!-- LAST EDIT -->
+            <div class="block_6">
+              {% if patient.last_modified_by %}
+              <span class="patient-descriptor">Last edited by</span>
+                <span class="patient-info patient-info-small"><a href="{{ url_for('screener.user', user_id=patient.last_modified_by_id) }}">{{ patient.last_modified_by.full_name }}</a> on {{ patient.last_modified.strftime('%m/%d/%Y') }}</span>
+              {% endif %}
+            </div>
           </div>
         </div>
 
-        <div class="row patientProfile-block">
-
-          <!-- QUICKSCREEN ID -->
-          <div class="block_3 patientProfile-infoblock">
-            <span class="patient-descriptor">Quickscreen ID</span>
-            <span class="patient-info patient-info-small">{{ '{0:05d}'.format(patient.id) }}</span>
-          </div>
-
-          <!-- MEDICAL HOME -->
-          <div class="block_3 patientProfile-infoblock">
-            <span class="patient-descriptor">Medical Home</span>
-            <span class="patient-info patient-info-small">{% if patient.medical_home %}{{ patient.medical_home }}{% else %}<a href="{{ url_for('screener.patient_details', id=patient.id) }}#general">Add medical home</a>{% endif %}</span>
-          </div>
-
-          <!-- LAST EDIT -->
-          <div class="block_6">
-            {% if patient.last_modified_by %}
-            <span class="patient-descriptor">Last edited by</span>
-              <span class="patient-info patient-info-small"><a href="{{ url_for('screener.user', user_id=patient.last_modified_by_id) }}">{{ patient.last_modified_by.full_name }}</a> on {{ patient.last_modified.strftime('%m/%d/%Y') }}</span>
-            {% endif %}
-          </div>
+        <!-- PATIENT IMAGE -->
+        <div class="block_2 patientProfile-image">
+          <img src="http://placehold.it/250x250">
+          <p style="text-align:right;"><small><a href="{{ url_for('screener.export_pdf', patient_id=patient.id) }}"><i class="fa fa-file-pdf-o"></i> Download patient details</a></small></p>
+          {% if not current_user.is_patient_user() %}
+            <p style="text-align:right;"><small><a href="{{ url_for('screener.delete', id=patient.id) }}"><i class="fa fa-archive"></i> Archive patient</a></small></p>
+          {% endif %}
         </div>
-      </div>
 
-      <!-- PATIENT IMAGE -->
-      <div class="block_2 patientProfile-image">
-        <img src="http://placehold.it/250x250">
-        <p style="text-align:right;"><small><a href="{{ url_for('screener.export_pdf', patient_id=patient.id) }}"><i class="fa fa-file-pdf-o"></i> Download patient details</a></small></p>
-        {% if not current_user.is_patient_user() %}
-          <p style="text-align:right;"><small><a href="{{ url_for('screener.delete', id=patient.id) }}"><i class="fa fa-archive"></i> Archive patient</a></small></p>
-        {% endif %}
       </div>
 
     </div>
-
-  </div>
-</section>
+  </section>
 {% endif %}

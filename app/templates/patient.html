@@ -1,33 +1,33 @@
 {% extends "base.html" %}
 {% block content %}
 
-{% include "patient/header.html" %}
-{% if servicesAll %}
-  {% include "patient/services-map.html" %}
-{% endif %}
-<section class="patientBody">
-  <div class="container">
+  {% include "patient/header.html" %}
+  {% if servicesAll %}
+    {% include "patient/services-map.html" %}
+  {% endif %}
+  <section class="patientBody">
+    <div class="container">
 
-    {% include "patient/header-alert.html" %}
-    
-    <div class="row">
+      {% include "patient/header-alert.html" %}
       
-      {% if request.path != "/new_patient" %}
-        <div class="block_3">
-          <div class="wedge">&nbsp;</div>
-        {% include "patient/navigation.html" %} 
+      <div class="row">
+        
+        {% if request.path != "/new_patient" %}
+          <div class="block_3">
+            <div class="wedge">&nbsp;</div>
+          {% include "patient/navigation.html" %} 
+          </div>
+        {% endif %}
+
+        
+        <div class="{% if request.path != "/new_patient" %}block_9 {% else %}patientNew {% endif %}patientContent">
+        {% if request.path == "/new_patient" %}
+          <h1>Add new patient</h1>
+        {% endif %}
+        {% block patient_content %}{% endblock %}
         </div>
-      {% endif %}
-
-      
-      <div class="{% if request.path != "/new_patient" %}block_9 {% else %}patientNew {% endif %}patientContent">
-      {% if request.path == "/new_patient" %}
-      <h1>Add new patient</h1>
-      {% endif %}
-      {% block patient_content %}{% endblock %}
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
 {% endblock %}

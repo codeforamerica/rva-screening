@@ -55,14 +55,6 @@ deploy_static:
 	gulp build
 	python ./upload_assets.py
 
-deploy:
-	make deploy_static
-	git push heroku master
-	git push spanish master
-	heroku run python add_data/clear_db.py
-	heroku pg:psql < app/audit_triggers.sql
-	heroku run python add_data/add_mock_data.py
-
 update_translations:
 	pybabel extract -F app/babel.cfg -o app/messages.pot .
 	pybabel update -i app/messages.pot -d app/translations

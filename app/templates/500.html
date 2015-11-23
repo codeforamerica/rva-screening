@@ -1,10 +1,12 @@
 {% extends "base.html" %}
 
-{% block page_title %}Server error{% endblock %}
+{% block page_title %}
+	Server error
+{% endblock %}
 
 {% block content %}
-<div>
-    <p>Sorry, something went wrong!</p>
-    <p><a href="{{ url_for('screener.home_page_redirect') }}">Return to home page</a></p>
-</div>
+	<div>
+	  <p>Sorry, something went wrong!</p>
+	  <p><a href="{{ url_for('screener.home_page_redirect') }}">Return to home page</a></p>
+	</div>
 {% endblock %}
